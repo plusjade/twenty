@@ -2,21 +2,34 @@ import React from 'react'
 
 const VideosList = (props) => {
   return (
-    <ul style={{
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "left",
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: "8vh",
+        zIndex: 1000,
+        backgroundColor: "#222",
+        overflow: "auto",
+        opacity: 0.9,
+        maxHeight: (props.isOpen ? "1000px" : 0),
+      }}
+    >
     {props.list.map((v, i) => {
       return (
-        <li key={i}>
+        <div
+          key={i}
+        >
           <a
             style={{
               color: "inherit",
-              padding: "10px 20px",
+              padding: "10vh 30px",
               display: "block",
-              borderBottom: "1px solid #555",
               textDecoration: "none",
+              border: "3px solid #444",
+              borderLeft: 0,
             }}
             href="#"
             onClick={(e) => {
@@ -40,10 +53,10 @@ const VideosList = (props) => {
             [x]
           </a>
         )}
-        </li>
+        </div>
       )
     })}
-    </ul>
+    </div>
   )
 }
 

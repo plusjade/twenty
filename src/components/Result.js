@@ -6,7 +6,7 @@ const Result = (props) => {
       <iframe
         style={{
           width: "100%",
-          height: "496px",
+          height: "inherit",
           border: 0,
         }}
         ref={props.resultRef}

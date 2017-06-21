@@ -2,34 +2,21 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: #333;
+  background: #EEEEEE;
 }
 a:hover {
-  background-color: #222 !important;
+  background-color: #111 !important;
+}
+@media (max-width: 800px) {
+
 }
 
-@media (max-width: 800px) {
+@media (max-width: 500px) {
   #wrapper {
-    border:1px solid red;
-    height: 300px !important;
-/*    flex-direction: column;
-    flex-flow: column wrap;
-*/  }
-  iframe {
-    height: 294px !important;
-  }
-
-  #editor {
-    flex: 4 !important;
+    flex-direction: column !important;
   }
   #result {
-    flex: 2 !important;
-  }
-  #list {
-    flex: 1 !important;
-  }
-  #controls {
-    width: 100% !important;
-    display: block !important;
+    border-left: 0 !important;
+    border-top: 5px solid #444;
   }
 }

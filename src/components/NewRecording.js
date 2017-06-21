@@ -6,17 +6,19 @@ const NewRecording = (props) => {
       href="#"
       style={{
         color: "inherit",
-        padding: "10px 20px",
+        padding: "0 20px",
         display: "block",
-        borderBottom: "1px solid #555",
         textDecoration: "none",
+        marginLeft: "auto",
+        height: "inherit",
+        lineHeight: "inherit",
       }}
       onClick={(e) => {
         e.preventDefault()
         props.onClick()
       }}
     >
-      New recording
+      + record
     </a>
   )
 }

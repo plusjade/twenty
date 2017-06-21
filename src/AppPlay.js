@@ -22,7 +22,8 @@ const AppPlay = React.createClass({
       commands: [],
       videoId: QParams.get("id"),
       videos: Video.list(),
-      mode: "javascript",
+      mode: "html",
+      libraryIsOpen: false,
     })
   },
 
@@ -60,7 +61,7 @@ const AppPlay = React.createClass({
     if (commands) {
       window.history.replaceState({}, null, `/?id=${videoId}`)
       this.loadCommands(commands)
-      this.setState({videoId: videoId})
+      this.setState({videoId: videoId, libraryIsOpen: false})
     }
   },
 
@@ -139,12 +140,78 @@ const AppPlay = React.createClass({
   },
 
   render() {
+    const navHeight = "8vh"
+    const controlsHeight = "10vh"
     return (
-      <div>
+      <div
+        id="app-wrapper"
+      >
+
+        <div
+          id="navbar"
+          style={{
+            display: "flex",
+            backgroundColor: "#212121",
+            justifyContent: "left",
+            color: "#BDBDBD",
+            height: navHeight,
+            lineHeight: navHeight,
+            alignItems: "center",
+            boxSizing: "border-box",
+            borderBottom: "5px solid #444",
+            overflow: "hidden",
+          }}
+        >
+          <a
+            href="#library"
+            style={{
+              color: "inherit",
+              padding: "0 20px",
+              height: "inherit",
+              display: "block",
+              textDecoration: "none",
+              lineHeight: "inherit",
+            }}
+            onClick={(e) => {
+              e.preventDefault()
+              this.setState({libraryIsOpen: !this.state.libraryIsOpen})
+            }}
+          >
+            Library
+          </a>
+          <NewRecording
+            onClick={() => {
+              window.location = "/make"
+            }}
+          />
+        </div>
+
+        <div
+          id="library"
+          style={{
+            display: "flex",
+            overflow: "auto",
+            boxSizing: "border-box",
+            color: "#BDBDBD",
+          }}
+        >
+        {this.state.videos && (
+          <VideosList
+            list={this.state.videos}
+            onSelect={this.loadVideo}
+            isOpen={this.state.libraryIsOpen}
+          />
+        )}
+        </div>
+
         <div
           id="wrapper"
           style={{
-            height: "500px",
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: navHeight,
+            bottom: controlsHeight,
             display: "flex",
             justifyContent: "center",
           }}
@@ -154,7 +221,6 @@ const AppPlay = React.createClass({
             style={{
               flex: 4,
               height: "inherit",
-              border: "3px solid #444",
               position: "relative",
               verticalAlign: "top",
               boxSizing: "border-box",
@@ -167,8 +233,7 @@ const AppPlay = React.createClass({
             style={{
               flex: 4,
               height: "inherit",
-              border: "3px solid #444",
-              borderLeft: 0,
+              borderLeft: "5px solid #444",
               verticalAlign: "top",
               boxSizing: "border-box",
             }}
@@ -178,43 +243,29 @@ const AppPlay = React.createClass({
               resultRef={this.resultRef}
             />
           </div>
-          <div
-            id="list"
-            style={{
-              flex: 2,
-              height: "inherit",
-              overflow: "auto",
-              verticalAlign: "top",
-              boxSizing: "border-box",
-              textAlign: "right",
-              color: "#BDBDBD",
-            }}
-          >
-            <NewRecording
-              onClick={() => {
-                window.location = "/make"
-              }}
-            />
-          {this.state.videos && (
-            <VideosList
-              list={this.state.videos}
-              onSelect={this.loadVideo}
-            />
-          )}
-          </div>
         </div>
 
         <div
           id="controls"
           style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
             display: "flex",
             justifyContent: "center",
-            height: "60px",
+            height: controlsHeight,
+            lineHeight: controlsHeight,
+            alignItems: "center",
             zIndex: 2,
+            overflow: "hidden",
+            backgroundColor: "#212121",
+            boxSizing: "border-box",
+            borderTop: "5px solid #444",
           }}
         >
         {this.isPlayable() && (
-          <div style={{flex: 8}}>
+          <div style={{flex: 1, lineHeight: "inherit"}}>
             <PlayerView
               videoId={this.state.videoId}
               getEditor={this.getEditor}
@@ -224,7 +275,6 @@ const AppPlay = React.createClass({
             />
           </div>
         )}
-          <div style={{flex: 2}} />
         </div>
       </div>
     )

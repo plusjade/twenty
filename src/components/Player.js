@@ -4,29 +4,28 @@ import IconPlay               from './IconPlay'
 
 const Style = {
   wrap: {
-    height: "60px",
+    height: "inherit",
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "#222",
+    alignItems: "center",
+    lineHeight: "inherit",
   },
   one: {
-    flex: 1,
     boxSizing: "border-box",
-    padding: "10px",
-    verticalAlign: "top"
+    padding: "0 10px",
+    marginRight: "auto",
+    lineHeight: "10px",
   },
   two: {
     flex: 8,
     boxSizing: "border-box",
-    padding: "10px",
-    verticalAlign: "top"
+    padding: "0 10px",
   },
   three: {
-    flex: 1,
     boxSizing: "border-box",
-    padding: "10px",
-    verticalAlign: "top",
-    color: "#FFF"
+    padding: "0 10px",
+    color: "#FFF",
+    marginLeft: "auto",
   },
   rangeInput: {
     width: "100%"
