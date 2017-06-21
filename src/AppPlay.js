@@ -30,6 +30,12 @@ const AppPlay = React.createClass({
     return (this.initialState())
   },
 
+  getDefaultProps() {
+    return ({
+      resultDomain: "http://twenty-result.s3-website-us-west-2.amazonaws.com"
+    })
+  },
+
   componentWillMount() {
     this.resultThrottled = throttle(this.result, 100)
     if (this.state.videoId) {
@@ -94,11 +100,11 @@ const AppPlay = React.createClass({
       "noLint": false,
       "version": 4,
       "settings": {},
-      "workersDir": "http://localhost:8000/build/workers/",
-      "externalsDir": "http://localhost:8000/build/external/",
-      "imagesDir": "http://localhost:8000/build/images/",
-      "soundsDir": "../../sounds/",
-      "jshintFile": "http://localhost:8000/build/external/jshint/jshint.js",
+      "workersDir": `${this.props.resultDomain}/workers/`,
+      "externalsDir": `${this.props.resultDomain}/external/`,
+      "imagesDir": `${this.props.resultDomain}/images/`,
+      "soundsDir": `${this.props.resultDomain}/sounds/`,
+      "jshintFile": `${this.props.resultDomain}/external/jshint/jshint.js`,
       "outputType": "",
       "enableLoopProtect": true
     })
@@ -107,15 +113,15 @@ const AppPlay = React.createClass({
   resultEndpoint() {
     switch (this.state.mode) {
       case "javascript": {
-        return "http://localhost:8000/demos/simple/output.html"
+        return `${this.props.resultDomain}/output.html`
         break
       }
       case "html": {
-        return "http://localhost:8000/demos/simple/output_webpage.html"
+        return `${this.props.resultDomain}/output_webpage.html`
         break
       }
       case "sql": {
-        return "http://localhost:8000/demos/simple/output_sql.html"
+        return `${this.props.resultDomain}/output_sql.html`
         break
       }
     }
