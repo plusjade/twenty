@@ -62,7 +62,7 @@ const App = React.createClass({
   },
 
   loadVideo(videoId) {
-    window.open(`/play?id=${videoId}`, "_blank")
+    window.open(`/?id=${videoId}`, "_blank")
     return
     const commands = Videos.find(videoId)
     if (commands) {

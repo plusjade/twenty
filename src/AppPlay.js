@@ -52,7 +52,7 @@ const AppPlay = React.createClass({
   loadVideo(videoId) {
     const commands = Video.find(videoId)
     if (commands) {
-      window.history.replaceState({}, null, `/play?id=${videoId}`)
+      window.history.replaceState({}, null, `/?id=${videoId}`)
       this.loadCommands(commands)
       this.setState({videoId: videoId})
     }
