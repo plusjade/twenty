@@ -134,29 +134,35 @@ const AppPlay = React.createClass({
 
   render() {
     return (
-      <div style={{minWidth: "800px"}}>
-        <div style={{
-            width: "100%",
+      <div>
+        <div
+          id="wrapper"
+          style={{
             height: "500px",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          <div style={{
-              width: "40%",
+          <div
+            id="editor"
+            style={{
+              flex: 4,
               height: "inherit",
               border: "3px solid #444",
               position: "relative",
-              display: "inline-block",
               verticalAlign: "top",
               boxSizing: "border-box",
             }}
           >
             <AceEditor editorRef={this.editorRef} />
-          </div><div style={{
+          </div>
+          <div
+            id="result"
+            style={{
+              flex: 4,
               height: "inherit",
-              width: "40%",
               border: "3px solid #444",
               borderLeft: 0,
-              display: "inline-block",
               verticalAlign: "top",
               boxSizing: "border-box",
             }}
@@ -165,10 +171,13 @@ const AppPlay = React.createClass({
               endpoint={this.resultEndpoint()}
               resultRef={this.resultRef}
             />
-          </div><div style={{
-              height: "400px",
-              width: "20%",
-              display: "inline-block",
+          </div>
+          <div
+            id="list"
+            style={{
+              flex: 2,
+              height: "inherit",
+              overflow: "auto",
               verticalAlign: "top",
               boxSizing: "border-box",
               textAlign: "right",
@@ -189,22 +198,27 @@ const AppPlay = React.createClass({
           </div>
         </div>
 
-        <div style={{
-            width: "80%",
+        <div
+          id="controls"
+          style={{
+            display: "flex",
+            justifyContent: "center",
             height: "60px",
             zIndex: 2,
-            backgroundColor: "#222",
           }}
         >
         {this.isPlayable() && (
-          <PlayerView
-            videoId={this.state.videoId}
-            getEditor={this.getEditor}
-            chunksUpTo={this.state.chunksUpTo}
-            nextChunk={this.state.nextChunk}
-            timeDuration={this.state.timeDuration}
-          />
+          <div style={{flex: 8}}>
+            <PlayerView
+              videoId={this.state.videoId}
+              getEditor={this.getEditor}
+              chunksUpTo={this.state.chunksUpTo}
+              nextChunk={this.state.nextChunk}
+              timeDuration={this.state.timeDuration}
+            />
+          </div>
         )}
+          <div style={{flex: 2}} />
         </div>
       </div>
     )

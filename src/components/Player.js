@@ -3,23 +3,26 @@ import IconPause              from './IconPause'
 import IconPlay               from './IconPlay'
 
 const Style = {
+  wrap: {
+    height: "60px",
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "#222",
+  },
   one: {
-    display: "inline-block",
-    width: "10%",
+    flex: 1,
     boxSizing: "border-box",
     padding: "10px",
     verticalAlign: "top"
   },
   two: {
-    display: "inline-block",
-    width: "80%",
+    flex: 8,
     boxSizing: "border-box",
     padding: "10px",
     verticalAlign: "top"
   },
   three: {
-    display: "inline-block",
-    width: "10%",
+    flex: 1,
     boxSizing: "border-box",
     padding: "10px",
     verticalAlign: "top",
@@ -36,7 +39,7 @@ const Player = (props) => {
   }
 
   return (
-    <div>
+    <div style={Style.wrap}>
       <div
         style={Style.one}
         onClick={(e) => {
