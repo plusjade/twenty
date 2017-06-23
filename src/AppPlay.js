@@ -8,11 +8,12 @@ import withPlay             from './withPlay'
 
 import AceEditor            from './components/AceEditor'
 import NewRecording         from './components/NewRecording'
-import Player               from './components/Player'
+import PlayerControls       from './components/PlayerControls'
 import Result               from './components/Result'
 import VideosList           from './components/VideosList'
+import StylesWrapper        from './styles/Wrapper'
 
-const PlayerView = withPlay(Player)
+const Controls = withPlay(PlayerControls)
 const Video = VideosDB()
 const QParams = QueryParams()
 
@@ -139,42 +140,20 @@ const AppPlay = React.createClass({
     }
   },
 
-  render() {
-    const navHeight = "8vh"
-    const controlsHeight = "10vh"
-    return (
-      <div
-        id="app-wrapper"
-      >
+  toggleLibrary() {
+    this.setState({libraryIsOpen: !this.state.libraryIsOpen})
+  },
 
-        <div
-          id="navbar"
-          style={{
-            display: "flex",
-            backgroundColor: "#212121",
-            justifyContent: "left",
-            color: "#BDBDBD",
-            height: navHeight,
-            lineHeight: navHeight,
-            alignItems: "center",
-            boxSizing: "border-box",
-            borderBottom: "5px solid #444",
-            overflow: "hidden",
-          }}
-        >
+  render() {
+    return (
+      <div id="app-wrapper">
+        <div id="navbar" style={StylesWrapper.navbar}>
           <a
             href="#library"
-            style={{
-              color: "inherit",
-              padding: "0 20px",
-              height: "inherit",
-              display: "block",
-              textDecoration: "none",
-              lineHeight: "inherit",
-            }}
+            style={StylesWrapper.libraryLink}
             onClick={(e) => {
               e.preventDefault()
-              this.setState({libraryIsOpen: !this.state.libraryIsOpen})
+              this.toggleLibrary()
             }}
           >
             Library
@@ -186,15 +165,7 @@ const AppPlay = React.createClass({
           />
         </div>
 
-        <div
-          id="library"
-          style={{
-            display: "flex",
-            overflow: "auto",
-            boxSizing: "border-box",
-            color: "#BDBDBD",
-          }}
-        >
+        <div id="library" style={StylesWrapper.library}>
         {this.state.videos && (
           <VideosList
             list={this.state.videos}
@@ -204,40 +175,11 @@ const AppPlay = React.createClass({
         )}
         </div>
 
-        <div
-          id="wrapper"
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: navHeight,
-            bottom: controlsHeight,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            id="editor"
-            style={{
-              flex: 4,
-              height: "inherit",
-              position: "relative",
-              verticalAlign: "top",
-              boxSizing: "border-box",
-            }}
-          >
+        <div id="editor-result" style={StylesWrapper.editorResult}>
+          <div id="editor" style={StylesWrapper.editor} >
             <AceEditor editorRef={this.editorRef} />
           </div>
-          <div
-            id="result"
-            style={{
-              flex: 4,
-              height: "inherit",
-              borderLeft: "5px solid #444",
-              verticalAlign: "top",
-              boxSizing: "border-box",
-            }}
-          >
+          <div id="result" style={StylesWrapper.result}>
             <Result
               endpoint={this.resultEndpoint()}
               resultRef={this.resultRef}
@@ -245,35 +187,15 @@ const AppPlay = React.createClass({
           </div>
         </div>
 
-        <div
-          id="controls"
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: "flex",
-            justifyContent: "center",
-            height: controlsHeight,
-            lineHeight: controlsHeight,
-            alignItems: "center",
-            zIndex: 2,
-            overflow: "hidden",
-            backgroundColor: "#212121",
-            boxSizing: "border-box",
-            borderTop: "5px solid #444",
-          }}
-        >
+        <div id="controls" style={StylesWrapper.controls}>
         {this.isPlayable() && (
-          <div style={{flex: 1, lineHeight: "inherit"}}>
-            <PlayerView
-              videoId={this.state.videoId}
-              getEditor={this.getEditor}
-              chunksUpTo={this.state.chunksUpTo}
-              nextChunk={this.state.nextChunk}
-              timeDuration={this.state.timeDuration}
-            />
-          </div>
+          <Controls
+            videoId={this.state.videoId}
+            getEditor={this.getEditor}
+            chunksUpTo={this.state.chunksUpTo}
+            nextChunk={this.state.nextChunk}
+            timeDuration={this.state.timeDuration}
+          />
         )}
         </div>
       </div>

@@ -1,46 +1,17 @@
 import React                  from 'react'
 import IconPause              from './IconPause'
 import IconPlay               from './IconPlay'
+import StylesWrapper          from '../styles/Wrapper'
 
-const Style = {
-  wrap: {
-    height: "inherit",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    lineHeight: "inherit",
-  },
-  one: {
-    boxSizing: "border-box",
-    padding: "0 10px",
-    marginRight: "auto",
-    lineHeight: "10px",
-  },
-  two: {
-    flex: 8,
-    boxSizing: "border-box",
-    padding: "0 10px",
-  },
-  three: {
-    boxSizing: "border-box",
-    padding: "0 10px",
-    color: "#FFF",
-    marginLeft: "auto",
-  },
-  rangeInput: {
-    width: "100%"
-  }
-}
-
-const Player = (props) => {
+const PlayerControls = (props) => {
   function formatTime(milliseconds) {
     return (milliseconds/1000.0).toFixed(1)
   }
 
   return (
-    <div style={Style.wrap}>
+    <div style={StylesWrapper.controlsInner.wrap}>
       <div
-        style={Style.one}
+        style={StylesWrapper.controlsInner.one}
         onClick={(e) => {
           e.preventDefault()
           if (props.isPaused) {
@@ -54,9 +25,10 @@ const Player = (props) => {
         }}
       >
         {props.isPaused ? <IconPlay /> : <IconPause />}
-      </div><div style={Style.two}>
+      </div>
+      <div style={StylesWrapper.controlsInner.two}>
         <input
-          style={Style.rangeInput}
+          style={StylesWrapper.controlsInner.rangeInput}
           type="range"
           min="0"
           max={props.timeDuration}
@@ -69,7 +41,7 @@ const Player = (props) => {
           }}
         />
       </div>
-      <div style={Style.three}>
+      <div style={StylesWrapper.controlsInner.three}>
         <small>
           {`${formatTime(props.timePosition)}/${formatTime(props.timeDuration)}`}
         </small>
@@ -78,4 +50,4 @@ const Player = (props) => {
   )
 }
 
-export default Player
+export default PlayerControls

@@ -7,16 +7,18 @@ body {
 a:hover {
   background-color: #111 !important;
 }
+
 @media (max-width: 800px) {
-
+  #navbar {
+    font-size: 12px;
+  }
 }
-
 @media (max-width: 500px) {
-  #wrapper {
+  #editor-result {
     flex-direction: column !important;
   }
   #result {
     border-left: 0 !important;
-    border-top: 5px solid #444;
+    border-top: 5px solid #000;
   }
 }

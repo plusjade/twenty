@@ -18,7 +18,7 @@ const NewRecording = (props) => {
         props.onClick()
       }}
     >
-      + record
+      Record
     </a>
   )
 }

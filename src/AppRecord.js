@@ -9,10 +9,12 @@ import withRecord           from './withRecord'
 import AceEditor            from './components/AceEditor'
 import NewRecording         from './components/NewRecording'
 import Result               from './components/Result'
-import Recorder             from './components/Recorder'
+import RecorderControls     from './components/RecorderControls'
 import VideosList           from './components/VideosList'
 
-const RecorderView = withRecord(Recorder)
+import StylesWrapper        from './styles/Wrapper'
+
+const Controls = withRecord(RecorderControls)
 const Videos = VideosDB()
 const QParams = QueryParams()
 
@@ -22,7 +24,8 @@ const App = React.createClass({
       videoId: QParams.get("id"),
       commands: [],
       videos: Videos.list(),
-      recordingId: undefined
+      recordingId: undefined,
+      libraryIsOpen: false,
     })
   },
 
@@ -94,75 +97,62 @@ const App = React.createClass({
     return this.editor
   },
 
+  toggleLibrary() {
+    this.setState({libraryIsOpen: !this.state.libraryIsOpen})
+  },
+
   render() {
     return (
-      <div>
-        <div style={{
-            width: "100%",
-            height: "500px",
-          }}
-        >
-          <div style={{
-              width: "40%",
-              height: "inherit",
-              border: "3px solid #444",
-              position: "relative",
-              display: "inline-block",
-              verticalAlign: "top",
-              boxSizing: "border-box",
+      <div id="app-wrapper">
+        <div id="navbar" style={StylesWrapper.navbar}>
+          <a
+            href="#library"
+            style={StylesWrapper.libraryLink}
+            onClick={(e) => {
+              e.preventDefault()
+              this.toggleLibrary()
             }}
           >
+            Library
+          </a>
+          <NewRecording
+            onClick={() => {
+              this.newRecording()
+            }}
+          />
+        </div>
+
+        <div id="library" style={StylesWrapper.library}>
+        {this.state.videos && (
+          <VideosList
+            list={this.state.videos}
+            onSelect={this.loadVideo}
+            isOpen={this.state.libraryIsOpen}
+            onDelete={this.deleteVideo}
+          />
+        )}
+        </div>
+
+
+        <div id="editor-result" style={StylesWrapper.editorResult}>
+          <div id="editor" style={StylesWrapper.editor} >
             <AceEditor editorRef={this.editorRef} />
-          </div><div style={{
-              height: "inherit",
-              width: "40%",
-              border: "3px solid #444",
-              borderLeft: 0,
-              display: "inline-block",
-              verticalAlign: "top",
-              boxSizing: "border-box",
-            }}
-          >
-            <Result />
-          </div><div style={{
-              height: "400px",
-              width: "20%",
-              display: "inline-block",
-              verticalAlign: "top",
-              boxSizing: "border-box",
-              textAlign: "right",
-              color: "#BDBDBD",
-            }}
-          >
-            <NewRecording
-              onClick={() => {
-                this.newRecording()
-              }}
-            />
-          {this.state.videos && (
-            <VideosList
-              list={this.state.videos}
-              onSelect={this.loadVideo}
-              onDelete={this.deleteVideo}
-            />
-          )}
+          </div>
+          <div id="result" style={StylesWrapper.result}>
+            <Result/>
           </div>
         </div>
 
-        <div style={{
-            width: "80%",
-            height: "60px",
-            zIndex: 2,
-            backgroundColor: "#222",
-          }}
-        >
-          <RecorderView
+
+        <div id="controls" style={StylesWrapper.controls}>
+          <Controls
             {...this.props}
             {...this.state}
             save={this.save}
             getEditor={this.getEditor}
           />
         </div>
+
       </div>
     )
   }
