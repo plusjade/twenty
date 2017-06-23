@@ -4,8 +4,18 @@ import IconPlay               from './IconPlay'
 import StylesWrapper          from '../styles/Wrapper'
 
 const PlayerControls = (props) => {
+  function padZero(number) {
+    if ((`${number}`).length === 1) {
+      return `0${number}`
+    } else {
+      return number
+    }
+  }
+
   function formatTime(milliseconds) {
-    return (milliseconds/1000.0).toFixed(1)
+    const seconds = (milliseconds/1000.0).toFixed(0)
+    const minutes = Math.floor(seconds/60.0)
+    return (`-${padZero(minutes)}:${padZero(seconds - (minutes*60))}`)
   }
 
   return (
@@ -43,7 +53,7 @@ const PlayerControls = (props) => {
       </div>
       <div style={StylesWrapper.controlsInner.three}>
         <small>
-          {`${formatTime(props.timePosition)}/${formatTime(props.timeDuration)}`}
+          {formatTime(props.timeDuration - props.timePosition)}
         </small>
       </div>
     </div>
