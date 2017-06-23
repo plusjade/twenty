@@ -2,10 +2,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: #EEEEEE;
+  background: #424242;
 }
 a:hover {
-  background-color: #111 !important;
+  color: #777 !important;
 }
 
 @media (max-width: 800px) {
@@ -16,9 +16,5 @@ a:hover {
 @media (max-width: 500px) {
   #editor-result {
     flex-direction: column !important;
-  }
-  #result {
-    border-left: 0 !important;
-    border-top: 5px solid #000;
   }
 }

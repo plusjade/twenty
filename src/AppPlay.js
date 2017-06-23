@@ -147,6 +147,31 @@ const AppPlay = React.createClass({
   render() {
     return (
       <div id="app-wrapper">
+
+        <div id="editor-result" style={StylesWrapper.editorResult}>
+          <div id="editor" style={StylesWrapper.editor} >
+            <AceEditor editorRef={this.editorRef} />
+          </div>
+          <div id="result" style={StylesWrapper.result}>
+            <Result
+              endpoint={this.resultEndpoint()}
+              resultRef={this.resultRef}
+            />
+          </div>
+        </div>
+
+        <div id="controls" style={StylesWrapper.controls}>
+        {this.isPlayable() && (
+          <Controls
+            videoId={this.state.videoId}
+            getEditor={this.getEditor}
+            chunksUpTo={this.state.chunksUpTo}
+            nextChunk={this.state.nextChunk}
+            timeDuration={this.state.timeDuration}
+          />
+        )}
+        </div>
+
         <div id="navbar" style={StylesWrapper.navbar}>
           <a
             href="#library"
@@ -175,29 +200,6 @@ const AppPlay = React.createClass({
         )}
         </div>
 
-        <div id="editor-result" style={StylesWrapper.editorResult}>
-          <div id="editor" style={StylesWrapper.editor} >
-            <AceEditor editorRef={this.editorRef} />
-          </div>
-          <div id="result" style={StylesWrapper.result}>
-            <Result
-              endpoint={this.resultEndpoint()}
-              resultRef={this.resultRef}
-            />
-          </div>
-        </div>
-
-        <div id="controls" style={StylesWrapper.controls}>
-        {this.isPlayable() && (
-          <Controls
-            videoId={this.state.videoId}
-            getEditor={this.getEditor}
-            chunksUpTo={this.state.chunksUpTo}
-            nextChunk={this.state.nextChunk}
-            timeDuration={this.state.timeDuration}
-          />
-        )}
-        </div>
       </div>
     )
   }

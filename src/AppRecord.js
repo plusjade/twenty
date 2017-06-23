@@ -104,6 +104,25 @@ const App = React.createClass({
   render() {
     return (
       <div id="app-wrapper">
+
+        <div id="editor-result" style={StylesWrapper.editorResult}>
+          <div id="editor" style={StylesWrapper.editor} >
+            <AceEditor editorRef={this.editorRef} />
+          </div>
+          <div id="result" style={StylesWrapper.result}>
+            <Result/>
+          </div>
+        </div>
+
+        <div id="controls" style={StylesWrapper.controls}>
+          <Controls
+            {...this.props}
+            {...this.state}
+            save={this.save}
+            getEditor={this.getEditor}
+          />
+        </div>
+
         <div id="navbar" style={StylesWrapper.navbar}>
           <a
             href="#library"
@@ -131,26 +150,6 @@ const App = React.createClass({
             onDelete={this.deleteVideo}
           />
         )}
-        </div>
-
-
-        <div id="editor-result" style={StylesWrapper.editorResult}>
-          <div id="editor" style={StylesWrapper.editor} >
-            <AceEditor editorRef={this.editorRef} />
-          </div>
-          <div id="result" style={StylesWrapper.result}>
-            <Result/>
-          </div>
-        </div>
-
-
-        <div id="controls" style={StylesWrapper.controls}>
-          <Controls
-            {...this.props}
-            {...this.state}
-            save={this.save}
-            getEditor={this.getEditor}
-          />
         </div>
 
       </div>

@@ -1,21 +1,23 @@
 const navHeight = "7vh"
 const controlsHeight = "10vh"
-const borderFrame = "5px solid #000"
+const borderFrame = "3px solid #212121"
 
 const Wrapper = {
   navHeight: navHeight,
   controlsHeight: controlsHeight,
   borderFrame: borderFrame,
   navbar: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
     display: "flex",
-    backgroundColor: "#212121",
     justifyContent: "left",
     color: "#BDBDBD",
     height: navHeight,
     lineHeight: navHeight,
     alignItems: "center",
     boxSizing: "border-box",
-    borderBottom: borderFrame,
     overflow: "hidden",
   },
   libraryLink: {
@@ -30,16 +32,19 @@ const Wrapper = {
     display: "flex",
     overflow: "auto",
     boxSizing: "border-box",
-    color: "#BDBDBD",
+    color: "#9E9E9E",
   },
   editorResult: {
     position: "absolute",
     left: 0,
     right: 0,
-    top: navHeight,
-    bottom: controlsHeight,
+    top: 0,
+    bottom: "17vh",
     display: "flex",
     justifyContent: "center",
+    boxSizing: "border-box",
+    border: borderFrame,
+    borderBottom: 0,
   },
   editor: {
     flex: 4,
@@ -51,15 +56,15 @@ const Wrapper = {
   result: {
     flex: 4,
     height: "inherit",
-    borderLeft: borderFrame,
     verticalAlign: "top",
     boxSizing: "border-box",
+    backgroundColor: "#E0E0E0",
   },
   controls: {
     position: "absolute",
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: navHeight,
     display: "flex",
     justifyContent: "center",
     height: controlsHeight,
@@ -67,9 +72,10 @@ const Wrapper = {
     alignItems: "center",
     zIndex: 2,
     overflow: "hidden",
-    backgroundColor: "#212121",
+    backgroundColor: "#232323",
     boxSizing: "border-box",
-    borderTop: borderFrame,
+    borderRadius: "0 0 15px 15px",
+    border: borderFrame,
   },
   controlsInner: {
     wrap: {

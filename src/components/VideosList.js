@@ -1,4 +1,5 @@
-import React from 'react'
+import React                from 'react'
+import StylesWrapper        from '../styles/Wrapper'
 
 const Style = {
   wrap: {
@@ -8,20 +9,22 @@ const Style = {
     position: "fixed",
     left: 0,
     right: 0,
-    top: "7vh",
-    bottom: 0,
+    top: 0,
+    bottom: "7vh",
     zIndex: 1001,
-    backgroundColor: "#222",
+    backgroundColor: "#111",
     overflow: "auto",
     opacity: 1,
+    borderBottom: StylesWrapper.borderFrame,
+    borderRadius: "0 0 15px 15px",
   },
   video: {
     color: "inherit",
     padding: "10vh 30px",
     display: "block",
     textDecoration: "none",
-    borderRight: "5px solid #000",
-    borderBottom: "5px solid #000",
+    border: StylesWrapper.borderFrame,
+    borderTop: 0,
     textAlign: "center",
   },
   delete: {
