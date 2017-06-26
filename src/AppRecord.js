@@ -124,6 +124,7 @@ const App = React.createClass({
         </div>
 
         <div id="navbar" style={StylesWrapper.navbar}>
+          <div style={{flex: 1}}/>
           <a
             href="#library"
             style={StylesWrapper.libraryLink}

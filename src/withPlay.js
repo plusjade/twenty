@@ -34,7 +34,6 @@ const Play = (Component) => {
     },
 
     componentWillReceiveProps(nextProps) {
-      console.log("componentWillReceiveProps")
       if (nextProps.videoId !== this.props.videoId) {
         this.replay()
       }
@@ -99,7 +98,6 @@ const Play = (Component) => {
 
     play() {
       if (this.playInterval) { return }
-
       this.setTimeStart()
       this.playInterval = setInterval(() => {
         this.updateTimePosition()

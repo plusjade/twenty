@@ -130,7 +130,6 @@ const AppPlay = React.createClass({
   },
 
   result() {
-    console.log("result")
     if (this.resultNode) {
       const data = JSON.stringify(this.resultData())
       this
