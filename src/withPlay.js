@@ -80,7 +80,6 @@ const Play = (Component) => {
       this.clearTicker()
       this.resetState()
       this.editor.setValue("")
-      this.autobot.setCursor({row: 0, column: 0})
     },
 
     clearTicker() {
