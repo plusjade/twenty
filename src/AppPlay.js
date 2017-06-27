@@ -41,9 +41,10 @@ const AppPlay = React.createClass({
   componentWillMount() {
     this.resultThrottled = throttle(this.result, 100)
     if (this.state.videoId) {
-      const commands = Video.find(this.state.videoId)
-      if (commands) {
-        this.loadCommands(commands)
+      const video = Video.find(this.state.videoId)
+      if (video) {
+        this.setState({mode: video.mode})
+        this.loadCommands(video.commands)
       }
     }
   },

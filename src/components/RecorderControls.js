@@ -32,7 +32,20 @@ const RecorderControls = (props) => {
         </span>
       </div>
       <div style={StylesWrapper.controlsInner.three}>
-        -
+        <select
+          value={props.mode}
+          onChange={(e) => {
+            props.updateMode(e.target.value)
+          }}
+        >
+        {props.availableModes.map((type) => {
+          return (
+            <option value={type} key={type}>
+              {type}
+            </option>
+          )
+        })}
+        </select>
       </div>
     </div>
   )

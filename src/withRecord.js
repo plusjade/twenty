@@ -8,6 +8,12 @@ const withRecord = (Component) => {
     propTypes: {
     },
 
+    getDefaultProps() {
+      return ({
+        availableModes: ["html", "sql", "javascript"]
+      })
+    },
+
     initialState() {
       return ({
         chunkPosition: -1,

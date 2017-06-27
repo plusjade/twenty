@@ -26,11 +26,16 @@ const App = React.createClass({
       videos: Videos.list(),
       recordingId: undefined,
       libraryIsOpen: false,
+      mode: "html",
     })
   },
 
   componentWillMount() {
     this.newRecording()
+  },
+
+  updateMode(type) {
+    this.setState({mode: type})
   },
 
   getTimeNow() {
@@ -51,7 +56,10 @@ const App = React.createClass({
 
   save() {
     if (!this.hasCommands()) { return }
-    Videos.save(this.getRecordingName(), window.commands)
+    Videos.save(this.getRecordingName(), {
+      mode: this.state.mode,
+      commands: window.commands,
+    })
     this.refreshVideos()
   },
 
@@ -66,11 +74,6 @@ const App = React.createClass({
 
   loadVideo(videoId) {
     window.open(`/?id=${videoId}`, "_blank")
-    return
-    const commands = Videos.find(videoId)
-    if (commands) {
-      this.setState({commands: commands, videoId: videoId})
-    }
   },
 
   refreshVideos() {
@@ -120,6 +123,7 @@ const App = React.createClass({
             {...this.state}
             save={this.save}
             getEditor={this.getEditor}
+            updateMode={this.updateMode}
           />
         </div>
 
