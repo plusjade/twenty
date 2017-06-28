@@ -25,6 +25,7 @@ const AppPlay = React.createClass({
       videos: Video.list(),
       mode: "html",
       libraryIsOpen: false,
+      timeLink: this.getTimeFromLink()
     })
   },
 
@@ -47,6 +48,10 @@ const AppPlay = React.createClass({
         this.loadCommands(video.commands)
       }
     }
+  },
+
+  getTimeFromLink() {
+    return window.location.hash.slice(1)
   },
 
   isPlayable() {
@@ -168,6 +173,7 @@ const AppPlay = React.createClass({
             chunksUpTo={this.state.chunksUpTo}
             nextChunk={this.state.nextChunk}
             timeDuration={this.state.timeDuration}
+            timeLink={this.state.timeLink}
           />
         )}
         </div>

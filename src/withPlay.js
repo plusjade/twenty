@@ -30,7 +30,13 @@ const Play = (Component) => {
     componentDidMount() {
       this.editor = this.props.getEditor()
       this.autobot = Autobot(this.editor)
-      this.play()
+
+      const milliseconds = parseInt(this.props.timeLink || 0)*1000
+      if (milliseconds > 0) {
+        this.seekTo(milliseconds)
+      } else {
+        this.play()
+      }
     },
 
     componentWillReceiveProps(nextProps) {
