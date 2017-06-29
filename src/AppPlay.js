@@ -64,11 +64,15 @@ const AppPlay = React.createClass({
   },
 
   loadVideo(videoId) {
-    const commands = Video.find(videoId)
-    if (commands) {
+    const video = Video.find(videoId)
+    if (video) {
       window.history.replaceState({}, null, `/?id=${videoId}`)
-      this.loadCommands(commands)
-      this.setState({videoId: videoId, libraryIsOpen: false})
+      this.loadCommands(video.commands)
+      this.setState({
+        videoId: videoId,
+        mode: video.mode,
+        libraryIsOpen: false,
+      })
     }
   },
 
