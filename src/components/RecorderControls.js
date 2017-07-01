@@ -1,6 +1,5 @@
 import React                  from 'react'
 import IconPause              from './IconPause'
-import IconPlay               from './IconPlay'
 import IconRecord             from './IconRecord'
 
 import Styles          from '../styles/Wrapper'

@@ -1,21 +1,21 @@
 import React            from 'react'
 import ReactDOM         from 'react-dom'
 
-import AppPlay          from './AppPlay'
+import Player           from './components/Player'
 import Recorder         from './components/Recorder'
 import withRecord       from './withRecord'
+import withPlay         from './withPlay'
 
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 
-
 const parts = window.location.pathname.split("/")
 let app
 if (parts[1] === "make") {
-  app = React.createElement(withRecord(Recorder))
+  app = withRecord(Recorder)
 } else {
-  app = <AppPlay />
+  app = withPlay(Player)
 }
 
-ReactDOM.render(app, document.getElementById('root'))
+ReactDOM.render(React.createElement(app), document.getElementById('root'))
 registerServiceWorker()

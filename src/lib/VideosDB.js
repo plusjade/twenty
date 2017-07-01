@@ -87,10 +87,6 @@ const Videos = () => {
     return `vids${SEPARATOR}${id}`
   }
 
-  function namespaceStrip(id) {
-    return id.split(SEPARATOR)[1]
-  }
-
   function token() {
     return (
       Crypto

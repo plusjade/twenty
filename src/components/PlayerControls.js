@@ -1,4 +1,4 @@
-import React                  from 'react'
+import React, {PropTypes}     from 'react'
 import IconPause              from './IconPause'
 import IconPlay               from './IconPlay'
 import StylesWrapper          from '../styles/Wrapper'
@@ -58,6 +58,15 @@ const PlayerControls = (props) => {
       </div>
     </div>
   )
+}
+PlayerControls.propTypes = {
+  isPaused: PropTypes.bool,
+  pause: PropTypes.func.isRequired,
+  play: PropTypes.func.isRequired,
+  replay: PropTypes.func.isRequired,
+  seekTo: PropTypes.func.isRequired,
+  timeDuration: PropTypes.number,
+  timePosition: PropTypes.number,
 }
 
 export default PlayerControls
