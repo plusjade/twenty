@@ -1,5 +1,12 @@
+import Crypto         from 'crypto'
 import React          from 'react'
 import RecordRTC      from 'recordrtc'
+
+import VideosDB             from './lib/VideosDB'
+import QueryParams          from './lib/QueryParams'
+
+const Videos = VideosDB()
+const QParams = QueryParams()
 
 const withRecord = (Component) => {
   window.commands = []
@@ -17,6 +24,13 @@ const withRecord = (Component) => {
 
     initialState() {
       return ({
+        videoId: QParams.get("id"),
+        commands: [],
+        videos: Videos.list(),
+        recordingId: undefined,
+        libraryIsOpen: false,
+        mode: "html",
+
         chunkPosition: -1,
         timeStart: undefined,
         timePosition: 0,
@@ -31,11 +45,12 @@ const withRecord = (Component) => {
     },
 
     componentWillMount() {
+      this.newRecording()
       this.tickInterval = undefined
     },
 
     componentDidMount() {
-      this.editor = this.props.getEditor()
+      this.editor = this.getEditor()
       this.listen()
 
       window.navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
@@ -57,6 +72,77 @@ const withRecord = (Component) => {
     resetState() {
       this.setState(this.initialState())
     },
+
+
+
+    updateMode(type) {
+      this.setState({mode: type})
+    },
+
+    getRecordingId() {
+      return this.state.recordingId
+    },
+
+    generateToken() {
+      return Crypto.randomBytes(9).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')
+    },
+
+    getRecordingName() {
+      return `vids:${this.getRecordingId()}`
+    },
+
+    hasCommands() {
+      return window.commands && window.commands.length > 0
+    },
+
+    save() {
+      if (!this.hasCommands()) { return }
+      Videos.save(this.getRecordingName(), {
+        mode: this.state.mode,
+        commands: window.commands,
+      })
+      this.refreshVideos()
+    },
+
+    newRecording() {
+      this.setState({
+        commands: [],
+        recordingId: this.generateToken()
+      })
+    },
+
+    loadVideo(videoId) {
+      window.location = `/?id=${videoId}`
+    },
+
+    refreshVideos() {
+      this.setState({videos: Videos.list()})
+    },
+
+    deleteVideo(videoId) {
+      Videos.remove(videoId)
+      this.refreshVideos()
+    },
+
+    editorRef(node) {
+      this.editorNode = node
+    },
+
+    getEditor() {
+      if (this.editor) { return this.editor }
+      if (!this.editorNode) { return }
+      this.editor = window.editor = window.ace.edit(this.editorNode)
+      this.editor.setTheme("ace/theme/twilight")
+      this.editor.getSession().setMode("ace/mode/javascript")
+      this.editor.getSession().setUseSoftTabs(true)
+
+      return this.editor
+    },
+
+    toggleLibrary() {
+      this.setState({libraryIsOpen: !this.state.libraryIsOpen})
+    },
+
 
     getTimeNow() {
       return (new Date()).getTime()
@@ -237,7 +323,7 @@ const withRecord = (Component) => {
         timePositionPaused: time || this.getTimePosition()
       })
       if (this.isPaused && this.hasRecording) {
-        this.props.save()
+        this.save()
       }
     },
 
@@ -250,6 +336,15 @@ const withRecord = (Component) => {
       return !this.tickInterval
     },
 
+    togglePause() {
+      if (this.isPaused()) {
+        this.record()
+      }
+      else {
+        this.pause()
+      }
+    },
+
     hasRecording() {
       return window.commands.length > 0
     },
@@ -259,12 +354,25 @@ const withRecord = (Component) => {
         <Component
           {...this.props}
           {...this.state}
+
           getTimePosition={this.getTimePosition}
           record={this.record}
           pause={this.pause}
           finish={this.finish}
           isPaused={this.isPaused()}
           hasRecording={this.hasRecording()}
+
+          save={this.save}
+          getEditor={this.getEditor}
+          updateMode={this.updateMode}
+          newRecording={this.newRecording}
+          togglePause={this.togglePause}
+
+          loadVideo={this.loadVideo}
+          deleteVideo={this.deleteVideo}
+          toggleLibrary={this.toggleLibrary}
+
+          editorRef={this.editorRef}
         />
       )
     }

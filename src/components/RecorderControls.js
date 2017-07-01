@@ -44,15 +44,6 @@ const RecorderControls = (props) => {
     return (milliseconds/1000.0).toFixed(1)
   }
 
-  function toggle() {
-    if (props.isPaused) {
-      props.record()
-    }
-    else {
-      props.pause()
-    }
-  }
-
   return (
     <div style={UStyles.controlsInner.wrap}>
       <div style={UStyles.controlsInner.one}>
@@ -79,8 +70,8 @@ const RecorderControls = (props) => {
 
       <div style={UStyles.controlsInner.two}>
         {props.isPaused
-          ? <IconRecord onClick={(e) => { e.preventDefault(); toggle() }} />
-          : <IconPause onClick={(e) => { e.preventDefault(); toggle() }} />
+          ? <IconRecord onClick={(e) => { e.preventDefault(); props.togglePause() }} />
+          : <IconPause onClick={(e) => { e.preventDefault(); props.togglePause() }} />
         }
       </div>
 
