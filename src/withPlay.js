@@ -1,4 +1,5 @@
 import React, {PropTypes}   from 'react'
+import {Howl}               from 'howler'
 import Autobot              from './lib/Autobot'
 import Commands             from './lib/Commands'
 import throttle             from './lib/throttle'
@@ -63,10 +64,17 @@ const withPlay = (Component) => {
       return this.state.commands && this.state.commands.length > 0
     },
 
-    loadCommands(commands) {
+    setVideoData(video) {
       this.setStart() // todo
-      const state = Object.assign({commands: commands}, Commands(commands))
-      this.setState(state)
+      this.setState(
+        Object.assign({
+          commands: video.commands,
+          videoId: video.token,
+          mode: video.mode,
+          libraryIsOpen: false,
+        },
+        Commands(video.commands)
+      ))
 
       const milliseconds = parseInt(this.state.timeLink || 0)*1000
       if (milliseconds > 0) {
@@ -77,17 +85,27 @@ const withPlay = (Component) => {
     },
 
     loadVideo(videoId) {
+      this.setState({libraryIsOpen: false})
+      if (this.sound) { this.sound.stop() }
+
       Videos
         .find(videoId)
         .then((video) => {
           console.log(video)
           window.history.replaceState({}, null, `/?id=${videoId}`)
-          this.loadCommands(video.commands)
-          this.setState({
-            videoId: videoId,
-            mode: video.mode,
-            libraryIsOpen: false,
-          })
+
+          if (video.audio_url) {
+            this.sound = new Howl({
+              src: [video.audio_url],
+              preload: true
+            })
+            this.sound.on("load", () => {
+              this.setVideoData(video)
+            })
+            if (this.sound.state() === "loaded") {
+              this.setVideoData(video)
+            }
+          }
         })
     },
 
@@ -217,6 +235,7 @@ const withPlay = (Component) => {
     pause(time) {
       this.clearTicker()
       this.setState({timePositionPaused: time || this.state.timePosition})
+      this.sound.pause()
     },
 
     replay() {
@@ -227,6 +246,7 @@ const withPlay = (Component) => {
     play() {
       if (this.playInterval) { return }
       this.setTimeStart()
+      this.sound.play()
       this.playInterval = setInterval(() => {
         this.updateTimePosition()
         const time = this.getTimePosition()
@@ -244,10 +264,10 @@ const withPlay = (Component) => {
     },
 
     seekTo(time) {
+      this.sound.seek(time/1000)
       this.pause(time)
       this.updateTimePosition(time)
       this.editor.setValue("")
-
       const chunkPosition = (
         this.state.chunksUpTo(time, (chunk) => {
           chunk.forEach((c) => { this.autobot.runCommand(c) })

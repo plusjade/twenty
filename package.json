@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "crypto": "^0",
+    "howler": "^2.0.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "recordrtc": "^5.4.2",
-    "crypto" : "*"
+    "recordrtc": "^5.4.2"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"
