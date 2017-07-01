@@ -40,7 +40,7 @@ const VideosList = (props) => {
   const wrap = Object.assign({maxHeight: (props.isOpen ? "1000px" : 0)}, Style.wrap)
   return (
     <div style={wrap}>
-    {props.list.map((v, i) => {
+    {props.videos.map((v, i) => {
       return (
         <div
           key={i}
@@ -48,7 +48,7 @@ const VideosList = (props) => {
         >
           <a
             style={Style.video}
-            href="#"
+            href={v.url}
             onClick={(e) => {
               e.preventDefault()
               if (typeof props.onSelect === "function") {
@@ -56,7 +56,9 @@ const VideosList = (props) => {
               }
             }}
           >
-            {v}
+            <span>{v.created_at}</span>
+            <br/>
+            <span>{` ${v.token} `}</span>
           </a>
         {typeof props.onDelete === "function" && (
           <a

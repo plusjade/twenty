@@ -22,7 +22,7 @@ const AppPlay = React.createClass({
     return ({
       commands: [],
       videoId: QParams.get("id"),
-      videos: Video.list(),
+      videos: [],
       mode: "html",
       libraryIsOpen: false,
       timeLink: this.getTimeFromLink()
@@ -42,12 +42,10 @@ const AppPlay = React.createClass({
   componentWillMount() {
     this.resultThrottled = throttle(this.result, 100)
     if (this.state.videoId) {
-      const video = Video.find(this.state.videoId)
-      if (video) {
-        this.setState({mode: video.mode})
-        this.loadCommands(video.commands)
-      }
+      this.loadVideo(this.state.videoId)
     }
+
+    this.refreshVideos()
   },
 
   getTimeFromLink() {
@@ -64,20 +62,24 @@ const AppPlay = React.createClass({
   },
 
   loadVideo(videoId) {
-    const video = Video.find(videoId)
-    if (video) {
-      window.history.replaceState({}, null, `/?id=${videoId}`)
-      this.loadCommands(video.commands)
-      this.setState({
-        videoId: videoId,
-        mode: video.mode,
-        libraryIsOpen: false,
+    Video
+      .find(videoId)
+      .then((video) => {
+        console.log(video)
+        window.history.replaceState({}, null, `/?id=${videoId}`)
+        this.loadCommands(video.commands)
+        this.setState({
+          videoId: videoId,
+          mode: video.mode,
+          libraryIsOpen: false,
+        })
       })
-    }
   },
 
   refreshVideos() {
-    this.setState({videos: Video.list()})
+    Video.list().then((rsp) => {
+      this.setState({videos: rsp.data})
+    })
   },
 
   editorRef(node) {
@@ -204,8 +206,8 @@ const AppPlay = React.createClass({
         <div id="library" style={StylesWrapper.library}>
         {this.state.videos && (
           <VideosList
-            list={this.state.videos}
-            onSelect={this.loadVideo}
+            videos={this.state.videos}
+            onSelect={(video) => { this.loadVideo(video.token) }}
             isOpen={this.state.libraryIsOpen}
           />
         )}

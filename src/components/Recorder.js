@@ -55,7 +55,7 @@ const Recorder = (props) => {
       <div id="library" style={StylesWrapper.library}>
       {props.videos && (
         <VideosList
-          list={props.videos}
+          videos={props.videos}
           onSelect={props.loadVideo}
           isOpen={props.libraryIsOpen}
           onDelete={props.deleteVideo}

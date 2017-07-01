@@ -1,6 +1,5 @@
-import Crypto         from 'crypto'
-import React          from 'react'
-import RecordRTC      from 'recordrtc'
+import React                from 'react'
+import RecordRTC            from 'recordrtc'
 
 import VideosDB             from './lib/VideosDB'
 import QueryParams          from './lib/QueryParams'
@@ -9,7 +8,7 @@ const Videos = VideosDB()
 const QParams = QueryParams()
 
 const withRecord = (Component) => {
-  window.commands = []
+  let commands = []
   let synchronizedTime = undefined
 
   const withRecord = React.createClass({
@@ -26,7 +25,7 @@ const withRecord = (Component) => {
       return ({
         videoId: QParams.get("id"),
         commands: [],
-        videos: Videos.list(),
+        videos: [],
         recordingId: undefined,
         libraryIsOpen: false,
         mode: "html",
@@ -47,6 +46,7 @@ const withRecord = (Component) => {
     componentWillMount() {
       this.newRecording()
       this.tickInterval = undefined
+      this.refreshVideos()
     },
 
     componentDidMount() {
@@ -73,8 +73,6 @@ const withRecord = (Component) => {
       this.setState(this.initialState())
     },
 
-
-
     updateMode(type) {
       this.setState({mode: type})
     },
@@ -83,40 +81,25 @@ const withRecord = (Component) => {
       return this.state.recordingId
     },
 
-    generateToken() {
-      return Crypto.randomBytes(9).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')
-    },
-
-    getRecordingName() {
-      return `vids:${this.getRecordingId()}`
-    },
-
     hasCommands() {
-      return window.commands && window.commands.length > 0
-    },
-
-    save() {
-      if (!this.hasCommands()) { return }
-      Videos.save(this.getRecordingName(), {
-        mode: this.state.mode,
-        commands: window.commands,
-      })
-      this.refreshVideos()
+      return commands && commands.length > 0
     },
 
     newRecording() {
       this.setState({
         commands: [],
-        recordingId: this.generateToken()
+        recordingId: Videos.token()
       })
     },
 
-    loadVideo(videoId) {
-      window.location = `/?id=${videoId}`
+    loadVideo(video) {
+      window.location = `/?id=${video.token}`
     },
 
     refreshVideos() {
-      this.setState({videos: Videos.list()})
+      Videos.list().then((rsp) => {
+        this.setState({videos: rsp.data})
+      })
     },
 
     deleteVideo(videoId) {
@@ -142,7 +125,6 @@ const withRecord = (Component) => {
     toggleLibrary() {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     },
-
 
     getTimeNow() {
       return (new Date()).getTime()
@@ -254,7 +236,7 @@ const withRecord = (Component) => {
 
       let args = Array.prototype.slice.call(arguments, 0)
       args.unshift(synchronizedTime)
-      window.commands.push(args)
+      commands.push(args)
       return true
     },
 
@@ -279,23 +261,10 @@ const withRecord = (Component) => {
         const src = URL.createObjectURL(blob)
         console.log(blob, src)
         this.setState({audioSrc: src})
-
-
-        let fd = new FormData()
-        fd.append('fname', 'test.wav')
-        fd.append('data', blob)
-        console.log(fd)
-
-        const oReq = new XMLHttpRequest()
-        oReq.open("POST", "http://localhost:4000/upload", true)
-        oReq.onload = function(oEvent) {
-          if (oReq.status == 200) {
-            console.log("succes")
-          } else {
-            console.log("fail", oReq.status)
-          }
-        }
-        oReq.send(fd)
+        Videos.persist({
+          videoId: this.getRecordingId(),
+          blob: blob
+        })
       })
     },
 
@@ -327,6 +296,19 @@ const withRecord = (Component) => {
       }
     },
 
+    save() {
+      const payload = this.payload()
+      Videos.save(this.getRecordingId(), payload)
+      this.refreshVideos()
+    },
+
+    payload() {
+      return ({
+        mode: this.state.mode,
+        commands: commands,
+      })
+    },
+
     finish() {
       this.pause()
       this.audioFinish()
@@ -346,7 +328,7 @@ const withRecord = (Component) => {
     },
 
     hasRecording() {
-      return window.commands.length > 0
+      return commands.length > 0
     },
 
     render() {
