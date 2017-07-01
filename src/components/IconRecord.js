@@ -1,9 +1,16 @@
 import React from 'react'
 
-const IconRecord = () => {
+const IconRecord = (props) => {
   return (
     <svg
-      style={{height: 40, width: 40, cursor: "pointer", fill: "#E0E0E0"}}
+      onClick={props.onClick}
+      style={{
+        height: 50,
+        width: 50,
+        cursor: "pointer",
+        fill: "#E0E0E0",
+        margin: "auto",
+      }}
       x="0px"
       y="0px"
       viewBox="0 0 30 37.5"

@@ -1,4 +1,5 @@
-import React from 'react'
+import React          from 'react'
+import RecordRTC      from 'recordrtc'
 
 const withRecord = (Component) => {
   window.commands = []
@@ -20,6 +21,8 @@ const withRecord = (Component) => {
         timeStart: undefined,
         timePosition: 0,
         timePositionPaused: 0,
+        audioSrc: undefined,
+        audioIsStarted: false,
       })
     },
 
@@ -34,6 +37,16 @@ const withRecord = (Component) => {
     componentDidMount() {
       this.editor = this.props.getEditor()
       this.listen()
+
+      window.navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
+        const StereoAudioRecorder = RecordRTC.StereoAudioRecorder
+        this.recorder = window.recorder = new StereoAudioRecorder(stream, {})
+        const url = URL.createObjectURL(stream)
+        this.setState({audioSrc: url})
+      }).catch((e) => {
+        console.log(e)
+        alert("Audio recorder failed to load =/")
+      })
     },
 
     componentWillUnmount() {
@@ -159,7 +172,53 @@ const withRecord = (Component) => {
       return true
     },
 
+    audioStart() {
+      console.log("record")
+      this.recorder.record()
+    },
+
+    audioPause() {
+      console.log("audio pause")
+      this.recorder.pause()
+    },
+
+    audioResume() {
+      console.log("resume")
+      this.recorder.resume()
+    },
+
+    audioFinish() {
+      console.log("finish")
+      this.recorder.stop((blob) => {
+        const src = URL.createObjectURL(blob)
+        console.log(blob, src)
+        this.setState({audioSrc: src})
+
+
+        let fd = new FormData()
+        fd.append('fname', 'test.wav')
+        fd.append('data', blob)
+        console.log(fd)
+
+        const oReq = new XMLHttpRequest()
+        oReq.open("POST", "http://localhost:4000/upload", true)
+        oReq.onload = function(oEvent) {
+          if (oReq.status == 200) {
+            console.log("succes")
+          } else {
+            console.log("fail", oReq.status)
+          }
+        }
+        oReq.send(fd)
+      })
+    },
+
     record() {
+      if (this.recorder.recordingLength > 0) {
+        this.audioResume()
+      } else {
+        this.audioStart()
+      }
       this.editor.focus()
       this.setTimeStart()
       this.tickInterval = setInterval(() => {
@@ -170,6 +229,7 @@ const withRecord = (Component) => {
     },
 
     pause(time) {
+      this.audioPause()
       clearInterval(this.tickInterval)
       this.tickInterval = undefined
       this.setState({
@@ -179,6 +239,11 @@ const withRecord = (Component) => {
       if (this.isPaused && this.hasRecording) {
         this.props.save()
       }
+    },
+
+    finish() {
+      this.pause()
+      this.audioFinish()
     },
 
     isPaused() {
@@ -197,6 +262,7 @@ const withRecord = (Component) => {
           getTimePosition={this.getTimePosition}
           record={this.record}
           pause={this.pause}
+          finish={this.finish}
           isPaused={this.isPaused()}
           hasRecording={this.hasRecording()}
         />

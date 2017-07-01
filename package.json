@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "recordrtc": "^5.4.2",
+    "crypto" : "*"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"

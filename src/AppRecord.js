@@ -1,4 +1,5 @@
 import React                from 'react'
+import Crypto               from 'crypto'
 
 import Commands             from './lib/Commands'
 import VideosDB             from './lib/VideosDB'
@@ -46,8 +47,12 @@ const App = React.createClass({
     return this.state.recordingId
   },
 
+  generateToken() {
+    return Crypto.randomBytes(9).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')
+  },
+
   getRecordingName() {
-    return `vids_${this.getRecordingId()}`
+    return `vids:${this.getRecordingId()}`
   },
 
   hasCommands() {
@@ -69,7 +74,7 @@ const App = React.createClass({
 
   newRecording() {
     this.clearCommands()
-    this.setState({recordingId: this.getTimeNow()})
+    this.setState({recordingId: this.generateToken()})
   },
 
   loadVideo(videoId) {

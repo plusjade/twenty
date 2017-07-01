@@ -3,35 +3,59 @@ import IconPause              from './IconPause'
 import IconPlay               from './IconPlay'
 import IconRecord             from './IconRecord'
 
-import StylesWrapper          from '../styles/Wrapper'
+import Styles          from '../styles/Wrapper'
+
+const UStyles = {
+  controlsInner: {
+    wrap: {
+      flex: 1,
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      lineHeight: "inherit",
+    },
+    one: {
+      flex: 1,
+      display: "flex",
+      boxSizing: "border-box",
+      lineHeight: "10px",
+    },
+    two: {
+      flex: 1,
+      display: "flex",
+      textAlign: "center",
+      boxSizing: "border-box",
+    },
+    three: {
+      flex: 1,
+      textAlign: "center",
+      boxSizing: "border-box",
+      color: "#FFF",
+    },
+    rangeInput: {
+      width: "100%"
+    }
+  }
+}
 
 const RecorderControls = (props) => {
   function formatTime(milliseconds) {
     return (milliseconds/1000.0).toFixed(1)
   }
 
+  function toggle() {
+    if (props.isPaused) {
+      props.record()
+    }
+    else {
+      props.pause()
+    }
+  }
+
   return (
-    <div style={StylesWrapper.controlsInner.wrap}>
-      <div
-        style={StylesWrapper.controlsInner.one}
-        onClick={(e) => {
-          e.preventDefault()
-          if (props.isPaused) {
-            props.record()
-          }
-          else {
-            props.pause()
-          }
-        }}
-      >
-        {props.isPaused ? <IconRecord /> : <IconPause />}
-      </div>
-      <div style={StylesWrapper.controlsInner.two}>
-        <span style={{color: "#EEE"}}>
-          {`${formatTime(props.timePosition)}`}
-        </span>
-      </div>
-      <div style={StylesWrapper.controlsInner.three}>
+    <div style={UStyles.controlsInner.wrap}>
+      <div style={UStyles.controlsInner.one}>
         <select
           value={props.mode}
           onChange={(e) => {
@@ -46,6 +70,35 @@ const RecorderControls = (props) => {
           )
         })}
         </select>
+      </div>
+      <div style={UStyles.controlsInner.one}>
+        <span style={{color: "#EEE"}}>
+          {`${formatTime(props.timePosition)}`}
+        </span>
+      </div>
+
+      <div style={UStyles.controlsInner.two}>
+        {props.isPaused
+          ? <IconRecord onClick={(e) => { e.preventDefault(); toggle() }} />
+          : <IconPause onClick={(e) => { e.preventDefault(); toggle() }} />
+        }
+      </div>
+
+      <div style={UStyles.controlsInner.three}>
+        <audio
+          style={{width: "100%"}}
+          src={props.audioSrc}
+          controls={"download"}
+        >
+          Your browser does not support the <code>audio</code> element.
+        </audio>
+
+      </div>
+      <div
+        style={UStyles.controlsInner.three}
+        onClick={props.finish}
+      >
+        Finish
       </div>
     </div>
   )
