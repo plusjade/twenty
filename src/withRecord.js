@@ -1,16 +1,12 @@
 import React                from 'react'
 import RecordRTC            from 'recordrtc'
 
+import RecorderAce          from './lib/RecorderAce'
 import VideosDB             from './lib/VideosDB'
-import QueryParams          from './lib/QueryParams'
 
 const Videos = VideosDB()
-const QParams = QueryParams()
 
 const withRecord = (Component) => {
-  let commands = []
-  let synchronizedTime = undefined
-
   const withRecord = React.createClass({
     propTypes: {
     },
@@ -23,8 +19,6 @@ const withRecord = (Component) => {
 
     initialState() {
       return ({
-        videoId: QParams.get("id"),
-        commands: [],
         videos: [],
         recordingId: undefined,
         libraryIsOpen: false,
@@ -51,26 +45,37 @@ const withRecord = (Component) => {
 
     componentDidMount() {
       this.editor = this.getEditor()
-      this.listen()
-
-      window.navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
-        const StereoAudioRecorder = RecordRTC.StereoAudioRecorder
-        this.recorder = window.recorder = new StereoAudioRecorder(stream, {})
-        const url = URL.createObjectURL(stream)
-        this.setState({audioSrc: url})
-      }).catch((e) => {
-        console.log(e)
-        alert("Audio recorder failed to load =/")
-      })
+      if (this.editor) {
+        this.textRecorder = RecorderAce({
+          editor: this.editor,
+          isPaused: this.isPaused,
+          getTimePosition: this.getTimePosition,
+        })
+        this.textRecorder.listen()
+      }
+      this.bootstrapAudio()
     },
 
     componentWillUnmount() {
       console.log("unmounting")
-      this.unListen()
+      if (this.textRecorder) {
+        this.textRecorder.unListen()
+      }
     },
 
     resetState() {
       this.setState(this.initialState())
+    },
+
+    bootstrapAudio() {
+      window.navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
+        const StereoAudioRecorder = RecordRTC.StereoAudioRecorder
+        this.recorder = window.recorder = new StereoAudioRecorder(stream, {})
+        this.setState({audioSrc: URL.createObjectURL(stream)})
+      }).catch((e) => {
+        console.log(e)
+        alert("Audio recorder failed to load =/")
+      })
     },
 
     updateMode(type) {
@@ -81,13 +86,8 @@ const withRecord = (Component) => {
       return this.state.recordingId
     },
 
-    hasCommands() {
-      return commands && commands.length > 0
-    },
-
     newRecording() {
       this.setState({
-        commands: [],
         recordingId: Videos.token()
       })
     },
@@ -146,99 +146,6 @@ const withRecord = (Component) => {
       this.setState({timePosition: time || this.getTimePosition()})
     },
 
-    listen() {
-      this
-        .editor
-        .session
-        .doc
-        .on("change", this.listenChange, true)
-      this
-        .editor
-        .selection
-        .addEventListener("changeCursor", this.listenChangeCursor, true)
-      this
-        .editor
-        .selection
-        .addEventListener("changeSelection", this.listenSelect, true)
-    },
-
-    unListen() {
-      this
-        .editor
-        .session
-        .doc
-        .off("change", this.listenChange)
-      this
-        .editor
-        .selection
-        .removeEventListener("changeCursor", this.listenChangeCursor)
-      this
-        .editor
-        .selection
-        .removeEventListener("changeSelection", this.listenSelect)
-    },
-
-    listenChange(e) {
-      const start = e.start
-      const end = e.end
-
-      if (e.action.indexOf("insert") === 0) {
-        const insert = e.lines || e.text
-        this.log(
-          e.action,
-          start.row,
-          start.column,
-          end.row,
-          end.column,
-          insert
-        )
-      } else {
-        this.log(
-          e.action,
-          start.row,
-          start.column,
-          end.row,
-          end.column
-        )
-      }
-    },
-
-    listenChangeCursor() {
-      if (this.editor.selection.isEmpty()) {
-        this.listenSelect()
-      }
-    },
-
-    listenSelect() {
-      const curRange = this.editor.selection.getRange()
-      const start = curRange.start
-      const end = curRange.end
-      this.log(
-        "select",
-        start.row,
-        start.column,
-        end.row,
-        end.column
-      )
-    },
-
-    // Commands are stored in the format:
-    // [time, name, arguments...]
-    log() {
-      if (this.isPaused()) { return }
-
-      if (synchronizedTime === undefined) {
-        synchronizedTime = Math.floor(this.getTimePosition())
-        setTimeout(() => {
-            synchronizedTime = undefined
-        }, 50)
-      }
-
-      let args = Array.prototype.slice.call(arguments, 0)
-      args.unshift(synchronizedTime)
-      commands.push(args)
-      return true
-    },
 
     audioStart() {
       console.log("record")
@@ -305,7 +212,7 @@ const withRecord = (Component) => {
     payload() {
       return ({
         mode: this.state.mode,
-        commands: commands,
+        commands: this.textRecorder.commands,
       })
     },
 
@@ -328,7 +235,7 @@ const withRecord = (Component) => {
     },
 
     hasRecording() {
-      return commands.length > 0
+      return this.textRecorder && this.textRecorder.hasCommands()
     },
 
     render() {
