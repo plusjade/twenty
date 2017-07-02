@@ -14,7 +14,7 @@ const withPlay = (Component) => {
   const withPlay = React.createClass({
     getDefaultProps() {
       return ({
-        resultDomain: "http://twenty-result.s3-website-us-west-2.amazonaws.com"
+        resultDomain: "https://d2n3d8kv7zaiml.cloudfront.net"
       })
     },
 
