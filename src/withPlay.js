@@ -5,10 +5,8 @@ import Commands             from './lib/Commands'
 import throttle             from './lib/throttle'
 
 import VideosDB             from './lib/VideosDB'
-import QueryParams          from './lib/QueryParams'
 
 const Videos = VideosDB()
-const QParams = QueryParams()
 
 const withPlay = (Component) => {
   const withPlay = React.createClass({
@@ -21,7 +19,7 @@ const withPlay = (Component) => {
     initialState() {
       return ({
         commands: [],
-        videoId: QParams.get("id"),
+        videoId: this.props.videoId,
         videos: [],
         mode: "html",
         libraryIsOpen: false,
