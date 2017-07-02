@@ -37,6 +37,9 @@ const withPlay = (Component) => {
     },
 
     componentWillMount() {
+      function noop() {}
+      this.sound = {pause: noop, play: noop, seek: noop, stop: noop}
+
       this.playInterval = undefined
 
       this.resultThrottled = throttle(this.result, 100)
@@ -103,6 +106,8 @@ const withPlay = (Component) => {
             if (this.sound.state() === "loaded") {
               this.setVideoData(video)
             }
+          } else {
+            this.setVideoData(video)
           }
         })
     },
