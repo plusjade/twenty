@@ -1,14 +1,13 @@
 const TimeKeeper = () => {
   const TICK_INTERVAL_MS = 50
   let tickInterval
-  let timePosition
   let timePositionPaused
   let timeStart
+
   reset()
 
   function reset() {
     tickInterval = undefined
-    timePosition = 0
     timePositionPaused = 0
     timeStart = undefined
   }
@@ -16,9 +15,8 @@ const TimeKeeper = () => {
   function start(callback) {
     setTimeStart()
     tickInterval = setInterval(() => {
-      const newPosition = setTimePosition()
       if (typeof callback === "function") {
-        callback(newPosition)
+        callback(getTimePosition())
       }
     }, TICK_INTERVAL_MS)
   }
@@ -44,10 +42,6 @@ const TimeKeeper = () => {
 
   function getTimePosition() {
     return timePositionPaused + getTimeNow() - getTimeStart()
-  }
-
-  function setTimePosition(time) {
-    return timePosition = time || getTimePosition()
   }
 
   function getTimeNow() {
