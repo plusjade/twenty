@@ -3,7 +3,7 @@ import {Howl}               from 'howler'
 import Autobot              from './lib/Autobot'
 import Commands             from './lib/Commands'
 import throttle             from './lib/throttle'
-
+import TimeKeeper           from './lib/TimeKeeper'
 import VideosDB             from './lib/VideosDB'
 
 const Videos = VideosDB()
@@ -26,9 +26,7 @@ const withPlay = (Component) => {
         timeLink: this.getTimeFromLink(),
 
         chunkPosition: -1,
-        timeStart: undefined,
         timePosition: 0,
-        timePositionPaused: 0,
       })
     },
 
@@ -40,7 +38,7 @@ const withPlay = (Component) => {
       function noop() {}
       this.sound = {pause: noop, play: noop, seek: noop, stop: noop}
 
-      this.playInterval = undefined
+      this.timeKeeper = TimeKeeper()
 
       this.resultThrottled = throttle(this.result, 100)
       if (this.state.videoId) {
@@ -192,10 +190,6 @@ const withPlay = (Component) => {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     },
 
-    isPaused() {
-      return !this.playInterval
-    },
-
     getChunkPosition() {
       return this.state.chunkPosition
     },
@@ -204,40 +198,14 @@ const withPlay = (Component) => {
       this.setState({chunkPosition: index})
     },
 
-    getTimeNow() {
-      return (new Date()).getTime()
-    },
-
-    setTimeStart() {
-      this.setState({timeStart: this.getTimeNow()})
-    },
-
-    getTimeStart() {
-      return this.state.timeStart
-    },
-
-    getTimePosition() {
-      return this.state.timePositionPaused + this.getTimeNow() - this.getTimeStart()
-    },
-
-    updateTimePosition(time) {
-      this.setState({timePosition: time || this.getTimePosition()})
-    },
-
     setStart() {
-      this.clearTicker()
+      this.timeKeeper.reset()
       this.resetState()
       this.editor.setValue("")
     },
 
-    clearTicker() {
-      clearInterval(this.playInterval)
-      this.playInterval = undefined
-    },
-
     pause(time) {
-      this.clearTicker()
-      this.setState({timePositionPaused: time || this.state.timePosition})
+      this.timeKeeper.pause(time)
       this.sound.pause()
     },
 
@@ -247,29 +215,31 @@ const withPlay = (Component) => {
     },
 
     play() {
-      if (this.playInterval) { return }
-      this.setTimeStart()
+      // noop if already running (not paused)
+      if (!this.timeKeeper.isPaused()) { return }
+
       this.sound.play()
-      this.playInterval = setInterval(() => {
-        this.updateTimePosition()
-        const time = this.getTimePosition()
-        const {chunk, chunkPosition} = this.state.nextChunk(time, this.getChunkPosition())
+      this.timeKeeper.start((newPosition) => {
+        this.setState({timePosition: newPosition})
+        const {chunk, chunkPosition} = this.state.nextChunk(newPosition, this.getChunkPosition())
 
         if (chunk) {
           chunk.forEach((c) => { this.autobot.runCommand(c) })
           this.setChunkPosition(chunkPosition)
-          if (time >= this.state.timeDuration) {
+          if (newPosition >= this.state.timeDuration) {
             this.pause()
             return
           }
         }
-      }, 50)
+      })
+
     },
 
     seekTo(time) {
       this.sound.seek(time/1000)
-      this.pause(time)
-      this.updateTimePosition(time)
+      this.timeKeeper.pause(time)
+      this.setState({timePosition: time})
+
       this.editor.setValue("")
       const chunkPosition = (
         this.state.chunksUpTo(time, (chunk) => {
@@ -289,7 +259,8 @@ const withPlay = (Component) => {
           pause={this.pause}
           replay={this.replay}
           seekTo={this.seekTo}
-          isPaused={this.isPaused()}
+
+          isPaused={this.timeKeeper.isPaused()}
 
           editorRef={this.editorRef}
           resultEndpoint={this.resultEndpoint}

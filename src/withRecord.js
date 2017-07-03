@@ -2,6 +2,7 @@ import React                from 'react'
 import RecordRTC            from 'recordrtc'
 
 import RecorderAce          from './lib/RecorderAce'
+import TimeKeeper           from './lib/TimeKeeper'
 import VideosDB             from './lib/VideosDB'
 
 const Videos = VideosDB()
@@ -23,13 +24,8 @@ const withRecord = (Component) => {
         recordingId: undefined,
         libraryIsOpen: false,
         mode: "html",
-
-        chunkPosition: -1,
-        timeStart: undefined,
-        timePosition: 0,
-        timePositionPaused: 0,
         audioSrc: undefined,
-        audioIsStarted: false,
+        timePosition: 0,
       })
     },
 
@@ -38,26 +34,30 @@ const withRecord = (Component) => {
     },
 
     componentWillMount() {
+      this.timeKeeper = TimeKeeper()
       this.newRecording()
-      this.tickInterval = undefined
       this.refreshVideos()
     },
 
     componentDidMount() {
+      // editor
       this.editor = this.getEditor()
+
+      // editor recorder
       if (this.editor) {
         this.textRecorder = RecorderAce({
           editor: this.editor,
-          isPaused: this.isPaused,
-          getTimePosition: this.getTimePosition,
+          isPaused: this.timeKeeper.isPaused,
+          getTimePosition: this.timeKeeper.getTimePosition,
         })
         this.textRecorder.listen()
       }
+
+      // audio recorder
       this.bootstrapAudio()
     },
 
     componentWillUnmount() {
-      console.log("unmounting")
       if (this.textRecorder) {
         this.textRecorder.unListen()
       }
@@ -126,26 +126,6 @@ const withRecord = (Component) => {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     },
 
-    getTimeNow() {
-      return (new Date()).getTime()
-    },
-
-    setTimeStart(time) {
-      this.setState({timeStart: time || this.getTimeNow()})
-    },
-
-    getTimeStart() {
-      return this.state.timeStart
-    },
-
-    getTimePosition() {
-      return this.state.timePositionPaused + this.getTimeNow() - this.getTimeStart()
-    },
-
-    updateTimePosition(time) {
-      this.setState({timePosition: time || this.getTimePosition()})
-    },
-
 
     audioStart() {
       console.log("record")
@@ -176,29 +156,30 @@ const withRecord = (Component) => {
     },
 
     record() {
+      // audio
       if (this.recorder.recordingLength > 0) {
         this.audioResume()
       } else {
         this.audioStart()
       }
+
+      // editor
       this.editor.focus()
-      this.setTimeStart()
-      this.tickInterval = setInterval(() => {
-        this.updateTimePosition()
-      }, 50)
+
+      this.timeKeeper.start((newPosition) => {
+        this.setState({timePosition: newPosition})
+      })
 
       console.log("pressed record")
     },
 
     pause(time) {
-      this.audioPause()
-      clearInterval(this.tickInterval)
-      this.tickInterval = undefined
-      this.setState({
-        timeStart: undefined,
-        timePositionPaused: time || this.getTimePosition()
-      })
-      if (this.isPaused && this.hasRecording) {
+      // audio
+      this.audioPause(time)
+
+      this.timeKeeper.pause()
+
+      if (this.hasRecording) {
         this.save()
       }
     },
@@ -221,12 +202,8 @@ const withRecord = (Component) => {
       this.audioFinish()
     },
 
-    isPaused() {
-      return !this.tickInterval
-    },
-
     togglePause() {
-      if (this.isPaused()) {
+      if (this.timeKeeper.isPaused()) {
         this.record()
       }
       else {
@@ -244,11 +221,11 @@ const withRecord = (Component) => {
           {...this.props}
           {...this.state}
 
-          getTimePosition={this.getTimePosition}
+          isPaused={this.timeKeeper.isPaused()}
+
           record={this.record}
           pause={this.pause}
           finish={this.finish}
-          isPaused={this.isPaused()}
           hasRecording={this.hasRecording()}
 
           save={this.save}
