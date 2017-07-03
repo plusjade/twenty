@@ -69,15 +69,15 @@ const RecorderControls = (props) => {
 
       <div style={UStyles.controlsInner.two}>
         {props.isPlaying()
-          ? <IconPause onClick={(e) => { e.preventDefault(); props.togglePause() }} />
-          : <IconRecord onClick={(e) => { e.preventDefault(); props.togglePause() }} />
+          ? <IconPause onClick={(e) => { e.preventDefault(); props.toggleRecord() }} />
+          : <IconRecord onClick={(e) => { e.preventDefault(); props.toggleRecord() }} />
         }
       </div>
 
       <div style={UStyles.controlsInner.three}>
         <audio
           style={{width: "100%"}}
-          src={props.audioSrc}
+          src={props.audioSource}
           controls={"download"}
         >
           Your browser does not support the <code>audio</code> element.

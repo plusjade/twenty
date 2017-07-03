@@ -23,13 +23,13 @@ const Recorder = (props) => {
 
       <div id="controls" style={StylesWrapper.controls}>
         <RecorderControls
-          audioSrc={props.audioSrc}
+          audioSource={props.audioSource}
           availableModes={props.availableModes}
           finish={props.finish}
           isPlaying={props.isPlaying}
           mode={props.mode}
           timePosition={props.timePosition}
-          togglePause={props.togglePause}
+          toggleRecord={props.toggleRecord}
           updateMode={props.updateMode}
         />
       </div>

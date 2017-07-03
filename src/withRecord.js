@@ -1,6 +1,6 @@
 import React                from 'react'
-import RecordRTC            from 'recordrtc'
 
+import AudioRecorder        from './lib/AudioRecorder'
 import RecorderAce          from './lib/RecorderAce'
 import TimeKeeper           from './lib/TimeKeeper'
 import VideosDB             from './lib/VideosDB'
@@ -24,7 +24,7 @@ const withRecord = (Component) => {
         recordingId: undefined,
         libraryIsOpen: false,
         mode: "html",
-        audioSrc: undefined,
+        audioSource: undefined,
         timePosition: 0,
       })
     },
@@ -33,17 +33,19 @@ const withRecord = (Component) => {
       return (this.initialState())
     },
 
+    resetState() {
+      this.setState(this.initialState())
+    },
+
     componentWillMount() {
       this.timeKeeper = TimeKeeper()
+      this.audioRecorder = AudioRecorder()
       this.newRecording()
-      this.refreshVideos()
     },
 
     componentDidMount() {
-      // editor
       this.editor = this.getEditor()
 
-      // editor recorder
       if (this.editor) {
         this.textRecorder = RecorderAce({
           editor: this.editor,
@@ -53,28 +55,8 @@ const withRecord = (Component) => {
         this.textRecorder.listen()
       }
 
-      // audio recorder
-      this.bootstrapAudio()
-    },
-
-    componentWillUnmount() {
-      if (this.textRecorder) {
-        this.textRecorder.unListen()
-      }
-    },
-
-    resetState() {
-      this.setState(this.initialState())
-    },
-
-    bootstrapAudio() {
-      window.navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
-        const StereoAudioRecorder = RecordRTC.StereoAudioRecorder
-        this.recorder = window.recorder = new StereoAudioRecorder(stream, {})
-        this.setState({audioSrc: URL.createObjectURL(stream)})
-      }).catch((e) => {
-        console.log(e)
-        alert("Audio recorder failed to load =/")
+      this.audioRecorder.bootstrap((bool) => {
+        this.setState({audioRecorderLoaded: bool})
       })
     },
 
@@ -123,72 +105,34 @@ const withRecord = (Component) => {
     },
 
     toggleLibrary() {
+      if (!this.state.libraryIsOpen) {
+        this.refreshVideos()
+      }
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
-    },
-
-
-    audioStart() {
-      console.log("record")
-      this.recorder.record()
-    },
-
-    audioPause() {
-      console.log("audio pause")
-      this.recorder.pause()
-    },
-
-    audioResume() {
-      console.log("resume")
-      this.recorder.resume()
-    },
-
-    audioFinish() {
-      console.log("finish")
-      this.recorder.stop((blob) => {
-        const src = URL.createObjectURL(blob)
-        console.log(blob, src)
-        this.setState({audioSrc: src})
-        Videos.persist({
-          videoId: this.getRecordingId(),
-          blob: blob
-        })
-      })
     },
 
     record() {
       if (this.timeKeeper.isPlaying()) { return }
-      // audio
-      if (this.recorder.recordingLength > 0) {
-        this.audioResume()
-      } else {
-        this.audioStart()
-      }
 
-      // editor
       this.editor.focus()
-
+      this.audioRecorder.record()
       this.timeKeeper.start((newPosition) => {
         this.setState({timePosition: newPosition})
       })
-
-      console.log("pressed record")
     },
 
     pause(time) {
-      // audio
-      this.audioPause(time)
-
+      this.audioRecorder.pause()
       this.timeKeeper.pause()
-
-      if (this.hasRecording) {
-        this.save()
-      }
+      this.save()
     },
 
     save() {
+      // TODO: smarter
+      if (!this.textRecorder || !this.textRecorder.hasCommands()) { return }
+
       const payload = this.payload()
       Videos.save(this.getRecordingId(), payload)
-      this.refreshVideos()
     },
 
     payload() {
@@ -200,20 +144,22 @@ const withRecord = (Component) => {
 
     finish() {
       this.pause()
-      this.audioFinish()
+      this.audioRecorder.finish((blob, source) => {
+        this.setState({audioSource: source})
+        Videos.persist({
+          videoId: this.getRecordingId(),
+          blob: blob
+        })
+      })
     },
 
-    togglePause() {
+    toggleRecord() {
       if (this.timeKeeper.isPlaying()) {
         this.pause()
       }
       else {
         this.record()
       }
-    },
-
-    hasRecording() {
-      return this.textRecorder && this.textRecorder.hasCommands()
     },
 
     render() {
@@ -224,16 +170,11 @@ const withRecord = (Component) => {
 
           isPlaying={this.timeKeeper.isPlaying}
 
-          record={this.record}
-          pause={this.pause}
+          toggleRecord={this.toggleRecord}
           finish={this.finish}
-          hasRecording={this.hasRecording()}
 
-          save={this.save}
-          getEditor={this.getEditor}
           updateMode={this.updateMode}
           newRecording={this.newRecording}
-          togglePause={this.togglePause}
 
           loadVideo={this.loadVideo}
           deleteVideo={this.deleteVideo}
