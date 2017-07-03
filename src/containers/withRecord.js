@@ -60,7 +60,7 @@ const withRecord = (WrappedComponent) => {
         })
       }
 
-      this.audioRecorder.bootstrap((bool) => {
+      this.audioRecorder.mount((bool) => {
         this.setState({audioRecorderLoaded: bool})
       })
     }

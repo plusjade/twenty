@@ -4,7 +4,7 @@ const AudioRecorder = () => {
   let recorder = undefined
   let blobLatest = undefined
 
-  function bootstrap(callback) {
+  function mount(callback) {
     window.navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
       const StereoAudioRecorder = RecordRTC.StereoAudioRecorder
       recorder = new StereoAudioRecorder(stream, {})
@@ -61,7 +61,7 @@ const AudioRecorder = () => {
   }
 
   return ({
-    bootstrap: bootstrap,
+    mount: mount,
     finish: finish,
     pause: pause,
     record: record,
