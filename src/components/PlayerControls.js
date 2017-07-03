@@ -24,17 +24,17 @@ const PlayerControls = (props) => {
         style={StylesWrapper.controlsInner.one}
         onClick={(e) => {
           e.preventDefault()
-          if (props.isPaused) {
-            props.play()
+          if (props.isPlaying()) {
+            props.pause()
           } else if (props.timePosition >= props.timeDuration ) {
             props.replay()
           }
           else {
-            props.pause()
+            props.play()
           }
         }}
       >
-        {props.isPaused ? <IconPlay /> : <IconPause />}
+        {props.isPlaying() ? <IconPause /> : <IconPlay />}
       </div>
       <div style={StylesWrapper.controlsInner.two}>
         <input
@@ -60,7 +60,7 @@ const PlayerControls = (props) => {
   )
 }
 PlayerControls.propTypes = {
-  isPaused: PropTypes.bool,
+  isPlaying: PropTypes.func.isRequired,
   pause: PropTypes.func.isRequired,
   play: PropTypes.func.isRequired,
   replay: PropTypes.func.isRequired,

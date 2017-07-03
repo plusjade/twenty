@@ -215,8 +215,7 @@ const withPlay = (Component) => {
     },
 
     play() {
-      // noop if already running (not paused)
-      if (!this.timeKeeper.isPaused()) { return }
+      if (this.timeKeeper.isPlaying()) { return }
 
       this.sound.play()
       this.timeKeeper.start((newPosition) => {
@@ -260,7 +259,7 @@ const withPlay = (Component) => {
           replay={this.replay}
           seekTo={this.seekTo}
 
-          isPaused={this.timeKeeper.isPaused()}
+          isPlaying={this.timeKeeper.isPlaying}
 
           editorRef={this.editorRef}
           resultEndpoint={this.resultEndpoint}

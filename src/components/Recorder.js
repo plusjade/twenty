@@ -26,6 +26,7 @@ const Recorder = (props) => {
           audioSrc={props.audioSrc}
           availableModes={props.availableModes}
           finish={props.finish}
+          isPlaying={props.isPlaying}
           mode={props.mode}
           timePosition={props.timePosition}
           togglePause={props.togglePause}

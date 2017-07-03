@@ -68,9 +68,9 @@ const RecorderControls = (props) => {
       </div>
 
       <div style={UStyles.controlsInner.two}>
-        {props.isPaused
-          ? <IconRecord onClick={(e) => { e.preventDefault(); props.togglePause() }} />
-          : <IconPause onClick={(e) => { e.preventDefault(); props.togglePause() }} />
+        {props.isPlaying()
+          ? <IconPause onClick={(e) => { e.preventDefault(); props.togglePause() }} />
+          : <IconRecord onClick={(e) => { e.preventDefault(); props.togglePause() }} />
         }
       </div>
 

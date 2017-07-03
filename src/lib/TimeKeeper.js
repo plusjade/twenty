@@ -30,8 +30,8 @@ const TimeKeeper = () => {
     timeStart = undefined
   }
 
-  function isPaused() {
-    return !tickInterval
+  function isPlaying() {
+    return !!tickInterval
   }
 
   function getTimeStart() {
@@ -56,7 +56,7 @@ const TimeKeeper = () => {
 
   return ({
     getTimePosition: getTimePosition,
-    isPaused: isPaused,
+    isPlaying: isPlaying,
     pause: pause,
     start: start,
     reset: reset,

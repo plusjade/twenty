@@ -25,7 +25,7 @@ const Player = (props) => {
       <div id="controls" style={StylesWrapper.controls}>
       {props.isPlayable() && (
         <PlayerControls
-          isPaused={props.isPaused}
+          isPlaying={props.isPlaying}
           pause={props.pause}
           play={props.play}
           replay={props.replay}
