@@ -49,10 +49,8 @@ const withRecord = (Component) => {
       if (this.editor) {
         this.textRecorder = RecorderAce({
           editor: this.editor,
-          isPlaying: this.timeKeeper.isPlaying,
           getTimePosition: this.timeKeeper.getTimePosition,
         })
-        this.textRecorder.listen()
       }
 
       this.audioRecorder.bootstrap((bool) => {
@@ -115,6 +113,7 @@ const withRecord = (Component) => {
       if (this.timeKeeper.isPlaying()) { return }
 
       this.editor.focus()
+      this.textRecorder.record()
       this.audioRecorder.record()
       this.timeKeeper.start((newPosition) => {
         this.setState({timePosition: newPosition})
@@ -124,6 +123,7 @@ const withRecord = (Component) => {
     pause(time) {
       this.audioRecorder.pause()
       this.timeKeeper.pause()
+      this.textRecorder.pause()
       this.save()
     },
 

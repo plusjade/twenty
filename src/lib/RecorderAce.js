@@ -1,6 +1,17 @@
-const RecorderAce = ({editor, isPlaying, getTimePosition}) => {
+const RecorderAce = ({editor, getTimePosition}) => {
+  let isListening = false
+  let isRecording = false
   let commands = []
   let synchronizedTime = undefined
+
+  function record() {
+    if (!isListening) { listen() }
+    isRecording = true
+  }
+
+  function pause() {
+    isRecording = false
+  }
 
   function listen() {
     editor
@@ -75,7 +86,7 @@ const RecorderAce = ({editor, isPlaying, getTimePosition}) => {
   // Commands are stored in the format:
   // [time, name, arguments...]
   function log() {
-    if (!isPlaying()) { return }
+    if (!isRecording) { return }
 
     if (synchronizedTime === undefined) {
       synchronizedTime = Math.floor(getTimePosition())
@@ -95,8 +106,8 @@ const RecorderAce = ({editor, isPlaying, getTimePosition}) => {
   }
 
   return ({
-    listen: listen,
-    unListen: unListen,
+    record: record,
+    pause: pause,
     commands: commands,
     hasCommands: hasCommands,
   })
