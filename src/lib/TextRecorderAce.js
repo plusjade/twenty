@@ -1,4 +1,4 @@
-const RecorderAce = ({editor, getTimePosition}) => {
+const TextRecorderAce = ({editor, getTimePosition}) => {
   let isListening = false
   let isRecording = false
   let commands = []
@@ -86,6 +86,7 @@ const RecorderAce = ({editor, getTimePosition}) => {
   // Commands are stored in the format:
   // [time, name, arguments...]
   function log() {
+    let args
     if (!isRecording) { return }
 
     if (synchronizedTime === undefined) {
@@ -95,7 +96,7 @@ const RecorderAce = ({editor, getTimePosition}) => {
       }, 50)
     }
 
-    let args = Array.prototype.slice.call(arguments, 0)
+    args = Array.prototype.slice.call(arguments, 0)
     args.unshift(synchronizedTime)
     commands.push(args)
     return true
@@ -113,4 +114,4 @@ const RecorderAce = ({editor, getTimePosition}) => {
   })
 }
 
-export default RecorderAce
+export default TextRecorderAce

@@ -1,7 +1,7 @@
 import React                from 'react'
 
 import AudioRecorder        from './lib/AudioRecorder'
-import RecorderAce          from './lib/RecorderAce'
+import TextRecorderAce      from './lib/TextRecorderAce'
 import TimeKeeper           from './lib/TimeKeeper'
 import VideosDB             from './lib/VideosDB'
 
@@ -47,7 +47,7 @@ const withRecord = (Component) => {
       this.editor = this.getEditor()
 
       if (this.editor) {
-        this.textRecorder = RecorderAce({
+        this.textRecorder = TextRecorderAce({
           editor: this.editor,
           getTimePosition: this.timeKeeper.getTimePosition,
         })
