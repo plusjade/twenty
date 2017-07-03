@@ -1,9 +1,11 @@
 import React, {PropTypes}   from 'react'
 
 import VideosDB             from 'lib/VideosDB'
-import withPromisedData     from 'withPromisedData'
 
 import VideosList           from 'components/VideosList'
+
+import withPromisedData     from 'containers/withPromisedData'
+
 import StylesWrapper        from 'styles/Wrapper'
 
 const Videos = VideosDB()
