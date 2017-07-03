@@ -90,14 +90,13 @@ const withPlay = (WrappedComponent) => {
     }
 
     isPlayable() {
-      return this.state.commands && this.state.commands.length > 0
+      return !!this.state.nextChunk
     }
 
     setVideoData(video) {
       this.setStart() // todo
       this.setState(
         Object.assign({
-          commands: video.commands,
           videoId: video.token,
           mode: video.mode,
           libraryIsOpen: false,
@@ -120,6 +119,7 @@ const withPlay = (WrappedComponent) => {
       Videos
         .find(videoId)
         .then((video) => {
+          if (!video) { return }
           console.log(video)
           window.history.replaceState({}, null, `/?id=${videoId}`)
 
@@ -207,7 +207,6 @@ const withPlay = (WrappedComponent) => {
           }
         }
       })
-
     }
 
     seekTo(time) {
