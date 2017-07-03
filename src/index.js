@@ -24,8 +24,7 @@ if (parts[1] === "make") {
   app = withPlay(Player)
   props.videoId = videoId
 } else {
-  // homepage
-  app = withPlay(Home)
+  app = Home
 }
 
 ReactDOM.render(React.createElement(app, props), document.getElementById('root'))

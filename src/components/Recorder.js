@@ -1,10 +1,10 @@
 import React                from 'react'
 
 import AceEditor            from './AceEditor'
+import Library              from '../containers/Library'
 import NewRecording         from './NewRecording'
 import RecorderControls     from './RecorderControls'
 import Result               from './Result'
-import VideosList           from './VideosList'
 
 import StylesWrapper        from '../styles/Wrapper'
 
@@ -53,17 +53,9 @@ const Recorder = (props) => {
         />
       </div>
 
-      <div id="library" style={StylesWrapper.library}>
-      {props.videos && (
-        <VideosList
-          videos={props.videos}
-          onSelect={props.loadVideo}
-          isOpen={props.libraryIsOpen}
-          onDelete={props.deleteVideo}
-        />
-      )}
-      </div>
-
+      <Library
+        isOpen={props.libraryIsOpen}
+      />
     </div>
   )
 }

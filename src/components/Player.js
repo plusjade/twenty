@@ -1,10 +1,10 @@
 import React                from 'react'
 
 import AceEditor            from './AceEditor'
+import Library              from '../containers/Library'
 import NewRecording         from './NewRecording'
 import PlayerControls       from './PlayerControls'
 import Result               from './Result'
-import VideosList           from './VideosList'
 import StylesWrapper        from '../styles/Wrapper'
 
 const Player = (props) => {
@@ -55,16 +55,10 @@ const Player = (props) => {
         />
       </div>
 
-      <div id="library" style={StylesWrapper.library}>
-      {props.videos && (
-        <VideosList
-          videos={props.videos}
-          onSelect={(video) => { props.loadVideo(video.token) }}
-          isOpen={props.libraryIsOpen}
-        />
-      )}
-      </div>
-
+      <Library
+        onSelect={(video) => { props.loadVideo(video.token) }}
+        isOpen={props.libraryIsOpen}
+      />
     </div>
   )
 }

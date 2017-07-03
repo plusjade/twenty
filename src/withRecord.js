@@ -72,21 +72,6 @@ const withRecord = (Component) => {
       })
     },
 
-    loadVideo(video) {
-      window.location = `/?id=${video.token}`
-    },
-
-    refreshVideos() {
-      Videos.list().then((rsp) => {
-        this.setState({videos: rsp.data})
-      })
-    },
-
-    deleteVideo(videoId) {
-      Videos.remove(videoId)
-      this.refreshVideos()
-    },
-
     editorRef(node) {
       this.editorNode = node
     },
@@ -103,9 +88,6 @@ const withRecord = (Component) => {
     },
 
     toggleLibrary() {
-      if (!this.state.libraryIsOpen) {
-        this.refreshVideos()
-      }
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     },
 
@@ -176,8 +158,6 @@ const withRecord = (Component) => {
           updateMode={this.updateMode}
           newRecording={this.newRecording}
 
-          loadVideo={this.loadVideo}
-          deleteVideo={this.deleteVideo}
           toggleLibrary={this.toggleLibrary}
 
           editorRef={this.editorRef}

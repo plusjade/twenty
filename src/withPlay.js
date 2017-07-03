@@ -20,7 +20,6 @@ const withPlay = (Component) => {
       return ({
         commands: [],
         videoId: this.props.videoId,
-        videos: [],
         mode: "html",
         libraryIsOpen: false,
         timeLink: this.getTimeFromLink(),
@@ -110,12 +109,6 @@ const withPlay = (Component) => {
         })
     },
 
-    refreshVideos() {
-      Videos.list().then((rsp) => {
-        this.setState({videos: rsp.data})
-      })
-    },
-
     editorRef(node) {
       this.editorNode = node
     },
@@ -186,7 +179,6 @@ const withPlay = (Component) => {
     },
 
     toggleLibrary() {
-      this.refreshVideos()
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     },
 
