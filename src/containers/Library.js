@@ -1,10 +1,10 @@
 import React, {PropTypes}   from 'react'
 
-import VideosDB             from '../lib/VideosDB'
-import withPromisedData     from '../withPromisedData'
+import VideosDB             from 'lib/VideosDB'
+import withPromisedData     from 'withPromisedData'
 
-import VideosList           from '../components/VideosList'
-import StylesWrapper        from '../styles/Wrapper'
+import VideosList           from 'components/VideosList'
+import StylesWrapper        from 'styles/Wrapper'
 
 const Videos = VideosDB()
 const VideosListAsync = withPromisedData(VideosList, "videos")

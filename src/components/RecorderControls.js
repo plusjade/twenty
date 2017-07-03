@@ -1,8 +1,9 @@
 import React                  from 'react'
-import IconPause              from './IconPause'
-import IconRecord             from './IconRecord'
 
-import Styles          from '../styles/Wrapper'
+import IconPause              from 'components/IconPause'
+import IconRecord             from 'components/IconRecord'
+
+import Styles                 from 'styles/Wrapper'
 
 const UStyles = {
   controlsInner: {

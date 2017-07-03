@@ -1,11 +1,13 @@
 import React                from 'react'
 
-import AceEditor            from './AceEditor'
-import Library              from '../containers/Library'
-import NewRecording         from './NewRecording'
-import PlayerControls       from './PlayerControls'
-import Result               from './Result'
-import StylesWrapper        from '../styles/Wrapper'
+import AceEditor            from 'components/AceEditor'
+import NewRecording         from 'components/NewRecording'
+import PlayerControls       from 'components/PlayerControls'
+import Result               from 'components/Result'
+
+import Library              from 'containers/Library'
+import StylesWrapper        from 'styles/Wrapper'
+
 
 const Player = (props) => {
   return (

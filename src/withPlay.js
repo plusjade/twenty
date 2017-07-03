@@ -1,10 +1,11 @@
 import React, {PropTypes}   from 'react'
 import {Howl}               from 'howler'
-import Autobot              from './lib/Autobot'
-import Commands             from './lib/Commands'
-import throttle             from './lib/throttle'
-import TimeKeeper           from './lib/TimeKeeper'
-import VideosDB             from './lib/VideosDB'
+
+import Autobot              from 'lib/Autobot'
+import Commands             from 'lib/Commands'
+import throttle             from 'lib/throttle'
+import TimeKeeper           from 'lib/TimeKeeper'
+import VideosDB             from 'lib/VideosDB'
 
 const Videos = VideosDB()
 

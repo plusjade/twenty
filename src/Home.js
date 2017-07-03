@@ -1,5 +1,6 @@
 import React, {PropTypes}   from 'react'
-import Library              from './containers/Library'
+
+import Library              from 'containers/Library'
 
 const Home = () => {
   return(

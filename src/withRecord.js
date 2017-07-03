@@ -1,9 +1,9 @@
 import React                from 'react'
 
-import AudioRecorder        from './lib/AudioRecorder'
-import TextRecorderAce      from './lib/TextRecorderAce'
-import TimeKeeper           from './lib/TimeKeeper'
-import VideosDB             from './lib/VideosDB'
+import AudioRecorder        from 'lib/AudioRecorder'
+import TextRecorderAce      from 'lib/TextRecorderAce'
+import TimeKeeper           from 'lib/TimeKeeper'
+import VideosDB             from 'lib/VideosDB'
 
 const Videos = VideosDB()
 

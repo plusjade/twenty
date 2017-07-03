@@ -1,5 +1,5 @@
 import React                from 'react'
-import StylesWrapper        from '../styles/Wrapper'
+import StylesWrapper        from 'styles/Wrapper'
 
 const NewRecording = (props) => {
   return (

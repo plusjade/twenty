@@ -1,5 +1,6 @@
 import React                from 'react'
-import StylesWrapper        from '../styles/Wrapper'
+
+import StylesWrapper        from 'styles/Wrapper'
 
 const Style = {
   wrap: {

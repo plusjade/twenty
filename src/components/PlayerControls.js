@@ -1,7 +1,9 @@
 import React, {PropTypes}     from 'react'
-import IconPause              from './IconPause'
-import IconPlay               from './IconPlay'
-import StylesWrapper          from '../styles/Wrapper'
+
+import IconPause              from 'components/IconPause'
+import IconPlay               from 'components/IconPlay'
+
+import StylesWrapper          from 'styles/Wrapper'
 
 const PlayerControls = (props) => {
   function padZero(number) {

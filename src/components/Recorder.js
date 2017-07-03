@@ -1,12 +1,13 @@
 import React                from 'react'
 
-import AceEditor            from './AceEditor'
-import Library              from '../containers/Library'
-import NewRecording         from './NewRecording'
-import RecorderControls     from './RecorderControls'
-import Result               from './Result'
+import AceEditor            from 'components/AceEditor'
+import NewRecording         from 'components/NewRecording'
+import RecorderControls     from 'components/RecorderControls'
+import Result               from 'components/Result'
 
-import StylesWrapper        from '../styles/Wrapper'
+import Library              from 'containers/Library'
+
+import StylesWrapper        from 'styles/Wrapper'
 
 const Recorder = (props) => {
   return (

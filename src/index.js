@@ -1,16 +1,16 @@
 import React            from 'react'
 import ReactDOM         from 'react-dom'
 
-import Home             from './Home'
-import Player           from './components/Player'
-import Recorder         from './components/Recorder'
-import withRecord       from './withRecord'
-import withPlay         from './withPlay'
+import Home             from 'Home'
+import Player           from 'components/Player'
+import Recorder         from 'components/Recorder'
+import withRecord       from 'withRecord'
+import withPlay         from 'withPlay'
 
-import QueryParams      from './lib/QueryParams'
+import QueryParams      from 'lib/QueryParams'
 
-import registerServiceWorker from './registerServiceWorker'
-import './index.css'
+import registerServiceWorker from 'registerServiceWorker'
+import 'index.css'
 
 const QParams = QueryParams()
 const videoId = QParams.get("id")
