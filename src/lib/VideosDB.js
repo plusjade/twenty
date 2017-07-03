@@ -94,7 +94,7 @@ const Videos = () => {
         .toString('base64')
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
-        .replace(/\=/g, '')
+        .replace(/=/g, '')
     )
   }
 

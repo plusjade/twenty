@@ -7,7 +7,7 @@ const Slider = (props) => {
     const offsetX = boundingBox.left
     const position = x - offsetX
     const percent = parseFloat(position/boundingBox.width)
-    const index = parseInt(props.commands.length*percent)
+    const index = parseInt(props.commands.length*percent, 10)
 
     if (index >= 0 && index != offsetIndex) {
       console.log(index)

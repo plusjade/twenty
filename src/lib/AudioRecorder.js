@@ -2,7 +2,7 @@ import RecordRTC            from 'recordrtc'
 
 const AudioRecorder = () => {
   let recorder = undefined
-  let blob = undefined
+  let blobLatest = undefined
 
   function bootstrap(callback) {
     window.navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
@@ -39,14 +39,14 @@ const AudioRecorder = () => {
   function finish(callback) {
     if (!isRecorderLoaded()) { return }
     recorder.stop((blob) => {
-      blob = blob
-      callback(blob, getSource())
+      blobLatest = blob
+      callback(blobLatest, getSource())
     })
   }
 
   function getSource() {
-    if (blob) {
-      return URL.createObjectURL(blob)
+    if (blobLatest) {
+      return URL.createObjectURL(blobLatest)
     } else {
       return undefined
     }

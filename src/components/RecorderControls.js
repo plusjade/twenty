@@ -3,8 +3,6 @@ import React                  from 'react'
 import IconPause              from 'components/IconPause'
 import IconRecord             from 'components/IconRecord'
 
-import Styles                 from 'styles/Wrapper'
-
 const UStyles = {
   controlsInner: {
     wrap: {

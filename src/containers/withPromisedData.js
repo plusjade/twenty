@@ -1,23 +1,22 @@
-import React, {PropTypes} from 'react'
+import React, {Component}   from 'react'
+import PropTypes            from 'prop-types'
 
-const withPromisedData = (Component, dataKey="data", dataValue=[]) => {
+const withPromisedData = (WrappedComponent, dataKey="data", dataValue=[]) => {
   let dataPayload = {}
   dataPayload[dataKey] = dataValue
 
-  const withPromisedData = React.createClass({
-    propsTypes: {
-      async: PropTypes.func,
-    },
-
-    getInitialState() {
-      return (dataPayload)
-    },
+  class withPromisedData extends Component {
+    constructor(props) {
+      super(props)
+      this.resolve = this.resolve.bind(this)
+      this.state = dataPayload
+    }
 
     componentWillMount() {
       if (typeof this.props.async === "function") {
         this.resolve(this.props.async())
       }
-    },
+    }
 
     resolve(promise) {
       promise
@@ -28,17 +27,21 @@ const withPromisedData = (Component, dataKey="data", dataValue=[]) => {
       .catch((error) => {
         console.log('request failed', error)
       })
-    },
+    }
 
     render() {
       return (
-        <Component
+        <WrappedComponent
           {...this.props}
           {...this.state}
         />
       )
     }
-  })
+  }
+
+  withPromisedData.propsTypes = {
+    async: PropTypes.func,
+  }
 
   return withPromisedData
 }

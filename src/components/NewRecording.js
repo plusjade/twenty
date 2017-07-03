@@ -4,7 +4,7 @@ import StylesWrapper        from 'styles/Wrapper'
 const NewRecording = (props) => {
   return (
     <a
-      href="#"
+      href="#newRecording"
       style={StylesWrapper.recordingLink}
       onClick={(e) => {
         e.preventDefault()

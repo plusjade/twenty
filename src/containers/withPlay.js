@@ -1,4 +1,5 @@
-import React, {PropTypes}   from 'react'
+import React, {Component}   from 'react'
+import PropTypes            from 'prop-types'
 import {Howl}               from 'howler'
 
 import Autobot              from 'lib/Autobot'
@@ -9,13 +10,51 @@ import VideosDB             from 'lib/VideosDB'
 
 const Videos = VideosDB()
 
-const withPlay = (Component) => {
-  const withPlay = React.createClass({
-    getDefaultProps() {
-      return ({
-        resultDomain: "https://d2n3d8kv7zaiml.cloudfront.net"
-      })
-    },
+const withPlay = (WrappedComponent) => {
+  class withPlay extends Component {
+    constructor(props) {
+      super(props)
+
+      this.resetState = this.resetState.bind(this)
+      this.initialState = this.initialState.bind(this)
+      this.getTimeFromLink = this.getTimeFromLink.bind(this)
+      this.isPlayable = this.isPlayable.bind(this)
+      this.setVideoData = this.setVideoData.bind(this)
+      this.loadVideo = this.loadVideo.bind(this)
+      this.editorRef = this.editorRef.bind(this)
+      this.resultRef = this.resultRef.bind(this)
+      this.getEditor = this.getEditor.bind(this)
+      this.resultData = this.resultData.bind(this)
+      this.resultEndpoint = this.resultEndpoint.bind(this)
+      this.result = this.result.bind(this)
+      this.toggleLibrary = this.toggleLibrary.bind(this)
+      this.getChunkPosition = this.getChunkPosition.bind(this)
+      this.setChunkPosition = this.setChunkPosition.bind(this)
+      this.setStart = this.setStart.bind(this)
+      this.pause = this.pause.bind(this)
+      this.replay = this.replay.bind(this)
+      this.play = this.play.bind(this)
+      this.seekTo = this.seekTo.bind(this)
+
+      this.state = this.initialState()
+    }
+
+    componentWillMount() {
+      function noop() {}
+      this.sound = {pause: noop, play: noop, seek: noop, stop: noop}
+
+      this.timeKeeper = TimeKeeper()
+
+      this.resultThrottled = throttle(this.result, 100)
+      if (this.state.videoId) {
+        this.loadVideo(this.state.videoId)
+      }
+    }
+
+    componentDidMount() {
+      this.editor = this.getEditor()
+      this.autobot = Autobot(this.editor)
+    }
 
     initialState() {
       return ({
@@ -28,40 +67,19 @@ const withPlay = (Component) => {
         chunkPosition: -1,
         timePosition: 0,
       })
-    },
-
-    getInitialState() {
-      return (this.initialState())
-    },
-
-    componentWillMount() {
-      function noop() {}
-      this.sound = {pause: noop, play: noop, seek: noop, stop: noop}
-
-      this.timeKeeper = TimeKeeper()
-
-      this.resultThrottled = throttle(this.result, 100)
-      if (this.state.videoId) {
-        this.loadVideo(this.state.videoId)
-      }
-    },
-
-    componentDidMount() {
-      this.editor = this.getEditor()
-      this.autobot = Autobot(this.editor)
-    },
+    }
 
     resetState() {
       this.setState(this.initialState())
-    },
+    }
 
     getTimeFromLink() {
       return window.location.hash.slice(1)
-    },
+    }
 
     isPlayable() {
       return this.state.commands && this.state.commands.length > 0
-    },
+    }
 
     setVideoData(video) {
       this.setStart() // todo
@@ -75,13 +93,13 @@ const withPlay = (Component) => {
         Commands(video.commands)
       ))
 
-      const milliseconds = parseInt(this.state.timeLink || 0)*1000
+      const milliseconds = parseInt(this.state.timeLink || 0, 10)*1000
       if (milliseconds > 0) {
         this.seekTo(milliseconds)
       } else {
         this.play()
       }
-    },
+    }
 
     loadVideo(videoId) {
       this.setState({libraryIsOpen: false})
@@ -108,15 +126,15 @@ const withPlay = (Component) => {
             this.setVideoData(video)
           }
         })
-    },
+    }
 
     editorRef(node) {
       this.editorNode = node
-    },
+    }
 
     resultRef(node) {
       this.resultNode = node
-    },
+    }
 
     getEditor() {
       if (this.editor) { return this.editor }
@@ -128,7 +146,7 @@ const withPlay = (Component) => {
       this.editor.session.doc.on("change", this.resultThrottled, true)
       this.editor.$blockScrolling = Infinity
       return this.editor
-    },
+    }
 
     resultData() {
       const code = this.getEditor().getValue()
@@ -150,24 +168,24 @@ const withPlay = (Component) => {
         "outputType": "",
         "enableLoopProtect": true
       })
-    },
+    }
 
     resultEndpoint() {
       switch (this.state.mode) {
         case "javascript": {
           return `${this.props.resultDomain}/output.html`
-          break
         }
         case "html": {
           return `${this.props.resultDomain}/output_webpage.html`
-          break
         }
         case "sql": {
           return `${this.props.resultDomain}/output_sql.html`
-          break
+        }
+        default: {
+          return undefined
         }
       }
-    },
+    }
 
     result() {
       if (this.resultNode) {
@@ -177,35 +195,35 @@ const withPlay = (Component) => {
           .contentWindow
           .postMessage(data, this.resultEndpoint())
       }
-    },
+    }
 
     toggleLibrary() {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
-    },
+    }
 
     getChunkPosition() {
       return this.state.chunkPosition
-    },
+    }
 
     setChunkPosition(index) {
       this.setState({chunkPosition: index})
-    },
+    }
 
     setStart() {
       this.timeKeeper.reset()
       this.resetState()
       this.editor.setValue("")
-    },
+    }
 
     pause(time) {
       this.timeKeeper.pause(time)
       this.sound.pause()
-    },
+    }
 
     replay() {
       this.setStart()
       this.play()
-    },
+    }
 
     play() {
       if (this.timeKeeper.isPlaying()) { return }
@@ -225,7 +243,7 @@ const withPlay = (Component) => {
         }
       })
 
-    },
+    }
 
     seekTo(time) {
       this.sound.seek(time/1000)
@@ -240,11 +258,11 @@ const withPlay = (Component) => {
       )
 
       this.setChunkPosition(chunkPosition)
-    },
+    }
 
     render() {
       return (
-        <Component
+        <WrappedComponent
           {...this.props}
           {...this.state}
           play={this.play}
@@ -264,7 +282,15 @@ const withPlay = (Component) => {
         />
       )
     }
-  })
+  }
+
+  withPlay.defaultProps = {
+    resultDomain: "https://d2n3d8kv7zaiml.cloudfront.net"
+  }
+
+  withPlay.propTypes = {
+    resultDomain: PropTypes.string,
+  }
 
   return withPlay
 }

@@ -1,4 +1,5 @@
-import React                from 'react'
+import React, {Component}   from 'react'
+import PropTypes            from 'prop-types'
 
 import AudioRecorder        from 'lib/AudioRecorder'
 import TextRecorderAce      from 'lib/TextRecorderAce'
@@ -7,16 +8,28 @@ import VideosDB             from 'lib/VideosDB'
 
 const Videos = VideosDB()
 
-const withRecord = (Component) => {
-  const withRecord = React.createClass({
-    propTypes: {
-    },
+const withRecord = (WrappedComponent) => {
+  class withRecord extends Component {
+    constructor(props) {
+      super(props)
 
-    getDefaultProps() {
-      return ({
-        availableModes: ["html", "sql", "javascript"]
-      })
-    },
+      this.initialState = this.initialState.bind(this)
+      this.resetState = this.resetState.bind(this)
+      this.updateMode = this.updateMode.bind(this)
+      this.getRecordingId = this.getRecordingId.bind(this)
+      this.newRecording = this.newRecording.bind(this)
+      this.editorRef = this.editorRef.bind(this)
+      this.getEditor = this.getEditor.bind(this)
+      this.toggleLibrary = this.toggleLibrary.bind(this)
+      this.record = this.record.bind(this)
+      this.pause = this.pause.bind(this)
+      this.save = this.save.bind(this)
+      this.payload = this.payload.bind(this)
+      this.finish = this.finish.bind(this)
+      this.toggleRecord = this.toggleRecord.bind(this)
+
+      this.state = this.initialState()
+    }
 
     initialState() {
       return ({
@@ -27,21 +40,17 @@ const withRecord = (Component) => {
         audioSource: undefined,
         timePosition: 0,
       })
-    },
-
-    getInitialState() {
-      return (this.initialState())
-    },
+    }
 
     resetState() {
       this.setState(this.initialState())
-    },
+    }
 
     componentWillMount() {
       this.timeKeeper = TimeKeeper()
       this.audioRecorder = AudioRecorder()
       this.newRecording()
-    },
+    }
 
     componentDidMount() {
       this.editor = this.getEditor()
@@ -56,25 +65,25 @@ const withRecord = (Component) => {
       this.audioRecorder.bootstrap((bool) => {
         this.setState({audioRecorderLoaded: bool})
       })
-    },
+    }
 
     updateMode(type) {
       this.setState({mode: type})
-    },
+    }
 
     getRecordingId() {
       return this.state.recordingId
-    },
+    }
 
     newRecording() {
       this.setState({
         recordingId: Videos.token()
       })
-    },
+    }
 
     editorRef(node) {
       this.editorNode = node
-    },
+    }
 
     getEditor() {
       if (this.editor) { return this.editor }
@@ -85,11 +94,11 @@ const withRecord = (Component) => {
       this.editor.getSession().setUseSoftTabs(true)
 
       return this.editor
-    },
+    }
 
     toggleLibrary() {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
-    },
+    }
 
     record() {
       if (this.timeKeeper.isPlaying()) { return }
@@ -100,14 +109,14 @@ const withRecord = (Component) => {
       this.timeKeeper.start((newPosition) => {
         this.setState({timePosition: newPosition})
       })
-    },
+    }
 
     pause(time) {
       this.audioRecorder.pause()
       this.timeKeeper.pause()
       this.textRecorder.pause()
       this.save()
-    },
+    }
 
     save() {
       // TODO: smarter
@@ -115,14 +124,14 @@ const withRecord = (Component) => {
 
       const payload = this.payload()
       Videos.save(this.getRecordingId(), payload)
-    },
+    }
 
     payload() {
       return ({
         mode: this.state.mode,
         commands: this.textRecorder.commands,
       })
-    },
+    }
 
     finish() {
       this.pause()
@@ -133,7 +142,7 @@ const withRecord = (Component) => {
           blob: blob
         })
       })
-    },
+    }
 
     toggleRecord() {
       if (this.timeKeeper.isPlaying()) {
@@ -142,11 +151,11 @@ const withRecord = (Component) => {
       else {
         this.record()
       }
-    },
+    }
 
     render() {
       return (
-        <Component
+        <WrappedComponent
           {...this.props}
           {...this.state}
 
@@ -164,7 +173,15 @@ const withRecord = (Component) => {
         />
       )
     }
-  })
+  }
+
+  withRecord.propTypes = {
+    availableModes: PropTypes.array,
+  }
+
+  withRecord.defaultProps = {
+    availableModes: ["html", "sql", "javascript"]
+  }
 
   return withRecord
 }

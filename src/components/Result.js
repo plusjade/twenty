@@ -17,6 +17,7 @@ const Result = (props) => {
         ref={props.resultRef}
         id="output-frame"
         src={props.endpoint}
+        title="code result output"
       />
     </div>
   )

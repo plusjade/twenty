@@ -5,6 +5,7 @@
   "dependencies": {
     "crypto": "^0",
     "howler": "^2.0.4",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "recordrtc": "^5.4.2"

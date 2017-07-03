@@ -63,7 +63,7 @@ const VideosList = (props) => {
           </a>
         {typeof props.onDelete === "function" && (
           <a
-            href="#"
+            href="#delete"
             style={Style.delete}
             onClick={(e) => {
               e.preventDefault()

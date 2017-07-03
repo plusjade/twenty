@@ -1,5 +1,5 @@
-import React, {PropTypes}   from 'react'
-
+import React, {Component}   from 'react'
+import PropTypes            from 'prop-types'
 import VideosDB             from 'lib/VideosDB'
 
 import VideosList           from 'components/VideosList'
@@ -11,40 +11,41 @@ import StylesWrapper        from 'styles/Wrapper'
 const Videos = VideosDB()
 const VideosListAsync = withPromisedData(VideosList, "videos")
 
-const Library = React.createClass({
-  propTypes: {
-    onSelect: PropTypes.func,
-    isOpen: PropTypes.bool,
-  },
+class Library extends Component {
+  constructor(props) {
+    super(props)
 
-  getInitialState() {
-    return ({
-      // easy way to trigger a fresh mount
+    this.state = {
       entropyKey: Math.random()
-    })
-  },
+    }
+  }
 
+  // easy way to trigger a fresh mount any time the library opens
   componentWillReceiveProps(nextProps) {
-    // only when go from closed to open
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({entropyKey: Math.random()})
     }
-  },
+  }
 
   render() {
-    const defaultOnSelect = (video) => window.location = `/?id=${video.token}`
-
     return(
       <div style={StylesWrapper.library}>
         <VideosListAsync
           key={this.state.entropyKey}
           async={this.props.isOpen && Videos.list}
-          onSelect={this.props.onSelect ? this.props.onSelect : defaultOnSelect}
+          onSelect={this.props.onSelect}
           isOpen={this.props.isOpen}
         />
       </div>
     )
   }
-})
+}
+Library.propTypes = {
+  onSelect: PropTypes.func,
+  isOpen: PropTypes.bool,
+}
+Library.defaultProps = {
+ onSelect: (video) => window.location = `/?id=${video.token}`
+}
 
 export default Library

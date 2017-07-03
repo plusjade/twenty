@@ -26,7 +26,7 @@ const TextRecorderAce = ({editor, getTimePosition}) => {
       .addEventListener("changeSelection", listenSelect, true)
   }
 
-  function unListen() {
+  function unMount() {
     editor
       .session
       .doc
@@ -109,6 +109,7 @@ const TextRecorderAce = ({editor, getTimePosition}) => {
   return ({
     record: record,
     pause: pause,
+    unMount: unMount,
     commands: commands,
     hasCommands: hasCommands,
   })
