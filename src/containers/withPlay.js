@@ -1,10 +1,10 @@
 import React, {Component}   from 'react'
-import PropTypes            from 'prop-types'
 import {Howl}               from 'howler'
 
 import Autobot              from 'lib/Autobot'
 import Commands             from 'lib/Commands'
 import throttle             from 'lib/throttle'
+import ResultRenderer       from 'lib/ResultRenderer'
 import TimeKeeper           from 'lib/TimeKeeper'
 import VideosDB             from 'lib/VideosDB'
 
@@ -19,15 +19,17 @@ const withPlay = (WrappedComponent) => {
       this.initialState = this.initialState.bind(this)
       this.getTimeFromLink = this.getTimeFromLink.bind(this)
       this.isPlayable = this.isPlayable.bind(this)
+
       this.setVideoData = this.setVideoData.bind(this)
       this.loadVideo = this.loadVideo.bind(this)
+
       this.editorRef = this.editorRef.bind(this)
-      this.resultRef = this.resultRef.bind(this)
       this.getEditor = this.getEditor.bind(this)
-      this.resultData = this.resultData.bind(this)
-      this.resultEndpoint = this.resultEndpoint.bind(this)
-      this.result = this.result.bind(this)
+
+      this.resultRendererRef = this.resultRendererRef.bind(this)
+
       this.toggleLibrary = this.toggleLibrary.bind(this)
+
       this.getChunkPosition = this.getChunkPosition.bind(this)
       this.setChunkPosition = this.setChunkPosition.bind(this)
       this.setStart = this.setStart.bind(this)
@@ -45,15 +47,25 @@ const withPlay = (WrappedComponent) => {
 
       this.timeKeeper = TimeKeeper()
 
-      this.resultThrottled = throttle(this.result, 100)
       if (this.state.videoId) {
         this.loadVideo(this.state.videoId)
       }
+
+      this.resultRenderer = ResultRenderer(this.state.mode)
+
+      this.resultUpdateThrottled = throttle(
+        () => this.resultRenderer.update(this.editor.getValue())
+      )
     }
 
     componentDidMount() {
       this.editor = this.getEditor()
       this.autobot = Autobot(this.editor)
+
+      if (this.resultRendererNode && this.editor) {
+        this.resultRenderer.mount(this.resultRendererNode)
+        this.editor.session.doc.on("change", this.resultUpdateThrottled, true)
+      }
     }
 
     initialState() {
@@ -132,70 +144,23 @@ const withPlay = (WrappedComponent) => {
       this.editorNode = node
     }
 
-    resultRef(node) {
-      this.resultNode = node
+    resultRendererRef(node) {
+      this.resultRendererNode = node
     }
 
     getEditor() {
       if (this.editor) { return this.editor }
       if (!this.editorNode) { return }
       this.editor = window.editor = window.ace.edit(this.editorNode)
+      this.editor.$blockScrolling = Infinity
       this.editor.setTheme("ace/theme/twilight")
       this.editor.getSession().setMode(`ace/mode/${this.state.mode}`)
       this.editor.getSession().setUseSoftTabs(true)
-      this.editor.session.doc.on("change", this.resultThrottled, true)
-      this.editor.$blockScrolling = Infinity
+
+
       return this.editor
     }
 
-    resultData() {
-      const code = this.getEditor().getValue()
-      return ({
-        "code": code,
-        "cursor": {
-          "start": 0,
-          "end": 0
-        },
-        "validate": "",
-        "noLint": false,
-        "version": 4,
-        "settings": {},
-        "workersDir": `${this.props.resultDomain}/workers/`,
-        "externalsDir": `${this.props.resultDomain}/external/`,
-        "imagesDir": `${this.props.resultDomain}/images/`,
-        "soundsDir": `${this.props.resultDomain}/sounds/`,
-        "jshintFile": `${this.props.resultDomain}/external/jshint/jshint.js`,
-        "outputType": "",
-        "enableLoopProtect": true
-      })
-    }
-
-    resultEndpoint() {
-      switch (this.state.mode) {
-        case "javascript": {
-          return `${this.props.resultDomain}/output.html`
-        }
-        case "html": {
-          return `${this.props.resultDomain}/output_webpage.html`
-        }
-        case "sql": {
-          return `${this.props.resultDomain}/output_sql.html`
-        }
-        default: {
-          return undefined
-        }
-      }
-    }
-
-    result() {
-      if (this.resultNode) {
-        const data = JSON.stringify(this.resultData())
-        this
-          .resultNode
-          .contentWindow
-          .postMessage(data, this.resultEndpoint())
-      }
-    }
 
     toggleLibrary() {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
@@ -273,8 +238,10 @@ const withPlay = (WrappedComponent) => {
           isPlaying={this.timeKeeper.isPlaying}
 
           editorRef={this.editorRef}
-          resultEndpoint={this.resultEndpoint}
-          resultRef={this.resultRef}
+
+          resultEndpoint={this.resultRenderer.endpoint}
+          resultRendererRef={this.resultRendererRef}
+
           isPlayable={this.isPlayable}
 
           toggleLibrary={this.toggleLibrary}
@@ -282,14 +249,6 @@ const withPlay = (WrappedComponent) => {
         />
       )
     }
-  }
-
-  withPlay.defaultProps = {
-    resultDomain: "https://d2n3d8kv7zaiml.cloudfront.net"
-  }
-
-  withPlay.propTypes = {
-    resultDomain: PropTypes.string,
   }
 
   return withPlay

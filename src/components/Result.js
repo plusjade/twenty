@@ -14,7 +14,7 @@ const Result = (props) => {
           height: "100%",
           border: 0,
         }}
-        ref={props.resultRef}
+        ref={props.resultRendererRef}
         id="output-frame"
         src={props.endpoint}
         title="code result output"

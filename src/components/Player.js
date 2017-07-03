@@ -18,8 +18,8 @@ const Player = (props) => {
         </div>
         <div id="result" style={StylesWrapper.result}>
           <Result
-            endpoint={props.resultEndpoint()}
-            resultRef={props.resultRef}
+            endpoint={props.resultEndpoint}
+            resultRendererRef={props.resultRendererRef}
           />
         </div>
       </div>
