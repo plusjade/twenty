@@ -25,6 +25,7 @@ if (parts[1] === "make") {
 } else if (videoId) {
   app = withPlay(Player)
   props.videoId = videoId
+  props.resultRendererEnabled = !QParams.get("disable_result")
 } else {
   app = Home
 }
