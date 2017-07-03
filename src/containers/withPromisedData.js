@@ -20,13 +20,13 @@ const withPromisedData = (WrappedComponent, dataKey="data", dataValue=[]) => {
 
     resolve(promise) {
       promise
-      .then((rsp) => {
-        dataPayload[dataKey] = rsp.data
-        this.setState(dataPayload)
-      })
-      .catch((error) => {
-        console.log('request failed', error)
-      })
+        .then((rsp) => {
+          dataPayload[dataKey] = rsp.data
+          this.setState(dataPayload)
+        })
+        .catch((error) => {
+          console.log('request failed', error)
+        })
     }
 
     render() {
@@ -39,7 +39,7 @@ const withPromisedData = (WrappedComponent, dataKey="data", dataValue=[]) => {
     }
   }
 
-  withPromisedData.propsTypes = {
+  withPromisedData.propTypes = {
     async: PropTypes.func,
   }
 

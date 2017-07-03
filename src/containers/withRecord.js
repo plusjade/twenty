@@ -24,7 +24,6 @@ const withRecord = (WrappedComponent) => {
       this.record = this.record.bind(this)
       this.pause = this.pause.bind(this)
       this.save = this.save.bind(this)
-      this.payload = this.payload.bind(this)
       this.finish = this.finish.bind(this)
       this.toggleRecord = this.toggleRecord.bind(this)
 
@@ -33,7 +32,6 @@ const withRecord = (WrappedComponent) => {
 
     initialState() {
       return ({
-        videos: [],
         recordingId: undefined,
         libraryIsOpen: false,
         mode: "html",
@@ -122,12 +120,7 @@ const withRecord = (WrappedComponent) => {
       // TODO: smarter
       if (!this.textRecorder || !this.textRecorder.hasCommands()) { return }
 
-      const payload = this.payload()
-      Videos.save(this.getRecordingId(), payload)
-    }
-
-    payload() {
-      return ({
+      Videos.save(this.getRecordingId(), {
         mode: this.state.mode,
         commands: this.textRecorder.commands,
       })
