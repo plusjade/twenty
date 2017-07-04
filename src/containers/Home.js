@@ -2,10 +2,11 @@ import React                from 'react'
 
 import Library              from 'containers/Library'
 
-const Home = () => {
+const Home = (props) => {
   return(
     <Library
       isOpen={true}
+      videosDB={props.videosDB}
     />
   )
 }

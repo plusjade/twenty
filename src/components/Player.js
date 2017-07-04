@@ -1,4 +1,5 @@
 import React                from 'react'
+import PropTypes            from 'prop-types'
 
 import AceEditor            from 'components/AceEditor'
 import NewRecording         from 'components/NewRecording'
@@ -7,7 +8,6 @@ import Result               from 'components/Result'
 
 import Library              from 'containers/Library'
 import StylesWrapper        from 'styles/Wrapper'
-
 
 const Player = (props) => {
   return (
@@ -62,9 +62,16 @@ const Player = (props) => {
       <Library
         onSelect={(video) => { props.loadVideo(video.token) }}
         isOpen={props.libraryIsOpen}
+        videosDB={props.videosDB}
       />
     </div>
   )
+}
+
+Player.propTypes = {
+  libraryIsOpen: PropTypes.bool,
+  videosDB: PropTypes.object.isRequired,
+  loadVideo: PropTypes.func.isRequired,
 }
 
 export default Player

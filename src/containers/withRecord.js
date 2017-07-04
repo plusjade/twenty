@@ -4,9 +4,6 @@ import PropTypes            from 'prop-types'
 import AudioRecorder        from 'lib/AudioRecorder'
 import TextRecorderAce      from 'lib/TextRecorderAce'
 import TimeKeeper           from 'lib/TimeKeeper'
-import VideosDB             from 'lib/VideosDB'
-
-const Videos = VideosDB()
 
 const withRecord = (WrappedComponent) => {
   class withRecord extends Component {
@@ -75,7 +72,7 @@ const withRecord = (WrappedComponent) => {
 
     newRecording() {
       this.setState({
-        recordingId: Videos.token()
+        recordingId: this.props.videosDB.token()
       })
     }
 
@@ -120,7 +117,7 @@ const withRecord = (WrappedComponent) => {
       // TODO: smarter
       if (!this.textRecorder || !this.textRecorder.hasCommands()) { return }
 
-      Videos.save(this.getRecordingId(), {
+      this.props.videosDB.save(this.getRecordingId(), {
         mode: this.state.mode,
         commands: this.textRecorder.commands,
       })
@@ -130,7 +127,7 @@ const withRecord = (WrappedComponent) => {
       this.pause()
       this.audioRecorder.finish((blob, source) => {
         this.setState({audioSource: source})
-        Videos.persist({
+        this.props.videosDB.persist({
           videoId: this.getRecordingId(),
           blob: blob
         })

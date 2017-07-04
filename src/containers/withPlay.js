@@ -6,9 +6,6 @@ import Commands             from 'lib/Commands'
 import throttle             from 'lib/throttle'
 import ResultRenderer       from 'lib/ResultRenderer'
 import TimeKeeper           from 'lib/TimeKeeper'
-import VideosDB             from 'lib/VideosDB'
-
-const Videos = VideosDB()
 
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
@@ -116,7 +113,7 @@ const withPlay = (WrappedComponent) => {
       this.setState({libraryIsOpen: false})
       if (this.sound) { this.sound.stop() }
 
-      Videos
+      this.props.videosDB
         .find(videoId)
         .then((video) => {
           if (!video) { return }

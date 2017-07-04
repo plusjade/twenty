@@ -1,7 +1,6 @@
 import Crypto         from 'crypto'
 
-const Videos = () => {
-  const API_ENDPOINT = "http://localhost:4000/videos"
+const VideosDB = (apiEndpoint) => {
   const SEPARATOR = ":"
 
   function find(videoId) {
@@ -25,7 +24,7 @@ const Videos = () => {
 
   function list() {
     return (
-      window.fetch(API_ENDPOINT, {
+      window.fetch(apiEndpoint, {
         method: 'GET'
       })
       .then(checkStatus)
@@ -99,7 +98,7 @@ const Videos = () => {
   }
 
   function buildUrl(videoId) {
-    return `${API_ENDPOINT}/${videoId}`
+    return `${apiEndpoint}/${videoId}`
   }
 
   return ({
@@ -112,4 +111,4 @@ const Videos = () => {
   })
 }
 
-export default Videos
+export default VideosDB

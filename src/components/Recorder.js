@@ -1,4 +1,5 @@
 import React                from 'react'
+import PropTypes            from 'prop-types'
 
 import AceEditor            from 'components/AceEditor'
 import NewRecording         from 'components/NewRecording'
@@ -56,9 +57,15 @@ const Recorder = (props) => {
 
       <Library
         isOpen={props.libraryIsOpen}
+        videosDB={props.videosDB}
       />
     </div>
   )
+}
+
+Recorder.propTypes = {
+  libraryIsOpen: PropTypes.bool,
+  videosDB: PropTypes.object.isRequired,
 }
 
 export default Recorder

@@ -1,14 +1,10 @@
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
-import VideosDB             from 'lib/VideosDB'
 
 import VideosList           from 'components/VideosList'
-
 import withPromisedData     from 'containers/withPromisedData'
-
 import StylesWrapper        from 'styles/Wrapper'
 
-const Videos = VideosDB()
 const VideosListAsync = withPromisedData(VideosList, "videos")
 
 class Library extends Component {
@@ -32,7 +28,7 @@ class Library extends Component {
       <div style={StylesWrapper.library}>
         <VideosListAsync
           key={this.state.entropyKey}
-          async={this.props.isOpen && Videos.list}
+          async={this.props.isOpen ? this.props.videosDB.list : undefined}
           onSelect={this.props.onSelect}
           isOpen={this.props.isOpen}
         />
@@ -40,10 +36,13 @@ class Library extends Component {
     )
   }
 }
+
 Library.propTypes = {
   onSelect: PropTypes.func,
   isOpen: PropTypes.bool,
+  videosDB: PropTypes.object.isRequired,
 }
+
 Library.defaultProps = {
  onSelect: (video) => window.location = `/?id=${video.token}`
 }
