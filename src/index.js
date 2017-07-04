@@ -10,9 +10,7 @@ import Home             from 'containers/Home'
 import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
-import registerServiceWorker from 'registerServiceWorker'
-
-import 'index.css'
+import './index.css'
 
 const QParams = QueryParams()
 const videoId = QParams.get("id")
@@ -31,4 +29,3 @@ if (parts[1] === "make") {
 }
 
 ReactDOM.render(React.createElement(app, props), document.getElementById('root'))
-registerServiceWorker()
