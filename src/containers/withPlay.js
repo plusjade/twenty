@@ -96,6 +96,7 @@ const withPlay = (WrappedComponent) => {
           videoId: video.token,
           mode: video.mode,
           libraryIsOpen: false,
+          loadState: "loaded",
         },
         Commands(video.commands)
       ))
@@ -103,24 +104,25 @@ const withPlay = (WrappedComponent) => {
       const milliseconds = parseInt(this.state.timeLink || 0, 10)*1000
       if (milliseconds > 0) {
         this.seekTo(milliseconds)
-      } else {
-        this.play()
       }
     }
 
     loadVideo(videoId) {
-      this.setState({libraryIsOpen: false})
+      this.setState({loadState: "loading", libraryIsOpen: false})
       this.sound.stop()
 
       this.props.videosDB
         .find(videoId)
         .then((video) => {
-          if (!video) { return }
-          console.log(video)
-          window.history.replaceState({}, null, `/?id=${videoId}`)
-          this.sound.mount(video.audio_url, () => {
-            this.setVideoData(video)
-          })
+          if (video) {
+            console.log(video)
+            window.history.replaceState({}, null, `/?id=${videoId}`)
+            this.sound.mount(video.audio_url, () => {
+              this.setVideoData(video)
+            })
+          } else {
+            this.setState({loadState: "notFound"})
+          }
         })
     }
 
@@ -141,10 +143,8 @@ const withPlay = (WrappedComponent) => {
       this.editor.getSession().setMode(`ace/mode/${this.state.mode}`)
       this.editor.getSession().setUseSoftTabs(true)
 
-
       return this.editor
     }
-
 
     toggleLibrary() {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})

@@ -4,15 +4,26 @@ import PropTypes            from 'prop-types'
 import AceEditor            from 'components/AceEditor'
 import NewRecording         from 'components/NewRecording'
 import PlayerControls       from 'components/PlayerControls'
+import PlayerOverlayResolver from 'components/PlayerOverlayResolver'
 import Result               from 'components/Result'
 
 import Library              from 'containers/Library'
 import StylesWrapper        from 'styles/Wrapper'
 
 const Player = (props) => {
+  // Only show overlay state on initial load lifecycle
+  // i.e. before video is loaded/played for first time
+  const showOverlay = props.loadState && !(props.timePosition > 0)
+
   return (
     <div id="app-wrapper">
       <div id="editor-result" style={StylesWrapper.editorResult}>
+      {showOverlay && (
+        <PlayerOverlayResolver
+          loadState={props.loadState}
+          play={props.play}
+        />
+      )}
         <div id="editor" style={StylesWrapper.editor} >
           <AceEditor editorRef={props.editorRef} />
         </div>
