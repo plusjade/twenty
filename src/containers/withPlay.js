@@ -1,6 +1,6 @@
 import React, {Component}   from 'react'
-import {Howl}               from 'howler'
 
+import AudioPlayer          from 'lib/AudioPlayer'
 import Autobot              from 'lib/Autobot'
 import Commands             from 'lib/Commands'
 import throttle             from 'lib/throttle'
@@ -39,8 +39,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     componentWillMount() {
-      function noop() {}
-      this.sound = {pause: noop, play: noop, seek: noop, stop: noop}
+      this.sound = AudioPlayer()
 
       this.timeKeeper = TimeKeeper()
 
@@ -111,7 +110,7 @@ const withPlay = (WrappedComponent) => {
 
     loadVideo(videoId) {
       this.setState({libraryIsOpen: false})
-      if (this.sound) { this.sound.stop() }
+      this.sound.stop()
 
       this.props.videosDB
         .find(videoId)
@@ -119,21 +118,9 @@ const withPlay = (WrappedComponent) => {
           if (!video) { return }
           console.log(video)
           window.history.replaceState({}, null, `/?id=${videoId}`)
-
-          if (video.audio_url) {
-            this.sound = new Howl({
-              src: [video.audio_url],
-              preload: true
-            })
-            this.sound.on("load", () => {
-              this.setVideoData(video)
-            })
-            if (this.sound.state() === "loaded") {
-              this.setVideoData(video)
-            }
-          } else {
+          this.sound.mount(video.audio_url, () => {
             this.setVideoData(video)
-          }
+          })
         })
     }
 
