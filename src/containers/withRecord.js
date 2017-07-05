@@ -5,6 +5,9 @@ import AudioRecorder        from 'lib/AudioRecorder'
 import TextRecorderAce      from 'lib/TextRecorderAce'
 import TimeKeeper           from 'lib/TimeKeeper'
 
+import throttle             from 'lib/throttle'
+import ResultRenderer       from 'lib/ResultRenderer'
+
 const withRecord = (WrappedComponent) => {
   class withRecord extends Component {
     constructor(props) {
@@ -23,6 +26,8 @@ const withRecord = (WrappedComponent) => {
       this.save = this.save.bind(this)
       this.finish = this.finish.bind(this)
       this.toggleRecord = this.toggleRecord.bind(this)
+
+      this.resultRendererRef = this.resultRendererRef.bind(this)
 
       this.state = this.initialState()
     }
@@ -45,6 +50,11 @@ const withRecord = (WrappedComponent) => {
       this.timeKeeper = TimeKeeper()
       this.audioRecorder = AudioRecorder()
       this.newRecording()
+
+      this.resultRenderer = ResultRenderer(this.state.mode)
+      this.resultUpdateThrottled = throttle(
+        () => this.resultRenderer.update(this.editor.getValue())
+      )
     }
 
     componentDidMount() {
@@ -60,6 +70,11 @@ const withRecord = (WrappedComponent) => {
       this.audioRecorder.mount((bool) => {
         this.setState({audioRecorderLoaded: bool})
       })
+
+      if (this.resultRendererNode && this.editor) {
+        this.resultRenderer.mount(this.resultRendererNode)
+        this.editor.session.doc.on("change", this.resultUpdateThrottled, true)
+      }
     }
 
     updateMode(type) {
@@ -143,6 +158,10 @@ const withRecord = (WrappedComponent) => {
       }
     }
 
+    resultRendererRef(node) {
+      this.resultRendererNode = node
+    }
+
     render() {
       return (
         <WrappedComponent
@@ -160,6 +179,9 @@ const withRecord = (WrappedComponent) => {
           toggleLibrary={this.toggleLibrary}
 
           editorRef={this.editorRef}
+
+          resultEndpoint={this.resultRenderer.endpoint}
+          resultRendererRef={this.resultRendererRef}
         />
       )
     }

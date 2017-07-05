@@ -24,7 +24,8 @@ const videoId = QParams.get("id")
 const parts = window.location.pathname.split("/")
 let app
 let props = {
-  videosDB: videosDB
+  videosDB: videosDB,
+  resultRendererEnabled: !QParams.get("disable_result")
 }
 
 if (parts[1] === "make") {
@@ -32,7 +33,6 @@ if (parts[1] === "make") {
 } else if (videoId) {
   app = withPlay(Player)
   props.videoId = videoId
-  props.resultRendererEnabled = !QParams.get("disable_result")
 } else {
   app = Home
 }

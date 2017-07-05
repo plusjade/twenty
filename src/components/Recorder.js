@@ -19,7 +19,12 @@ const Recorder = (props) => {
           <AceEditor editorRef={props.editorRef} />
         </div>
         <div id="result" style={StylesWrapper.result}>
-          <Result />
+        {props.resultRendererEnabled && (
+          <Result
+            endpoint={props.resultEndpoint}
+            resultRendererRef={props.resultRendererRef}
+          />
+        )}
         </div>
       </div>
 
