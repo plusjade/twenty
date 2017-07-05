@@ -6,13 +6,15 @@ const PlayerOverlay = (props) => {
       position: "absolute",
       top: 0, bottom: 0, left: 0, right: 0,
       zIndex: 1000,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
       backgroundColor: "rgba(0,0,0,0.9)",
     }}>
       <div style={{
+        flex: 1,
         margin: "auto",
         position: "relative",
-        top: "50%",
-        transform: "perspective(1px) translateY(-50%)",
         color: "#FFF",
         textAlign: "center",
       }}>

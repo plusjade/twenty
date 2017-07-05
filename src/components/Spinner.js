@@ -14,15 +14,15 @@ const Style = {
       backgroundColor: "#FFF",
       borderRadius: "100%",
       display: "inline-block",
-      "webkitAnimation": "sk-bouncedelay 1.4s infinite ease-in-out both",
+      "WebkitAnimation": "sk-bouncedelay 1.4s infinite ease-in-out both",
       animation: "sk-bouncedelay 1.4s infinite ease-in-out both",
     },
     one: {
-      webkitAnimationDelay: "-0.32s",
+      WebkitAnimationDelay: "-0.32s",
       animationDelay: "-0.32s",
     },
     two: {
-      webkitAnimationDelay: "-0.16s",
+      WebkitAnimationDelay: "-0.16s",
       animationDelay: "-0.16s",
     }
   }
