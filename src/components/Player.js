@@ -38,41 +38,23 @@ const Player = (props) => {
       </div>
 
       <div id="controls" style={StylesWrapper.controls}>
-      {props.isPlayable() && (
         <PlayerControls
           isPlaying={props.isPlaying}
+          isPlayable={props.isPlayable}
           pause={props.pause}
           play={props.play}
           replay={props.replay}
           seekTo={props.seekTo}
           timeDuration={props.timeDuration}
           timePosition={props.timePosition}
-        />
-      )}
-      </div>
-
-      <div id="navbar" style={StylesWrapper.navbar}>
-        <div style={{flex: 1}}/>
-        <a
-          href="#library"
-          style={StylesWrapper.libraryLink}
-          onClick={(e) => {
-            e.preventDefault()
-            props.toggleLibrary()
-          }}
-        >
-          Library
-        </a>
-        <NewRecording
-          onClick={() => {
-            window.location = "/make"
-          }}
+          toggleLibrary={props.toggleLibrary}
         />
       </div>
 
       <Library
         onSelect={(video) => { props.loadVideo(video.token) }}
         isOpen={props.libraryIsOpen}
+        toggleLibrary={props.toggleLibrary}
         videosDB={props.videosDB}
       />
     </div>

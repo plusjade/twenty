@@ -7,6 +7,7 @@ const Home = (props) => {
     <Library
       isOpen={true}
       videosDB={props.videosDB}
+      disableClose={true}
     />
   )
 }

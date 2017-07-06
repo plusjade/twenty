@@ -23,23 +23,27 @@ const PlayerControls = (props) => {
 
   return (
     <div style={StylesWrapper.controlsInner.wrap}>
-      <div
-        style={StylesWrapper.controlsInner.one}
-        onClick={(e) => {
-          e.preventDefault()
-          if (props.isPlaying()) {
-            props.pause()
-          } else if (props.timePosition >= props.timeDuration ) {
-            props.replay()
-          }
-          else {
-            props.play()
-          }
-        }}
-      >
-        {props.isPlaying() ? <IconPause /> : <IconPlay />}
+      <div style={StylesWrapper.controlsInner.one}>
+      {props.isPlayable() && (
+        <div
+          onClick={(e) => {
+            e.preventDefault()
+            if (props.isPlaying()) {
+              props.pause()
+            } else if (props.timePosition >= props.timeDuration ) {
+              props.replay()
+            }
+            else {
+              props.play()
+            }
+          }}
+        >
+          {props.isPlaying() ? <IconPause /> : <IconPlay />}
+        </div>
+      )}
       </div>
       <div style={StylesWrapper.controlsInner.two}>
+      {props.isPlayable() && (
         <input
           style={StylesWrapper.controlsInner.rangeInput}
           type="range"
@@ -53,17 +57,33 @@ const PlayerControls = (props) => {
             }
           }}
         />
+      )}
       </div>
       <div style={StylesWrapper.controlsInner.three}>
+      {props.isPlayable() && (
         <small>
           {formatTime(props.timeDuration - props.timePosition)}
         </small>
+      )}
+      </div>
+      <div style={StylesWrapper.controlsInner.three}>
+        <a
+          href="#library"
+          style={StylesWrapper.libraryLink}
+          onClick={(e) => {
+            e.preventDefault()
+            props.toggleLibrary()
+          }}
+        >
+          Library
+        </a>
       </div>
     </div>
   )
 }
 PlayerControls.propTypes = {
   isPlaying: PropTypes.func.isRequired,
+  isPlayable: PropTypes.func.isRequired,
   pause: PropTypes.func.isRequired,
   play: PropTypes.func.isRequired,
   replay: PropTypes.func.isRequired,

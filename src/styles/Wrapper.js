@@ -1,4 +1,4 @@
-const navHeight = "7vh"
+const navHeight = 0
 const controlsHeight = "10vh"
 const borderFrame = "3px solid #212121"
 
@@ -6,21 +6,6 @@ const Wrapper = {
   navHeight: navHeight,
   controlsHeight: controlsHeight,
   borderFrame: borderFrame,
-  navbar: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    display: "flex",
-    justifyContent: "center",
-    color: "#BDBDBD",
-    height: navHeight,
-    lineHeight: navHeight,
-    alignItems: "center",
-    boxSizing: "border-box",
-    overflow: "hidden",
-    textAlign: "center",
-  },
   libraryLink: {
     flex: 1,
     color: "inherit",
@@ -42,13 +27,22 @@ const Wrapper = {
     overflow: "auto",
     boxSizing: "border-box",
     color: "#9E9E9E",
+    position: "relative",
+  },
+  libraryClose: {
+    position: "fixed",
+    color: "#9E9E9E",
+    bottom: 0,
+    right: 0,
+    padding: "5px",
+    zIndex: 1002,
   },
   editorResult: {
     position: "absolute",
     left: 0,
     right: 0,
     top: 0,
-    bottom: "17vh",
+    bottom: controlsHeight,
     display: "flex",
     justifyContent: "center",
     boxSizing: "border-box",

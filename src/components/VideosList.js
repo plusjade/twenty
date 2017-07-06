@@ -11,7 +11,7 @@ const Style = {
     left: 0,
     right: 0,
     top: 0,
-    bottom: "7vh",
+    bottom: StylesWrapper.navHeight,
     zIndex: 1001,
     backgroundColor: "#111",
     overflow: "auto",

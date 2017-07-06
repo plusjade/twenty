@@ -2,6 +2,7 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
 import VideosList           from 'components/VideosList'
+import IconClose            from 'components/IconClose'
 import withPromisedData     from 'containers/withPromisedData'
 import StylesWrapper        from 'styles/Wrapper'
 
@@ -26,6 +27,14 @@ class Library extends Component {
   render() {
     return(
       <div style={StylesWrapper.library}>
+      {this.props.isOpen && !this.props.disableClose && (
+        <div
+          style={StylesWrapper.libraryClose}
+          onClick={this.props.toggleLibrary}
+        >
+          <IconClose fill="#9E9E9E"/>
+        </div>
+      )}
         <VideosListAsync
           key={this.state.entropyKey}
           async={this.props.isOpen ? this.props.videosDB.list : undefined}
