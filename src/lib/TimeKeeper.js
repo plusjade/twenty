@@ -7,6 +7,7 @@ const TimeKeeper = () => {
   reset()
 
   function reset() {
+    clearInterval(tickInterval)
     tickInterval = undefined
     timePositionPaused = 0
     timeStart = undefined
