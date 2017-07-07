@@ -2,7 +2,6 @@ import React                from 'react'
 import PropTypes            from 'prop-types'
 
 import AceEditor            from 'components/AceEditor'
-import NewRecording         from 'components/NewRecording'
 import PlayerControls       from 'components/PlayerControls'
 import PlayerOverlayResolver from 'components/PlayerOverlayResolver'
 import Result               from 'components/Result'
