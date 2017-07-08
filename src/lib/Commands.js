@@ -22,7 +22,11 @@ const Commands = (commands) => {
   }
 
   function getTimeDuration(commands) {
-    return commands[commands.length - 1][0]
+    if (commands.length > 0) {
+      return commands[commands.length - 1][0]
+    } else {
+      return 0
+    }
   }
 
   function clampChunkTime(time) {

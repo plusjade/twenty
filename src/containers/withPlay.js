@@ -1,10 +1,9 @@
 import React, {Component}   from 'react'
 
 import AudioPlayer          from 'lib/AudioPlayer'
-import Autobot              from 'lib/Autobot'
-import Commands             from 'lib/Commands'
 import throttle             from 'lib/throttle'
 import ResultRenderer       from 'lib/ResultRenderer'
+import TextPlayer           from 'lib/TextPlayer'
 import TimeKeeper           from 'lib/TimeKeeper'
 
 const withPlay = (WrappedComponent) => {
@@ -12,35 +11,34 @@ const withPlay = (WrappedComponent) => {
     constructor(props) {
       super(props)
 
-      this.resetState = this.resetState.bind(this)
       this.initialState = this.initialState.bind(this)
-      this.getTimeFromLink = this.getTimeFromLink.bind(this)
+      this.resetState = this.resetState.bind(this)
+      this.state = this.initialState()
+
       this.isPlayable = this.isPlayable.bind(this)
+      this.toggleLibrary = this.toggleLibrary.bind(this)
 
       this.setVideoData = this.setVideoData.bind(this)
       this.loadVideo = this.loadVideo.bind(this)
+      this.getTimeFromLink = this.getTimeFromLink.bind(this)
 
       this.editorRef = this.editorRef.bind(this)
       this.getEditor = this.getEditor.bind(this)
 
       this.resultRendererRef = this.resultRendererRef.bind(this)
 
-      this.toggleLibrary = this.toggleLibrary.bind(this)
-
-      this.getChunkPosition = this.getChunkPosition.bind(this)
-      this.setChunkPosition = this.setChunkPosition.bind(this)
-      this.setStart = this.setStart.bind(this)
       this.pause = this.pause.bind(this)
-      this.replay = this.replay.bind(this)
       this.play = this.play.bind(this)
+      this.replay = this.replay.bind(this)
       this.seekTo = this.seekTo.bind(this)
-
-      this.state = this.initialState()
+      this.setStart = this.setStart.bind(this)
     }
 
     componentWillMount() {
-      this.sound = AudioPlayer()
+      this.textPlayer = TextPlayer()
+      this.textPlayer.on("end", this.pause)
 
+      this.sound = AudioPlayer()
       this.timeKeeper = TimeKeeper()
 
       if (this.state.videoId) {
@@ -56,7 +54,7 @@ const withPlay = (WrappedComponent) => {
 
     componentDidMount() {
       this.editor = this.getEditor()
-      this.autobot = Autobot(this.editor)
+      this.textPlayer.mount(this.editor)
 
       if (this.resultRendererNode && this.editor) {
         this.resultRenderer.mount(this.resultRendererNode)
@@ -66,14 +64,13 @@ const withPlay = (WrappedComponent) => {
 
     initialState() {
       return ({
-        commands: [],
         videoId: this.props.videoId,
         mode: "html",
         libraryIsOpen: false,
         timeLink: this.getTimeFromLink(),
 
-        chunkPosition: -1,
         timePosition: 0,
+        timeDuration: 0,
       })
     }
 
@@ -86,20 +83,19 @@ const withPlay = (WrappedComponent) => {
     }
 
     isPlayable() {
-      return !!this.state.nextChunk
+      return this.state.timeDuration > 0
     }
 
     setVideoData(video) {
       this.setStart() // todo
-      this.setState(
-        Object.assign({
-          videoId: video.token,
-          mode: video.mode,
-          libraryIsOpen: false,
-          loadState: "loaded",
-        },
-        Commands(video.commands)
-      ))
+      this.textPlayer.reset(video.commands)
+      this.setState({
+        videoId: video.token,
+        mode: video.mode,
+        libraryIsOpen: false,
+        loadState: "loaded",
+        timeDuration: this.textPlayer.timeDuration()
+      })
 
       const milliseconds = parseInt(this.state.timeLink || 0, 10)*1000
       if (milliseconds > 0) {
@@ -150,18 +146,11 @@ const withPlay = (WrappedComponent) => {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     }
 
-    getChunkPosition() {
-      return this.state.chunkPosition
-    }
-
-    setChunkPosition(index) {
-      this.setState({chunkPosition: index})
-    }
-
     setStart() {
       this.timeKeeper.reset()
       this.resetState()
       this.editor.setValue("")
+      this.resultRenderer.update("")
     }
 
     pause(time) {
@@ -180,16 +169,7 @@ const withPlay = (WrappedComponent) => {
       this.sound.play()
       this.timeKeeper.start((newPosition) => {
         this.setState({timePosition: newPosition})
-        const {chunk, chunkPosition} = this.state.nextChunk(newPosition, this.getChunkPosition())
-
-        if (chunk) {
-          chunk.forEach((c) => { this.autobot.runCommand(c) })
-          this.setChunkPosition(chunkPosition)
-          if (newPosition >= this.state.timeDuration) {
-            this.pause()
-            return
-          }
-        }
+        this.textPlayer.play(newPosition)
       })
     }
 
@@ -199,13 +179,7 @@ const withPlay = (WrappedComponent) => {
       this.setState({timePosition: time})
 
       this.editor.setValue("")
-      const chunkPosition = (
-        this.state.chunksUpTo(time, (chunk) => {
-          chunk.forEach((c) => { this.autobot.runCommand(c) })
-        })
-      )
-
-      this.setChunkPosition(chunkPosition)
+      this.textPlayer.seekTo(time)
     }
 
     render() {
@@ -217,7 +191,6 @@ const withPlay = (WrappedComponent) => {
           pause={this.pause}
           replay={this.replay}
           seekTo={this.seekTo}
-
           isPlaying={this.timeKeeper.isPlaying}
 
           editorRef={this.editorRef}

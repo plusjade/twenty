@@ -47,16 +47,6 @@ const Autobot = (editor) => {
     })
   }
 
-  // Set the cursor position on the editor
-  function setCursor(cursorPos, focus) {
-    editor.moveCursorToPosition(cursorPos)
-    editor.clearSelection()
-
-    if (focus !== false && this.autoFocus !== false) {
-      editor.focus()
-    }
-  }
-
   handlers = {select, insert, remove}
 
   // Commands are stored in the format:
@@ -73,7 +63,6 @@ const Autobot = (editor) => {
 
   return({
     runCommand: runCommand,
-    setCursor: setCursor
   })
 }
 
