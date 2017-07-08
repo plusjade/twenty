@@ -167,19 +167,19 @@ const withPlay = (WrappedComponent) => {
       if (this.timeKeeper.isPlaying()) { return }
 
       this.sound.play()
-      this.timeKeeper.start((newPosition) => {
-        this.setState({timePosition: newPosition})
-        this.textPlayer.play(newPosition)
+      this.timeKeeper.start((nextTimePosition) => {
+        this.setState({timePosition: nextTimePosition})
+        this.textPlayer.play(nextTimePosition)
       })
     }
 
-    seekTo(time) {
-      this.sound.seek(time/1000)
-      this.timeKeeper.pause(time)
-      this.setState({timePosition: time})
+    seekTo(timePosition) {
+      this.sound.seek(timePosition/1000)
+      this.timeKeeper.pause(timePosition)
+      this.setState({timePosition: timePosition})
 
       this.editor.setValue("")
-      this.textPlayer.seekTo(time)
+      this.textPlayer.seekTo(timePosition)
     }
 
     render() {
