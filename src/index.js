@@ -14,7 +14,7 @@ import withRecord       from 'containers/withRecord'
 import './index.css'
 
 const API_ENDPOINT = (
-  (process.env === "production")
+  (process.env === "prod")
     ? "https://www.getdamon.com/videos"
     : "http://localhost:4000/videos"
 )
