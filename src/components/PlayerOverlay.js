@@ -1,6 +1,7 @@
 import React from 'react'
 
 const PlayerOverlay = (props) => {
+  const backgroundColor = props.backgroundColor || "rgba(0,0,0,0.9)"
   return (
     <div style={{
       position: "absolute",
@@ -9,7 +10,7 @@ const PlayerOverlay = (props) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "rgba(0,0,0,0.9)",
+      backgroundColor: backgroundColor,
     }}>
       <div style={{
         flex: 1,

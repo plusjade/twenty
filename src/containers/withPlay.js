@@ -2,10 +2,11 @@ import React, {Component}   from 'react'
 
 import AudioPlayer          from 'lib/AudioPlayer'
 import EditorBot            from 'lib/EditorBot'
-import CommandPlayer        from 'lib/CommandPlayer'
+import Progressions         from 'lib/Progressions'
 import ResultRenderer       from 'lib/ResultRenderer'
 import throttle             from 'lib/throttle'
 import TimeKeeper           from 'lib/TimeKeeper'
+import SlidesBot            from 'lib/SlidesBot'
 
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
@@ -36,9 +37,6 @@ const withPlay = (WrappedComponent) => {
     }
 
     componentWillMount() {
-      this.textPlayer = CommandPlayer()
-      this.textPlayer.on("end", this.pause)
-
       this.sound = AudioPlayer()
       this.timeKeeper = TimeKeeper()
 
@@ -55,7 +53,6 @@ const withPlay = (WrappedComponent) => {
 
     componentDidMount() {
       this.editor = this.getEditor()
-      this.textPlayer.mount(EditorBot(this.editor))
 
       if (this.resultRendererNode && this.editor) {
         this.resultRenderer.mount(this.resultRendererNode)
@@ -72,6 +69,8 @@ const withPlay = (WrappedComponent) => {
 
         timePosition: 0,
         timeDuration: 0,
+        slide: {},
+        progression: {},
       })
     }
 
@@ -89,13 +88,39 @@ const withPlay = (WrappedComponent) => {
 
     setVideoData(video) {
       this.setStart() // todo
-      this.textPlayer.reset(video.commands)
+
+      const set = [
+        {
+          type: "slides",
+          data: this.props.slides,
+        },
+        {
+          type: "editor",
+          data: video.commands,
+        },
+        {
+          type: "slides",
+          data: this.props.slides2,
+        },
+      ]
+      this.progressions = Progressions({
+        set: set,
+        editorBot: () => (EditorBot(this.editor)),
+        slidesBot: () => (
+          SlidesBot((text, index) => {
+            this.setState({slide: {type: "title", data: text, index: index}})
+          })
+        )
+      })
+      const progression = this.progressions.at(1)
+
       this.setState({
         videoId: video.token,
         mode: video.mode,
         libraryIsOpen: false,
         loadState: "loaded",
-        timeDuration: this.textPlayer.timeDuration()
+        timeDuration: this.progressions.timeDuration(),
+        progression: Object.assign({}, progression, {player: undefined}),
       })
 
       const milliseconds = parseInt(this.state.timeLink || 0, 10)*1000
@@ -168,19 +193,36 @@ const withPlay = (WrappedComponent) => {
       if (this.timeKeeper.isPlaying()) { return }
 
       this.sound.play()
+
       this.timeKeeper.start((nextTimePosition) => {
-        this.setState({timePosition: nextTimePosition})
-        this.textPlayer.play(nextTimePosition)
+        let progression
+        if (nextTimePosition > this.state.timeDuration) {
+          this.pause()
+        }
+
+        progression = this.progressions.at(nextTimePosition)
+        this.setState({
+          timePosition: nextTimePosition,
+          progression: Object.assign({}, progression, {player: undefined})
+        })
+        progression.player.play(progression.offsetTimePosition)
       })
     }
 
     seekTo(timePosition) {
+      const progression = this.progressions.at(timePosition)
+
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
       this.setState({timePosition: timePosition})
 
       this.editor.setValue("")
-      this.textPlayer.seekTo(timePosition)
+      this.setState({
+        slide: {type: "title", data: ""},
+        progression: Object.assign({}, progression, {player: undefined}),
+      })
+
+      progression.player.seekTo(progression.offsetTimePosition)
     }
 
     render() {

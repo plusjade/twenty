@@ -5,6 +5,7 @@ import AceEditor            from 'components/AceEditor'
 import PlayerControls       from 'components/PlayerControls'
 import PlayerOverlayResolver from 'components/PlayerOverlayResolver'
 import Result               from 'components/Result'
+import SlideResolver        from 'components/SlideResolver'
 
 import Library              from 'containers/Library'
 import StylesWrapper        from 'styles/Wrapper'
@@ -17,6 +18,9 @@ const Player = (props) => {
   return (
     <div id="app-wrapper">
       <div id="editor-result" style={StylesWrapper.editorResult}>
+      {props.progression.type === "slides" && (
+        <SlideResolver slide={props.slide} />
+      )}
       {showOverlay && (
         <PlayerOverlayResolver
           loadState={props.loadState}

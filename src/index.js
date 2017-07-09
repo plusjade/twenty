@@ -11,7 +11,10 @@ import Home             from 'containers/Home'
 import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
+import SlidesDB from 'lib/SlidesDB'
 import './index.css'
+
+const Slides = SlidesDB()
 
 const API_ENDPOINT = (
   (process.env === "prod")
@@ -33,6 +36,8 @@ if (parts[1] === "make") {
 } else if (videoId) {
   app = withPlay(Player)
   props.videoId = videoId
+  props.slides = Slides.data
+  props.slides2 = Slides.data2
 } else {
   app = Home
 }
