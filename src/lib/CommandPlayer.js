@@ -1,17 +1,16 @@
-import Autobot              from 'lib/Autobot'
 import Commands             from 'lib/Commands'
 
-const TextPlayer = () => {
+const CommandPlayer = () => {
   const EVENTS_WHITELIST = ["end"]
   let autobot = undefined
   let callbacks = {}
   let commands = undefined
   let currentChunkPosition = undefined
 
-  reset()
+  reset([])
 
-  function mount(editor) {
-    autobot = Autobot(editor)
+  function mount(bot) {
+    autobot = bot
   }
 
   function on(event, callback) {
@@ -37,17 +36,18 @@ const TextPlayer = () => {
     }
   }
 
-  function reset(rawCommands) {
+  function reset(newCommands) {
     currentChunkPosition = -1
-    commands = Commands(rawCommands || [])
+    commands = Commands(newCommands)
   }
 
   function seekTo(time) {
-    setChunkPosition(
-      chunksUpTo(time, (chunk) => {
-        chunk.forEach(c => autobot.runCommand(c))
-      })
-    )
+    let commands = []
+    const chunkPosition = chunksUpTo(time, (chunk) => {
+      commands = commands.concat(chunk)
+    })
+    autobot.runCommands(commands)
+    setChunkPosition(chunkPosition)
   }
 
   function timeDuration() {
@@ -80,4 +80,4 @@ const TextPlayer = () => {
   })
 }
 
-export default TextPlayer
+export default CommandPlayer

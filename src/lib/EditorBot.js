@@ -1,4 +1,4 @@
-const Autobot = (editor) => {
+const EditorBot = (editor) => {
   let handlers = {}
 
   function insert(startRow, startCol, endRow, endCol, data) {
@@ -61,9 +61,14 @@ const Autobot = (editor) => {
     }
   }
 
+  function runCommands(commands) {
+    commands.forEach(runCommand)
+  }
+
   return({
     runCommand: runCommand,
+    runCommands: runCommands,
   })
 }
 
-export default Autobot
+export default EditorBot

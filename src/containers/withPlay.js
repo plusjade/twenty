@@ -1,9 +1,10 @@
 import React, {Component}   from 'react'
 
 import AudioPlayer          from 'lib/AudioPlayer'
-import throttle             from 'lib/throttle'
+import EditorBot            from 'lib/EditorBot'
+import CommandPlayer        from 'lib/CommandPlayer'
 import ResultRenderer       from 'lib/ResultRenderer'
-import TextPlayer           from 'lib/TextPlayer'
+import throttle             from 'lib/throttle'
 import TimeKeeper           from 'lib/TimeKeeper'
 
 const withPlay = (WrappedComponent) => {
@@ -35,7 +36,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     componentWillMount() {
-      this.textPlayer = TextPlayer()
+      this.textPlayer = CommandPlayer()
       this.textPlayer.on("end", this.pause)
 
       this.sound = AudioPlayer()
@@ -54,7 +55,7 @@ const withPlay = (WrappedComponent) => {
 
     componentDidMount() {
       this.editor = this.getEditor()
-      this.textPlayer.mount(this.editor)
+      this.textPlayer.mount(EditorBot(this.editor))
 
       if (this.resultRendererNode && this.editor) {
         this.resultRenderer.mount(this.resultRendererNode)
