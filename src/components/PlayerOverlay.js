@@ -17,10 +17,12 @@ const PlayerOverlay = (props) => {
       opacity: 1,
       marginTop: 0,
       overflow: "hidden",
+      maxHeight: "2000px",
       transition: "all 500ms ease-in",
     },
     animate: {
       opacity: 0,
+      maxHeight: 0,
     },
   }
 
