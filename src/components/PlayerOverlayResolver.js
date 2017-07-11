@@ -12,28 +12,28 @@ const PlayerOverlayResolver = (props) => {
   switch (props.loadState) {
     case "loading": {
       return (
-        <PlayerOverlay>
+        <PlayerOverlay {...props}>
           <Spinner/>
         </PlayerOverlay>
       )
     }
     case "loaded": {
       return (
-        <PlayerOverlay>
+        <PlayerOverlay  {...props}>
           <IconPlay onClick={props.play} />
         </PlayerOverlay>
       )
     }
     case "notFound": {
       return (
-        <PlayerOverlay>
+        <PlayerOverlay  {...props}>
           <span>Not found =(</span>
         </PlayerOverlay>
       )
     }
     case "error": {
       return (
-        <PlayerOverlay>
+        <PlayerOverlay  {...props}>
           <span>There was an error</span>
         </PlayerOverlay>
       )

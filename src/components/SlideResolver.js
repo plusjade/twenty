@@ -3,12 +3,23 @@ import IconPlay             from 'components/IconPlay'
 import Spinner              from 'components/Spinner'
 import PlayerOverlay        from 'components/PlayerOverlay'
 
+const Style = {
+  default: {
+    textAlign: "left",
+    fontSize: "54px",
+    margin: "auto",
+    padding: "0 10px",
+    maxWidth: "800px",
+  }
+}
 const SlideResolver = (props) => {
   switch (props.slide.type) {
     case "title": {
       return (
-        <PlayerOverlay backgroundColor="#44a0dd">
-          <h1 style={{fontSize: "54px"}}>{props.slide.data}</h1>
+        <PlayerOverlay backgroundColor="#44a0dd" {...props}>
+          <h1 style={Style.default}>
+            {props.slide.data}
+          </h1>
         </PlayerOverlay>
       )
     }
