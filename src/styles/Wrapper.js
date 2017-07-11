@@ -1,6 +1,6 @@
 const navHeight = 0
 const controlsHeight = "10vh"
-const borderFrame = "3px solid #212121"
+const borderFrame = 0
 
 const Wrapper = {
   navHeight: navHeight,
@@ -46,8 +46,7 @@ const Wrapper = {
     display: "flex",
     justifyContent: "center",
     boxSizing: "border-box",
-    border: borderFrame,
-    borderBottom: 0,
+    border: 0,
   },
   editor: {
     flex: 4,
