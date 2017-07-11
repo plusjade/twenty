@@ -5,17 +5,26 @@ const Progressions = ({set, editorBot, slidesBot}) => {
   const PAUSE_BETWEEN_PROGRESSIONS = 1000
   let time = 0
   const progressions = set.map((p, index) => {
-    p.player = CommandPlayer()
+    switch(p.type) {
+      case "slides": {
+        p.player = CommandPlayer()
+        p.player.mount(slidesBot())
+        p.player.reset(SlidesToCommands(p.data))
+        p.timeDuration = p.player.timeDuration()
+        break
+      }
+      case "editor": {
+        p.player = CommandPlayer()
+        p.player.mount(editorBot())
+        p.player.reset(p.data)
+        p.timeDuration = p.player.timeDuration()
+        break
+      }
+      default: {
 
-    if (p.type === "slides") {
-      p.player.mount(slidesBot())
-      p.player.reset(SlidesToCommands(p.data))
-    } else if (p.type === "editor") {
-      p.player.mount(editorBot())
-      p.player.reset(p.data)
+      }
     }
 
-    p.timeDuration = p.player.timeDuration()
     p.index = index
     p.timeOffset = time + (index > 0 ? PAUSE_BETWEEN_PROGRESSIONS : 0)
     time += p.timeDuration
