@@ -20,9 +20,9 @@ const Player = (props) => {
       <div id="editor-result" style={StylesWrapper.editorResult}>
       <SlideResolver
         slide={props.slide}
-        active={props.progression.type === "slides"}
+        active={true}
       />
-      {showOverlay && (
+      {false && (
         <PlayerOverlayResolver
           loadState={props.loadState}
           play={props.play}

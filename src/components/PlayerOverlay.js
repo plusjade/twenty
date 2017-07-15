@@ -27,7 +27,7 @@ const PlayerOverlay = (props) => {
   }
 
   let style = Style.default
-  style = Object.assign({}, Style.default, props.active ? {} : Style.animate)
+  style = Object.assign({}, Style.default, props.active ? {} : {})
 
   return (
     <div style={style}>

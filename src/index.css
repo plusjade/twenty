@@ -36,3 +36,11 @@ a:hover {
     transform: scale(1.0);
   }
 }
+
+@keyframes sk-flow {
+  0%, 80%, 100% {
+    background-color: #CCC;
+  } 40% {
+    background-color: rgba(154, 157, 160, 1);
+  }
+}

@@ -14,8 +14,8 @@ const Style = {
       backgroundColor: "#FFF",
       borderRadius: "100%",
       display: "inline-block",
-      "WebkitAnimation": "sk-bouncedelay 1.4s infinite ease-in-out both",
-      animation: "sk-bouncedelay 1.4s infinite ease-in-out both",
+      "WebkitAnimation": "sk-flow 1.4s infinite ease-in-out both",
+      animation: "sk-flow 1.4s infinite ease-in-out both",
     },
     one: {
       WebkitAnimationDelay: "-0.32s",

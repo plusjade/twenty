@@ -2,6 +2,7 @@ import React                from 'react'
 import IconPlay             from 'components/IconPlay'
 import Spinner              from 'components/Spinner'
 import PlayerOverlay        from 'components/PlayerOverlay'
+import Phone                from 'components/convo/Phone'
 
 const Style = {
   default: {
@@ -12,6 +13,7 @@ const Style = {
     maxWidth: "800px",
   }
 }
+
 const SlideResolver = (props) => {
   switch (props.slide.type) {
     case "title": {
@@ -49,7 +51,7 @@ const SlideResolver = (props) => {
     default: {
       return (
         <PlayerOverlay backgroundColor="#44a0dd">
-          <h1>{props.slide.data}</h1>
+          <Phone />
         </PlayerOverlay>
       )
     }
