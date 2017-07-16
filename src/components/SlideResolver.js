@@ -51,7 +51,10 @@ const SlideResolver = (props) => {
     default: {
       return (
         <PlayerOverlay backgroundColor="#44a0dd">
-          <Phone messages={props.messages} />
+          <Phone
+            messages={props.messages}
+            typingStatus={props.typingStatus}
+          />
         </PlayerOverlay>
       )
     }

@@ -1,7 +1,8 @@
 import CommandPlayer        from 'lib/CommandPlayer'
+import ConvoToCommands      from 'lib/ConvoToCommands'
 import SlidesToCommands     from 'lib/SlidesToCommands'
 
-const Progressions = ({set, editorBot, slidesBot}) => {
+const Progressions = ({set, editorBot, slidesBot, convoBot}) => {
   const PAUSE_BETWEEN_PROGRESSIONS = 1000
   let time = 0
   const progressions = set.map((p, index) => {
@@ -17,6 +18,13 @@ const Progressions = ({set, editorBot, slidesBot}) => {
         p.player = CommandPlayer()
         p.player.mount(editorBot())
         p.player.reset(p.data)
+        p.timeDuration = p.player.timeDuration()
+        break
+      }
+      case "convo": {
+        p.player = CommandPlayer()
+        p.player.mount(convoBot())
+        p.player.reset(ConvoToCommands(p.data))
         p.timeDuration = p.player.timeDuration()
         break
       }

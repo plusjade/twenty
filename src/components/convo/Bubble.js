@@ -9,6 +9,7 @@ const bubble = {
     borderRadius: "20px",
     display: "inline-block",
     boxSixing: "border-box",
+    textAlign: "left",
   },
   mine: {
     backgroundColor: "rgba(69, 144, 243, 1)",
@@ -33,23 +34,23 @@ const bubble = {
   }
 }
 
-const bubbleMine = Object.assign({}, bubble.default, bubble.mine)
-const bubbleYours = Object.assign({}, bubble.default, bubble.theirs)
-const bubbleEnter = Object.assign({}, bubbleYours, bubble.enter)
-const bubbleEnd = Object.assign({}, bubbleYours, bubble.end)
+const mine = Object.assign({}, bubble.default, bubble.mine)
+const yours = Object.assign({}, bubble.default, bubble.theirs)
+const enter = Object.assign({}, yours, bubble.enter)
+const end = Object.assign({}, yours, bubble.end)
 
 const Bubble = (props) => {
   let style
   if (props.animate) {
     if (props.status === "loading") {
-      style = bubbleEnd
+      style = end
     } else {
-      style = bubbleEnter
+      style = enter
     }
   } else if (props.type === "theirs") {
-    style = bubbleYours
+    style = yours
   } else {
-    style = bubbleMine
+    style = mine
   }
 
   return (

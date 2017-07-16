@@ -25,21 +25,22 @@ const message = {
 }
 
 const Message = (props) => {
-  let style
-  if (props.animate) {
-    if (props.status === "loading") {
-      style = Object.assign({}, message.default, message.queued)
-    } else if (props.status === "loaded") {
-      style = Object.assign({}, message.default, message.end)
-    } else {
-      style = Object.assign({}, message.default, message.enter)
+  function computeStyle() {
+    switch (props.status) {
+      case "loading": {
+        return Object.assign({}, message.default, message.queued)
+      }
+      case "loaded": {
+        return Object.assign({}, message.default, message.end)
+      }
+      default: {
+        return Object.assign({}, message.default, message.enter)
+      }
     }
-  } else {
-    style = message.default
   }
 
   return (
-    <div style={style}>
+    <div style={computeStyle()}>
       <div style={{padding: "4px 10px"}}>
         {React.Children.only(props.children)}
       </div>

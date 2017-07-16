@@ -1,8 +1,15 @@
 import React, {Component}   from 'react'
 import Bubble               from 'components/convo/Bubble'
-import TypingCircles          from 'components/convo/TypingCircles'
+import TypingCircles        from 'components/convo/TypingCircles'
 
 const message = {
+  default: {
+    position: "absolute",
+    bottom: "5px",
+    left: 0,
+    right: 0,
+    overflow: "auto",
+  },
   enter: {
     transition: "all 300ms ease-out",
     maxHeight: 0,
@@ -21,20 +28,18 @@ const message = {
 const Typing = (props) => {
   const messageStyle = Object.assign(
       {},
+      message.default,
       (props.status === "loading" ? message.end : message.enter),
-      {
-        position: "absolute",
-        bottom: "5px",
-        left: 0,
-        right: 0,
-        overflow: "auto",
-      }
     )
 
   return (
     <div style={messageStyle}>
       <div style={{padding: "4px 10px"}}>
-        <Bubble type="theirs" status={props.status} animate={true}>
+        <Bubble
+          type="theirs"
+          status={props.status}
+          animate={true}
+        >
           <TypingCircles />
         </Bubble>
       </div>

@@ -7,6 +7,7 @@ import ResultRenderer       from 'lib/ResultRenderer'
 import throttle             from 'lib/throttle'
 import TimeKeeper           from 'lib/TimeKeeper'
 import SlidesBot            from 'lib/SlidesBot'
+import ConvoBot             from 'lib/ConvoBot'
 
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
@@ -58,13 +59,6 @@ const withPlay = (WrappedComponent) => {
         this.resultRenderer.mount(this.resultRendererNode)
         this.editor.session.doc.on("change", this.resultUpdateThrottled, true)
       }
-
-      let i = 1
-      setInterval(() => {
-        const messages = this.state._messages.slice(0, i)
-        this.setState({messages: messages})
-        i += 1
-      }, 3000)
     }
 
     initialState() {
@@ -79,46 +73,6 @@ const withPlay = (WrappedComponent) => {
         slide: {},
         progression: {},
         messages: [],
-        _messages: [
-          {
-            text: "Hello",
-            type: "theirs",
-          },
-          {
-            text: "Hi there!",
-            type: "mine",
-          },
-          {
-            text: "What time did you wake up today?",
-            type: "theirs",
-          },
-          {
-            text: "...uhhhhhhh",
-            type: "mine",
-          },
-          {
-            text: "meep not really sure 😴",
-            type: "mine",
-          },
-          {
-            text: "Wanna get boba? =D",
-            type: "theirs",
-          },
-          {
-            text: "^_^ ^_^ ^_^",
-            type: "theirs",
-          },
-
-          {
-            text: "componentWillUpdate() is invoked immediately before rendering when new props or state are being received. Use this as an opportunity to perform preparation before an update occurs. This method is not called for the initial render.",
-            type: "theirs",
-          },
-          {
-            text: "Ok let's do it!",
-            type: "mine",
-          },
-
-        ],
       })
     }
 
@@ -139,17 +93,21 @@ const withPlay = (WrappedComponent) => {
 
       const set = [
         {
-          type: "slides",
-          data: this.props.slides,
+          type: "convo",
+          data: this.props.convo,
         },
-        {
-          type: "editor",
-          data: video.commands,
-        },
-        {
-          type: "slides",
-          data: this.props.slides2,
-        },
+        // {
+        //   type: "slides",
+        //   data: this.props.slides,
+        // },
+        // {
+        //   type: "editor",
+        //   data: video.commands,
+        // },
+        // {
+        //   type: "slides",
+        //   data: this.props.slides2,
+        // },
       ]
       this.progressions = Progressions({
         set: set,
@@ -158,7 +116,12 @@ const withPlay = (WrappedComponent) => {
           SlidesBot((text, index) => {
             this.setState({slide: {type: "title", data: text, index: index}})
           })
-        )
+        ),
+        convoBot: () => (
+          ConvoBot((messages, typingStatus) => {
+            this.setState({messages: messages, typingStatus: typingStatus})
+          })
+        ),
       })
       const progression = this.progressions.at(1)
 
@@ -266,7 +229,7 @@ const withPlay = (WrappedComponent) => {
 
       this.editor.setValue("")
       this.setState({
-        slide: {type: "title", data: ""},
+        //slide: {type: "title", data: ""},
         progression: Object.assign({}, progression, {player: undefined}),
       })
 

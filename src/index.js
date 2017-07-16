@@ -11,10 +11,12 @@ import Home             from 'containers/Home'
 import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
+import ConvosDB from 'lib/ConvosDB'
 import SlidesDB from 'lib/SlidesDB'
 import './index.css'
 
 const Slides = SlidesDB()
+const Convos = ConvosDB()
 
 const API_ENDPOINT = (
   (process.env === "prod")
@@ -38,6 +40,7 @@ if (parts[1] === "make") {
   props.videoId = videoId
   props.slides = Slides.data
   props.slides2 = Slides.data2
+  props.convo = Convos.messages
 } else {
   app = Home
 }

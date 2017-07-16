@@ -21,6 +21,7 @@ const Player = (props) => {
       <SlideResolver
         slide={props.slide}
         messages={props.messages}
+        typingStatus={props.typingStatus}
         active={true}
       />
       {false && (
