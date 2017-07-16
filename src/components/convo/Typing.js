@@ -24,18 +24,20 @@ const Typing = (props) => {
       (props.status === "loading" ? message.end : message.enter),
       {
         position: "absolute",
-        bottom: 0, left: 0,
+        bottom: "5px",
+        left: 0,
         right: 0,
-        margin: "4px 10px",
         overflow: "auto",
       }
     )
 
   return (
     <div style={messageStyle}>
-      <Bubble type="yours" status="loading" animate={true}>
-        <TypingCircles />
-      </Bubble>
+      <div style={{padding: "4px 10px"}}>
+        <Bubble type="theirs" status={props.status} animate={true}>
+          <TypingCircles />
+        </Bubble>
+      </div>
     </div>
   )
 }

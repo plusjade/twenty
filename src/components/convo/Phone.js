@@ -16,7 +16,7 @@ const phone = {
 const convo = {
   default: {
     position: "absolute",
-    bottom: 0,
+    bottom: "5px",
     left: 0,
     right: 0,
   },
@@ -26,63 +26,75 @@ class Phone extends Component {
   constructor(props) {
     super(props)
 
+    this.lastMessage = this.lastMessage.bind(this)
     this.state = {
       entropyKey: Math.random()
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.messages.length !== this.props.messages.length) {
+      console.log('changing')
+
+      this.setState({status: "NOOP"})
+      const lastMessage = this.lastMessage(nextProps)
+
+      if (lastMessage) {
+        if (lastMessage.type === "theirs") {
+          setTimeout(() => {
+            this.setState({status: "loading"})
+          }, 100)
+          setTimeout(() => {
+            this.setState({status: "loaded"})
+          }, 2000)
+        } else {
+          setTimeout(() => {
+            this.setState({status: "loaded"})
+          }, 300)
+        }
+      }
+    }
+  }
+
+  lastMessage(props) {
+    if (!props) {
+      props = this.props
+    }
+    const lastIndex = props.messages.length - 1
+    if (props.messages[lastIndex]) {
+      return props.messages[lastIndex]
+    } else {
+      return {}
+    }
+  }
+
   componentDidMount() {
     console.log("hi mounted")
-    setTimeout(() => {
-      this.setState({status: "loading"})
-    }, 1000)
-    setTimeout(() => {
-      this.setState({status: "loaded"})
-    }, 2500)
   }
 
   render() {
-    const messages = [
-      {
-        text: "Hello",
-        type: "mine",
-      },
-      {
-        text: "Hi there!",
-        type: "yours",
-      },
-      {
-        text: "What time did you wake up today?",
-        type: "yours",
-      },
-      {
-        text: "...uhhhhhhh",
-        type: "mine",
-      },
-      {
-        text: "not really sure 😴",
-        type: "mine",
-      },
-
-    ]
+    const lastIndex = this.props.messages.length - 1
+    const lastMessage = this.lastMessage()
+    let typingStatus = lastMessage.type === "theirs"
+                          ? this.state.status
+                          : "NOOP"
     return (
       <div style={phone.default}>
         <div style={convo.default}>
-        {messages.map((message, i) => (
-          <Message key={i}>
-            <Bubble type={message.type}>
+        {this.props.messages.map((message, i) => (
+          <Message
+            key={i}
+            status={lastIndex === i ? this.state.status : "loaded" }
+            animate={true}
+            >
+            <Bubble type={message.type} >
               <span>{message.text}</span>
             </Bubble>
           </Message>
         ))}
-          <Message status={this.state.status} animate={true}>
-            <Bubble type="yours">
-              <span>Are you going tomorrow?</span>
-            </Bubble>
-          </Message>
         </div>
 
-        <Typing status={this.state.status} />
+        <Typing status={typingStatus} />
       </div>
     )
   }

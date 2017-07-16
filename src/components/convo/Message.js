@@ -2,25 +2,23 @@ import React, {Component}   from 'react'
 
 const message = {
   default: {
-    margin: "4px 10px",
     overflow: "auto",
     position: "relative",
+    transition: "all 300ms ease-out",
+    maxHeight: "300px",
   },
   queued: {
-    transition: "all 300ms ease-out",
     maxHeight: "35px",
     opacity: 0,
     transform: "scaleY(0.9)"
   },
   enter: {
-    transition: "all 300ms ease-out",
     maxHeight: 0,
     opacity: 0,
     transform: "scaleY(0.9)"
   },
   end: {
-    transition: "all 300ms ease-out",
-    maxHeight: "1000px",
+    maxHeight: "300px",
     opacity: 1,
     transform: "scaleY(1)"
   }
@@ -42,7 +40,9 @@ const Message = (props) => {
 
   return (
     <div style={style}>
-      {React.Children.only(props.children)}
+      <div style={{padding: "4px 10px"}}>
+        {React.Children.only(props.children)}
+      </div>
     </div>
   )
 }

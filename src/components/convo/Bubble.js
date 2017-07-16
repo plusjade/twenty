@@ -15,7 +15,7 @@ const bubble = {
     color: "#FFF",
     float: "right",
   },
-  yours: {
+  theirs: {
     backgroundColor: "rgba(229, 231, 234, 1)",
     color: "#000",
     float: "left",
@@ -34,7 +34,7 @@ const bubble = {
 }
 
 const bubbleMine = Object.assign({}, bubble.default, bubble.mine)
-const bubbleYours = Object.assign({}, bubble.default, bubble.yours)
+const bubbleYours = Object.assign({}, bubble.default, bubble.theirs)
 const bubbleEnter = Object.assign({}, bubbleYours, bubble.enter)
 const bubbleEnd = Object.assign({}, bubbleYours, bubble.end)
 
@@ -46,7 +46,7 @@ const Bubble = (props) => {
     } else {
       style = bubbleEnter
     }
-  } else if (props.type === "yours") {
+  } else if (props.type === "theirs") {
     style = bubbleYours
   } else {
     style = bubbleMine

@@ -20,6 +20,7 @@ const Player = (props) => {
       <div id="editor-result" style={StylesWrapper.editorResult}>
       <SlideResolver
         slide={props.slide}
+        messages={props.messages}
         active={true}
       />
       {false && (
