@@ -1,6 +1,6 @@
-import React, {Component}   from 'react'
-import Bubble               from 'components/convo/Bubble'
-import TypingCircles        from 'components/convo/TypingCircles'
+import React                from 'react'
+import Bubble               from 'texting/components/Bubble'
+import TypingCircles        from 'texting/components/TypingCircles'
 
 const message = {
   default: {

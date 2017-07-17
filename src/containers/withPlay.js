@@ -7,7 +7,7 @@ import ResultRenderer       from 'lib/ResultRenderer'
 import throttle             from 'lib/throttle'
 import TimeKeeper           from 'lib/TimeKeeper'
 import SlidesBot            from 'lib/SlidesBot'
-import ConvoBot             from 'lib/ConvoBot'
+import TextingBot           from 'texting/lib/TextingBot'
 
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
@@ -93,8 +93,8 @@ const withPlay = (WrappedComponent) => {
 
       const set = [
         {
-          type: "convo",
-          data: this.props.convo,
+          type: "texting",
+          data: this.props.texting,
         },
         // {
         //   type: "slides",
@@ -117,8 +117,8 @@ const withPlay = (WrappedComponent) => {
             this.setState({slide: {type: "title", data: text, index: index}})
           })
         ),
-        convoBot: () => (
-          ConvoBot((messages, typingStatus) => {
+        textingBot: () => (
+          TextingBot((messages, typingStatus) => {
             this.setState({messages: messages, typingStatus: typingStatus})
           })
         ),

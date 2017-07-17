@@ -1,4 +1,4 @@
-const ConvosDB = () => {
+const TextingDB = () => {
   const messages = [
     {
       text: "Hello",
@@ -54,4 +54,4 @@ const ConvosDB = () => {
   })
 }
 
-export default ConvosDB
+export default TextingDB

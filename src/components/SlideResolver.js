@@ -2,7 +2,7 @@ import React                from 'react'
 import IconPlay             from 'components/IconPlay'
 import Spinner              from 'components/Spinner'
 import PlayerOverlay        from 'components/PlayerOverlay'
-import Phone                from 'components/convo/Phone'
+import Phone                from 'texting/components/Phone'
 
 const Style = {
   default: {

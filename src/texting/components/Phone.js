@@ -1,7 +1,7 @@
-import React, {Component}   from 'react'
-import Bubble               from 'components/convo/Bubble'
-import Message              from 'components/convo/Message'
-import Typing               from 'components/convo/Typing'
+import React                from 'react'
+import Bubble               from 'texting/components/Bubble'
+import Message              from 'texting/components/Message'
+import Typing               from 'texting/components/Typing'
 
 const phone = {
   default: {
@@ -18,7 +18,7 @@ const phone = {
   },
 }
 
-const convo = {
+const texting = {
   default: {
     position: "absolute",
     bottom: "5px",
@@ -31,7 +31,7 @@ const Phone = (props) => {
   return (
     <div style={phone.default} id="phone">
 
-      <div style={convo.default}>
+      <div style={texting.default}>
       {props.messages.map((message, i) => (
         <Message status={message.status} key={i}>
           <Bubble type={message.type}>

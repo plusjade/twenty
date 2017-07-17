@@ -11,15 +11,15 @@ import Home             from 'containers/Home'
 import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
-import ConvosDB from 'lib/ConvosDB'
+import TextingDB from 'texting/lib/TextingDB'
 import SlidesDB from 'lib/SlidesDB'
 import './index.css'
 
 const Slides = SlidesDB()
-const Convos = ConvosDB()
+const Texting = TextingDB()
 
 const API_ENDPOINT = (
-  (process.env === "prod")
+  false
     ? "https://www.getdamon.com/videos"
     : "http://localhost:4000/videos"
 )
@@ -40,7 +40,7 @@ if (parts[1] === "make") {
   props.videoId = videoId
   props.slides = Slides.data
   props.slides2 = Slides.data2
-  props.convo = Convos.messages
+  props.texting = Texting.messages
 } else {
   app = Home
 }

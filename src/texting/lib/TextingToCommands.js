@@ -1,8 +1,8 @@
-const ConvoToCommands = (convo) => {
+const TextingToCommands = (texts) => {
   const MESSAGE_PAUSE_DURATION = 1500
   let time = 0
   return (
-    convo.map((slide, i) => {
+    texts.map((slide, i) => {
       const commands = []
       const insert = [time, "i", i, slide.type, slide.text]
 
@@ -37,4 +37,4 @@ const ConvoToCommands = (convo) => {
   )
 }
 
-export default ConvoToCommands
+export default TextingToCommands

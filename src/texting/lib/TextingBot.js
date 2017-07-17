@@ -1,4 +1,4 @@
-const ConvoBot = (updateCallback) => {
+const TextingBot = (updateCallback) => {
   let dict = {}
   let messages = []
   let currentIndex = 0
@@ -61,4 +61,4 @@ const ConvoBot = (updateCallback) => {
   })
 }
 
-export default ConvoBot
+export default TextingBot
