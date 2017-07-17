@@ -6,10 +6,15 @@ import Typing               from 'components/convo/Typing'
 const phone = {
   default: {
     backgroundColor: "#FFF",
-    width: "375px",
-    height: "667px",
-    margin: "auto",
+    flexGrow: 1,
+    height: "100%",
+    maxWidth: "375px",
     position: "relative",
+    margin: "auto",
+    display: "flex",
+    justifyContent: "center",
+    boxSizing: "border-box",
+    border: 0,
   },
 }
 
@@ -24,7 +29,7 @@ const convo = {
 
 const Phone = (props) => {
   return (
-    <div style={phone.default}>
+    <div style={phone.default} id="phone">
 
       <div style={convo.default}>
       {props.messages.map((message, i) => (
