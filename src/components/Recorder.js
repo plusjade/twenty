@@ -1,10 +1,10 @@
 import React                from 'react'
 import PropTypes            from 'prop-types'
 
-import AceEditor            from 'components/AceEditor'
+import AceEditor            from 'textEditor/components/AceEditor'
 import NewRecording         from 'components/NewRecording'
 import RecorderControls     from 'components/RecorderControls'
-import Result               from 'components/Result'
+import Result               from 'textEditor/components/Result'
 
 import Library              from 'containers/Library'
 

@@ -1,11 +1,11 @@
 import React                from 'react'
 import PropTypes            from 'prop-types'
 
-import AceEditor            from 'components/AceEditor'
+import AceEditor            from 'textEditor/components/AceEditor'
 import PlayerControls       from 'components/PlayerControls'
 import PlayerOverlayResolver from 'components/PlayerOverlayResolver'
-import Result               from 'components/Result'
-import SlideResolver        from 'components/SlideResolver'
+import Result               from 'textEditor/components/Result'
+import SlideResolver        from 'slides/components/SlideResolver'
 
 import Library              from 'containers/Library'
 import StylesWrapper        from 'styles/Wrapper'
@@ -18,12 +18,7 @@ const Player = (props) => {
   return (
     <div id="app-wrapper">
       <div id="editor-result" style={StylesWrapper.editorResult}>
-      <SlideResolver
-        slide={props.slide}
-        messages={props.messages}
-        typingStatus={props.typingStatus}
-        active={true}
-      />
+
       {false && (
         <PlayerOverlayResolver
           loadState={props.loadState}

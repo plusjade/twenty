@@ -1,6 +1,6 @@
 import CommandPlayer        from 'lib/CommandPlayer'
 import TextingToCommands      from 'texting/lib/TextingToCommands'
-import SlidesToCommands     from 'lib/SlidesToCommands'
+import SlidesToCommands     from 'slides/lib/SlidesToCommands'
 
 const Progressions = ({set, editorBot, slidesBot, textingBot}) => {
   const PAUSE_BETWEEN_PROGRESSIONS = 1000

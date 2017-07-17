@@ -12,7 +12,7 @@ import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
 import TextingDB from 'texting/lib/TextingDB'
-import SlidesDB from 'lib/SlidesDB'
+import SlidesDB  from 'slides/lib/SlidesDB'
 import './index.css'
 
 const Slides = SlidesDB()

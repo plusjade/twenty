@@ -1,12 +1,12 @@
 import React, {Component}   from 'react'
 
 import AudioPlayer          from 'lib/AudioPlayer'
-import EditorBot            from 'lib/EditorBot'
+import EditorBot            from 'textEditor/lib/EditorBot'
 import Progressions         from 'lib/Progressions'
-import ResultRenderer       from 'lib/ResultRenderer'
+import ResultRenderer       from 'textEditor/lib/ResultRenderer'
 import throttle             from 'lib/throttle'
 import TimeKeeper           from 'lib/TimeKeeper'
-import SlidesBot            from 'lib/SlidesBot'
+import SlidesBot            from 'slides/lib/SlidesBot'
 import TextingBot           from 'texting/lib/TextingBot'
 
 const withPlay = (WrappedComponent) => {
@@ -92,18 +92,18 @@ const withPlay = (WrappedComponent) => {
       this.setStart() // todo
 
       const set = [
-        {
-          type: "texting",
-          data: this.props.texting,
-        },
+        // {
+        //   type: "texting",
+        //   data: this.props.texting,
+        // },
         // {
         //   type: "slides",
         //   data: this.props.slides,
         // },
-        // {
-        //   type: "editor",
-        //   data: video.commands,
-        // },
+        {
+          type: "editor",
+          data: video.commands,
+        },
         // {
         //   type: "slides",
         //   data: this.props.slides2,

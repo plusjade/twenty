@@ -2,11 +2,11 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
 import AudioRecorder        from 'lib/AudioRecorder'
-import TextRecorderAce      from 'lib/TextRecorderAce'
+import TextRecorderAce      from 'textEditor/lib/TextRecorderAce'
 import TimeKeeper           from 'lib/TimeKeeper'
 
 import throttle             from 'lib/throttle'
-import ResultRenderer       from 'lib/ResultRenderer'
+import ResultRenderer       from 'textEditor/lib/ResultRenderer'
 
 const withRecord = (WrappedComponent) => {
   class withRecord extends Component {
