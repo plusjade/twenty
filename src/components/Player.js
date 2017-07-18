@@ -3,6 +3,8 @@ import PropTypes            from 'prop-types'
 
 import AceEditor            from 'textEditor/components/AceEditor'
 import PlayerControls       from 'components/PlayerControls'
+import PlayerOverlay        from 'components/PlayerOverlay'
+import Phone                from 'texting/components/Phone'
 import PlayerOverlayResolver from 'components/PlayerOverlayResolver'
 import Result               from 'textEditor/components/Result'
 import SlideResolver        from 'slides/components/SlideResolver'
@@ -19,13 +21,21 @@ const Player = (props) => {
     <div id="app-wrapper">
       <div id="editor-result" style={StylesWrapper.editorResult}>
 
-      {false && (
-        <PlayerOverlayResolver
-          loadState={props.loadState}
-          play={props.play}
-          active={true}
+      {props.progression.type === "texting" && (
+        <PlayerOverlay backgroundColor="#263238">
+          <Phone
+            messages={props.messages || []}
+            typingStatus={props.typingStatus}
+          />
+        </PlayerOverlay>
+      )}
+
+      {props.progression.type === "slides" && (
+        <SlideResolver
+          slide={props.slide}
         />
       )}
+
         <div id="editor" style={StylesWrapper.editor} >
           <AceEditor editorRef={props.editorRef} />
         </div>
@@ -37,6 +47,14 @@ const Player = (props) => {
           />
         )}
         </div>
+
+      {showOverlay && (
+        <PlayerOverlayResolver
+          loadState={props.loadState}
+          play={props.play}
+          active={true}
+        />
+      )}
       </div>
 
       <div id="controls" style={StylesWrapper.controls}>

@@ -1,5 +1,5 @@
 import CommandPlayer        from 'lib/CommandPlayer'
-import TextingToCommands      from 'texting/lib/TextingToCommands'
+import TextingToCommands    from 'texting/lib/TextingToCommands'
 import SlidesToCommands     from 'slides/lib/SlidesToCommands'
 
 const Progressions = ({set, editorBot, slidesBot, textingBot}) => {
