@@ -6,7 +6,7 @@ import PlayerOverlay        from 'components/PlayerOverlay'
 // states where we want to show an overlay
 const OverlayStates = ["error", "loaded", "loading", "notFound"]
 
-const PlayerOverlayResolver = (props) => {
+const InitialOverlay = (props) => {
   if (!OverlayStates.includes(props.loadState)) { return null }
 
   switch (props.loadState) {
@@ -44,4 +44,4 @@ const PlayerOverlayResolver = (props) => {
   }
 }
 
-export default PlayerOverlayResolver
+export default InitialOverlay

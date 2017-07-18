@@ -5,7 +5,7 @@ import AceEditor            from 'textEditor/components/AceEditor'
 import PlayerControls       from 'components/PlayerControls'
 import PlayerOverlay        from 'components/PlayerOverlay'
 import Phone                from 'texting/components/Phone'
-import PlayerOverlayResolver from 'components/PlayerOverlayResolver'
+import InitialOverlay       from 'components/InitialOverlay'
 import Result               from 'textEditor/components/Result'
 import SlideResolver        from 'slides/components/SlideResolver'
 
@@ -49,7 +49,7 @@ const Player = (props) => {
         </div>
 
       {showOverlay && (
-        <PlayerOverlayResolver
+        <InitialOverlay
           loadState={props.loadState}
           play={props.play}
           active={true}
