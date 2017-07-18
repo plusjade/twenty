@@ -23,7 +23,6 @@ const withPlay = (WrappedComponent) => {
 
       this.setVideoData = this.setVideoData.bind(this)
       this.loadVideo = this.loadVideo.bind(this)
-      this.getTimeFromLink = this.getTimeFromLink.bind(this)
 
       this.editorRef = this.editorRef.bind(this)
       this.getEditor = this.getEditor.bind(this)
@@ -63,25 +62,20 @@ const withPlay = (WrappedComponent) => {
 
     initialState() {
       return ({
-        videoId: this.props.videoId,
-        mode: "html",
         libraryIsOpen: false,
-        timeLink: this.getTimeFromLink(),
-
-        timePosition: 0,
-        timeDuration: 0,
-        slide: {},
         scene: {},
+        timeDuration: 0,
+        timePosition: 0,
+        videoId: this.props.videoId,
+
+        mode: "html",
+        slide: {},
         messages: [],
       })
     }
 
     resetState() {
       this.setState(this.initialState())
-    }
-
-    getTimeFromLink() {
-      return window.location.hash.slice(1)
     }
 
     isPlayable() {
@@ -133,11 +127,6 @@ const withPlay = (WrappedComponent) => {
         timeDuration: this.scenes.timeDuration(),
         scene: Object.assign({}, scene, {player: undefined}),
       })
-
-      const milliseconds = parseInt(this.state.timeLink || 0, 10)*1000
-      if (milliseconds > 0) {
-        this.seekTo(milliseconds)
-      }
     }
 
     loadVideo(videoId) {
