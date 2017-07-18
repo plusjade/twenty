@@ -92,22 +92,22 @@ const withPlay = (WrappedComponent) => {
       this.setStart() // todo
 
       const set = [
-        // {
-        //   type: "texting",
-        //   data: this.props.texting,
-        // },
-        // {
-        //   type: "slides",
-        //   data: this.props.slides,
-        // },
+        {
+          type: "texting",
+          data: this.props.texting,
+        },
+        {
+          type: "slides",
+          data: this.props.slides,
+        },
         {
           type: "editor",
           data: video.commands,
         },
-        // {
-        //   type: "slides",
-        //   data: this.props.slides2,
-        // },
+        {
+          type: "slides",
+          data: this.props.slides2,
+        },
       ]
       this.progressions = Progressions({
         set: set,
