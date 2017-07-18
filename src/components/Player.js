@@ -21,7 +21,7 @@ const Player = (props) => {
     <div id="app-wrapper">
       <div id="editor-result" style={StylesWrapper.editorResult}>
 
-      {props.progression.type === "texting" && (
+      {props.scene.type === "texting" && (
         <PlayerOverlay backgroundColor="#263238">
           <Phone
             messages={props.messages || []}
@@ -30,7 +30,7 @@ const Player = (props) => {
         </PlayerOverlay>
       )}
 
-      {props.progression.type === "slides" && (
+      {props.scene.type === "slides" && (
         <SlideResolver
           slide={props.slide}
         />

@@ -2,10 +2,10 @@ import CommandPlayer        from 'lib/CommandPlayer'
 import TextingToCommands    from 'texting/lib/TextingToCommands'
 import SlidesToCommands     from 'slides/lib/SlidesToCommands'
 
-const Progressions = ({set, editorBot, slidesBot, textingBot}) => {
+const Scenes = ({set, editorBot, slidesBot, textingBot}) => {
   const PAUSE_BETWEEN_PROGRESSIONS = 1000
   let time = 0
-  const progressions = set.map((p, index) => {
+  const scenes = set.map((p, index) => {
     switch(p.type) {
       case "slides": {
         p.player = CommandPlayer()
@@ -39,33 +39,33 @@ const Progressions = ({set, editorBot, slidesBot, textingBot}) => {
 
     return p
   })
-  const progressionsReversed = progressions.slice(0).reverse()
+  const scenesReversed = scenes.slice(0).reverse()
 
-  console.log(progressions)
+  console.log(scenes)
 
   function timeDuration() {
     return (
-      progressionsReversed[0].timeOffset + progressionsReversed[0].timeDuration
+      scenesReversed[0].timeOffset + scenesReversed[0].timeDuration
     )
   }
 
   function at(timePosition) {
-    const progression = find(timePosition)
-    if (progression) {
+    const scene = find(timePosition)
+    if (scene) {
       return ({
-        timeDuration: progression.timeDuration,
-        type: progression.type,
-        index: progression.index,
-        timeOffset: progression.timeOffset,
-        offsetTimePosition: timePosition - progression.timeOffset,
-        player: progression.player,
+        timeDuration: scene.timeDuration,
+        type: scene.type,
+        index: scene.index,
+        timeOffset: scene.timeOffset,
+        offsetTimePosition: timePosition - scene.timeOffset,
+        player: scene.player,
       })
     }
   }
 
   function find(timePosition) {
     return (
-      progressionsReversed.find((p) => {
+      scenesReversed.find((p) => {
         return timePosition > p.timeOffset
       })
     )
@@ -78,4 +78,4 @@ const Progressions = ({set, editorBot, slidesBot, textingBot}) => {
 }
 
 
-export default Progressions
+export default Scenes
