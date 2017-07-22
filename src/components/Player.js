@@ -27,21 +27,24 @@ class Player extends Component {
     return (
       <div id="app-wrapper">
         <div id="editor-result" style={StylesWrapper.editorResult}>
-        {this.props.scene.type === "texting" && (
+        {this.props.sceneTypes.includes("texting") && (
           <TextingScene
             mountBot={this.props.mountBot}
+            isActive={this.props.scene.type === "texting"}
           />
         )}
 
-        {this.props.scene.type === "slides" && (
+        {this.props.sceneTypes.includes("slides") && (
           <SlidesScene
             mountBot={this.props.mountBot}
+            isActive={this.props.scene.type === "slides"}
           />
         )}
 
-        {this.props.scene.type === "editor" && (
+        {this.props.sceneTypes.includes("editor") && (
           <TextEditorScene
             mountBot={this.props.mountBot}
+            isActive={this.props.scene.type === "editor"}
           />
         )}
 

@@ -165,6 +165,7 @@ const withPlay = (WrappedComponent) => {
           mountBot={this.mountBot}
           toggleLibrary={this.toggleLibrary}
           loadVideo={this.loadVideo}
+          sceneTypes={this.scenes ? this.scenes.types() : []}
         />
       )
     }

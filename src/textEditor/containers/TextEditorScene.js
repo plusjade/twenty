@@ -61,9 +61,9 @@ class TextEditorScene extends Component {
     return (
       <div
         style={{
+          display: this.props.isActive ? "flex" : "none",
           height: "100%",
           width: "100%",
-          display: "flex",
         }}
       >
         <div id="editor" style={StylesWrapper.editor} >

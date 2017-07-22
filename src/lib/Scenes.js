@@ -76,10 +76,15 @@ const Scenes = (set) => {
     )
   }
 
+  function types() {
+    return scenes.map(scene => scene.type)
+  }
+
   return ({
     at: at,
     mount: mount,
     timeDuration: timeDuration,
+    types: types,
   })
 }
 

@@ -33,6 +33,8 @@ class TextingScene extends Component {
   }
 
   render() {
+    if (!this.props.isActive) { return null }
+
     return (
       <PlayerOverlay backgroundColor="#263238">
         <Phone

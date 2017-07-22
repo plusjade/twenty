@@ -39,6 +39,8 @@ class SlidesScene extends Component {
   }
 
   render() {
+    if (!this.props.isActive) { return null }
+
     switch (this.state.slide.type) {
       case "title": {
         return (
