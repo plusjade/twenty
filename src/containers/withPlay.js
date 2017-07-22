@@ -1,11 +1,9 @@
 import React, {Component}   from 'react'
 
 import AudioPlayer          from 'lib/AudioPlayer'
-import EditorBot            from 'textEditor/lib/EditorBot'
 import Scenes               from 'lib/Scenes'
-import ResultRenderer       from 'textEditor/lib/ResultRenderer'
-import throttle             from 'lib/throttle'
 import TimeKeeper           from 'lib/TimeKeeper'
+
 import SlidesBot            from 'slides/lib/SlidesBot'
 import TextingBot           from 'texting/lib/TextingBot'
 
@@ -24,10 +22,7 @@ const withPlay = (WrappedComponent) => {
       this.setVideoData = this.setVideoData.bind(this)
       this.loadVideo = this.loadVideo.bind(this)
 
-      this.editorRef = this.editorRef.bind(this)
-      this.getEditor = this.getEditor.bind(this)
-
-      this.resultRendererRef = this.resultRendererRef.bind(this)
+      this.mountBot = this.mountBot.bind(this)
 
       this.pause = this.pause.bind(this)
       this.play = this.play.bind(this)
@@ -43,21 +38,6 @@ const withPlay = (WrappedComponent) => {
       if (this.state.videoId) {
         this.loadVideo(this.state.videoId)
       }
-
-      this.resultRenderer = ResultRenderer(this.state.mode)
-
-      this.resultUpdateThrottled = throttle(
-        () => this.resultRenderer.update(this.editor.getValue())
-      )
-    }
-
-    componentDidMount() {
-      this.editor = this.getEditor()
-
-      if (this.resultRendererNode && this.editor) {
-        this.resultRenderer.mount(this.resultRendererNode)
-        this.editor.session.doc.on("change", this.resultUpdateThrottled, true)
-      }
     }
 
     initialState() {
@@ -68,7 +48,6 @@ const withPlay = (WrappedComponent) => {
         timePosition: 0,
         videoId: this.props.videoId,
 
-        mode: "html",
         slide: {},
         messages: [],
       })
@@ -78,45 +57,33 @@ const withPlay = (WrappedComponent) => {
       this.setState(this.initialState())
     }
 
+    mountBot(type, bot) {
+      this.scenes.mount(type, bot)
+    }
+
     isPlayable() {
       return this.state.timeDuration > 0
     }
 
     setVideoData(video) {
       this.setStart() // todo
-
-      const set = [
-        {
-          type: "texting",
-          data: this.props.texting,
-        },
-        {
-          type: "slides",
-          data: this.props.slides,
-        },
-        {
-          type: "editor",
-          data: video.commands,
-        },
-        {
-          type: "slides",
-          data: this.props.slides2,
-        },
-      ]
-      this.scenes = Scenes({
-        set: set,
-        editorBot: () => (EditorBot(this.editor)),
-        slidesBot: () => (
-          SlidesBot((text, index) => {
-            this.setState({slide: {type: "title", data: text, index: index}})
-          })
-        ),
-        textingBot: () => (
-          TextingBot((messages, typingStatus) => {
-            this.setState({messages: messages, typingStatus: typingStatus})
-          })
-        ),
+      const scenes = this.props.scenes.slice(0)
+      scenes.push({
+        type: "editor",
+        data: video.commands,
       })
+      this.scenes = Scenes(scenes)
+      this.scenes.mount("slides", (
+        SlidesBot((text, index) => {
+          this.setState({slide: {type: "title", data: text, index: index}})
+        })
+      ))
+      this.scenes.mount("texting", (
+        TextingBot((messages, typingStatus) => {
+          this.setState({messages: messages, typingStatus: typingStatus})
+        })
+      ))
+
       const scene = this.scenes.at(1)
 
       this.setState({
@@ -148,26 +115,6 @@ const withPlay = (WrappedComponent) => {
         })
     }
 
-    editorRef(node) {
-      this.editorNode = node
-    }
-
-    resultRendererRef(node) {
-      this.resultRendererNode = node
-    }
-
-    getEditor() {
-      if (this.editor) { return this.editor }
-      if (!this.editorNode) { return }
-      this.editor = window.editor = window.ace.edit(this.editorNode)
-      this.editor.$blockScrolling = Infinity
-      this.editor.setTheme("ace/theme/twilight")
-      this.editor.getSession().setMode(`ace/mode/${this.state.mode}`)
-      this.editor.getSession().setUseSoftTabs(true)
-
-      return this.editor
-    }
-
     toggleLibrary() {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     }
@@ -175,8 +122,6 @@ const withPlay = (WrappedComponent) => {
     setStart() {
       this.timeKeeper.reset()
       this.resetState()
-      this.editor.setValue("")
-      this.resultRenderer.update("")
     }
 
     pause(time) {
@@ -215,8 +160,6 @@ const withPlay = (WrappedComponent) => {
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
       this.setState({timePosition: timePosition})
-
-      this.editor.setValue("")
       this.setState({
         //slide: {type: "title", data: ""},
         scene: Object.assign({}, scene, {player: undefined}),
@@ -236,13 +179,8 @@ const withPlay = (WrappedComponent) => {
           seekTo={this.seekTo}
           isPlaying={this.timeKeeper.isPlaying}
 
-          editorRef={this.editorRef}
-
-          resultEndpoint={this.resultRenderer.endpoint}
-          resultRendererRef={this.resultRendererRef}
-
           isPlayable={this.isPlayable}
-
+          mountBot={this.mountBot}
           toggleLibrary={this.toggleLibrary}
           loadVideo={this.loadVideo}
         />

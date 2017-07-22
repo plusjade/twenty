@@ -1,84 +1,83 @@
-import React                from 'react'
+import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
-import AceEditor            from 'textEditor/components/AceEditor'
 import PlayerControls       from 'components/PlayerControls'
 import PlayerOverlay        from 'components/PlayerOverlay'
-import Phone                from 'texting/components/Phone'
 import InitialOverlay       from 'components/InitialOverlay'
-import Result               from 'textEditor/components/Result'
-import SlideResolver        from 'slides/components/SlideResolver'
 
 import Library              from 'containers/Library'
 import StylesWrapper        from 'styles/Wrapper'
 
-const Player = (props) => {
-  // Only show overlay state on initial load lifecycle
-  // i.e. before video is loaded/played for first time
-  const showOverlay = props.loadState && !(props.timePosition > 0)
+import SlidesScene          from 'slides/containers/SlidesScene'
+import TextingScene         from 'texting/components/TextingScene'
+import TextEditorScene      from 'textEditor/containers/TextEditorScene'
 
-  return (
-    <div id="app-wrapper">
-      <div id="editor-result" style={StylesWrapper.editorResult}>
+class Player extends Component {
+  constructor(props) {
+    super(props)
+  }
 
-      {props.scene.type === "texting" && (
-        <PlayerOverlay backgroundColor="#263238">
-          <Phone
-            messages={props.messages || []}
-            typingStatus={props.typingStatus}
+  // TODO:  The type checks means the components mount and unmount when seeking
+  //        This is probably not ideal
+  render() {
+    // Only show overlay state on initial load lifecycle
+    // i.e. before video is loaded/played for first time
+    const showOverlay = this.props.loadState && !(this.props.timePosition > 0)
+
+    return (
+      <div id="app-wrapper">
+        <div id="editor-result" style={StylesWrapper.editorResult}>
+        {this.props.scene.type === "texting" && (
+          <TextingScene
+            messages={this.props.messages || []}
+            typingStatus={this.props.typingStatus}
           />
-        </PlayerOverlay>
-      )}
+        )}
 
-      {props.scene.type === "slides" && (
-        <SlideResolver
-          slide={props.slide}
-        />
-      )}
+        {this.props.scene.type === "slides" && (
+          <SlidesScene
+            slide={this.props.slide}
+          />
+        )}
 
-        <div id="editor" style={StylesWrapper.editor} >
-          <AceEditor editorRef={props.editorRef} />
-        </div>
-        <div id="result" style={StylesWrapper.result}>
-        {props.resultRendererEnabled && (
-          <Result
-            endpoint={props.resultEndpoint}
-            resultRendererRef={props.resultRendererRef}
+        {this.props.scene.type === "editor" && (
+          <TextEditorScene
+            mountBot={this.props.mountBot}
+          />
+        )}
+
+        {showOverlay && (
+          <InitialOverlay
+            loadState={this.props.loadState}
+            play={this.props.play}
+            active={true}
           />
         )}
         </div>
 
-      {showOverlay && (
-        <InitialOverlay
-          loadState={props.loadState}
-          play={props.play}
-          active={true}
-        />
-      )}
-      </div>
+        <div id="controls" style={StylesWrapper.controls}>
+          <PlayerControls
+            isPlaying={this.props.isPlaying}
+            isPlayable={this.props.isPlayable}
+            pause={this.props.pause}
+            play={this.props.play}
+            replay={this.props.replay}
+            seekTo={this.props.seekTo}
+            timeDuration={this.props.timeDuration}
+            timePosition={this.props.timePosition}
+            toggleLibrary={this.props.toggleLibrary}
+          />
+        </div>
 
-      <div id="controls" style={StylesWrapper.controls}>
-        <PlayerControls
-          isPlaying={props.isPlaying}
-          isPlayable={props.isPlayable}
-          pause={props.pause}
-          play={props.play}
-          replay={props.replay}
-          seekTo={props.seekTo}
-          timeDuration={props.timeDuration}
-          timePosition={props.timePosition}
-          toggleLibrary={props.toggleLibrary}
+        <Library
+          onSelect={(video) => { this.props.loadVideo(video.token) }}
+          isOpen={this.props.libraryIsOpen}
+          toggleLibrary={this.props.toggleLibrary}
+          videosDB={this.props.videosDB}
         />
       </div>
-
-      <Library
-        onSelect={(video) => { props.loadVideo(video.token) }}
-        isOpen={props.libraryIsOpen}
-        toggleLibrary={props.toggleLibrary}
-        videosDB={props.videosDB}
-      />
-    </div>
-  )
+    )
+  }
 }
 
 Player.propTypes = {

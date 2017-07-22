@@ -38,9 +38,21 @@ if (parts[1] === "make") {
 } else if (videoId) {
   app = withPlay(Player)
   props.videoId = videoId
-  props.slides = Slides.data
-  props.slides2 = Slides.data2
-  props.texting = Texting.messages
+  props.scenes = [
+    {
+      type: "slides",
+      data: Slides.data,
+    },
+    {
+      type: "texting",
+      data: Texting.messages,
+    },
+
+    {
+      type: "slides",
+      data: Slides.data2,
+    },
+  ]
 } else {
   app = Home
 }
