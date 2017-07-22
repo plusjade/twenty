@@ -12,17 +12,13 @@ class TextEditorScene extends Component {
   constructor(props) {
     super(props)
 
-    this.initialState = this.initialState.bind(this)
-    this.resetState = this.resetState.bind(this)
-    this.state = this.initialState()
-
     this.editorRef = this.editorRef.bind(this)
     this.getEditor = this.getEditor.bind(this)
     this.resultRendererRef = this.resultRendererRef.bind(this)
   }
 
   componentWillMount() {
-    this.resultRenderer = ResultRenderer(this.state.mode)
+    this.resultRenderer = ResultRenderer(this.props.mode)
 
     this.resultUpdateThrottled = throttle(
       () => this.resultRenderer.update(this.editor.getValue())
@@ -40,16 +36,6 @@ class TextEditorScene extends Component {
     }
   }
 
-  initialState() {
-    return ({
-      mode: "html",
-    })
-  }
-
-  resetState() {
-    this.setState(this.initialState())
-  }
-
   editorRef(node) {
     this.editorNode = node
   }
@@ -64,7 +50,7 @@ class TextEditorScene extends Component {
     this.editor = window.editor = window.ace.edit(this.editorNode)
     this.editor.$blockScrolling = Infinity
     this.editor.setTheme("ace/theme/twilight")
-    this.editor.getSession().setMode(`ace/mode/${this.state.mode}`)
+    this.editor.getSession().setMode(`ace/mode/${this.props.mode}`)
     this.editor.getSession().setUseSoftTabs(true)
 
     return this.editor
@@ -95,6 +81,10 @@ class TextEditorScene extends Component {
       </div>
     )
   }
+}
+
+TextEditorScene.defaultProps = {
+  mode: "html"
 }
 
 export default TextEditorScene
