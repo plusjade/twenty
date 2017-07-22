@@ -9,7 +9,7 @@ import Library              from 'containers/Library'
 import StylesWrapper        from 'styles/Wrapper'
 
 import SlidesScene          from 'slides/containers/SlidesScene'
-import TextingScene         from 'texting/components/TextingScene'
+import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene'
 
 class Player extends Component {
@@ -29,14 +29,13 @@ class Player extends Component {
         <div id="editor-result" style={StylesWrapper.editorResult}>
         {this.props.scene.type === "texting" && (
           <TextingScene
-            messages={this.props.messages || []}
-            typingStatus={this.props.typingStatus}
+            mountBot={this.props.mountBot}
           />
         )}
 
         {this.props.scene.type === "slides" && (
           <SlidesScene
-            slide={this.props.slide}
+            mountBot={this.props.mountBot}
           />
         )}
 

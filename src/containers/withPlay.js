@@ -4,9 +4,6 @@ import AudioPlayer          from 'lib/AudioPlayer'
 import Scenes               from 'lib/Scenes'
 import TimeKeeper           from 'lib/TimeKeeper'
 
-import SlidesBot            from 'slides/lib/SlidesBot'
-import TextingBot           from 'texting/lib/TextingBot'
-
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     constructor(props) {
@@ -43,13 +40,11 @@ const withPlay = (WrappedComponent) => {
     initialState() {
       return ({
         libraryIsOpen: false,
+        loadState: undefined,
         scene: {},
         timeDuration: 0,
         timePosition: 0,
         videoId: this.props.videoId,
-
-        slide: {},
-        messages: [],
       })
     }
 
@@ -73,22 +68,10 @@ const withPlay = (WrappedComponent) => {
         data: video.commands,
       })
       this.scenes = Scenes(scenes)
-      this.scenes.mount("slides", (
-        SlidesBot((text, index) => {
-          this.setState({slide: {type: "title", data: text, index: index}})
-        })
-      ))
-      this.scenes.mount("texting", (
-        TextingBot((messages, typingStatus) => {
-          this.setState({messages: messages, typingStatus: typingStatus})
-        })
-      ))
-
       const scene = this.scenes.at(1)
 
       this.setState({
         videoId: video.token,
-        mode: video.mode,
         libraryIsOpen: false,
         loadState: "loaded",
         timeDuration: this.scenes.timeDuration(),
@@ -159,9 +142,8 @@ const withPlay = (WrappedComponent) => {
 
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
-      this.setState({timePosition: timePosition})
       this.setState({
-        //slide: {type: "title", data: ""},
+        timePosition: timePosition,
         scene: Object.assign({}, scene, {player: undefined}),
       })
 
