@@ -9,6 +9,7 @@ const Style = {
     margin: "auto",
     padding: "0 10px",
     maxWidth: "800px",
+    color: "#FFF",
   }
 }
 

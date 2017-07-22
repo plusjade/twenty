@@ -31,19 +31,7 @@ const PlayerOverlay = (props) => {
 
   return (
     <div style={style}>
-      <div style={{
-        flex: 1,
-        flexGrow: 1,
-        alignItems: "stretch",
-        alignContent: "stretch",
-        height: "100%",
-        margin: "auto",
-        position: "relative",
-        color: "#FFF",
-        textAlign: "center",
-      }}>
-        {React.Children.only(props.children)}
-      </div>
+      {React.Children.only(props.children)}
     </div>
   )
 }

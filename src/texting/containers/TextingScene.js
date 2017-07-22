@@ -37,10 +37,22 @@ class TextingScene extends Component {
 
     return (
       <PlayerOverlay backgroundColor="#263238">
-        <Phone
-          messages={this.state.messages}
-          typingStatus={this.state.typingStatus}
-        />
+        <div style={{
+          flex: 1,
+          flexGrow: 1,
+          alignItems: "stretch",
+          alignContent: "stretch",
+          height: "100%",
+          margin: "auto",
+          position: "relative",
+          color: "#FFF",
+          textAlign: "center",
+        }}>
+          <Phone
+            messages={this.state.messages}
+            typingStatus={this.state.typingStatus}
+          />
+        </div>
       </PlayerOverlay>
     )
   }

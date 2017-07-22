@@ -57,7 +57,7 @@ const SlidesDB = () => {
     },
     {
       type: "title",
-      data: "THERE'S MOAR",
+      data: "THERE'S MORE =O",
     },
     {
       type: "title",
