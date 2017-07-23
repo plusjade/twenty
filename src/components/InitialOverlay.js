@@ -19,8 +19,8 @@ const InitialOverlay = (props) => {
     }
     case "loaded": {
       return (
-        <PlayerOverlay  {...props}>
-          <IconPlay onClick={props.play} />
+        <PlayerOverlay  {...props} onClick={props.play}>
+          <IconPlay />
         </PlayerOverlay>
       )
     }

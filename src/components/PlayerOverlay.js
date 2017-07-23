@@ -1,7 +1,7 @@
 import React from 'react'
 
 const PlayerOverlay = (props) => {
-  const backgroundColor = props.backgroundColor || "rgba(0,0,0,0.9)"
+  const backgroundColor = props.backgroundColor || "rgba(0,0,0,0.2)"
   const Style = {
     default: {
       position: "absolute",
@@ -27,10 +27,10 @@ const PlayerOverlay = (props) => {
   }
 
   let style = Style.default
-  style = Object.assign({}, Style.default, props.active ? {} : {})
+  style = Object.assign({}, Style.default, props.style, props.active ? {} : {})
 
   return (
-    <div style={style}>
+    <div style={style} onClick={props.onClick}>
       {React.Children.only(props.children)}
     </div>
   )

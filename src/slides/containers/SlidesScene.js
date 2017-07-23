@@ -8,7 +8,7 @@ const Style = {
     fontSize: "54px",
     margin: "auto",
     padding: "0 10px",
-    maxWidth: "800px",
+    width: "100%",
     color: "#FFF",
   }
 }
@@ -46,9 +46,14 @@ class SlidesScene extends Component {
       case "title": {
         return (
           <PlayerOverlay backgroundColor="#44a0dd" {...this.props}>
-            <h1 style={Style.default}>
-              {this.state.slide.data}
-            </h1>
+            <div style={{
+              textAlign: "left",
+              width: "800px",
+            }}>
+              <h1 style={Style.default}>
+                {this.state.slide.data}
+              </h1>
+            </div>
           </PlayerOverlay>
         )
       }
