@@ -64,7 +64,11 @@ class SlidesScene extends Component {
       case "image": {
         return (
           <PlayerOverlay backgroundColor="#44a0dd">
-            <img src={this.state.slide.data} style={{width: "80%", height: "auto"}}/>
+            <img
+              src={this.state.slide.data}
+              style={{width: "80%", height: "auto"}}
+              alt=""
+            />
           </PlayerOverlay>
         )
       }

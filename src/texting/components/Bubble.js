@@ -1,4 +1,4 @@
-import React, {Component}   from 'react'
+import React    from 'react'
 
 const bubble = {
   default: {
@@ -39,7 +39,7 @@ const yours = Object.assign({}, bubble.default, bubble.theirs)
 const enter = Object.assign({}, yours, bubble.enter)
 const end = Object.assign({}, yours, bubble.end)
 
-const Bubble = (props) => {
+function Bubble(props) {
   let style
   if (props.animate) {
     if (props.status === "loading") {

@@ -1,4 +1,4 @@
-import React, {Component}   from 'react'
+import React    from 'react'
 
 const message = {
   default: {
@@ -24,7 +24,7 @@ const message = {
   }
 }
 
-const Message = (props) => {
+function Message(props) {
   function computeStyle() {
     switch (props.status) {
       case "loading": {

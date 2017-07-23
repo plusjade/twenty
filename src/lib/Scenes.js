@@ -2,8 +2,8 @@ import CommandPlayer        from 'lib/CommandPlayer'
 import TextingToCommands    from 'texting/lib/TextingToCommands'
 import SlidesToCommands     from 'slides/lib/SlidesToCommands'
 
-const Scenes = (set) => {
-  const PAUSE_BETWEEN_PROGRESSIONS = 1000
+function Scenes(set) {
+  const PAUSE_BETWEEN_SCENES = 1000
   let time = 0
   const scenes = set.map((p, index) => {
     switch(p.type) {
@@ -31,7 +31,7 @@ const Scenes = (set) => {
     }
 
     p.index = index
-    p.timeOffset = time + (index > 0 ? PAUSE_BETWEEN_PROGRESSIONS : 0)
+    p.timeOffset = time + (index > 0 ? PAUSE_BETWEEN_SCENES : 0)
     time += p.timeDuration
 
     return p
@@ -70,9 +70,7 @@ const Scenes = (set) => {
 
   function find(timePosition) {
     return (
-      scenesReversed.find((p) => {
-        return timePosition > p.timeOffset
-      })
+      scenesReversed.find(p => timePosition > p.timeOffset)
     )
   }
 

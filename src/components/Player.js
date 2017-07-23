@@ -2,7 +2,6 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
 import PlayerControls       from 'components/PlayerControls'
-import PlayerOverlay        from 'components/PlayerOverlay'
 import InitialOverlay       from 'components/InitialOverlay'
 
 import Library              from 'containers/Library'
@@ -13,12 +12,6 @@ import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene'
 
 class Player extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  // TODO:  The type checks means the components mount and unmount when seeking
-  //        This is probably not ideal
   render() {
     // Only show overlay state on initial load lifecycle
     // i.e. before video is loaded/played for first time
