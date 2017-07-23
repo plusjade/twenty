@@ -25,7 +25,7 @@ const Wrapper = {
     position: "fixed",
     color: "#9E9E9E",
     bottom: 0,
-    right: 0,
+    left: 0,
     padding: "5px",
     zIndex: 1002,
   },

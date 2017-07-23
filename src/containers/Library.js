@@ -1,7 +1,7 @@
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
-import VideosList           from 'components/VideosList'
+import VideosList           from 'components/VideosList/VideosList'
 import IconClose            from 'components/IconClose'
 import withPromisedData     from 'containers/withPromisedData'
 import StylesWrapper        from 'styles/Wrapper'

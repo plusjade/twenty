@@ -1,8 +1,8 @@
 import React                from 'react'
 
-import Style                from 'styles/VideosList'
+import Style                from './Style'
 
-const VideosList = (props) => {
+function VideosList(props) {
   const wrap = Object.assign({maxHeight: (props.isOpen ? "1000px" : 0)}, Style.wrap)
   return (
     <div style={wrap}>

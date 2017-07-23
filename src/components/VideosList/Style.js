@@ -1,11 +1,11 @@
 import StylesWrapper        from 'styles/Wrapper'
-const VideosList = {
+export default {
   wrap: {
     display: "flex",
     justifyContent: "left",
     flexDirection: "column",
     position: "fixed",
-    left: "50%",
+    left: 0,
     right: 0,
     top: 0,
     bottom: StylesWrapper.navHeight,
@@ -28,11 +28,9 @@ const VideosList = {
   delete: {
     position: "absolute",
     top: 0,
-    right: 0,
+    left: 0,
     color: "inherit",
     padding: "20px",
     textDecoration: "none",
   }
 }
-
-export default VideosList
