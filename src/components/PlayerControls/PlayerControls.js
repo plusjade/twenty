@@ -1,12 +1,17 @@
 import React                  from 'react'
 import PropTypes              from 'prop-types'
 
+import Style                  from './Style'
+
 import IconPause              from 'components/IconPause'
 import IconPlay               from 'components/IconPlay'
 
-import StylesWrapper          from 'styles/Wrapper'
+import Slider                 from 'material-ui/Slider'
+import darkBaseTheme          from 'material-ui/styles/baseThemes/darkBaseTheme'
+import MuiThemeProvider       from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme            from 'material-ui/styles/getMuiTheme'
 
-const PlayerControls = (props) => {
+function PlayerControls(props) {
   function padZero(number) {
     if ((`${number}`).length === 1) {
       return `0${number}`
@@ -22,8 +27,39 @@ const PlayerControls = (props) => {
   }
 
   return (
-    <div style={StylesWrapper.controlsInner.wrap}>
-      <div style={StylesWrapper.controlsInner.one}>
+    <div style={Style.wrap}>
+      {props.isPlayable() && (
+        <div style={Style.sliderWrap}>
+          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+            <Slider
+              min={0}
+              max={props.timeDuration}
+              value={props.timePosition}
+              onChange={(e, value) => {
+                const time = parseFloat(value)
+                if (time > 0) {
+                  props.seekTo(time)
+                }
+              }}
+              style={{width: "100%"}}
+              sliderStyle={{margin: 0}}
+            />
+          </MuiThemeProvider>
+        </div>
+      )}
+      <div style={Style.one}>
+        <a
+          href="#library"
+          style={Style.libraryLink}
+          onClick={(e) => {
+            e.preventDefault()
+            props.toggleLibrary()
+          }}
+        >
+          Library
+        </a>
+      </div>
+      <div style={Style.two}>
       {props.isPlayable() && (
         <div
           onClick={(e) => {
@@ -42,41 +78,12 @@ const PlayerControls = (props) => {
         </div>
       )}
       </div>
-      <div style={StylesWrapper.controlsInner.two}>
-      {props.isPlayable() && (
-        <input
-          style={StylesWrapper.controlsInner.rangeInput}
-          type="range"
-          min="0"
-          max={props.timeDuration}
-          value={props.timePosition}
-          onChange={(e) => {
-            const time = parseFloat(e.target.value)
-            if (time > 0) {
-              props.seekTo(time)
-            }
-          }}
-        />
-      )}
-      </div>
-      <div style={StylesWrapper.controlsInner.three}>
+      <div style={Style.three}>
       {props.isPlayable() && (
         <small>
           {formatTime(props.timeDuration - props.timePosition)}
         </small>
       )}
-      </div>
-      <div style={StylesWrapper.controlsInner.three}>
-        <a
-          href="#library"
-          style={StylesWrapper.libraryLink}
-          onClick={(e) => {
-            e.preventDefault()
-            props.toggleLibrary()
-          }}
-        >
-          Library
-        </a>
       </div>
     </div>
   )

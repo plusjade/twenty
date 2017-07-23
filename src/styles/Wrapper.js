@@ -1,19 +1,11 @@
 const navHeight = 0
-const controlsHeight = "10vh"
+const controlsHeight = "8vh"
 const borderFrame = 0
 
 const Wrapper = {
   navHeight: navHeight,
   controlsHeight: controlsHeight,
   borderFrame: borderFrame,
-  libraryLink: {
-    flex: 1,
-    color: "inherit",
-    height: "inherit",
-    display: "block",
-    textDecoration: "none",
-    lineHeight: "inherit",
-  },
   recordingLink: {
     flex: 1,
     color: "inherit",
@@ -72,43 +64,12 @@ const Wrapper = {
     height: controlsHeight,
     lineHeight: controlsHeight,
     alignItems: "center",
-    zIndex: 2,
-    overflow: "hidden",
+    zIndex: 1000,
+    overflow: "visible",
     backgroundColor: "#232323",
     boxSizing: "border-box",
     borderRadius: "0 0 15px 15px",
     border: borderFrame,
   },
-  controlsInner: {
-    wrap: {
-      flex: 1,
-      height: "inherit",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      lineHeight: "inherit",
-    },
-    one: {
-      boxSizing: "border-box",
-      padding: "0 10px",
-      marginRight: "auto",
-      lineHeight: "10px",
-    },
-    two: {
-      flex: 8,
-      boxSizing: "border-box",
-      padding: "0 10px",
-    },
-    three: {
-      boxSizing: "border-box",
-      padding: "0 10px",
-      color: "#FFF",
-      marginLeft: "auto",
-    },
-    rangeInput: {
-      width: "100%"
-    }
-  }
-
 }
 export default Wrapper

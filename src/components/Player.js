@@ -1,7 +1,7 @@
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
-import PlayerControls       from 'components/PlayerControls'
+import PlayerControls       from 'components/PlayerControls/PlayerControls'
 import InitialOverlay       from 'components/InitialOverlay'
 
 import Library              from 'containers/Library'

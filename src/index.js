@@ -15,6 +15,9 @@ import TextingDB from 'texting/lib/TextingDB'
 import SlidesDB  from 'slides/lib/SlidesDB'
 import './index.css'
 
+import injectTapEventPlugin from 'react-tap-event-plugin'
+injectTapEventPlugin()
+
 const Slides = SlidesDB()
 const Texting = TextingDB()
 
