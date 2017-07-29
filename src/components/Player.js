@@ -1,3 +1,4 @@
+import Radium               from 'radium'
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
@@ -9,7 +10,7 @@ import StylesWrapper        from 'styles/Wrapper'
 
 import SlidesScene          from 'slides/containers/SlidesScene'
 import TextingScene         from 'texting/containers/TextingScene'
-import TextEditorScene      from 'textEditor/containers/TextEditorScene'
+import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 
 
 import Hammer from 'react-hammerjs'
@@ -37,10 +38,6 @@ class Player extends Component {
     // Only show overlay state on initial load lifecycle
     // i.e. before video is loaded/played for first time
     const showOverlay = this.props.loadState && !(this.props.timePosition > 0)
-    const controlsStyle = Object.assign(
-      {},
-      StylesWrapper.controls
-    )
     return (
       <Hammer
         onPan={(e) => {
@@ -92,7 +89,7 @@ class Player extends Component {
             />
           )}
           </div>
-          <div id="controls" style={controlsStyle}>
+          <div id="controls" style={StylesWrapper.controls}>
             <PlayerControls
               isPlaying={this.props.isPlaying}
               isPlayable={this.props.isPlayable}
@@ -124,4 +121,4 @@ Player.propTypes = {
   loadVideo: PropTypes.func.isRequired,
 }
 
-export default Player
+export default Radium(Player)

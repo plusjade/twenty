@@ -6,14 +6,6 @@ const Wrapper = {
   navHeight: navHeight,
   controlsHeight: controlsHeight,
   borderFrame: borderFrame,
-  recordingLink: {
-    flex: 1,
-    color: "inherit",
-    display: "block",
-    textDecoration: "none",
-    height: "inherit",
-    lineHeight: "inherit",
-  },
   editorResult: {
     position: "absolute",
     left: 0,
@@ -24,20 +16,6 @@ const Wrapper = {
     justifyContent: "center",
     boxSizing: "border-box",
     border: 0,
-  },
-  editor: {
-    flex: 4,
-    height: "inherit",
-    position: "relative",
-    verticalAlign: "top",
-    boxSizing: "border-box",
-  },
-  result: {
-    flex: 4,
-    height: "inherit",
-    verticalAlign: "top",
-    boxSizing: "border-box",
-    backgroundColor: "#E0E0E0",
   },
   controls: {
     position: "absolute",

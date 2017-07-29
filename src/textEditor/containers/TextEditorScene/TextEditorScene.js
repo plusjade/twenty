@@ -6,7 +6,7 @@ import EditorBot            from 'textEditor/lib/EditorBot'
 import Result               from 'textEditor/components/Result'
 import ResultRenderer       from 'textEditor/lib/ResultRenderer'
 
-import StylesWrapper        from 'styles/Wrapper'
+import style                from './Style'
 
 class TextEditorScene extends Component {
   constructor(props) {
@@ -66,11 +66,11 @@ class TextEditorScene extends Component {
           width: "100%",
         }}
       >
-        <div id="editor" style={StylesWrapper.editor} >
+        <div id="editor" style={style.editor} >
           <AceEditor editorRef={this.editorRef} />
         </div>
 
-        <div id="result" style={StylesWrapper.result}>
+        <div id="result" style={style.result}>
         {false && (
           <Result
             endpoint={this.resultRenderer.resultEndpoint}

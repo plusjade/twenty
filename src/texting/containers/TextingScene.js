@@ -1,6 +1,6 @@
 import React, {Component}   from 'react'
 
-import PlayerOverlay        from 'components/PlayerOverlay'
+import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
 import Phone                from 'texting/components/Phone'
 import TextingBot           from 'texting/lib/TextingBot'
 

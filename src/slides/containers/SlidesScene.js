@@ -1,5 +1,5 @@
 import React, {Component}   from 'react'
-import PlayerOverlay        from 'components/PlayerOverlay'
+import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
 import SlidesBot            from 'slides/lib/SlidesBot'
 
 const Style = {

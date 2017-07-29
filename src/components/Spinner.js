@@ -1,7 +1,8 @@
+import Radium from 'radium'
 import React from 'react'
 
 // http://tobiasahlin.com/spinkit/ <3 <3 <3
-const Style = {
+const style = {
   spinner: {
     width: "70px",
     textAlign: "center",
@@ -30,12 +31,12 @@ const Style = {
 
 const Spinner = () => {
   return (
-    <div style={Style.spinner}>
-      <div style={Object.assign({}, Style.circles.default, Style.circles.one)}/>
-      <div style={Object.assign({}, Style.circles.default, Style.circles.two)}/>
-      <div style={Style.circles.default}/>
+    <div style={style.spinner}>
+      <div style={[style.circles.default, style.circles.one]}/>
+      <div style={[style.circles.default, style.circles.two]}/>
+      <div style={style.circles.default}/>
     </div>
   )
 }
 
-export default Spinner
+export default Radium(Spinner)

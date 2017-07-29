@@ -1,7 +1,7 @@
 import React                from 'react'
 import IconPlay             from 'components/IconPlay'
 import Spinner              from 'components/Spinner'
-import PlayerOverlay        from 'components/PlayerOverlay'
+import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
 
 // states where we want to show an overlay
 const OverlayStates = ["error", "loaded", "loading", "notFound"]
