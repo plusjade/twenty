@@ -3,9 +3,6 @@ import PropTypes              from 'prop-types'
 
 import Style                  from './Style'
 
-import IconPause              from 'components/IconPause'
-import IconPlay               from 'components/IconPlay'
-
 import Slider                 from 'material-ui/Slider'
 import darkBaseTheme          from 'material-ui/styles/baseThemes/darkBaseTheme'
 import MuiThemeProvider       from 'material-ui/styles/MuiThemeProvider'

@@ -17,7 +17,6 @@ export default {
     display: "block",
     textDecoration: "none",
     border: StylesWrapper.borderFrame,
-    borderTop: 0,
     textAlign: "center",
     borderTop: "1px solid #111",
   },

@@ -11,6 +11,7 @@ const TextingBot = (updateCallback) => {
 
   function runCommandUnit(command) {
     let typingStatus = "NOOP"
+    // eslint-disable-next-line
     const [time, c, index, type, text] = command
 
     if (c === "i") {

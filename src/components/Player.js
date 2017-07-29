@@ -41,9 +41,7 @@ class Player extends Component {
     return (
       <Hammer
         onPan={(e) => {
-          window.requestAnimationFrame(() => {
-            this.setState({libraryDistance: e.distance})
-          })
+          this.setState({libraryDistance: e.distance})
         }}
         direction={"DIRECTION_DOWN"}
         onPanEnd={(e) => {
@@ -51,9 +49,7 @@ class Player extends Component {
             let count = Number(e.distance)
             while (count <= 300) {
               count += 10
-              window.requestAnimationFrame(() => {
-                this.setState({libraryDistance: count})
-              })
+              this.setState({libraryDistance: count})
             }
           }
         }}

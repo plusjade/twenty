@@ -5,8 +5,6 @@ import PropTypes            from 'prop-types'
 import VideosList           from 'components/VideosList/VideosList'
 import IconClose            from 'components/IconClose'
 import withPromisedData     from 'containers/withPromisedData'
-import StylesWrapper        from 'styles/Wrapper'
-
 import style                from './Style'
 
 const VideosListAsync = withPromisedData(VideosList, "videos")

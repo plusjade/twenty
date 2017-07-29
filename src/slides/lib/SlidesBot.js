@@ -3,6 +3,7 @@ const SlidesBot = (updateCallback) => {
   let currentSlideIndex = 0
 
   function runCommand(command) {
+    // eslint-disable-next-line
     const [time, c, slideIndex, data] = command
     if (currentSlideIndex === slideIndex) {
       text += data
@@ -22,6 +23,7 @@ const SlidesBot = (updateCallback) => {
     reset()
 
     commands.forEach((command) => {
+      // eslint-disable-next-line
       const [time, c, slideIndex, data] = command
       if (currentSlideIndex === slideIndex) {
         text += data

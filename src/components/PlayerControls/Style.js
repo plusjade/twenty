@@ -10,11 +10,9 @@ export default {
   wrap: {
     position: "relative",
     flex: 1,
-    height: "inherit",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    lineHeight: "inherit",
     backgroundColor: "#232323",
     height: controlsHeight,
     lineHeight: controlsHeight,
@@ -28,7 +26,6 @@ export default {
   },
   two: {
     flex: 1,
-    textAlign: "center",
     boxSizing: "border-box",
     lineHeight: "10px",
     padding: "0 10px",
