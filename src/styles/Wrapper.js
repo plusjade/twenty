@@ -1,5 +1,5 @@
 const navHeight = 0
-const controlsHeight = "8vh"
+const controlsHeight = "5vh"
 const borderFrame = 0
 
 const Wrapper = {
@@ -13,21 +13,6 @@ const Wrapper = {
     textDecoration: "none",
     height: "inherit",
     lineHeight: "inherit",
-  },
-  library: {
-    display: "flex",
-    overflow: "auto",
-    boxSizing: "border-box",
-    color: "#9E9E9E",
-    position: "relative",
-  },
-  libraryClose: {
-    position: "fixed",
-    color: "#9E9E9E",
-    bottom: 0,
-    left: 0,
-    padding: "5px",
-    zIndex: 1002,
   },
   editorResult: {
     position: "absolute",
@@ -58,18 +43,10 @@ const Wrapper = {
     position: "absolute",
     left: 0,
     right: 0,
-    bottom: navHeight,
-    display: "flex",
-    justifyContent: "center",
-    height: controlsHeight,
-    lineHeight: controlsHeight,
-    alignItems: "center",
+    bottom: 0,
     zIndex: 1000,
     overflow: "visible",
-    backgroundColor: "#232323",
     boxSizing: "border-box",
-    borderRadius: "0 0 15px 15px",
-    border: borderFrame,
   },
 }
 export default Wrapper

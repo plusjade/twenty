@@ -1,7 +1,7 @@
 import React from 'react'
 
 const PlayerOverlay = (props) => {
-  const backgroundColor = props.backgroundColor || "rgba(0,0,0,0.2)"
+  const backgroundColor = props.backgroundColor || "transparent"
   const Style = {
     default: {
       position: "absolute",

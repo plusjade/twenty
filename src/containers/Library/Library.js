@@ -1,3 +1,4 @@
+import Radium               from 'radium'
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
@@ -5,6 +6,8 @@ import VideosList           from 'components/VideosList/VideosList'
 import IconClose            from 'components/IconClose'
 import withPromisedData     from 'containers/withPromisedData'
 import StylesWrapper        from 'styles/Wrapper'
+
+import style                from './Style'
 
 const VideosListAsync = withPromisedData(VideosList, "videos")
 
@@ -26,10 +29,13 @@ class Library extends Component {
 
   render() {
     return(
-      <div style={StylesWrapper.library}>
+      <div style={[
+        style.wrap,
+        {maxHeight: this.props.libraryDistance}
+      ]}>
       {this.props.isOpen && !this.props.disableClose && (
         <div
-          style={StylesWrapper.libraryClose}
+          style={style.close}
           onClick={this.props.toggleLibrary}
         >
           <IconClose fill="#9E9E9E"/>
@@ -37,9 +43,10 @@ class Library extends Component {
       )}
         <VideosListAsync
           key={this.state.entropyKey}
-          async={this.props.isOpen ? this.props.videosDB.list : undefined}
+          async={true ? this.props.videosDB.list : undefined}
           onSelect={this.props.onSelect}
           isOpen={this.props.isOpen}
+          libraryDistance={this.props.libraryDistance}
         />
       </div>
     )
@@ -56,4 +63,4 @@ Library.defaultProps = {
  onSelect: (video) => window.location = `/?id=${video.token}`
 }
 
-export default Library
+export default Radium(Library)

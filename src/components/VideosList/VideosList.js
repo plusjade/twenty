@@ -2,8 +2,9 @@ import React                from 'react'
 
 import Style                from './Style'
 
+// top: `${props.libraryDistance}px`
 function VideosList(props) {
-  const wrap = Object.assign({maxHeight: (props.isOpen ? "1000px" : 0)}, Style.wrap)
+  const wrap = Object.assign({}, Style.wrap)
   return (
     <div style={wrap}>
     {props.videos.map((v, i) => {

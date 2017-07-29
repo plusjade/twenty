@@ -1,6 +1,6 @@
 import React                from 'react'
 
-import Library              from 'containers/Library'
+import Library              from 'containers/Library/Library'
 
 const Home = (props) => {
   return(

@@ -6,7 +6,7 @@ import NewRecording         from 'components/NewRecording'
 import RecorderControls     from 'components/RecorderControls'
 import Result               from 'textEditor/components/Result'
 
-import Library              from 'containers/Library'
+import Library              from 'containers/Library/Library'
 
 import StylesWrapper        from 'styles/Wrapper'
 

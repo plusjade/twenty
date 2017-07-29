@@ -1,7 +1,9 @@
+const controlsHeight = "5vh"
 export default {
   sliderWrap: {
     position: "absolute",
-    top: "-8px",
+    top: "1vh",
+    bottom: 0,
     right: 0,
     left: 0,
   },
@@ -13,6 +15,9 @@ export default {
     justifyContent: "center",
     alignItems: "center",
     lineHeight: "inherit",
+    backgroundColor: "#232323",
+    height: controlsHeight,
+    lineHeight: controlsHeight,
   },
   one: {
     flex: 1,

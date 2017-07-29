@@ -34,35 +34,8 @@ function PlayerControls(props) {
         </div>
       )}
       <div style={Style.one}>
-        <a
-          href="#library"
-          style={Style.libraryLink}
-          onClick={(e) => {
-            e.preventDefault()
-            props.toggleLibrary()
-          }}
-        >
-          Library
-        </a>
       </div>
       <div style={Style.two}>
-      {props.isPlayable() && (
-        <div
-          onClick={(e) => {
-            e.preventDefault()
-            if (props.isPlaying()) {
-              props.pause()
-            } else if (props.timePosition >= props.timeDuration ) {
-              props.replay()
-            }
-            else {
-              props.play()
-            }
-          }}
-        >
-          {props.isPlaying() ? <IconPause /> : <IconPlay />}
-        </div>
-      )}
       </div>
       <div style={Style.three}>
       </div>
