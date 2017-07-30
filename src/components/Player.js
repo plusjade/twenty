@@ -41,6 +41,7 @@ class Player extends Component {
         <div id="editor-result" style={StylesWrapper.editorResult}>
         {this.props.sceneTypes.includes("quiz") && (
           <QuizScene
+            sceneIndex={this.props.scene.index}
             mountBot={this.props.mountBot}
             isActive={this.props.scene.type === "quiz"}
             pause={this.props.pause}
@@ -50,6 +51,7 @@ class Player extends Component {
 
         {this.props.sceneTypes.includes("texting") && (
           <TextingScene
+            sceneIndex={this.props.scene.index}
             mountBot={this.props.mountBot}
             isActive={this.props.scene.type === "texting"}
           />
@@ -57,6 +59,7 @@ class Player extends Component {
 
         {this.props.sceneTypes.includes("slides") && (
           <SlidesScene
+            sceneIndex={this.props.scene.index}
             mountBot={this.props.mountBot}
             isActive={this.props.scene.type === "slides"}
           />
@@ -64,6 +67,7 @@ class Player extends Component {
 
         {this.props.sceneTypes.includes("editor") && (
           <TextEditorScene
+            sceneIndex={this.props.scene.index}
             mountBot={this.props.mountBot}
             isActive={this.props.scene.type === "editor"}
           />
