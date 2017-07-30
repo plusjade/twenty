@@ -25,6 +25,12 @@ function Scenes(set) {
         p.timeDuration = p.player.timeDuration()
         break
       }
+      case "quiz": {
+        p.player = CommandPlayer()
+        p.player.reset([[0, p.data]])
+        p.timeDuration = 1000 // the time it takes for "after select" animation
+        break
+      }
       default: {
 
       }

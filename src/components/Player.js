@@ -11,6 +11,7 @@ import StylesWrapper        from 'styles/Wrapper'
 import SlidesScene          from 'slides/containers/SlidesScene/SlidesScene'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
+import QuizScene            from 'quiz/containers/QuizScene/QuizScene'
 
 class Player extends Component {
   constructor(props) {
@@ -38,6 +39,15 @@ class Player extends Component {
     return (
       <div id="app-wrapper">
         <div id="editor-result" style={StylesWrapper.editorResult}>
+        {this.props.sceneTypes.includes("quiz") && (
+          <QuizScene
+            mountBot={this.props.mountBot}
+            isActive={this.props.scene.type === "quiz"}
+            pause={this.props.pause}
+            play={this.props.play}
+          />
+        )}
+
         {this.props.sceneTypes.includes("texting") && (
           <TextingScene
             mountBot={this.props.mountBot}

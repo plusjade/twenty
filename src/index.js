@@ -13,6 +13,8 @@ import withRecord       from 'containers/withRecord'
 
 import TextingDB from 'texting/lib/TextingDB'
 import SlidesDB  from 'slides/lib/SlidesDB'
+
+import QuizDB     from 'quiz/lib/QuizDB'
 import './index.css'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -20,6 +22,7 @@ injectTapEventPlugin()
 
 const Slides = SlidesDB()
 const Texting = TextingDB()
+const Quiz = QuizDB()
 
 const API_ENDPOINT = (
   false
@@ -45,6 +48,10 @@ if (parts[1] === "make") {
     {
       type: "slides",
       data: Slides.data,
+    },
+    {
+      type: "quiz",
+      data: Quiz.one,
     },
     {
       type: "slides",
