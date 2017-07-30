@@ -25,7 +25,7 @@ const Texting = TextingDB()
 const Quiz = QuizDB()
 
 const API_ENDPOINT = (
-  false
+  process.env.NODE_ENV === 'production'
     ? "https://www.getdamon.com/videos"
     : "http://localhost:4000/videos"
 )
