@@ -8,7 +8,7 @@ import InitialOverlay       from 'components/InitialOverlay'
 import Library              from 'containers/Library/Library'
 import StylesWrapper        from 'styles/Wrapper'
 
-import SlidesScene          from 'slides/containers/SlidesScene'
+import SlidesScene          from 'slides/containers/SlidesScene/SlidesScene'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 

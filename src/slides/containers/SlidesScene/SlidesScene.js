@@ -1,24 +1,14 @@
 import React, {Component}   from 'react'
 import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
 import SlidesBot            from 'slides/lib/SlidesBot'
-
-const Style = {
-  default: {
-    textAlign: "left",
-    fontSize: "54px",
-    margin: "auto",
-    padding: "0 10px",
-    width: "100%",
-    color: "#FFF",
-  }
-}
+import style                from './Style'
 
 class SlidesScene extends Component {
   constructor(props) {
     super(props)
-      this.initialState = this.initialState.bind(this)
-      this.resetState = this.resetState.bind(this)
-      this.state = this.initialState()
+    this.initialState = this.initialState.bind(this)
+    this.resetState = this.resetState.bind(this)
+    this.state = this.initialState()
   }
 
   initialState() {
@@ -46,11 +36,8 @@ class SlidesScene extends Component {
       case "title": {
         return (
           <PlayerOverlay backgroundColor="#44a0dd" {...this.props}>
-            <div style={{
-              textAlign: "left",
-              width: "800px",
-            }}>
-              <h1 style={Style.default}>
+            <div style={style.default}>
+              <h1 style={style.text}>
                 {this.state.slide.data}
               </h1>
             </div>
@@ -87,7 +74,7 @@ class SlidesScene extends Component {
       default: {
         return (
           <PlayerOverlay backgroundColor="#44a0dd">
-            <h1 style={Style.default}>
+            <h1 style={style.default}>
               {this.state.slide.data}
             </h1>
           </PlayerOverlay>
