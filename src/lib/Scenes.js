@@ -1,15 +1,25 @@
 import CommandPlayer        from 'lib/CommandPlayer'
 import TextingToCommands    from 'texting/lib/TextingToCommands'
 import SlidesToCommands     from 'slides/lib/SlidesToCommands'
+import Personalizer         from 'lib/Personalizer'
 
-function Scenes(set) {
+function Scenes(set, substitutions) {
   const PAUSE_BETWEEN_SCENES = 1000
+  const personalizer = Personalizer(substitutions)
   let time = 0
+
   const scenes = set.map((p, index) => {
     switch(p.type) {
       case "slides": {
+        const personalizedData = (
+          p.data.map((slide) => {
+            slide.data = personalizer.personalize(slide.data)
+            return slide
+          })
+        )
+
         p.player = CommandPlayer()
-        p.player.reset(SlidesToCommands(p.data))
+        p.player.reset(SlidesToCommands(personalizedData))
         p.timeDuration = p.player.timeDuration()
         break
       }
@@ -26,6 +36,14 @@ function Scenes(set) {
         break
       }
       case "quiz": {
+        p.data.question = personalizer.personalize(p.data.question)
+        p.data.answers = (
+          p.data.answers.map((answer) => {
+            answer.name = personalizer.personalize(answer.name)
+            return answer
+          })
+        )
+
         p.player = CommandPlayer()
         p.player.reset([[0, p.data]])
         p.timeDuration = 1000 // the time it takes for "after select" animation

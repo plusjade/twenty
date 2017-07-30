@@ -2,7 +2,7 @@ const SlidesDB = () => {
   const data = [
     {
       type: "title",
-      data: "Hello, how's your day going?",
+      data: "Hello, how's your day going, {{name}}?",
     },
     {
       type: "title",
@@ -11,6 +11,10 @@ const SlidesDB = () => {
     {
       type: "title",
       data: "Yeah, I hear ya",
+    },
+    {
+      type: "title",
+      data: "here's your custom emoji: {{emoji}}",
     },
     {
       type: "title",

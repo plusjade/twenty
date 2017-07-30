@@ -14,7 +14,8 @@ import withRecord       from 'containers/withRecord'
 import TextingDB from 'texting/lib/TextingDB'
 import SlidesDB  from 'slides/lib/SlidesDB'
 
-import QuizDB     from 'quiz/lib/QuizDB'
+import QuizDB             from 'quiz/lib/QuizDB'
+import PersonalizerDB     from 'lib/PersonalizerDB'
 import './index.css'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -39,11 +40,17 @@ let props = {
   resultRendererEnabled: !QParams.get("disable_result")
 }
 
+let substitutions = PersonalizerDB.francine
+if (PersonalizerDB[QParams.get("p") || "__"]) {
+  substitutions = PersonalizerDB[QParams.get("p")]
+}
+
 if (parts[1] === "make") {
   app = withRecord(Recorder)
 } else if (videoId) {
   app = withPlay(Player)
   props.videoId = videoId
+  props.substitutions = substitutions
   props.scenes = [
     {
       type: "slides",

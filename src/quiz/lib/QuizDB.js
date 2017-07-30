@@ -5,7 +5,7 @@ function QuizDB() {
       question: "Deal with Jade's nonsense?",
       answers: [
         {value: "false", name: "NO"},
-        {value: "false", name: "meh, not really"},
+        {value: "false", name: "meh, I'm {{excuse}}"},
         {value: "true", name: "Um, ya"},
       ]
     },

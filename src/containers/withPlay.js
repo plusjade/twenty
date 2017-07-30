@@ -67,7 +67,7 @@ const withPlay = (WrappedComponent) => {
         type: "editor",
         data: video.commands,
       })
-      this.scenes = Scenes(scenes)
+      this.scenes = Scenes(scenes, this.props.substitutions)
       const scene = this.scenes.at(1)
 
       this.setState({
