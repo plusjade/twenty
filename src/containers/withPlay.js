@@ -88,7 +88,9 @@ const withPlay = (WrappedComponent) => {
         .then((video) => {
           if (video) {
             console.log(video)
-            window.history.replaceState({}, null, `/?id=${videoId}`)
+            if (!window.location.search.includes("id")) {
+              window.history.replaceState({}, null, `/?id=${videoId}`)
+            }
             this.sound.mount(video.audio_url, () => {
               this.setVideoData(video)
             })
