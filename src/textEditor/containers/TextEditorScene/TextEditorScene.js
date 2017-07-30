@@ -60,6 +60,7 @@ class TextEditorScene extends Component {
   render() {
     return (
       <div
+        id="TextEditorScene-wrap"
         style={{
           display: this.props.isActive ? "flex" : "none",
           height: "100%",

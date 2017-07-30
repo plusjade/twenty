@@ -15,7 +15,7 @@ a:hover {
   }
 }
 @media (max-width: 500px) {
-  #editor-result {
+  #editor-result, #TextEditorScene-wrap {
     flex-direction: column !important;
   }
 }
