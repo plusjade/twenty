@@ -10,7 +10,7 @@ const SlidesDB = () => {
     },
     {
       type: "title",
-      data: "Coolbeans!",
+      data: "Yeah, I hear ya",
     },
     {
       type: "title",
@@ -18,31 +18,36 @@ const SlidesDB = () => {
     },
     {
       type: "title",
-      data: "Do you want to make a web page?",
+      data: "I want to show you something really quick,",
     },
 
     {
       type: "title",
-      data: "Well, what is a web page?",
+      data: "Do you want to see it?",
     },
     {
       type: "title",
-      data: "Let's find out!",
+      data: "😵",
     },
     {
-      type: "orderedList",
-      data: [
-        "Open a web browser",
-        "Navigate to your favorite website ",
-        "https://www.instacart.com/",
-        "Right click the page",
-        "Click \"View Source\"",
-        "What do you see?",
-      ]
+      type: "title",
+      data: "Don't worry it's not weird!",
+    },
+
+    {
+      type: "title",
+      data: "Cool?",
+    },
+  ]
+
+  const agreed = [
+    {
+      type: "title",
+      data: "Great! I knew I could count on you 😬",
     },
     {
-      type: "image",
-      data: "https://s3.amazonaws.com/media-p.slid.es/uploads/46703/images/3558698/Screen_Shot_2017-03-05_at_7.06.44_PM.png"
+      type: "title",
+      data: "So the first thing is random, but imagine you had an iMessage converation...",
     },
   ]
 
@@ -76,6 +81,7 @@ const SlidesDB = () => {
   return ({
     data: data,
     data2: data2,
+    agreed: agreed,
   })
 }
 

@@ -47,6 +47,10 @@ if (parts[1] === "make") {
       data: Slides.data,
     },
     {
+      type: "slides",
+      data: Slides.agreed,
+    },
+    {
       type: "texting",
       data: Texting.messages,
     },
