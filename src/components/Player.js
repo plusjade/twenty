@@ -12,9 +12,6 @@ import SlidesScene          from 'slides/containers/SlidesScene'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 
-
-import Hammer from 'react-hammerjs'
-
 class Player extends Component {
   constructor(props) {
     super(props)
@@ -39,74 +36,58 @@ class Player extends Component {
     // i.e. before video is loaded/played for first time
     const showOverlay = this.props.loadState && !(this.props.timePosition > 0)
     return (
-      <Hammer
-        onPan={(e) => {
-          this.setState({libraryDistance: e.distance})
-        }}
-        direction={"DIRECTION_DOWN"}
-        onPanEnd={(e) => {
-          if (this.state.libraryDistance < 200) {
-            let count = Number(e.distance)
-            while (count <= 300) {
-              count += 10
-              this.setState({libraryDistance: count})
-            }
-          }
-        }}
-      >
-        <div id="app-wrapper">
-          <div id="editor-result" style={StylesWrapper.editorResult}>
-          {this.props.sceneTypes.includes("texting") && (
-            <TextingScene
-              mountBot={this.props.mountBot}
-              isActive={this.props.scene.type === "texting"}
-            />
-          )}
+      <div id="app-wrapper">
+        <div id="editor-result" style={StylesWrapper.editorResult}>
+        {this.props.sceneTypes.includes("texting") && (
+          <TextingScene
+            mountBot={this.props.mountBot}
+            isActive={this.props.scene.type === "texting"}
+          />
+        )}
 
-          {this.props.sceneTypes.includes("slides") && (
-            <SlidesScene
-              mountBot={this.props.mountBot}
-              isActive={this.props.scene.type === "slides"}
-            />
-          )}
+        {this.props.sceneTypes.includes("slides") && (
+          <SlidesScene
+            mountBot={this.props.mountBot}
+            isActive={this.props.scene.type === "slides"}
+          />
+        )}
 
-          {this.props.sceneTypes.includes("editor") && (
-            <TextEditorScene
-              mountBot={this.props.mountBot}
-              isActive={this.props.scene.type === "editor"}
-            />
-          )}
+        {this.props.sceneTypes.includes("editor") && (
+          <TextEditorScene
+            mountBot={this.props.mountBot}
+            isActive={this.props.scene.type === "editor"}
+          />
+        )}
 
-          {showOverlay && (
-            <InitialOverlay
-              loadState={this.props.loadState}
-              play={this.props.play}
-              active={true}
-            />
-          )}
-          </div>
-          <div id="controls" style={StylesWrapper.controls}>
-            <PlayerControls
-              isPlaying={this.props.isPlaying}
-              isPlayable={this.props.isPlayable}
-              pause={this.props.pause}
-              play={this.props.play}
-              replay={this.props.replay}
-              seekTo={this.props.seekTo}
-              timeDuration={this.props.timeDuration}
-              timePosition={this.props.timePosition}
-              toggleLibrary={this.props.toggleLibrary}
-            />
-            <Library
-              onSelect={(video) => { this.props.loadVideo(video.token) }}
-              isOpen={this.props.libraryIsOpen}
-              toggleLibrary={this.props.toggleLibrary}
-              libraryDistance={this.state.libraryDistance}
-              videosDB={this.props.videosDB}
-            />
-          </div>
+        {showOverlay && (
+          <InitialOverlay
+            loadState={this.props.loadState}
+            play={this.props.play}
+            active={true}
+          />
+        )}
         </div>
-      </Hammer>
+        <div id="controls" style={StylesWrapper.controls}>
+          <PlayerControls
+            isPlaying={this.props.isPlaying}
+            isPlayable={this.props.isPlayable}
+            pause={this.props.pause}
+            play={this.props.play}
+            replay={this.props.replay}
+            seekTo={this.props.seekTo}
+            timeDuration={this.props.timeDuration}
+            timePosition={this.props.timePosition}
+            toggleLibrary={this.props.toggleLibrary}
+          />
+          <Library
+            onSelect={(video) => { this.props.loadVideo(video.token) }}
+            isOpen={this.props.libraryIsOpen}
+            toggleLibrary={this.props.toggleLibrary}
+            libraryDistance={this.state.libraryDistance}
+            videosDB={this.props.videosDB}
+          />
+        </div>
+      </div>
     )
   }
 }
