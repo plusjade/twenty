@@ -17,7 +17,8 @@ class QuizScene extends Component {
   initialState() {
     return ({
       question: undefined,
-      answers: []
+      answers: [],
+      answer: {},
     })
   }
 
@@ -51,13 +52,16 @@ class QuizScene extends Component {
     return (
       <PlayerOverlay backgroundColor="#00796B">
         <div>
-          <h1 style={style.default}>
+          <h1 style={style.question.default}>
             {this.state.question}
           </h1>
         {this.state.answers.map((answer, i) => (
           <button
             key={i}
-            style={style.button.default}
+            style={[
+              style.button.default,
+              this.state.answer.name === answer.name && style.button.active,
+            ]}
             onClick={() => {
               this.onSelect(answer)
             }}
