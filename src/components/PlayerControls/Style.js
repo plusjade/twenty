@@ -12,30 +12,24 @@ export default {
     flex: 1,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "baseline",
     backgroundColor: "#232323",
     height: controlsHeight,
     lineHeight: controlsHeight,
   },
   one: {
-    flex: 1,
+    flex: 10,
     boxSizing: "border-box",
     padding: "0 10px",
     lineHeight: "10px",
     color: "#FFF",
-  },
-  two: {
-    flex: 1,
-    boxSizing: "border-box",
-    lineHeight: "10px",
-    padding: "0 10px",
-    textAlign: "center",
   },
   three: {
     flex: 1,
     boxSizing: "border-box",
-    padding: "0 10px",
+    padding: "0 5px",
     color: "#FFF",
+    textAlign: "right"
   },
   rangeInput: {
     width: "100%"
