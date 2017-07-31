@@ -1,6 +1,7 @@
-import React from 'react'
+import React                from 'react'
+import PropTypes            from 'prop-types'
 
-const Result = (props) => {
+function Result (props) {
   return (
     <div
       style={{
@@ -21,6 +22,11 @@ const Result = (props) => {
       />
     </div>
   )
+}
+
+Result.propTypes = {
+  endpoint: PropTypes.string.isRequired,
+  resultRendererRef: PropTypes.func.isRequired,
 }
 
 export default Result

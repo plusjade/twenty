@@ -72,9 +72,9 @@ class TextEditorScene extends Component {
         </div>
 
         <div id="result" style={style.result}>
-        {false && (
+        {true && (
           <Result
-            endpoint={this.resultRenderer.resultEndpoint}
+            endpoint={this.resultRenderer.endpoint}
             resultRendererRef={this.resultRendererRef}
           />
         )}
