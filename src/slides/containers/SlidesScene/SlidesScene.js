@@ -48,7 +48,7 @@ class SlidesScene extends Component {
     switch (this.state.type) {
       case "title": {
         return (
-          <PlayerOverlay backgroundColor="#44a0dd" {...this.props}>
+          <PlayerOverlay {...this.props}>
             <div style={style.default}>
               <h1 style={style.text}>
                 {this.state.data}
@@ -59,7 +59,7 @@ class SlidesScene extends Component {
       }
       case "orderedList": {
         return (
-          <PlayerOverlay backgroundColor="#44a0dd">
+          <PlayerOverlay>
             <ul>
             {this.state.data.map((line) => <li>{line}</li>)}
             </ul>
@@ -68,7 +68,7 @@ class SlidesScene extends Component {
       }
       case "image": {
         return (
-          <PlayerOverlay backgroundColor="#44a0dd">
+          <PlayerOverlay>
             <img
               src={this.state.data}
               style={{width: "80%", height: "auto"}}
@@ -79,14 +79,14 @@ class SlidesScene extends Component {
       }
       case "error": {
         return (
-          <PlayerOverlay backgroundColor="#44a0dd">
+          <PlayerOverlay>
             <span>There was an error</span>
           </PlayerOverlay>
         )
       }
       default: {
         return (
-          <PlayerOverlay backgroundColor="#44a0dd">
+          <PlayerOverlay>
             <h1 style={style.default}>
               {this.state.data}
             </h1>

@@ -3,7 +3,7 @@ export default {
     default: {
       position: "absolute",
       top: 0,
-      bottom: 0,
+      bottom: "5vh",
       left: 0,
       right: 0,
       visibility: "hidden",

@@ -19,7 +19,7 @@ export default {
       backgroundColor: "#FFF",
       cursor: "pointer",
       transition: "all 100ms ease-in-out",
-      boxShadow: "4px 5px #0277BD",
+      boxShadow: "4px 5px #616161",
       outline: 0,
     },
     active: {
