@@ -1,3 +1,4 @@
+import Radium               from 'radium'
 import React, {Component}   from 'react'
 import throttle             from 'lib/throttle'
 
@@ -61,11 +62,10 @@ class TextEditorScene extends Component {
     return (
       <div
         id="TextEditorScene-wrap"
-        style={{
-          display: this.props.isActive ? "flex" : "none",
-          height: "100%",
-          width: "100%",
-        }}
+        style={[
+          style.wrap.default,
+          this.props.isActive && style.wrap.active
+        ]}
       >
         <div id="editor" style={style.editor} >
           <AceEditor editorRef={this.editorRef} />
@@ -88,4 +88,4 @@ TextEditorScene.defaultProps = {
   mode: "html"
 }
 
-export default TextEditorScene
+export default Radium(TextEditorScene)

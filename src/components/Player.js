@@ -37,8 +37,7 @@ class Player extends Component {
     // i.e. before video is loaded/played for first time
     const showOverlay = this.props.loadState && !(this.props.timePosition > 0)
     return (
-      <div id="app-wrapper">
-        <div id="editor-result" style={StylesWrapper.editorResult}>
+      <div id="app-wrapper" style={StylesWrapper.wrap}>
         {this.props.sceneTypes.includes("quiz") && (
           <QuizScene
             sceneIndex={this.props.scene.index}
@@ -80,7 +79,7 @@ class Player extends Component {
             active={true}
           />
         )}
-        </div>
+
         <div id="controls" style={StylesWrapper.controls}>
           <PlayerControls
             isPlaying={this.props.isPlaying}

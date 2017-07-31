@@ -6,14 +6,16 @@ const Wrapper = {
   navHeight: navHeight,
   controlsHeight: controlsHeight,
   borderFrame: borderFrame,
-  editorResult: {
+  wrap: {
+    width: "100%",
+    height: "100%",
+  },
+  sceneWrap: {
     position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: controlsHeight,
-    display: "flex",
-    justifyContent: "center",
     boxSizing: "border-box",
     border: 0,
   },

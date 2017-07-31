@@ -14,7 +14,7 @@ const Recorder = (props) => {
   return (
     <div id="app-wrapper">
 
-      <div id="editor-result" style={StylesWrapper.editorResult}>
+      <div id="editor-result" style={StylesWrapper.sceneWrap}>
         <div id="editor" style={StylesWrapper.editor} >
           <AceEditor editorRef={props.editorRef} />
         </div>
