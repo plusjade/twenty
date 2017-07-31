@@ -64,10 +64,12 @@ const withPlay = (WrappedComponent) => {
     setVideoData(video) {
       this.setStart() // todo
       const scenes = this.props.scenes.slice(0)
+      const lastScene = scenes.pop()
       scenes.push({
         type: "editor",
         data: video.commands,
       })
+      scenes.push(lastScene)
       this.scenes = Scenes(scenes, this.props.substitutions)
       const scene = this.scenes.at(1)
 

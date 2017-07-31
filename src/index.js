@@ -68,10 +68,13 @@ if (parts[1] === "make") {
       type: "texting",
       data: Texting.messages,
     },
-
     {
       type: "slides",
       data: Slides.data2,
+    },
+    {
+      type: "slides",
+      data: Slides.data3,
     },
   ]
 } else {

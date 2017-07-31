@@ -14,20 +14,21 @@ const SlidesDB = () => {
     },
     {
       type: "title",
-      data: "here's your custom emoji: {{emoji}}",
+      data: "here's your custom emoji:",
     },
     {
       type: "title",
-      data: "So, umm...",
-    },
-    {
-      type: "title",
-      data: "I want to show you something really quick,",
+      data: "{{emoji}}",
     },
 
     {
       type: "title",
-      data: "Do you want to see it?",
+      data: "Hope you liked it!",
+    },
+
+    {
+      type: "title",
+      data: "You want to see something?",
     },
     {
       type: "title",
@@ -40,7 +41,7 @@ const SlidesDB = () => {
 
     {
       type: "title",
-      data: "Cool?",
+      data: "What do you think?",
     },
   ]
 
@@ -51,34 +52,37 @@ const SlidesDB = () => {
     },
     {
       type: "title",
-      data: "So the first thing is random, but imagine you had an iMessage converation...",
+      data: "So the first thing is random, but it's an iMessage converation...",
     },
   ]
 
   const data2 = [
     {
       type: "title",
-      data: "Wasn't that cool?",
+      data: "Initially, I started with a code editor,",
     },
     {
       type: "title",
-      data: "BUT WAIT!",
+      data: "which is much harder, but I'm glad I did it",
     },
     {
       type: "title",
-      data: "THERE'S MORE =O",
+      data: "Check it out, it's a real code editor...!",
+    },
+  ]
+
+  const data3 = [
+    {
+      type: "title",
+      data: "That's it for now,",
     },
     {
       type: "title",
-      data: "What do you know about...",
+      data: "Thank you for checking it out buddy!",
     },
     {
       type: "title",
-      data: "CSS?",
-    },
-    {
-      type: "title",
-      data: "Ok, NVM, that's it for now! ......",
+      data: "{{name}} <3",
     },
   ]
 
@@ -86,6 +90,7 @@ const SlidesDB = () => {
     data: data,
     data2: data2,
     agreed: agreed,
+    data3: data3,
   })
 }
 

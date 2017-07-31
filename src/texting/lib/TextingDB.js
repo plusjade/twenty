@@ -17,7 +17,11 @@ const TextingDB = () => {
       type: "mine",
     },
     {
-      text: "meep not really sure 😴",
+      text: "not really sure 😴",
+      type: "mine",
+    },
+    {
+      text: "but it wasn't early",
       type: "mine",
     },
     {
@@ -25,27 +29,28 @@ const TextingDB = () => {
       type: "theirs",
     },
     {
-      text: "^_^ ^_^ ^_^",
-      type: "theirs",
-    },
-
-    {
-      text: "my treat since you got it for me last time, but then again, I mostly always ask you! =____=",
-      type: "theirs",
-    },
-    {
-      text: "like right now =____________________________________=",
-      type: "theirs",
-    },
-
-    {
-      text: "Yeah, I am a terrible person overall.",
+      text: "Of course I do",
       type: "mine",
     },
-
     {
-      text: "Ok let's do it!",
+      text: "I decided....I'm a disaster, I might as well do what the hell I want right?",
       type: "mine",
+    },
+    {
+      text: "I don't konw what the hell that means, but sure you got it",
+      type: "theirs",
+    },
+    {
+      text: "oh, you're paying right?",
+      type: "theirs",
+    },
+    {
+      text: "😛",
+      type: "theirs",
+    },
+    {
+      text: "😛",
+      type: "theirs",
     },
   ]
 
