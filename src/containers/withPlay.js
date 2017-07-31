@@ -45,6 +45,7 @@ const withPlay = (WrappedComponent) => {
         timeDuration: 0,
         timePosition: 0,
         videoId: this.props.videoId,
+        isPlaying: false,
       })
     }
 
@@ -110,6 +111,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     pause(time) {
+      this.setState({isPlaying: false})
       this.timeKeeper.pause(time)
       this.sound.pause()
     }
@@ -120,8 +122,8 @@ const withPlay = (WrappedComponent) => {
     }
 
     play() {
-      if (this.timeKeeper.isPlaying()) { return }
-
+      if (this.state.isPlaying) { return }
+      this.setState({isPlaying: true})
       this.sound.play()
 
       this.timeKeeper.start((nextTimePosition) => {
@@ -161,7 +163,6 @@ const withPlay = (WrappedComponent) => {
           pause={this.pause}
           replay={this.replay}
           seekTo={this.seekTo}
-          isPlaying={this.timeKeeper.isPlaying}
 
           isPlayable={this.isPlayable}
           mountBot={this.mountBot}

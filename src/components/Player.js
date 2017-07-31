@@ -1,8 +1,10 @@
 import Radium               from 'radium'
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
+import Hammer               from 'react-hammerjs'
 
 import PlayerControls       from 'components/PlayerControls/PlayerControls'
+import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
 import InitialOverlay       from 'components/InitialOverlay'
 
 import Library              from 'containers/Library/Library'
@@ -79,6 +81,12 @@ class Player extends Component {
             active={true}
           />
         )}
+
+        <Hammer onTap={this.props.pause}>
+          <PlayerOverlay isHidden={!this.props.isPlaying}>
+            <div />
+          </PlayerOverlay>
+        </Hammer>
 
         <div id="controls" style={StylesWrapper.controls}>
           <PlayerControls

@@ -6,7 +6,11 @@ import style from './Style'
 const PlayerOverlay = (props) => {
   return (
     <div
-      style={[style.default, props.style]}
+      style={[
+        style.default,
+        props.style,
+        props.isHidden && style.hidden
+      ]}
       onClick={props.onClick}
     >
       {React.Children.only(props.children)}

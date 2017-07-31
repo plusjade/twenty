@@ -12,7 +12,7 @@ import getMuiTheme            from 'material-ui/styles/getMuiTheme'
 
 function PlayerControls(props) {
   function renderIcon() {
-    if (props.isPlaying()) {
+    if (props.isPlaying) {
       return (<IconPause style={{height: 20, width: 20}} />)
     } else {
       return (<IconPlay style={{height: 20, width: 20}}  />)
@@ -45,7 +45,7 @@ function PlayerControls(props) {
           <div
             onClick={(e) => {
               e.preventDefault()
-              if (props.isPlaying()) {
+              if (props.isPlaying) {
                 props.pause()
               } else if (props.timePosition >= props.timeDuration ) {
                 props.replay()
@@ -63,7 +63,7 @@ function PlayerControls(props) {
   )
 }
 PlayerControls.propTypes = {
-  isPlaying: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
   isPlayable: PropTypes.func.isRequired,
   pause: PropTypes.func.isRequired,
   play: PropTypes.func.isRequired,

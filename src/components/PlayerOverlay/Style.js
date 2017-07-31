@@ -12,10 +12,13 @@ export default {
     opacity: 1,
     marginTop: 0,
     overflow: "hidden",
-    maxHeight: "2000px",
-    transition: "all 500ms ease-in",
+    maxHeight: 2000,
+  },
+  hidden: {
+    maxHeight: 0,
   },
   animate: {
+    transition: "all 500ms ease-in",
     opacity: 0,
     maxHeight: 0,
   },
