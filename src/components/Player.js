@@ -90,6 +90,7 @@ class Player extends Component {
 
         <div id="controls" style={StylesWrapper.controls}>
           <PlayerControls
+            isActive={!showOverlay && !this.props.isPlaying}
             isPlaying={this.props.isPlaying}
             isPlayable={this.props.isPlayable}
             pause={this.props.pause}

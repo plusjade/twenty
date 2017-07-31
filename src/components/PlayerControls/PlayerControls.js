@@ -1,3 +1,4 @@
+import Radium                 from 'radium'
 import React                  from 'react'
 import PropTypes              from 'prop-types'
 
@@ -20,7 +21,11 @@ function PlayerControls(props) {
   }
 
   return (
-    <div style={Style.wrap}>
+    <div style={[
+      Style.wrap.default,
+      props.isActive && Style.wrap.active
+    ]}
+    >
       {props.isPlayable() && (
         <div style={Style.one}>
           <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
@@ -73,4 +78,4 @@ PlayerControls.propTypes = {
   timePosition: PropTypes.number,
 }
 
-export default PlayerControls
+export default Radium(PlayerControls)

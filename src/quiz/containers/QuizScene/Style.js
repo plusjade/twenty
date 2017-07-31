@@ -23,7 +23,7 @@ export default {
       outline: 0,
     },
     active: {
-      boxShadow: "4px 5px rbga(0,0,0,0)",
+      boxShadow: "4px 5px rgba(0,0,0,0)",
       transform: "translate(5px, 4px)",
     }
   }
