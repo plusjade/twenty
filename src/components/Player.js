@@ -88,27 +88,25 @@ class Player extends Component {
           </PlayerOverlay>
         </Hammer>
 
-        <div id="controls" style={StylesWrapper.controls}>
-          <PlayerControls
-            isActive={!showOverlay && !this.props.isPlaying}
-            isPlaying={this.props.isPlaying}
-            isPlayable={this.props.isPlayable}
-            pause={this.props.pause}
-            play={this.props.play}
-            replay={this.props.replay}
-            seekTo={this.props.seekTo}
-            timeDuration={this.props.timeDuration}
-            timePosition={this.props.timePosition}
-            toggleLibrary={this.props.toggleLibrary}
-          />
-          <Library
-            onSelect={(video) => { this.props.loadVideo(video.token) }}
-            isOpen={this.props.libraryIsOpen}
-            toggleLibrary={this.props.toggleLibrary}
-            libraryDistance={this.state.libraryDistance}
-            videosDB={this.props.videosDB}
-          />
-        </div>
+        <PlayerControls
+          isActive={!showOverlay && !this.props.isPlaying}
+          isPlaying={this.props.isPlaying}
+          isPlayable={this.props.isPlayable}
+          pause={this.props.pause}
+          play={this.props.play}
+          replay={this.props.replay}
+          seekTo={this.props.seekTo}
+          timeDuration={this.props.timeDuration}
+          timePosition={this.props.timePosition}
+          toggleLibrary={this.props.toggleLibrary}
+        />
+        <Library
+          onSelect={(video) => { this.props.loadVideo(video.token) }}
+          isOpen={this.props.libraryIsOpen}
+          toggleLibrary={this.props.toggleLibrary}
+          libraryDistance={this.state.libraryDistance}
+          videosDB={this.props.videosDB}
+        />
       </div>
     )
   }

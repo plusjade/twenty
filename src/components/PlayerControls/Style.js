@@ -1,5 +1,20 @@
 const controlsHeight = "7vh"
 export default {
+  controls: {
+    default: {
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1000,
+      boxSizing: "border-box",
+      transform: `translateY(${controlsHeight})`,
+      transition: "transform 200ms ease-in-out",
+    },
+    active: {
+      transform: "translateY(0)",
+    }
+  },
   wrap: {
     default: {
       position: "relative",
@@ -10,12 +25,7 @@ export default {
       backgroundColor: "rgba(33,33,33,0.8)",
       height: controlsHeight,
       lineHeight: controlsHeight,
-      transform: `translateY(${controlsHeight})`,
-      transition: "transform 100ms ease-in-out",
     },
-    active: {
-      transform: "translateY(0)",
-    }
   },
   sliderWrap: {
     position: "absolute",

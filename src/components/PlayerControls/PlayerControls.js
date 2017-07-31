@@ -21,49 +21,52 @@ function PlayerControls(props) {
   }
 
   return (
-    <div style={[
-      Style.wrap.default,
-      props.isActive && Style.wrap.active
-    ]}
+    <div
+      style={[
+        Style.controls.default,
+        props.isActive && Style.controls.active
+      ]}
     >
-      {props.isPlayable() && (
-        <div style={Style.one}>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <Slider
-              min={0}
-              max={props.timeDuration}
-              value={props.timePosition}
-              onChange={(e, value) => {
-                const time = parseFloat(value)
-                if (time > 0) {
-                  props.seekTo(time)
+      <div style={[Style.wrap.default]}>
+        {props.isPlayable() && (
+          <div style={Style.one}>
+            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+              <Slider
+                min={0}
+                max={props.timeDuration}
+                value={props.timePosition}
+                onChange={(e, value) => {
+                  const time = parseFloat(value)
+                  if (time > 0) {
+                    props.seekTo(time)
+                  }
+                }}
+                style={{width: "100%"}}
+                sliderStyle={{margin: 0}}
+              />
+            </MuiThemeProvider>
+          </div>
+        )}
+        {props.isPlayable() && (
+          <div style={Style.three}>
+            <div
+              onClick={(e) => {
+                e.preventDefault()
+                if (props.isPlaying) {
+                  props.pause()
+                } else if (props.timePosition >= props.timeDuration ) {
+                  props.replay()
+                }
+                else {
+                  props.play()
                 }
               }}
-              style={{width: "100%"}}
-              sliderStyle={{margin: 0}}
-            />
-          </MuiThemeProvider>
-        </div>
-      )}
-      {props.isPlayable() && (
-        <div style={Style.three}>
-          <div
-            onClick={(e) => {
-              e.preventDefault()
-              if (props.isPlaying) {
-                props.pause()
-              } else if (props.timePosition >= props.timeDuration ) {
-                props.replay()
-              }
-              else {
-                props.play()
-              }
-            }}
-          >
-          {renderIcon()}
+            >
+            {renderIcon()}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

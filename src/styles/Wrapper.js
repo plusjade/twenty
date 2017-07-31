@@ -7,15 +7,7 @@ const Wrapper = {
   wrap: {
     width: "100%",
     height: "100%",
-  },
-  controls: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1000,
-    overflow: "visible",
-    boxSizing: "border-box",
+    overflow: "hidden",
   },
 }
 export default Wrapper
