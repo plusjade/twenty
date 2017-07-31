@@ -14,6 +14,17 @@ const PersonalizerDB = {
     emoji: "😆",
     excuse: "chilling in Walnut Creek `bro`",
   },
+  ted:{
+    name: "Ted",
+    emoji: "🍵",
+    excuse: "in Wartime right now!",
+  },
+  peter:{
+    name: "Peter",
+    emoji: "🍟",
+    excuse: "driving in my BMW",
+  },
+
 }
 
 export default PersonalizerDB
