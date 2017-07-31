@@ -62,6 +62,7 @@ const EditorBot = (editor) => {
   }
 
   function runCommands(commands) {
+    editor.setValue("")
     commands.forEach(runCommand)
   }
 
