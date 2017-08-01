@@ -89,6 +89,8 @@ function Scenes(set, substitutions) {
         offsetTimePosition: timePosition - scene.timeOffset,
         player: scene.player,
       })
+    } else {
+      throw new RangeError(`No scene found at ${timePosition}`)
     }
   }
 

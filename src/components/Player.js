@@ -22,6 +22,8 @@ class Player extends Component {
     this.initialState = this.initialState.bind(this)
     this.resetState = this.resetState.bind(this)
     this.state = this.initialState()
+
+    this.handleTapToPause = this.handleTapToPause.bind(this)
   }
 
   initialState() {
@@ -32,6 +34,10 @@ class Player extends Component {
 
   resetState() {
     this.setState(this.initialState())
+  }
+
+  handleTapToPause() {
+    this.props.pause()
   }
 
   render() {
@@ -82,7 +88,7 @@ class Player extends Component {
           />
         )}
 
-        <Hammer onTap={this.props.pause}>
+        <Hammer onTap={this.handleTapToPause}>
           <PlayerOverlay isHidden={!this.props.isPlaying}>
             <div />
           </PlayerOverlay>
