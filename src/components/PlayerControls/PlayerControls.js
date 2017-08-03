@@ -40,8 +40,8 @@ function PlayerControls(props) {
                 max={props.timeDuration}
                 value={props.timePosition}
                 onChange={(e, value) => {
-                  const time = parseFloat(value)
-                  if (time > 0) {
+                  const time = Math.floor(parseFloat(value))
+                  if (time >= 0) {
                     props.seekTo(time)
                   }
                 }}
