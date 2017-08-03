@@ -12,11 +12,15 @@ import MuiThemeProvider       from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme            from 'material-ui/styles/getMuiTheme'
 
 function PlayerControls(props) {
+  const iconStyle = [{height: 30, width: 30}, Style.playToggle.icon]
+
   function renderIcon() {
     if (props.isPlaying) {
-      return (<IconPause style={{height: 20, width: 20}} />)
+      return (<IconPause style={iconStyle} />)
     } else {
-      return (<IconPlay style={{height: 20, width: 20}}  />)
+      return (
+        <IconPlay style={iconStyle} />
+      )
     }
   }
 
@@ -47,26 +51,32 @@ function PlayerControls(props) {
             </MuiThemeProvider>
           </div>
         )}
-        {props.isPlayable() && (
-          <div style={Style.three}>
-            <div
-              onClick={(e) => {
-                e.preventDefault()
-                if (props.isPlaying) {
-                  props.pause()
-                } else if (props.timePosition >= props.timeDuration ) {
-                  props.replay()
-                }
-                else {
-                  props.play()
-                }
-              }}
-            >
-            {renderIcon()}
-            </div>
-          </div>
-        )}
       </div>
+
+      {props.isPlayable() && (
+        <div
+          style={[
+            Style.playToggle.default,
+            props.isActive && Style.playToggle.active
+          ]}
+        >
+          <span
+            onClick={(e) => {
+              e.preventDefault()
+              if (props.isPlaying) {
+                props.pause()
+              } else if (props.timePosition >= props.timeDuration ) {
+                props.replay()
+              }
+              else {
+                props.play()
+              }
+            }}
+          >
+          {renderIcon()}
+          </span>
+        </div>
+      )}
     </div>
   )
 }

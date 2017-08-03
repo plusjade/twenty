@@ -1,4 +1,4 @@
-const controlsHeight = "7vh"
+const controlsHeight = "6vh"
 export default {
   controls: {
     default: {
@@ -21,32 +21,37 @@ export default {
       flex: 1,
       display: "flex",
       justifyContent: "center",
-      alignItems: "baseline",
-      backgroundColor: "rgba(33,33,33,0.8)",
+      alignItems: "center",
+      backgroundColor: "rgba(33,33,33,0.3)",
       height: controlsHeight,
       lineHeight: controlsHeight,
     },
   },
-  sliderWrap: {
-    position: "absolute",
-    top: "1vh",
-    bottom: 0,
-    right: 0,
-    left: 0,
-  },
   one: {
-    flex: 10,
+    flex: 1,
     boxSizing: "border-box",
     padding: "0 10px",
     lineHeight: "10px",
     color: "#FFF",
   },
-  three: {
-    flex: 1,
-    boxSizing: "border-box",
-    padding: "0 5px",
-    color: "#FFF",
-    textAlign: "right"
+  playToggle: {
+    default: {
+      position: "absolute",
+      bottom: "7vh",
+      left: 0,
+      right: 0,
+      textAlign: "center",
+      color: "#FFF",
+      transform: "translateY(7vh)",
+      transition: "transform 300ms ease-in-out",
+    },
+    active: {
+      transform: "translateY(0)",
+    },
+    icon: {
+      fill: "#E0E0E0",
+      stroke: "#BDBDBD",
+    }
   },
   rangeInput: {
     width: "100%"
