@@ -14,13 +14,8 @@ const SlidesDB = () => {
     },
     {
       type: "title",
-      data: "here's your custom emoji:",
+      data: "here's your custom emoji: {{emoji}}",
     },
-    {
-      type: "title",
-      data: "{{emoji}}",
-    },
-
     {
       type: "title",
       data: "Hope you liked it!",

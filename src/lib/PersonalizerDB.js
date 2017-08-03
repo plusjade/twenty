@@ -24,6 +24,21 @@ const PersonalizerDB = {
     emoji: "🍟",
     excuse: "driving in my BMW",
   },
+  robert:{
+    name: "Robert",
+    emoji: "🤓",
+    excuse: "hanging out with Jan",
+  },
+  sara:{
+    name: "Sara",
+    emoji: "😭",
+    excuse: "doing yoga",
+  },
+  tom:{
+    name: "Tombot",
+    emoji: "👨‍💻‍",
+    excuse: "drinking horchata in Montebello",
+  },
 
 }
 
