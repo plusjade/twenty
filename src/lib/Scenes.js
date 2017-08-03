@@ -6,7 +6,8 @@ import Personalizer         from 'lib/Personalizer'
 function Scenes(set, substitutions) {
   const PAUSE_BETWEEN_SCENES = 1000
   const personalizer = Personalizer(substitutions)
-  let time = 0
+  let previousOffset = 0
+  let previousDuration = 0
 
   const scenes = set.map((p, index) => {
     switch(p.type) {
@@ -55,8 +56,15 @@ function Scenes(set, substitutions) {
     }
 
     p.index = index
-    p.timeOffset = time + (index > 0 ? PAUSE_BETWEEN_SCENES : 0)
-    time += p.timeDuration
+
+    if (index === 0) {
+      p.timeOffset = 0
+    } else {
+      p.timeOffset = previousOffset + previousDuration + PAUSE_BETWEEN_SCENES
+    }
+
+    previousDuration = p.timeDuration
+    previousOffset = p.timeOffset
 
     return p
   })
