@@ -9,45 +9,45 @@ function Scenes(set, substitutions) {
   let previousOffset = 0
   let previousDuration = 0
 
-  const scenes = set.map((p, index) => {
-    switch(p.type) {
+  const scenes = set.map((scene, index) => {
+    switch(scene.type) {
       case "slides": {
         const personalizedData = (
-          p.data.map((slide) => {
+          scene.data.map((slide) => {
             slide.data = personalizer.personalize(slide.data)
             return slide
           })
         )
 
-        p.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
-        p.player.reset(SlidesToCommands(personalizedData))
-        p.timeDuration = p.player.timeDuration()
+        scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
+        scene.player.reset(SlidesToCommands(personalizedData))
+        scene.timeDuration = scene.player.timeDuration()
         break
       }
       case "editor": {
-        p.player = CommandPlayer()
-        p.player.reset(p.data)
-        p.timeDuration = p.player.timeDuration()
+        scene.player = CommandPlayer()
+        scene.player.reset(scene.data)
+        scene.timeDuration = scene.player.timeDuration()
         break
       }
       case "texting": {
-        p.player = CommandPlayer()
-        p.player.reset(TextingToCommands(p.data))
-        p.timeDuration = p.player.timeDuration()
+        scene.player = CommandPlayer()
+        scene.player.reset(TextingToCommands(scene.data))
+        scene.timeDuration = scene.player.timeDuration()
         break
       }
       case "quiz": {
-        p.data.question = personalizer.personalize(p.data.question)
-        p.data.answers = (
-          p.data.answers.map((answer) => {
+        scene.data.question = personalizer.personalize(scene.data.question)
+        scene.data.answers = (
+          scene.data.answers.map((answer) => {
             answer.name = personalizer.personalize(answer.name)
             return answer
           })
         )
 
-        p.player = CommandPlayer()
-        p.player.reset([[0, p.data]])
-        p.timeDuration = 1000 // the time it takes for "after select" animation
+        scene.player = CommandPlayer()
+        scene.player.reset([[0, scene.data]])
+        scene.timeDuration = 1000 // the time it takes for "after select" animation
         break
       }
       default: {
@@ -55,22 +55,21 @@ function Scenes(set, substitutions) {
       }
     }
 
-    p.index = index
+    scene.index = index
 
     if (index === 0) {
-      p.timeOffset = 0
+      scene.timeOffset = 0
     } else {
-      p.timeOffset = previousOffset + previousDuration + PAUSE_BETWEEN_SCENES
+      scene.timeOffset = previousOffset + previousDuration + PAUSE_BETWEEN_SCENES
     }
 
-    previousDuration = p.timeDuration
-    previousOffset = p.timeOffset
+    previousDuration = scene.timeDuration
+    previousOffset = scene.timeOffset
 
-    return p
+    return scene
   })
-  const scenesReversed = scenes.slice(0).reverse()
 
-  console.log(scenes)
+  const scenesReversed = scenes.slice(0).reverse()
 
   function timeDuration() {
     return (
@@ -104,7 +103,7 @@ function Scenes(set, substitutions) {
 
   function find(timePosition) {
     return (
-      scenesReversed.find(p => timePosition > p.timeOffset)
+      scenesReversed.find(scene => timePosition > scene.timeOffset)
     )
   }
 
