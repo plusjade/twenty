@@ -13,10 +13,9 @@ function Scenes(set, substitutions) {
     switch(scene.type) {
       case "slides": {
         const personalizedData = (
-          scene.data.map((slide) => {
-            slide.data = personalizer.personalize(slide.data)
-            return slide
-          })
+          scene.data.map(slide => (
+            Object.assign(slide, {data: personalizer.personalize(slide.data)})
+          ))
         )
 
         scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
