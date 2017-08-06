@@ -1,13 +1,20 @@
-function QuizBot(updateCallback) {
+function QuizBot(updateCallback, emitPayloadCallback) {
   function runCommand(command) {
-    updateCallback(command[1])
+    // noop
   }
 
   function runCommands(commands) {
-    updateCallback(commands[0][1]) // there's only one
+    // noop
+  }
+
+  function emitPayload({sceneIndex, initialPayload}) {
+    if (typeof emitPayloadCallback !== "function") { return }
+
+    emitPayloadCallback({sceneIndex, initialPayload})
   }
 
   return ({
+    emitPayload: emitPayload,
     runCommand: runCommand,
     runCommands: runCommands
   })

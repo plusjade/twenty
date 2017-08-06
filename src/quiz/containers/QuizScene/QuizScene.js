@@ -1,20 +1,20 @@
 import React, {Component}   from 'react'
+import PropTypes            from 'prop-types'
 import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
 
 import QuizBot from 'quiz/lib/QuizBot'
 import style from './Style'
 
 class QuizScene extends Component {
-  constructor(props) {
-    super(props)
-      this.initialState = this.initialState.bind(this)
-      this.resetState = this.resetState.bind(this)
-
-      this.onSelect = this.onSelect.bind(this)
-      this.state = this.initialState()
+  static propTypes = {
+    isActive: PropTypes.bool.isRequired,
+    pause: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
+    mountBot: PropTypes.func.isRequired,
+    sceneIndex: PropTypes.number.isRequired,
   }
 
-  initialState() {
+  static initialState() {
     return ({
       question: undefined,
       answers: [],
@@ -22,15 +22,15 @@ class QuizScene extends Component {
     })
   }
 
-  resetState() {
-    this.setState(this.initialState())
+  state = QuizScene.initialState()
+
+  resetState = () => {
+    this.setState(QuizScene.initialState())
   }
 
   componentDidMount() {
     this.props.mountBot("quiz", (
-      QuizBot((data) => {
-        this.setState(data)
-      })
+      QuizBot(this.onTick, this.initialPayloadDidUpdate)
     ))
   }
 
@@ -41,9 +41,22 @@ class QuizScene extends Component {
     }
   }
 
-  onSelect(answer) {
+  onSelect = (answer) => {
     this.setState({answer: answer})
     this.props.play()
+  }
+
+  onTick = () => {
+    // noop
+  }
+
+  initialPayloadDidUpdate = ({sceneIndex, initialPayload}) => {
+    if (sceneIndex === this.state.sceneIndex) { return }
+    this.setState({
+      sceneIndex: sceneIndex,
+      answers: initialPayload.answers,
+      question: initialPayload.question,
+    })
   }
 
   render() {

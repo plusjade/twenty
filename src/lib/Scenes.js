@@ -37,16 +37,17 @@ function Scenes(set, substitutions) {
         break
       }
       case "quiz": {
-        scene.data.question = personalizer.personalize(scene.data.question)
-        scene.data.answers = (
-          scene.data.answers.map((answer) => {
-            answer.name = personalizer.personalize(answer.name)
-            return answer
-          })
-        )
+        const payload = {
+          question: personalizer.personalize(scene.data.question),
+          answers: (
+            scene.data.answers.map(answer => (
+              Object.assign(answer, {name: personalizer.personalize(answer.name)})
+            ))
+          )
+        }
 
-        scene.player = CommandPlayer()
-        scene.player.reset([[0, scene.data]])
+        scene.player = CommandPlayer({sceneIndex: index, initialPayload: payload})
+        scene.player.reset([]) // no commands
         scene.timeDuration = 1000 // the time it takes for "after select" animation
         break
       }
