@@ -1,43 +1,30 @@
-const SlidesBot = (updateCallback) => {
-  let text = ""
-  let currentSlideIndex = 0
-
+const SlidesBot = (updateCallback, emitPayloadCallback) => {
   function runCommand(command) {
     // eslint-disable-next-line
-    const [time, c, slideIndex, data] = command
-    if (currentSlideIndex === slideIndex) {
-      text += data
-    } else {
-      text = data
-    }
-    updateCallback(text, currentSlideIndex)
-    currentSlideIndex = slideIndex
+    const [time, slideIndex, progress] = command
+
+    updateCallback(slideIndex, progress)
   }
 
   function reset() {
-    text = ""
-    currentSlideIndex = 0
+    // noop
   }
 
   function runCommands(commands) {
-    reset()
+    // eslint-disable-next-line
+    const [time, slideIndex, progress] = commands.slice(-1)[0]
 
-    commands.forEach((command) => {
-      // eslint-disable-next-line
-      const [time, c, slideIndex, data] = command
-      if (currentSlideIndex === slideIndex) {
-        text += data
-      } else {
-        text = data
-      }
-      currentSlideIndex = slideIndex
-    })
-
-    updateCallback(text, currentSlideIndex)
+    updateCallback(slideIndex, progress)
   }
 
+  function emitPayload({sceneIndex, initialPayload}) {
+    if (typeof emitPayloadCallback !== "function") { return }
+
+    emitPayloadCallback({sceneIndex, initialPayload})
+  }
 
   return ({
+    emitPayload: emitPayload,
     runCommand: runCommand,
     runCommands: runCommands
   })

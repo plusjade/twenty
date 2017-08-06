@@ -19,7 +19,7 @@ function Scenes(set, substitutions) {
           })
         )
 
-        p.player = CommandPlayer()
+        p.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
         p.player.reset(SlidesToCommands(personalizedData))
         p.timeDuration = p.player.timeDuration()
         break
