@@ -8,30 +8,25 @@ const SlidesToCommands = (slides) => {
 
   return (
     slides.map((slide, slideIndex) => {
-      if (slide.type === "title") {
-        const characters = Array.from(slide.data)
-        const totalCharacters = characters.length
-        const totalTime = totalCharacters * CHARACTER_DURATION
+      const characters = Array.from(slide.data)
+      const totalCharacters = characters.length
+      const totalTime = totalCharacters * CHARACTER_DURATION
 
-        return (
-          characters.map((character, index) => {
-            const progress = ((index + 1) / totalCharacters).toFixed(2)
+      return (
+        characters.map((character, index) => {
+          const progress = ((index + 1) / totalCharacters).toFixed(2)
 
-            if (currentSlideIndex === slideIndex) {
-              time += CHARACTER_DURATION
-            } else {
-              time += SLIDE_PAUSE_DURATION
-            }
+          if (currentSlideIndex === slideIndex) {
+            time += CHARACTER_DURATION
+          } else {
+            time += SLIDE_PAUSE_DURATION
+          }
 
-            currentSlideIndex = slideIndex
+          currentSlideIndex = slideIndex
 
-            return [time, slideIndex, progress]
-          })
-        )
-      } else {
-        currentSlideIndex = slideIndex
-        return []
-      }
+          return [time, slideIndex, progress]
+        })
+      )
     })
     .reduce((memo, array) => memo.concat(array), [])
   )

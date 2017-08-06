@@ -16,7 +16,6 @@ class SlidesScene extends Component {
   static initialState() {
     return ({
       content: "",
-      type: undefined,
       slideIndex: undefined,
     })
   }
@@ -42,7 +41,7 @@ class SlidesScene extends Component {
       // first instance of this slide
       const content = this.state.initialPayload[slideIndex].data
       this.setState(
-        {type: "title", content: content, slideIndex: slideIndex},
+        {content: content, slideIndex: slideIndex},
         this.initializeTimeline
       )
     }
@@ -71,58 +70,18 @@ class SlidesScene extends Component {
   render() {
     if (!this.props.isActive) { return null }
 
-    switch (this.state.type) {
-      case "title": {
-        return (
-          <PlayerOverlay {...this.props}>
-            <div style={style.default}>
-              <h1
-                style={style.text}
-                ref={this.getRef}
-              >
-                {this.state.content}
-              </h1>
-            </div>
-          </PlayerOverlay>
-        )
-      }
-      case "orderedList": {
-        return (
-          <PlayerOverlay>
-            <ul>
-            {this.state.content.map((line) => <li>{line}</li>)}
-            </ul>
-          </PlayerOverlay>
-        )
-      }
-      case "image": {
-        return (
-          <PlayerOverlay>
-            <img
-              src={this.state.content}
-              style={{width: "80%", height: "auto"}}
-              alt=""
-            />
-          </PlayerOverlay>
-        )
-      }
-      case "error": {
-        return (
-          <PlayerOverlay>
-            <span>There was an error</span>
-          </PlayerOverlay>
-        )
-      }
-      default: {
-        return (
-          <PlayerOverlay>
-            <h1 style={style.default}>
-              {this.state.content}
-            </h1>
-          </PlayerOverlay>
-        )
-      }
-    }
+    return (
+      <PlayerOverlay>
+        <div style={style.default}>
+          <h1
+            style={style.text}
+            ref={this.getRef}
+          >
+            {this.state.content}
+          </h1>
+        </div>
+      </PlayerOverlay>
+    )
   }
 }
 
