@@ -29,6 +29,12 @@ class SlidesScene extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isPlaying) {
+      this.timeline && this.timeline.play()
+    } else {
+      this.timeline.pause()
+    }
+
     if (nextProps.sceneIndex !== this.props.sceneIndex) {
       this.setState({content: ""})
     }
@@ -36,7 +42,7 @@ class SlidesScene extends Component {
 
   onTick = (slideIndex, progress) => {
     if (this.state.slideIndex === slideIndex) {
-      this.timeline.progress(progress)
+      // this.timeline.progress(progress)
     } else {
       // first instance of this slide
       const content = this.state.initialPayload[slideIndex].data

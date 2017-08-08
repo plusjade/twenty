@@ -69,6 +69,7 @@ class Player extends Component {
             sceneIndex={this.props.scene.index}
             mountBot={this.props.mountBot}
             isActive={this.props.scene.type === "slides"}
+            isPlaying={this.props.isPlaying}
           />
         )}
 
