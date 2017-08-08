@@ -1,9 +1,8 @@
 // time, slideIndex, progress
 // [25823, 2, 0.5]
-const SlidesToCommands = (slides) => {
-  const SLIDE_PAUSE_DURATION = 1500
+const SlidesToCommands = (slides, timeOffsetIn) => {
   const CHARACTER_DURATION = 55
-  let time = 0
+  let time = timeOffsetIn || 0
   let currentSlideIndex = 0
 
   return (
@@ -12,6 +11,7 @@ const SlidesToCommands = (slides) => {
       const totalCharacters = characters.length
       const totalTime = totalCharacters * CHARACTER_DURATION
 
+      time += slide.in || 0
       return (
         characters.map((character, index) => {
           const progress = ((index + 1) / totalCharacters).toFixed(2)
@@ -19,7 +19,7 @@ const SlidesToCommands = (slides) => {
           if (currentSlideIndex === slideIndex) {
             time += CHARACTER_DURATION
           } else {
-            time += SLIDE_PAUSE_DURATION
+            time += (slide.out || 0)
           }
 
           currentSlideIndex = slideIndex

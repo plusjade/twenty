@@ -55,14 +55,18 @@ if (parts[1] === "make") {
     {
       type: "slides",
       data: Slides.data,
+      in: 8000,
+      out: 1000,
     },
     {
       type: "quiz",
       data: Quiz.one,
+      in: 1000,
     },
     {
       type: "slides",
       data: Slides.agreed,
+      in: 1000,
     },
     {
       type: "texting",
@@ -71,10 +75,12 @@ if (parts[1] === "make") {
     {
       type: "slides",
       data: Slides.data2,
+      in: 1000,
     },
     {
       type: "slides",
       data: Slides.data3,
+      in: 1000,
     },
   ]
 } else {

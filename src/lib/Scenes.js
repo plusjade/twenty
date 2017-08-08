@@ -4,7 +4,6 @@ import SlidesToCommands     from 'slides/lib/SlidesToCommands'
 import Personalizer         from 'lib/Personalizer'
 
 function Scenes(set, substitutions) {
-  const PAUSE_BETWEEN_SCENES = 1000
   const personalizer = Personalizer(substitutions)
   let previousOffset = 0
   let previousDuration = 0
@@ -19,8 +18,8 @@ function Scenes(set, substitutions) {
         )
 
         scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
-        scene.player.reset(SlidesToCommands(personalizedData))
-        scene.timeDuration = scene.player.timeDuration()
+        scene.player.reset(SlidesToCommands(personalizedData, scene.in))
+        scene.timeDuration = scene.player.timeDuration() + (scene.out || 0)
         break
       }
       case "editor": {
@@ -60,7 +59,7 @@ function Scenes(set, substitutions) {
     if (index === 0) {
       scene.timeOffset = 0
     } else {
-      scene.timeOffset = previousOffset + previousDuration + PAUSE_BETWEEN_SCENES
+      scene.timeOffset = previousOffset + previousDuration
     }
 
     previousDuration = scene.timeDuration
