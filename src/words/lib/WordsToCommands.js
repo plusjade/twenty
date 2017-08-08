@@ -1,30 +1,30 @@
-// time, slideIndex, progress
+// time, entryIndex, progress
 // [25823, 2, 0.5]
-const SlidesToCommands = (slides, timeOffsetIn) => {
+const WordsToCommands = (words, timeOffsetIn) => {
   const CHARACTER_DURATION = 55
   let time = timeOffsetIn || 0
   let currentSlideIndex = 0
 
   return (
-    slides.map((slide, slideIndex) => {
-      const characters = Array.from(slide.data)
+    words.map((entry, entryIndex) => {
+      const characters = Array.from(entry.data)
       const totalCharacters = characters.length
       const totalTime = totalCharacters * CHARACTER_DURATION
 
-      time += slide.in || 0
+      time += entry.in || 0
       return (
         characters.map((character, index) => {
           const progress = ((index + 1) / totalCharacters).toFixed(2)
 
-          if (currentSlideIndex === slideIndex) {
+          if (currentSlideIndex === entryIndex) {
             time += CHARACTER_DURATION
           } else {
-            time += (slide.out || 0)
+            time += (entry.out || 0)
           }
 
-          currentSlideIndex = slideIndex
+          currentSlideIndex = entryIndex
 
-          return [time, slideIndex, progress]
+          return [time, entryIndex, progress]
         })
       )
     })
@@ -32,4 +32,4 @@ const SlidesToCommands = (slides, timeOffsetIn) => {
   )
 }
 
-export default SlidesToCommands
+export default WordsToCommands

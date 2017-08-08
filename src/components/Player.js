@@ -7,7 +7,7 @@ import PlayerControls       from 'components/PlayerControls/PlayerControls'
 import Layer                from 'components/Layer/Layer'
 import InitialOverlay       from 'components/InitialOverlay'
 
-import SlidesScene          from 'slides/containers/SlidesScene/SlidesScene'
+import WordsScene           from 'words/containers/WordsScene/WordsScene'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 import QuizScene            from 'quiz/containers/QuizScene/QuizScene'
@@ -59,11 +59,11 @@ class Player extends PureComponent {
           />
         )}
 
-        {this.props.sceneTypes.includes("slides") && (
-          <SlidesScene
+        {this.props.sceneTypes.includes("words") && (
+          <WordsScene
             sceneIndex={this.props.scene.index}
             mountBot={this.props.mountBot}
-            isActive={this.props.scene.type === "slides"}
+            isActive={this.props.scene.type === "words"}
             isPlaying={this.props.isPlaying}
           />
         )}

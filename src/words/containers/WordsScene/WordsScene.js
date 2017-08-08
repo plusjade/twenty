@@ -3,10 +3,10 @@ import PropTypes            from 'prop-types'
 import SplitText            from 'vendor/SplitText'
 
 import Layer                from 'components/Layer/Layer'
-import SlidesBot            from 'slides/lib/SlidesBot'
+import WordsBot             from 'words/lib/WordsBot'
 import style                from './Style'
 
-class SlidesScene extends Component {
+class WordsScene extends Component {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
     mountBot: PropTypes.func.isRequired,
@@ -16,15 +16,15 @@ class SlidesScene extends Component {
   static initialState() {
     return ({
       content: "",
-      slideIndex: undefined,
+      entryIndex: undefined,
     })
   }
 
-  state = SlidesScene.initialState()
+  state = WordsScene.initialState()
 
   componentDidMount() {
-    this.props.mountBot("slides", (
-      SlidesBot(this.onTick, this.initialPayloadDidUpdate))
+    this.props.mountBot("words", (
+      WordsBot(this.onTick, this.initialPayloadDidUpdate))
     )
   }
 
@@ -40,14 +40,14 @@ class SlidesScene extends Component {
     }
   }
 
-  onTick = (slideIndex, progress) => {
-    if (this.state.slideIndex === slideIndex) {
+  onTick = (entryIndex, progress) => {
+    if (this.state.entryIndex === entryIndex) {
       // this.timeline.progress(progress)
     } else {
-      // first instance of this slide
-      const content = this.state.initialPayload[slideIndex].data
+      // first instance of this entry
+      const content = this.state.initialPayload[entryIndex].data
       this.setState(
-        {content: content, slideIndex: slideIndex},
+        {content: content, entryIndex: entryIndex},
         this.initializeTimeline
       )
     }
@@ -70,7 +70,7 @@ class SlidesScene extends Component {
   }
 
   resetState = () => {
-    this.setState(SlidesScene.initialState())
+    this.setState(WordsScene.initialState())
   }
 
   render() {
@@ -91,4 +91,4 @@ class SlidesScene extends Component {
   }
 }
 
-export default SlidesScene
+export default WordsScene

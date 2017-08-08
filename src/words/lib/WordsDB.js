@@ -1,4 +1,4 @@
-const SlidesDB = () => {
+const WordsDB = () => {
   const data = [
     {
       data: "Hey there!",
@@ -97,4 +97,4 @@ const SlidesDB = () => {
   })
 }
 
-export default SlidesDB
+export default WordsDB

@@ -1,9 +1,9 @@
-const SlidesBot = (updateCallback, emitPayloadCallback) => {
+const WordsBot = (updateCallback, emitPayloadCallback) => {
   function runCommand(command) {
     // eslint-disable-next-line
-    const [time, slideIndex, progress] = command
+    const [time, entryIndex, progress] = command
 
-    updateCallback(slideIndex, progress)
+    updateCallback(entryIndex, progress)
   }
 
   function reset() {
@@ -12,9 +12,9 @@ const SlidesBot = (updateCallback, emitPayloadCallback) => {
 
   function runCommands(commands) {
     // eslint-disable-next-line
-    const [time, slideIndex, progress] = commands.slice(-1)[0]
+    const [time, entryIndex, progress] = commands.slice(-1)[0]
 
-    updateCallback(slideIndex, progress)
+    updateCallback(entryIndex, progress)
   }
 
   function emitPayload({sceneIndex, initialPayload}) {
@@ -30,4 +30,4 @@ const SlidesBot = (updateCallback, emitPayloadCallback) => {
   })
 }
 
-export default SlidesBot
+export default WordsBot

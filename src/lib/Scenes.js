@@ -1,6 +1,6 @@
 import CommandPlayer        from 'lib/CommandPlayer'
 import TextingToCommands    from 'texting/lib/TextingToCommands'
-import SlidesToCommands     from 'slides/lib/SlidesToCommands'
+import WordsToCommands      from 'words/lib/WordsToCommands'
 import Personalizer         from 'lib/Personalizer'
 
 function Scenes(set, substitutions) {
@@ -10,15 +10,15 @@ function Scenes(set, substitutions) {
 
   const scenes = set.map((scene, index) => {
     switch(scene.type) {
-      case "slides": {
+      case "words": {
         const personalizedData = (
-          scene.data.map(slide => (
-            Object.assign(slide, {data: personalizer.personalize(slide.data)})
+          scene.data.map(entry => (
+            Object.assign(entry, {data: personalizer.personalize(entry.data)})
           ))
         )
 
         scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
-        scene.player.reset(SlidesToCommands(personalizedData, scene.in))
+        scene.player.reset(WordsToCommands(personalizedData, scene.in))
         scene.timeDuration = scene.player.timeDuration() + (scene.out || 0)
         break
       }

@@ -12,7 +12,7 @@ import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
 import TextingDB from 'texting/lib/TextingDB'
-import SlidesDB  from 'slides/lib/SlidesDB'
+import WordsDB   from 'words/lib/WordsDB'
 
 import QuizDB             from 'quiz/lib/QuizDB'
 import PersonalizerDB     from 'lib/PersonalizerDB'
@@ -21,7 +21,7 @@ import './index.css'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
-const Slides = SlidesDB()
+const Words = WordsDB()
 const Texting = TextingDB()
 const Quiz = QuizDB()
 
@@ -53,8 +53,8 @@ if (parts[1] === "make") {
   props.substitutions = substitutions
   props.scenes = [
     {
-      type: "slides",
-      data: Slides.data,
+      type: "words",
+      data: Words.data,
       in: 8000,
       out: 1000,
     },
@@ -64,8 +64,8 @@ if (parts[1] === "make") {
       in: 1000,
     },
     {
-      type: "slides",
-      data: Slides.agreed,
+      type: "words",
+      data: Words.agreed,
       in: 1000,
     },
     {
@@ -73,13 +73,13 @@ if (parts[1] === "make") {
       data: Texting.messages,
     },
     {
-      type: "slides",
-      data: Slides.data2,
+      type: "words",
+      data: Words.data2,
       in: 1000,
     },
     {
-      type: "slides",
-      data: Slides.data3,
+      type: "words",
+      data: Words.data3,
       in: 1000,
     },
   ]
