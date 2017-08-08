@@ -1,4 +1,3 @@
-import StylesWrapper        from 'styles/Wrapper'
 export default {
   wrap: {
     display: "flex",
@@ -8,7 +7,6 @@ export default {
     backgroundColor: "#232323",
     overflow: "auto",
     opacity: 1,
-    borderBottom: StylesWrapper.borderFrame,
     borderRadius: "0 0 15px 15px",
   },
   video: {
@@ -16,7 +14,6 @@ export default {
     padding: "10vh 30px",
     display: "block",
     textDecoration: "none",
-    border: StylesWrapper.borderFrame,
     textAlign: "center",
     borderTop: "1px solid #111",
   },

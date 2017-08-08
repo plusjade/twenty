@@ -8,17 +8,17 @@ import Result               from 'textEditor/components/Result'
 
 import Library              from 'containers/Library/Library'
 
-import StylesWrapper        from 'styles/Wrapper'
+const style = {}
 
 const Recorder = (props) => {
   return (
     <div id="app-wrapper">
 
-      <div id="editor-result" style={StylesWrapper.sceneWrap}>
-        <div id="editor" style={StylesWrapper.editor} >
+      <div id="editor-result" style={style.sceneWrap}>
+        <div id="editor" style={style.editor} >
           <AceEditor editorRef={props.editorRef} />
         </div>
-        <div id="result" style={StylesWrapper.result}>
+        <div id="result" style={style.result}>
         {props.resultRendererEnabled && (
           <Result
             endpoint={props.resultEndpoint}
@@ -28,7 +28,7 @@ const Recorder = (props) => {
         </div>
       </div>
 
-      <div id="controls" style={StylesWrapper.controls}>
+      <div id="controls" style={style.controls}>
         <RecorderControls
           audioSource={props.audioSource}
           availableModes={props.availableModes}
@@ -41,11 +41,11 @@ const Recorder = (props) => {
         />
       </div>
 
-      <div id="navbar" style={StylesWrapper.navbar}>
+      <div id="navbar" style={style.navbar}>
         <div style={{flex: 1}}/>
         <a
           href="#library"
-          style={StylesWrapper.libraryLink}
+          style={style.libraryLink}
           onClick={(e) => {
             e.preventDefault()
             props.toggleLibrary()

@@ -11,7 +11,16 @@ import WordsScene           from 'words/containers/WordsScene/WordsScene'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 import QuizScene            from 'quiz/containers/QuizScene/QuizScene'
-import StylesWrapper        from 'styles/Wrapper'
+
+
+const style = {
+  wrap: {
+    position: "fixed",
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+  },
+}
 
 class Player extends PureComponent {
   static propTypes = {
@@ -40,7 +49,7 @@ class Player extends PureComponent {
 
   render() {
     return (
-      <div id="app-wrapper" style={StylesWrapper.wrap}>
+      <div id="app-wrapper" style={style.wrap}>
         {this.props.sceneTypes.includes("quiz") && (
           <QuizScene
             sceneIndex={this.props.scene.index}
