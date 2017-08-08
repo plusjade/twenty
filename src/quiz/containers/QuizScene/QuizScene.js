@@ -63,7 +63,7 @@ class QuizScene extends Component {
     if (!this.props.isActive) { return null }
 
     return (
-      <PlayerOverlay backgroundColor="#00796B">
+      <PlayerOverlay style={{zIndex: 2}}>
         <div>
           <h1 style={style.question.default}>
             {this.state.question}
