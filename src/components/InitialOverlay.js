@@ -1,7 +1,7 @@
 import React                from 'react'
 import IconPlay             from 'components/IconPlay'
 import Spinner              from 'components/Spinner'
-import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
+import Layer                from 'components/Layer/Layer'
 
 // states where we want to show an overlay
 const OverlayStates = ["error", "loaded", "loading", "notFound"]
@@ -12,30 +12,30 @@ const InitialOverlay = (props) => {
   switch (props.loadState) {
     case "loading": {
       return (
-        <PlayerOverlay {...props}>
+        <Layer {...props}>
           <Spinner/>
-        </PlayerOverlay>
+        </Layer>
       )
     }
     case "loaded": {
       return (
-        <PlayerOverlay  {...props} onClick={props.play}>
+        <Layer  {...props} onClick={props.play}>
           <IconPlay style={{height: 80, width: 80}}/>
-        </PlayerOverlay>
+        </Layer>
       )
     }
     case "notFound": {
       return (
-        <PlayerOverlay  {...props}>
+        <Layer  {...props}>
           <span>Not found =(</span>
-        </PlayerOverlay>
+        </Layer>
       )
     }
     case "error": {
       return (
-        <PlayerOverlay  {...props}>
+        <Layer  {...props}>
           <span>There was an error</span>
-        </PlayerOverlay>
+        </Layer>
       )
     }
     default: {

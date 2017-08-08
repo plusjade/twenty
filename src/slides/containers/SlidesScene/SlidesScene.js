@@ -2,7 +2,7 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 import SplitText            from 'vendor/SplitText'
 
-import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
+import Layer                from 'components/Layer/Layer'
 import SlidesBot            from 'slides/lib/SlidesBot'
 import style                from './Style'
 
@@ -77,7 +77,7 @@ class SlidesScene extends Component {
     if (!this.props.isActive) { return null }
 
     return (
-      <PlayerOverlay>
+      <Layer>
         <div style={style.default}>
           <h1
             style={style.text}
@@ -86,7 +86,7 @@ class SlidesScene extends Component {
             {this.state.content}
           </h1>
         </div>
-      </PlayerOverlay>
+      </Layer>
     )
   }
 }

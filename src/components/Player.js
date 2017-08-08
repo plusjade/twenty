@@ -4,7 +4,7 @@ import PropTypes            from 'prop-types'
 import Hammer               from 'react-hammerjs'
 
 import PlayerControls       from 'components/PlayerControls/PlayerControls'
-import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
+import Layer                from 'components/Layer/Layer'
 import InitialOverlay       from 'components/InitialOverlay'
 
 import Library              from 'containers/Library/Library'
@@ -90,9 +90,9 @@ class Player extends Component {
         )}
 
         <Hammer onTap={this.handleTapToPause}>
-          <PlayerOverlay isHidden={!this.props.isPlaying}>
+          <Layer isHidden={!this.props.isPlaying}>
             <div />
-          </PlayerOverlay>
+          </Layer>
         </Hammer>
 
         <PlayerControls

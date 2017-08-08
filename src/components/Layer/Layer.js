@@ -3,7 +3,7 @@ import React from 'react'
 
 import style from './Style'
 
-const PlayerOverlay = (props) => {
+const Layer = (props) => {
   return (
     <div
       style={[
@@ -18,4 +18,4 @@ const PlayerOverlay = (props) => {
   )
 }
 
-export default Radium(PlayerOverlay)
+export default Radium(Layer)

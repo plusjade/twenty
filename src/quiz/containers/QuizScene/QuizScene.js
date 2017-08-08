@@ -1,6 +1,6 @@
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
-import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
+import Layer                from 'components/Layer/Layer'
 
 import QuizBot from 'quiz/lib/QuizBot'
 import style from './Style'
@@ -63,7 +63,7 @@ class QuizScene extends Component {
     if (!this.props.isActive) { return null }
 
     return (
-      <PlayerOverlay style={{zIndex: 2}}>
+      <Layer style={{zIndex: 2}}>
         <div>
           <h1 style={style.question.default}>
             {this.state.question}
@@ -83,7 +83,7 @@ class QuizScene extends Component {
           </button>
         ))}
         </div>
-      </PlayerOverlay>
+      </Layer>
     )
   }
 }

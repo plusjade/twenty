@@ -1,6 +1,6 @@
 import React, {Component}   from 'react'
 
-import PlayerOverlay        from 'components/PlayerOverlay/PlayerOverlay'
+import Layer                from 'components/Layer/Layer'
 import Phone                from 'texting/components/Phone'
 import TextingBot           from 'texting/lib/TextingBot'
 
@@ -35,7 +35,7 @@ class TextingScene extends Component {
     if (!this.props.isActive) { return null }
 
     return (
-      <PlayerOverlay backgroundColor="#263238">
+      <Layer backgroundColor="#263238">
         <div style={{
           flex: 1,
           flexGrow: 1,
@@ -52,7 +52,7 @@ class TextingScene extends Component {
             typingStatus={this.state.typingStatus}
           />
         </div>
-      </PlayerOverlay>
+      </Layer>
     )
   }
 }
