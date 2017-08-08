@@ -1,49 +1,44 @@
-import Radium               from 'radium'
-import React, {Component}   from 'react'
-import PropTypes            from 'prop-types'
-import Hammer               from 'react-hammerjs'
+import Radium                   from 'radium'
+import React, {PureComponent}   from 'react'
+import PropTypes                from 'prop-types'
+import Hammer                   from 'react-hammerjs'
 
 import PlayerControls       from 'components/PlayerControls/PlayerControls'
 import Layer                from 'components/Layer/Layer'
 import InitialOverlay       from 'components/InitialOverlay'
 
-import Library              from 'containers/Library/Library'
-import StylesWrapper        from 'styles/Wrapper'
-
 import SlidesScene          from 'slides/containers/SlidesScene/SlidesScene'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 import QuizScene            from 'quiz/containers/QuizScene/QuizScene'
+import StylesWrapper        from 'styles/Wrapper'
 
-class Player extends Component {
-  constructor(props) {
-    super(props)
-
-    this.initialState = this.initialState.bind(this)
-    this.resetState = this.resetState.bind(this)
-    this.state = this.initialState()
-
-    this.handleTapToPause = this.handleTapToPause.bind(this)
+class Player extends PureComponent {
+  static propTypes = {
+    pause: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
+    scene: PropTypes.object.isRequired,
+    mountBot: PropTypes.func.isRequired,
+    sceneTypes: PropTypes.array.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    isPlayable: PropTypes.bool.isRequired,
+    replay: PropTypes.func.isRequired,
+    seekTo: PropTypes.func.isRequired,
+    timeDuration: PropTypes.number.isRequired,
+    timePosition: PropTypes.number,
   }
 
-  initialState() {
-    return ({
-      libraryDistance: 0
-    })
-  }
-
-  resetState() {
-    this.setState(this.initialState())
-  }
-
-  handleTapToPause() {
+  handleTapToPause = () => {
     this.props.pause()
   }
 
+  // Only show overlay state on initial load lifecycle
+  // i.e. before video is loaded/played for first time
+  showOverlay = () => (
+    this.props.loadState && !(this.props.timePosition > 0)
+  )
+
   render() {
-    // Only show overlay state on initial load lifecycle
-    // i.e. before video is loaded/played for first time
-    const showOverlay = this.props.loadState && !(this.props.timePosition > 0)
     return (
       <div id="app-wrapper" style={StylesWrapper.wrap}>
         {this.props.sceneTypes.includes("quiz") && (
@@ -81,7 +76,7 @@ class Player extends Component {
           />
         )}
 
-        {showOverlay && (
+        {this.showOverlay() && (
           <InitialOverlay
             loadState={this.props.loadState}
             play={this.props.play}
@@ -96,7 +91,7 @@ class Player extends Component {
         </Hammer>
 
         <PlayerControls
-          isActive={!showOverlay && !this.props.isPlaying}
+          isActive={!this.showOverlay() && !this.props.isPlaying}
           isPlaying={this.props.isPlaying}
           isPlayable={this.props.isPlayable}
           pause={this.props.pause}
@@ -105,24 +100,10 @@ class Player extends Component {
           seekTo={this.props.seekTo}
           timeDuration={this.props.timeDuration}
           timePosition={this.props.timePosition}
-          toggleLibrary={this.props.toggleLibrary}
-        />
-        <Library
-          onSelect={(video) => { this.props.loadVideo(video.token) }}
-          isOpen={this.props.libraryIsOpen}
-          toggleLibrary={this.props.toggleLibrary}
-          libraryDistance={this.state.libraryDistance}
-          videosDB={this.props.videosDB}
         />
       </div>
     )
   }
-}
-
-Player.propTypes = {
-  libraryIsOpen: PropTypes.bool,
-  videosDB: PropTypes.object.isRequired,
-  loadVideo: PropTypes.func.isRequired,
 }
 
 export default Radium(Player)
