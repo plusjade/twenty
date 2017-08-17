@@ -1,4 +1,5 @@
 import React, {Component}   from 'react'
+import PropTypes            from 'prop-types'
 
 import AudioPlayer          from 'lib/AudioPlayer'
 import Scenes               from 'lib/Scenes'
@@ -6,26 +7,16 @@ import TimeKeeper           from 'lib/TimeKeeper'
 
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
+    static propTypes = {
+      videoId: PropTypes.string.isRequired,
+      scenes: PropTypes.array.isRequired,
+      substitutions: PropTypes.object.isRequired,
+      videosDB: PropTypes.object.isRequired,
+    }
+
     constructor(props) {
       super(props)
-
-      this.initialState = this.initialState.bind(this)
-      this.resetState = this.resetState.bind(this)
       this.state = this.initialState()
-
-      this.isPlayable = this.isPlayable.bind(this)
-      this.toggleLibrary = this.toggleLibrary.bind(this)
-
-      this.setVideoData = this.setVideoData.bind(this)
-      this.loadVideo = this.loadVideo.bind(this)
-
-      this.mountBot = this.mountBot.bind(this)
-
-      this.pause = this.pause.bind(this)
-      this.play = this.play.bind(this)
-      this.replay = this.replay.bind(this)
-      this.seekTo = this.seekTo.bind(this)
-      this.setStart = this.setStart.bind(this)
     }
 
     componentWillMount() {
@@ -37,31 +28,29 @@ const withPlay = (WrappedComponent) => {
       }
     }
 
-    initialState() {
-      return ({
-        libraryIsOpen: false,
-        loadState: undefined,
-        scene: {},
-        timeDuration: 0,
-        timePosition: 0,
-        videoId: this.props.videoId,
-        isPlaying: false,
-      })
-    }
+    initialState = () => ({
+      libraryIsOpen: false,
+      loadState: undefined,
+      scene: {},
+      timeDuration: 0,
+      timePosition: 0,
+      videoId: this.props.videoId,
+      isPlaying: false,
+    })
 
-    resetState() {
+    resetState = () => {
       this.setState(this.initialState())
     }
 
-    mountBot(type, bot) {
+    mountBot = (type, bot) => {
       this.scenes.mount(type, bot)
     }
 
-    isPlayable() {
-      return this.state.timeDuration > 0
-    }
+    isPlayable = () => (
+      this.state.timeDuration > 0
+    )
 
-    setVideoData(video) {
+    setVideoData = (video) => {
       this.setStart() // todo
       const scenes = this.props.scenes.slice(0)
       const lastScene = scenes.pop()
@@ -82,7 +71,7 @@ const withPlay = (WrappedComponent) => {
       })
     }
 
-    loadVideo(videoId) {
+    loadVideo = (videoId) => {
       this.setState({loadState: "loading", libraryIsOpen: false})
       this.sound.stop()
 
@@ -103,27 +92,27 @@ const withPlay = (WrappedComponent) => {
         })
     }
 
-    toggleLibrary() {
+    toggleLibrary = () => {
       this.setState({libraryIsOpen: !this.state.libraryIsOpen})
     }
 
-    setStart() {
+    setStart = () => {
       this.timeKeeper.reset()
       this.resetState()
     }
 
-    pause(time) {
+    pause = (time) => {
       this.setState({isPlaying: false})
       this.timeKeeper.pause(time)
       this.sound.pause()
     }
 
-    replay() {
+    replay = () => {
       this.setStart()
       this.play()
     }
 
-    play() {
+    play = () => {
       if (this.state.isPlaying) { return }
       this.setState({isPlaying: true})
       this.sound.play()
@@ -143,7 +132,7 @@ const withPlay = (WrappedComponent) => {
       })
     }
 
-    seekTo(timePosition) {
+    seekTo = (timePosition) => {
       const scene = this.scenes.at(timePosition)
 
       this.sound.seek(timePosition/1000)
