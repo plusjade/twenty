@@ -5,7 +5,7 @@ const WordsDB = () => {
       out: 1000,
     },
     {
-      data: "Sorry, I'm a little late,",
+      data: "Sorry, I'm a little late",
       out: 1000,
     },
     {
@@ -13,48 +13,48 @@ const WordsDB = () => {
       out: 1000,
     },
     {
-      data: "😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
-      out: 1000,
-    },
-    {
       data: "Yeah, I hear ya",
       out: 1000,
     },
+
     {
-      data: "here's your custom emoji: {{emoji}}",
-      out: 1000,
-    },
-    {
-      data: "Hope you liked it!",
+      data: "I've been working on something",
       out: 1000,
     },
 
     {
-      data: "You want to see something?",
-      out: 1000,
-    },
-    {
-      data: "😵",
-      out: 1000,
-    },
-    {
-      data: "Don't worry it's not weird!",
-      out: 1000,
-    },
-
-    {
-      data: "What do you think?",
+      data: "Is now a bad time to quickly go through it?",
       out: 1000,
     },
   ]
 
   const agreed = [
     {
-      data: "Great! I knew I could count on you 😬",
+      data: "Great! I knew I could count on you 🙃",
       out: 1000,
     },
     {
-      data: "So the first thing is random, but it's an iMessage converation...",
+      data: "First, let's say we want to make a website",
+      out: 1000,
+    },
+    {
+      data: "Well what do you need to know to do that?",
+      out: 1000,
+    },
+    {
+      data: "Let's jam through the 20% core stuff that will cover 80% of what you need to know",
+      out: 1000,
+    },
+    {
+      data: "1st",
+      out: 1000,
+    },
+    {
+      data: "what _is_ a website?",
+      out: 1000,
+    },
+    {
+      data: "Let's find out!",
       out: 1000,
     },
   ]

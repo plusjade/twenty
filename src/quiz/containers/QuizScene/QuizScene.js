@@ -30,8 +30,10 @@ class QuizScene extends Component {
 
   componentDidMount() {
     this.props.mountBot("quiz", (
-      QuizBot(this.onTick, this.initialPayloadDidUpdate)
-    ))
+        QuizBot(this.onTick, this.initialPayloadDidUpdate)
+      ),
+      this.props.ownSceneIndex
+    )
   }
 
   componentWillReceiveProps(nextProps) {

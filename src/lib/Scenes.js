@@ -76,12 +76,9 @@ function Scenes(set, substitutions) {
     )
   }
 
-  function mount(type, bot) {
-    scenes.forEach((scene) => {
-      if (scene.type === type) {
-        scene.player.mount(bot)
-      }
-    })
+  // have to mount individual bot instances
+  function mount(type, bot, index) {
+    scenes[index].player.mount(bot)
   }
 
   function at(timePosition) {

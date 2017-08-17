@@ -16,6 +16,7 @@ import WordsDB   from 'words/lib/WordsDB'
 
 import QuizDB             from 'quiz/lib/QuizDB'
 import PersonalizerDB     from 'lib/PersonalizerDB'
+import Test     from 'components/Test'
 import './index.css'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -55,7 +56,7 @@ if (parts[1] === "make") {
     {
       type: "words",
       data: Words.data,
-      in: 8000,
+      in: 11000,
       out: 1000,
     },
     {
@@ -66,7 +67,7 @@ if (parts[1] === "make") {
     {
       type: "words",
       data: Words.agreed,
-      in: 1000,
+      in: 500,
     },
     {
       type: "texting",
@@ -81,10 +82,13 @@ if (parts[1] === "make") {
       type: "words",
       data: Words.data3,
       in: 1000,
+      out: 1000,
     },
   ]
 } else {
   app = Home
 }
+
+// app = Test
 
 ReactDOM.render(React.createElement(app, props), document.getElementById('root'))

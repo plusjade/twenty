@@ -11,6 +11,7 @@ class WordsScene extends Component {
     isActive: PropTypes.bool.isRequired,
     mountBot: PropTypes.func.isRequired,
     sceneIndex: PropTypes.number.isRequired,
+    ownSceneIndex: PropTypes.number.isRequired,
   }
 
   static initialState() {
@@ -24,7 +25,8 @@ class WordsScene extends Component {
 
   componentDidMount() {
     this.props.mountBot("words", (
-      WordsBot(this.onTick, this.initialPayloadDidUpdate))
+      WordsBot(this.onTick, this.initialPayloadDidUpdate)),
+      this.props.ownSceneIndex
     )
   }
 
@@ -32,10 +34,10 @@ class WordsScene extends Component {
     if (nextProps.isPlaying) {
       this.timeline && this.timeline.play()
     } else {
-      this.timeline.pause()
+      this.timeline && this.timeline.pause()
     }
 
-    if (nextProps.sceneIndex !== this.props.sceneIndex) {
+    if (!nextProps.isActive) {
       this.setState({content: ""})
     }
   }

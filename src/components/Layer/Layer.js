@@ -6,6 +6,7 @@ import style from './Style'
 const Layer = (props) => {
   return (
     <div
+      ref={props.refCallback}
       style={[
         style.default,
         props.style,

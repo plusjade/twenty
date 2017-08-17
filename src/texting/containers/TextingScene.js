@@ -25,10 +25,12 @@ class TextingScene extends Component {
 
   componentDidMount() {
     this.props.mountBot("texting", (
-      TextingBot((messages, typingStatus) => {
-        this.setState({messages: messages, typingStatus: typingStatus})
-      })
-    ))
+        TextingBot((messages, typingStatus) => {
+          this.setState({messages: messages, typingStatus: typingStatus})
+        })
+      ),
+      this.props.ownSceneIndex
+    )
   }
 
   render() {

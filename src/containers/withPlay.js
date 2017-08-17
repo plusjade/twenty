@@ -42,8 +42,8 @@ const withPlay = (WrappedComponent) => {
       this.setState(this.initialState())
     }
 
-    mountBot = (type, bot) => {
-      this.scenes.mount(type, bot)
+    mountBot = (type, bot, index) => {
+      this.scenes.mount(type, bot, index)
     }
 
     isPlayable = () => (
