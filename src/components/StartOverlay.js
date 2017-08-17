@@ -6,7 +6,7 @@ import Layer                from 'components/Layer/Layer'
 // states where we want to show an overlay
 const OverlayStates = ["error", "loaded", "loading", "notFound"]
 
-const InitialOverlay = (props) => {
+const StartOverlay = (props) => {
   if (!OverlayStates.includes(props.loadState)) { return null }
 
   switch (props.loadState) {
@@ -44,4 +44,4 @@ const InitialOverlay = (props) => {
   }
 }
 
-export default InitialOverlay
+export default StartOverlay

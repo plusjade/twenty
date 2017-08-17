@@ -5,7 +5,7 @@ import Hammer                   from 'react-hammerjs'
 
 import PlayerControls       from 'components/PlayerControls/PlayerControls'
 import Layer                from 'components/Layer/Layer'
-import InitialOverlay       from 'components/InitialOverlay'
+import StartOverlay         from 'components/StartOverlay'
 
 import WordsScene           from 'words/containers/WordsScene/WordsScene'
 import TextingScene         from 'texting/containers/TextingScene'
@@ -43,7 +43,7 @@ class Player extends PureComponent {
 
   // Only show overlay state on initial load lifecycle
   // i.e. before video is loaded/played for first time
-  showOverlay = () => (
+  showStartOverlay = () => (
     this.props.loadState && !(this.props.timePosition > 0)
   )
 
@@ -85,8 +85,8 @@ class Player extends PureComponent {
           />
         )}
 
-        {this.showOverlay() && (
-          <InitialOverlay
+        {this.showStartOverlay() && (
+          <StartOverlay
             loadState={this.props.loadState}
             play={this.props.play}
             active={true}
@@ -100,7 +100,7 @@ class Player extends PureComponent {
         </Hammer>
 
         <PlayerControls
-          isActive={!this.showOverlay() && !this.props.isPlaying}
+          isActive={!this.showStartOverlay() && !this.props.isPlaying}
           isPlaying={this.props.isPlaying}
           isPlayable={this.props.isPlayable}
           pause={this.props.pause}
