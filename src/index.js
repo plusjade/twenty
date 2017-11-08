@@ -1,6 +1,8 @@
 import React            from 'react'
 import ReactDOM         from 'react-dom'
 
+import Trends             from 'trends/Trends'
+
 import QueryParams      from 'lib/QueryParams'
 import VideosDB         from 'lib/VideosDB'
 
@@ -45,7 +47,14 @@ if (PersonalizerDB[QParams.get("p") || "__"]) {
   substitutions = PersonalizerDB[QParams.get("p")]
 }
 
-if (parts[1] === "make") {
+if (parts[1] === "trends") {
+  app = Trends
+  const body = document.querySelector("body")
+  if (body) {
+    body.style.backgroundColor = "transparent"
+    body.style.overflow = "auto"
+  }
+} else if (parts[1] === "make") {
   app = withRecord(Recorder)
 } else if (videoId) {
   app = withPlay(Player)
