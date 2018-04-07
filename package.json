@@ -23,7 +23,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
-    "react-scripts": "1.0.7"
+    "react-scripts": "1.1.4"
   },
   "scripts": {
     "start": "NODE_PATH=src react-scripts start",
