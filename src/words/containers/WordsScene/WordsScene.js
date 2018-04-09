@@ -36,7 +36,7 @@ class WordsScene extends Component {
     }
 
     if (nextProps.sceneIndex !== this.props.sceneIndex) {
-      this.setState({content: ""})
+      this.setState(WordsScene.initialState())
     }
   }
 
