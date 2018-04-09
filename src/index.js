@@ -55,7 +55,6 @@ if (parts[1] === "make") {
     {
       type: "words",
       data: Words.data,
-      in: 8000,
       out: 1000,
     },
     {
