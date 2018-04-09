@@ -1,4 +1,4 @@
-const PersonalizerDB = {
+const data = {
   francine: {
     name: "Francine",
     emoji: "🤗",
@@ -39,7 +39,8 @@ const PersonalizerDB = {
     emoji: "👨‍💻‍",
     excuse: "drinking horchata in Montebello",
   },
-
 }
 
-export default PersonalizerDB
+export const getSubstitutions = (name) => (
+    data[name] || data.francine
+)
