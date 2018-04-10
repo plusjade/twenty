@@ -6,12 +6,7 @@ import Hammer                   from 'react-hammerjs'
 import PlayerControls       from 'components/PlayerControls/PlayerControls'
 import Layer                from 'components/Layer/Layer'
 import StartOverlay         from 'components/StartOverlay'
-
-import WordsScene           from 'words/containers/WordsScene/WordsScene'
-import TextingScene         from 'texting/containers/TextingScene'
-import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
-import QuizScene            from 'quiz/containers/QuizScene/QuizScene'
-
+import Scene                from 'components/Scene'
 
 const style = {
   wrap: {
@@ -50,40 +45,10 @@ class Player extends PureComponent {
   render() {
     return (
       <div id="app-wrapper" style={style.wrap}>
-        {this.props.sceneTypes.includes("quiz") && (
-          <QuizScene
-            sceneIndex={this.props.scene.index}
-            mountBot={this.props.mountBot}
-            isActive={this.props.scene.type === "quiz"}
-            pause={this.props.pause}
-            play={this.props.play}
-          />
-        )}
-
-        {this.props.sceneTypes.includes("texting") && (
-          <TextingScene
-            sceneIndex={this.props.scene.index}
-            mountBot={this.props.mountBot}
-            isActive={this.props.scene.type === "texting"}
-          />
-        )}
-
-        {this.props.sceneTypes.includes("words") && (
-          <WordsScene
-            sceneIndex={this.props.scene.index}
-            mountBot={this.props.mountBot}
-            isActive={this.props.scene.type === "words"}
-            isPlaying={this.props.isPlaying}
-          />
-        )}
-
-        {this.props.sceneTypes.includes("editor") && (
-          <TextEditorScene
-            sceneIndex={this.props.scene.index}
-            mountBot={this.props.mountBot}
-            isActive={this.props.scene.type === "editor"}
-          />
-        )}
+        <Scene
+          {...this.props}
+          key={`${this.props.scene.type}|${this.props.scene.index}`}
+        />
 
         {this.showStartOverlay() && (
           <StartOverlay

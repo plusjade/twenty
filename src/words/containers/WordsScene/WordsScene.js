@@ -2,7 +2,6 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 import SplitText            from 'vendor/SplitText'
 
-import Layer                from 'components/Layer/Layer'
 import WordsBot             from 'words/lib/WordsBot'
 import style                from './Style'
 
@@ -32,11 +31,7 @@ class WordsScene extends Component {
     if (nextProps.isPlaying) {
       this.timeline && this.timeline.play()
     } else {
-      this.timeline.pause()
-    }
-
-    if (nextProps.sceneIndex !== this.props.sceneIndex) {
-      this.setState(WordsScene.initialState())
+      this.timeline && this.timeline.pause()
     }
   }
 
@@ -77,16 +72,14 @@ class WordsScene extends Component {
     if (!this.props.isActive) { return null }
 
     return (
-      <Layer>
-        <div style={style.default}>
-          <h1
-            style={style.text}
-            ref={this.getRef}
-          >
-            {this.state.content}
-          </h1>
-        </div>
-      </Layer>
+      <div style={style.default}>
+        <h1
+          style={style.text}
+          ref={this.getRef}
+        >
+          {this.state.content}
+        </h1>
+      </div>
     )
   }
 }

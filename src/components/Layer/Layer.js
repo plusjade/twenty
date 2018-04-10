@@ -13,7 +13,7 @@ const Layer = (props) => {
       ]}
       onClick={props.onClick}
     >
-      {React.Children.only(props.children)}
+      {props.children}
     </div>
   )
 }

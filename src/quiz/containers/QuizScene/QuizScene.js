@@ -63,7 +63,7 @@ class QuizScene extends Component {
     if (!this.props.isActive) { return null }
 
     return (
-      <Layer style={{zIndex: 2}}>
+      // <Layer style={{zIndex: 2}}>
         <div>
           <h1 style={style.question.default}>
             {this.state.question}
@@ -83,7 +83,7 @@ class QuizScene extends Component {
           </button>
         ))}
         </div>
-      </Layer>
+      // </Layer>
     )
   }
 }
