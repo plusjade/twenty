@@ -10,7 +10,16 @@ const CommandPlayer = ({sceneIndex, initialPayload}={}) => {
   reset([])
 
   function mount(bot) {
+    console.log("mounting bot", bot)
     autobot = bot
+  }
+
+  function addUpdateCallback(callback) {
+    autobot.addUpdateCallback(callback)
+  }
+
+  function addEmitPayloadCallback(callback) {
+    autobot.addEmitPayloadCallback(callback)
   }
 
   function on(event, callback) {
@@ -84,6 +93,8 @@ const CommandPlayer = ({sceneIndex, initialPayload}={}) => {
     reset: reset,
     seekTo: seekTo,
     timeDuration: timeDuration,
+    addUpdateCallback,
+    addEmitPayloadCallback,
   })
 }
 

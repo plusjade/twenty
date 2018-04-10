@@ -2,6 +2,7 @@ import Radium               from 'radium'
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
+import { listVideos }       from 'lib/actions'
 import VideosList           from 'components/VideosList/VideosList'
 import IconClose            from 'components/IconClose'
 import withPromisedData     from 'containers/withPromisedData'
@@ -10,6 +11,15 @@ import style                from './Style'
 const VideosListAsync = withPromisedData(VideosList, "videos")
 
 class Library extends Component {
+  static propTypes = {
+    onSelect: PropTypes.func,
+    isOpen: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    onSelect: video => window.location = `/?id=${video.token}`,
+  }
+
   constructor(props) {
     super(props)
 
@@ -41,7 +51,7 @@ class Library extends Component {
       )}
         <VideosListAsync
           key={this.state.entropyKey}
-          async={true ? this.props.videosDB.list : undefined}
+          async={true ? listVideos : undefined}
           onSelect={this.props.onSelect}
           isOpen={this.props.isOpen}
           libraryDistance={this.props.libraryDistance}
@@ -49,16 +59,6 @@ class Library extends Component {
       </div>
     )
   }
-}
-
-Library.propTypes = {
-  onSelect: PropTypes.func,
-  isOpen: PropTypes.bool,
-  videosDB: PropTypes.object.isRequired,
-}
-
-Library.defaultProps = {
- onSelect: (video) => window.location = `/?id=${video.token}`
 }
 
 export default Radium(Library)

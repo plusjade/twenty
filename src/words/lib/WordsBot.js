@@ -1,9 +1,19 @@
-const WordsBot = (updateCallback, emitPayloadCallback) => {
+// all bots need to implement:
+// runCommand
+// runnCommands
+// reset
+// emitPayload (i think this is like an initializer)
+const WordsBot = () => {
+  const updateCallbackStack = []
+  const emitPayloadCallbackStack = []
+
   function runCommand(command) {
     // eslint-disable-next-line
     const [time, entryIndex, progress] = command
 
-    updateCallback(entryIndex, progress)
+    updateCallbackStack.forEach((cb) => {
+      cb(entryIndex, progress)
+    })
   }
 
   function reset() {
@@ -14,19 +24,31 @@ const WordsBot = (updateCallback, emitPayloadCallback) => {
     // eslint-disable-next-line
     const [time, entryIndex, progress] = commands.slice(-1)[0]
 
-    updateCallback(entryIndex, progress)
+    updateCallbackStack.forEach((cb) => {
+      cb(entryIndex, progress)
+    })
   }
 
   function emitPayload({sceneIndex, initialPayload}) {
-    if (typeof emitPayloadCallback !== "function") { return }
+    emitPayloadCallbackStack.forEach((cb) => {
+      cb({sceneIndex, initialPayload})
+    })
+  }
 
-    emitPayloadCallback({sceneIndex, initialPayload})
+  function addUpdateCallback(callback) {
+    updateCallbackStack.push(callback)
+  }
+
+  function addEmitPayloadCallback(callback) {
+    emitPayloadCallbackStack.push(callback)
   }
 
   return ({
-    emitPayload: emitPayload,
-    runCommand: runCommand,
-    runCommands: runCommands
+    emitPayload,
+    runCommand,
+    runCommands,
+    addUpdateCallback,
+    addEmitPayloadCallback,
   })
 }
 

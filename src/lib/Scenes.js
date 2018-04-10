@@ -3,23 +3,38 @@ import TextingToCommands    from 'texting/lib/TextingToCommands'
 import WordsToCommands      from 'words/lib/WordsToCommands'
 import Personalizer         from 'lib/Personalizer'
 
+import WordsBot             from 'words/lib/WordsBot'
+import QuizBot from 'quiz/lib/QuizBot'
+
+const botsMap = {
+  words: WordsBot,
+  quiz: QuizBot,
+}
+
+
 function Scenes(set, substitutions) {
   const personalizer = Personalizer(substitutions)
   let previousOffset = 0
   let previousDuration = 0
 
+  const wordsTransform = (scene, index) => {
+    const personalizedData = (
+      scene.data.map(entry => ({
+        ...entry, data: personalizer.personalize(entry.data)
+      }))
+    )
+    const result = WordsToCommands(personalizedData, scene.in)
+    scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
+    scene.player.reset(result)
+    scene.timeDuration = scene.player.timeDuration() + (scene.out || 0)
+
+    return scene
+  }
+
   const scenes = set.map((scene, index) => {
     switch(scene.type) {
       case "words": {
-        const personalizedData = (
-          scene.data.map(entry => (
-            Object.assign(entry, {data: personalizer.personalize(entry.data)})
-          ))
-        )
-
-        scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
-        scene.player.reset(WordsToCommands(personalizedData, scene.in))
-        scene.timeDuration = scene.player.timeDuration() + (scene.out || 0)
+        wordsTransform(scene, index)
         break
       }
       case "editor": {
@@ -52,6 +67,11 @@ function Scenes(set, substitutions) {
       default: {
 
       }
+    }
+
+
+    if (botsMap[scene.type]) {
+      scene.player.mount(botsMap[scene.type]())
     }
 
     scene.index = index
@@ -88,6 +108,7 @@ function Scenes(set, substitutions) {
     const scene = find(timePosition)
     if (scene) {
       return ({
+        bg: scene.data.bg || (scene.data[0] && scene.data[0].bg),
         timeDuration: scene.timeDuration,
         type: scene.type,
         index: scene.index,

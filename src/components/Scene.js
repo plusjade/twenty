@@ -4,7 +4,7 @@ import PropTypes                from 'prop-types'
 
 import Layer                from 'components/Layer/Layer'
 
-import WordsScene           from 'words/containers/WordsScene/WordsScene'
+import WordsThing           from 'words/containers/WordsThing/WordsThing'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 import QuizScene            from 'quiz/containers/QuizScene/QuizScene'
@@ -19,9 +19,9 @@ const style = {
   },
 }
 
-const sceneTypesMap = {
+const thingsMap = {
   quiz: QuizScene,
-  words: WordsScene,
+  words: WordsThing,
   texting: TextingScene,
   editor: TextingScene
 }
@@ -41,18 +41,14 @@ class Scene extends PureComponent {
     timePosition: PropTypes.number,
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (this.props.scene && this.props.scene)
-    // console.log(nextProps.scene)
-  }
-
-  getSceneComponent() {
-    const Component = sceneTypesMap[this.props.scene.type]
-    if (!Component) { return }
+  getThings() {
+    const Thing = thingsMap[this.props.scene.type]
+    if (!Thing) { return }
 
     return (
-      React.createElement(Component, {
+      React.createElement(Thing, {
         sceneIndex: this.props.scene.index,
+        scene: this.props.scene,
         mountBot: this.props.mountBot,
         isActive: true,
         pause: this.props.pause,
@@ -64,8 +60,14 @@ class Scene extends PureComponent {
 
   render() {
     return (
-      <Layer style={{backgroundColor: this.props.scene.bg}}>
-        {this.getSceneComponent()}
+      <Layer
+        style={{
+          backgroundColor: this.props.scene.bg,
+          flexDirection: "column",
+        }}
+      >
+        {this.getThings()}
+        {this.getThings()}
       </Layer>
     )
   }

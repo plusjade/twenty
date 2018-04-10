@@ -2,16 +2,16 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
 import AudioPlayer          from 'lib/AudioPlayer'
-import Scenes               from 'lib/Scenes'
 import TimeKeeper           from 'lib/TimeKeeper'
+
+import { findVideo }        from 'lib/actions'
 
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       videoId: PropTypes.string.isRequired,
-      scenes: PropTypes.array.isRequired,
+      scenes: PropTypes.object.isRequired,
       substitutions: PropTypes.object.isRequired,
-      videosDB: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -42,44 +42,16 @@ const withPlay = (WrappedComponent) => {
       this.setState(this.initialState())
     }
 
-    mountBot = (type, bot) => {
-      this.scenes.mount(type, bot)
-    }
-
     isPlayable = () => (
       this.state.timeDuration > 0
     )
 
-    setVideoData = (video) => {
-      this.setStart() // todo
-      const scenes = this.props.scenes.slice(0)
-      const lastScene = scenes.pop()
-      scenes.push({
-        type: "editor",
-        data: video.commands,
-      })
-      scenes.push(lastScene)
-      this.scenes = Scenes(scenes, this.props.substitutions)
-      const scene = this.scenes.at(1)
-
-      this.setState({
-        videoId: video.token,
-        libraryIsOpen: false,
-        loadState: "loaded",
-        timeDuration: this.scenes.timeDuration(),
-        scene: Object.assign({}, scene, {player: undefined}),
-      })
-    }
-
     loadVideo = (videoId) => {
       this.setState({loadState: "loading", libraryIsOpen: false})
       this.sound.stop()
-
-      this.props.videosDB
-        .find(videoId)
+      findVideo(videoId)
         .then((video) => {
           if (video) {
-            console.log(video)
             if (!window.location.search.includes("id")) {
               window.history.replaceState({}, null, `/?id=${videoId}`)
             }
@@ -90,6 +62,23 @@ const withPlay = (WrappedComponent) => {
             this.setState({loadState: "notFound"})
           }
         })
+    }
+
+    setVideoData = (video) => {
+      this.setStart() // todo
+      // const lastScene = scenes.pop()
+      // scenes.push({
+      //   type: "editor",
+      //   data: video.commands,
+      // })
+      // scenes.push(lastScene)
+      this.setState({
+        videoId: video.token,
+        libraryIsOpen: false,
+        loadState: "loaded",
+        timeDuration: this.props.scenes.timeDuration(),
+        scene: this.props.scenes.at(1),
+      })
     }
 
     toggleLibrary = () => {
@@ -123,23 +112,23 @@ const withPlay = (WrappedComponent) => {
           this.pause()
         }
 
-        scene = this.scenes.at(nextTimePosition)
+        scene = this.props.scenes.at(nextTimePosition)
         this.setState({
           timePosition: nextTimePosition,
-          scene: Object.assign({}, scene, {player: undefined})
+          scene,
         })
         scene.player.play(scene.offsetTimePosition)
       })
     }
 
     seekTo = (timePosition) => {
-      const scene = this.scenes.at(timePosition)
+      const scene = this.props.scenes.at(timePosition)
 
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
       this.setState({
         timePosition: timePosition,
-        scene: Object.assign({}, scene, {player: undefined}),
+        scene,
       })
 
       scene.player.seekTo(scene.offsetTimePosition)
@@ -156,10 +145,9 @@ const withPlay = (WrappedComponent) => {
           seekTo={this.seekTo}
 
           isPlayable={this.isPlayable}
-          mountBot={this.mountBot}
+          mountBot={this.props.scenes.mount}
           toggleLibrary={this.toggleLibrary}
-          loadVideo={this.loadVideo}
-          sceneTypes={this.scenes ? this.scenes.types() : []}
+          sceneTypes={this.props.scenes ? this.props.scenes.types() : []}
         />
       )
     }

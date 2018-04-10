@@ -2,7 +2,6 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 import Layer                from 'components/Layer/Layer'
 
-import QuizBot from 'quiz/lib/QuizBot'
 import style from './Style'
 
 class QuizScene extends Component {
@@ -29,9 +28,17 @@ class QuizScene extends Component {
   }
 
   componentDidMount() {
-    this.props.mountBot("quiz", (
-      QuizBot(this.onTick, this.initialPayloadDidUpdate)
-    ))
+    // this.props.mountBot("quiz", (
+    //   QuizBot(this.onTick, this.initialPayloadDidUpdate)
+    // ))
+
+    this.props.scene.player.addUpdateCallback(
+      this.onTick
+    )
+    this.props.scene.player.addEmitPayloadCallback(
+      this.initialPayloadDidUpdate
+    )
+
   }
 
   componentWillReceiveProps(nextProps) {

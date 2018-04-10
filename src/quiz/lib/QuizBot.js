@@ -1,4 +1,7 @@
 function QuizBot(updateCallback, emitPayloadCallback) {
+  const updateCallbackStack = []
+  const emitPayloadCallbackStack = []
+
   function runCommand(command) {
     // noop
   }
@@ -8,15 +11,25 @@ function QuizBot(updateCallback, emitPayloadCallback) {
   }
 
   function emitPayload({sceneIndex, initialPayload}) {
-    if (typeof emitPayloadCallback !== "function") { return }
+    emitPayloadCallbackStack.forEach((cb) => {
+      cb({sceneIndex, initialPayload})
+    })
+  }
 
-    emitPayloadCallback({sceneIndex, initialPayload})
+  function addUpdateCallback(callback) {
+    updateCallbackStack.push(callback)
+  }
+
+  function addEmitPayloadCallback(callback) {
+    emitPayloadCallbackStack.push(callback)
   }
 
   return ({
-    emitPayload: emitPayload,
-    runCommand: runCommand,
-    runCommands: runCommands
+    emitPayload,
+    runCommand,
+    runCommands,
+    addUpdateCallback,
+    addEmitPayloadCallback,
   })
 }
 

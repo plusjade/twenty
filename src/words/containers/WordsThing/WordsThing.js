@@ -5,9 +5,8 @@ import SplitText            from 'vendor/SplitText'
 import WordsBot             from 'words/lib/WordsBot'
 import style                from './Style'
 
-class WordsScene extends Component {
+class WordsThing extends Component {
   static propTypes = {
-    isActive: PropTypes.bool.isRequired,
     mountBot: PropTypes.func.isRequired,
     sceneIndex: PropTypes.number.isRequired,
   }
@@ -19,13 +18,7 @@ class WordsScene extends Component {
     })
   }
 
-  state = WordsScene.initialState()
-
-  componentDidMount() {
-    this.props.mountBot("words", (
-      WordsBot(this.onTick, this.initialPayloadDidUpdate))
-    )
-  }
+  state = WordsThing.initialState()
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isPlaying) {
@@ -35,12 +28,25 @@ class WordsScene extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.scene.player.addUpdateCallback(
+      this.onTick
+    )
+    this.props.scene.player.addEmitPayloadCallback(
+      this.initialPayloadDidUpdate
+    )
+  }
+
+  // wordsThing comes as an array of one or more sentences.
+  // entryIndex is the array index that produces the entire sentence
   onTick = (entryIndex, progress) => {
     if (this.state.entryIndex === entryIndex) {
       // this.timeline.progress(progress)
     } else {
       // first instance of this entry
       const content = this.state.initialPayload[entryIndex].data
+      // content is the entire sentence.. how does the typing effect work?
+      // console.log(content, entryIndex, this.state.entryIndex)
       this.setState(
         {content: content, entryIndex: entryIndex},
         this.initializeTimeline
@@ -48,16 +54,25 @@ class WordsScene extends Component {
     }
   }
 
-  initializeTimeline = () => {
-    const mySplitText = new SplitText(this.node, {type:"chars,words"})
-    this.timeline = new window.TimelineLite()
-    this.timeline.staggerFrom(mySplitText.chars, 0.2, {opacity:0}, 0.055)
-    this.timeline.pause()
-  }
-
+  // this is a way to refresh the wordsScene when transitioning
+  // to a new that happens to be the same words type.
+  // noop if we're on the same scene index
   initialPayloadDidUpdate = ({sceneIndex, initialPayload}) => {
     if (sceneIndex === this.state.sceneIndex) { return }
+    console.log("switch scene", sceneIndex, initialPayload)
     this.setState({sceneIndex: sceneIndex, initialPayload: initialPayload})
+  }
+
+  initializeTimeline = () => {
+    console.log('initializeTimeline')
+    const mySplitText = new SplitText(this.node, {type:"chars,words"})
+    this.timeline = new window.TimelineLite()
+    // This works on timing. 0.2 is the duration of the effect
+    // so we're basically just coordinating the duraction of the effect to
+    // how long we've given the scene to last. fixme?
+    // console.log(mySplitText.chars)
+    this.timeline.staggerFrom(mySplitText.chars, 0.2, {opacity: 0}, 0.055)
+    this.timeline.pause()
   }
 
   getRef = (node) => {
@@ -65,12 +80,10 @@ class WordsScene extends Component {
   }
 
   resetState = () => {
-    this.setState(WordsScene.initialState())
+    this.setState(WordsThing.initialState())
   }
 
   render() {
-    if (!this.props.isActive) { return null }
-
     return (
       <div style={style.default}>
         <h1
@@ -84,4 +97,4 @@ class WordsScene extends Component {
   }
 }
 
-export default WordsScene
+export default WordsThing
