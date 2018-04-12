@@ -31,6 +31,7 @@ class Scene extends PureComponent {
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     scene: PropTypes.object.isRequired,
+    activeThings: PropTypes.array.isRequired,
     mountBot: PropTypes.func.isRequired,
     sceneTypes: PropTypes.array.isRequired,
     isPlaying: PropTypes.bool.isRequired,
@@ -39,23 +40,7 @@ class Scene extends PureComponent {
     seekTo: PropTypes.func.isRequired,
     timeDuration: PropTypes.number.isRequired,
     timePosition: PropTypes.number,
-  }
-
-  getThings() {
-    const Thing = thingsMap[this.props.scene.type]
-    if (!Thing) { return }
-
-    return (
-      React.createElement(Thing, {
-        sceneIndex: this.props.scene.index,
-        scene: this.props.scene,
-        mountBot: this.props.mountBot,
-        isActive: true,
-        pause: this.props.pause,
-        play: this.props.play,
-        isPlaying: this.props.isPlaying,
-      })
-    )
+    thingsInScene: PropTypes.number.isRequired,
   }
 
   render() {
@@ -66,8 +51,32 @@ class Scene extends PureComponent {
           flexDirection: "column",
         }}
       >
-        {this.getThings()}
-        {this.getThings()}
+        {Array(this.props.thingsInScene).fill(0).map((_, i) => {
+          const thing = this.props.activeThings[i]
+          let component
+
+          if (thing && thingsMap[thing.type]) {
+            component = (
+              React.createElement(thingsMap[thing.type], {
+                sceneIndex: this.props.scene.jadeIndex,
+                scene: thing,
+                player: thing.player,
+                isActive: true,
+                pause: this.props.pause,
+                play: this.props.play,
+                isPlaying: this.props.isPlaying,
+              })
+            )
+          } else {
+            component = <span/>
+          }
+
+          return (
+            <div style={{minHeight: 200}} key={i}>
+              {component}
+            </div>
+          )
+        })}
       </Layer>
     )
   }

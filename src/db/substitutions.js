@@ -42,5 +42,5 @@ const data = {
 }
 
 export const getSubstitutions = (name) => (
-    data[name] || data.francine
+    data[name] || data.robert
 )

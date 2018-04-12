@@ -108,13 +108,8 @@ function Scenes(set, substitutions) {
     const scene = find(timePosition)
     if (scene) {
       return ({
-        bg: scene.data.bg || (scene.data[0] && scene.data[0].bg),
-        timeDuration: scene.timeDuration,
-        type: scene.type,
-        index: scene.index,
-        timeOffset: scene.timeOffset,
+        ...scene,
         offsetTimePosition: timePosition - scene.timeOffset,
-        player: scene.player,
       })
     } else {
       throw new RangeError(`No scene found at ${timePosition}`)

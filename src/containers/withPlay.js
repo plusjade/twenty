@@ -36,6 +36,8 @@ const withPlay = (WrappedComponent) => {
       timePosition: 0,
       videoId: this.props.videoId,
       isPlaying: false,
+      activeThings: [],
+      activeThingsDict: {},
     })
 
     resetState = () => {
@@ -78,6 +80,7 @@ const withPlay = (WrappedComponent) => {
         loadState: "loaded",
         timeDuration: this.props.scenes.timeDuration(),
         scene: this.props.scenes.at(1),
+        activeThings: [this.props.scenes.at(1)],
       })
     }
 
@@ -113,11 +116,36 @@ const withPlay = (WrappedComponent) => {
         }
 
         scene = this.props.scenes.at(nextTimePosition)
-        this.setState({
-          timePosition: nextTimePosition,
-          scene,
-        })
-        scene.player.play(scene.offsetTimePosition)
+
+        if (this.state.activeThingsDict[scene.index]) {
+          this.setState({
+            timePosition: nextTimePosition,
+            scene,
+          }, () => {
+            scene.player.play(scene.offsetTimePosition)
+          })
+        } else {
+          const activeThingsDict = {...this.state.activeThingsDict}
+          let activeThings = this.state.activeThings.slice(0)
+          if (activeThings[0] && activeThings[0].index !== scene.index) {
+            activeThings.push(scene)
+          }
+
+          activeThingsDict[scene.index] = true
+
+          activeThings = activeThings.filter(s => s.jadeIndex === scene.jadeIndex)
+
+          this.setState({
+            timePosition: nextTimePosition,
+            scene,
+            activeThingsDict,
+            activeThings,
+          }, () => {
+            scene.player.play(scene.offsetTimePosition)
+          })
+        }
+
+
       })
     }
 
@@ -129,6 +157,7 @@ const withPlay = (WrappedComponent) => {
       this.setState({
         timePosition: timePosition,
         scene,
+        activeThings: [scene],
       })
 
       scene.player.seekTo(scene.offsetTimePosition)

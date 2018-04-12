@@ -29,10 +29,10 @@ class WordsThing extends Component {
   }
 
   componentDidMount() {
-    this.props.scene.player.addUpdateCallback(
+    this.props.player.addUpdateCallback(
       this.onTick
     )
-    this.props.scene.player.addEmitPayloadCallback(
+    this.props.player.addEmitPayloadCallback(
       this.initialPayloadDidUpdate
     )
   }

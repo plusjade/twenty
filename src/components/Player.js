@@ -47,7 +47,8 @@ class Player extends PureComponent {
       <div id="app-wrapper" style={style.wrap}>
         <Scene
           {...this.props}
-          key={`${this.props.scene.type}|${this.props.scene.index}`}
+          key={`jade-${this.props.scene.jadeIndex}`}
+          thingsInScene={this.props.scene.thingsInScene}
         />
 
         {this.showStartOverlay() && (
