@@ -7,7 +7,7 @@ import Layer                from 'components/Layer/Layer'
 import WordsThing           from 'words/containers/WordsThing/WordsThing'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
-import QuizScene            from 'quiz/containers/QuizScene/QuizScene'
+import QuizThing            from 'quiz/containers/QuizThing/QuizThing'
 
 
 const style = {
@@ -20,7 +20,7 @@ const style = {
 }
 
 const thingsMap = {
-  quiz: QuizScene,
+  quiz: QuizThing,
   words: WordsThing,
   texting: TextingScene,
   editor: TextingScene

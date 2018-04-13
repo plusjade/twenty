@@ -100,7 +100,6 @@ const quiz1 = {
     {value: "false", name: "meh, I'm {{excuse}}"},
     {value: "true", name: "Um, ya"},
   ],
-  bg: "green",
 }
 
 const quiz2 = {
@@ -285,6 +284,23 @@ const testTwo = [
       thingsInScene: 1,
       bg: "#FF5722",
     },
+    {
+      type: "quiz",
+      data: quiz1,
+      out: 1000,
+      jadeIndex: 6,
+      thingsInScene: 1,
+      bg: "orange",
+    },
+    {
+      type: "words",
+      data: words2,
+      out: 1000,
+      jadeIndex: 7,
+      thingsInScene: 1,
+      bg: "#E91E63",
+    },
+
 ]
 
 export default testTwo

@@ -1,10 +1,11 @@
+import Radium                   from 'radium'
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 import Layer                from 'components/Layer/Layer'
 
 import style from './Style'
 
-class QuizScene extends Component {
+class QuizThing extends Component {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
     pause: PropTypes.func.isRequired,
@@ -21,10 +22,10 @@ class QuizScene extends Component {
     })
   }
 
-  state = QuizScene.initialState()
+  state = QuizThing.initialState()
 
   resetState = () => {
-    this.setState(QuizScene.initialState())
+    this.setState(QuizThing.initialState())
   }
 
   componentDidMount() {
@@ -39,6 +40,7 @@ class QuizScene extends Component {
       this.initialPayloadDidUpdate
     )
 
+    this.props.pause()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,4 +97,4 @@ class QuizScene extends Component {
   }
 }
 
-export default QuizScene
+export default Radium(QuizThing)

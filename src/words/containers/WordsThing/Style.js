@@ -1,7 +1,7 @@
 export default {
   default: {
     textAlign: "left",
-    fontSize: "54px",
+    fontSize: "34px",
     padding: "0 10px",
     boxSizing: "border-box",
     width: "100%",
