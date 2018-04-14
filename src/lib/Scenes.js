@@ -11,96 +11,94 @@ const botsMap = {
   quiz: QuizBot,
 }
 
-
 function Scenes(set, substitutions) {
   const personalizer = Personalizer(substitutions)
   let previousOffset = 0
   let previousDuration = 0
 
-  const wordsTransform = (scene, index) => {
+  const wordsTransform = (thing, index) => {
     const personalizedData = (
-      scene.data.map(entry => ({
+      thing.data.map(entry => ({
         ...entry, data: personalizer.personalize(entry.data)
       }))
     )
-    const result = WordsToCommands(personalizedData, scene.in)
-    scene.payload = result
-    scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
-    scene.player.reset(result)
-    scene.timeDuration = scene.player.timeDuration() + (scene.out || 0)
+    const result = WordsToCommands(personalizedData, thing.in)
+    thing.payload = result
+    thing.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
+    thing.player.reset(result)
+    thing.timeDuration = thing.player.timeDuration() + (thing.out || 0)
 
-    return scene
+    return thing
   }
 
-  const scenes = set.map((scene, index) => {
-    switch(scene.type) {
+  const things = set.map((thing, index) => {
+    switch(thing.type) {
       case "words": {
-        wordsTransform(scene, index)
+        wordsTransform(thing, index)
         break
       }
       case "editor": {
-        scene.player = CommandPlayer()
-        scene.player.reset(scene.data)
-        scene.timeDuration = scene.player.timeDuration()
+        thing.player = CommandPlayer()
+        thing.player.reset(thing.data)
+        thing.timeDuration = thing.player.timeDuration()
         break
       }
       case "texting": {
-        scene.player = CommandPlayer()
-        scene.player.reset(TextingToCommands(scene.data))
-        scene.timeDuration = scene.player.timeDuration()
+        thing.player = CommandPlayer()
+        thing.player.reset(TextingToCommands(thing.data))
+        thing.timeDuration = thing.player.timeDuration()
         break
       }
       case "quiz": {
         const payload = {
-          question: personalizer.personalize(scene.data.question),
+          question: personalizer.personalize(thing.data.question),
           answers: (
-            scene.data.answers.map(answer => (
+            thing.data.answers.map(answer => (
               Object.assign(answer, {name: personalizer.personalize(answer.name)})
             ))
           )
         }
 
-        scene.payload = payload
-        scene.player = CommandPlayer({sceneIndex: index, initialPayload: payload})
-        scene.player.reset([]) // no commands
-        scene.timeDuration = 1000 // the time it takes for "after select" animation
+        thing.payload = payload
+        thing.player = CommandPlayer({sceneIndex: index, initialPayload: payload})
+        thing.player.reset([]) // no commands
+        thing.timeDuration = 1000 // the time it takes for "after select" animation
         break
       }
       default: {
-
+        // noop
       }
     }
 
-
-    if (botsMap[scene.type]) {
-      scene.player.mount(botsMap[scene.type]())
+    if (botsMap[thing.type]) {
+      thing.player.mount(botsMap[thing.type]())
     }
 
-    scene.index = index
-    scene.id = `${index}_${scene.type}`
+    thing.index = index
+    thing.id = `${index}_${thing.type}`
 
     if (index === 0) {
-      scene.timeOffset = 0
+      thing.timeOffset = 0
     } else {
-      scene.timeOffset = previousOffset + previousDuration
+      thing.timeOffset = previousOffset + previousDuration
     }
 
-    previousDuration = scene.timeDuration
-    previousOffset = scene.timeOffset
+    previousDuration = thing.timeDuration
+    previousOffset = thing.timeOffset
 
-    return scene
+    return thing
   })
 
-  const thingsObjects = scenes.reduce((memo, scene) => {
-    memo[scene.id] = scene
+  const thingsObjects = things.reduce((memo, thing) => {
+    memo[thing.id] = thing
     return memo
   }, {})
 
-  const scenesObjectsMap = scenes.reduce((memo, scene) => {
-    if (memo[scene.parentSceneId]) {
-      memo[scene.parentSceneId].push(scene.id)
+  const scenesObjectsMap = things.reduce((memo, thing) => {
+    if (memo[thing.parentSceneId]) {
+      memo[thing.parentSceneId].push(thing.id)
     } else {
-      memo[scene.parentSceneId] = [scene.id]
+      memo[thing.parentSceneId] = [thing.id]
     }
     return memo
   }, {})
@@ -117,37 +115,34 @@ function Scenes(set, substitutions) {
     return memo
   }, {})
 
-  const scenesReversed = scenes.slice(0).reverse()
+  const thingsReversed = things.slice(0).reverse()
 
-  function timeDuration() {
-    return (
-      scenesReversed[0].timeOffset + scenesReversed[0].timeDuration
-    )
-  }
+  const timeDuration = () => (
+    thingsReversed[0].timeOffset + thingsReversed[0].timeDuration
+  )
 
   function at(timePosition) {
-    const scene = find(timePosition)
-    if (scene) {
+    const thing = find(timePosition)
+    if (thing) {
       return ({
-        ...scene,
-        offsetTimePosition: timePosition - scene.timeOffset,
+        ...thing,
+        offsetTimePosition: timePosition - thing.timeOffset,
       })
     } else {
-      throw new RangeError(`No scene found at ${timePosition}`)
+      throw new RangeError(`No thing found at ${timePosition}`)
     }
   }
 
-  function find(timePosition) {
-    return (
-      scenesReversed.find(scene => timePosition > scene.timeOffset)
-    )
-  }
+  const find = (timePosition) => (
+    thingsReversed.find(thing => timePosition > thing.timeOffset)
+  )
 
   const getThings = sceneId => (
     getScene(sceneId).thingsIds.map(id => getThing(id))
   )
 
   const getThing = id => thingsObjects[id]
+
   const getScene = id => scenesObjects[id]
 
   const getScenes = () => (
@@ -165,6 +160,5 @@ function Scenes(set, substitutions) {
     timeDuration,
   })
 }
-
 
 export default Scenes
