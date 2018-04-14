@@ -10,7 +10,7 @@ const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       videoId: PropTypes.string.isRequired,
-      scenes: PropTypes.object.isRequired,
+      things: PropTypes.object.isRequired,
       substitutions: PropTypes.object.isRequired,
     }
 
@@ -73,14 +73,14 @@ const withPlay = (WrappedComponent) => {
       //   data: video.commands,
       // })
       // scenes.push(lastScene)
-      const thing = this.props.scenes.at(1)
+      const thing = this.props.things.at(1)
       this.setState({
         videoId: video.token,
         libraryIsOpen: false,
         loadState: "loaded",
-        timeDuration: this.props.scenes.timeDuration(),
+        timeDuration: this.props.things.timeDuration(),
         thing,
-        activeSceneId: thing.parentSceneId,
+        activeSceneId: thing.sceneId,
       })
     }
 
@@ -115,12 +115,12 @@ const withPlay = (WrappedComponent) => {
           this.pause()
         }
 
-        thing = this.props.scenes.at(nextTimePosition)
+        thing = this.props.things.at(nextTimePosition)
         // TODO: make sure to verify offsetTimePosition
         this.setState({
           timePosition: nextTimePosition,
           thing,
-          activeSceneId: thing.parentSceneId,
+          activeSceneId: thing.sceneId,
         }, () => {
           thing.player.play(thing.offsetTimePosition)
         })
@@ -128,14 +128,14 @@ const withPlay = (WrappedComponent) => {
     }
 
     seekTo = (timePosition) => {
-      const thing = this.props.scenes.at(timePosition)
+      const thing = this.props.things.at(timePosition)
 
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
       this.setState({
         timePosition: timePosition,
         thing,
-        activeSceneId: thing.parentSceneId,
+        activeSceneId: thing.sceneId,
       })
 
       thing.player.seekTo(thing.offsetTimePosition)
@@ -147,7 +147,7 @@ const withPlay = (WrappedComponent) => {
           {...this.props}
           {...this.state}
 
-          scenes={this.props.scenes}
+          things={this.props.things}
 
           play={this.play}
           pause={this.pause}

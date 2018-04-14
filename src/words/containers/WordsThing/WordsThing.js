@@ -12,6 +12,7 @@ class WordsThing extends Component {
 
   static initialState() {
     return ({
+      isActivated: false,
       content: "",
       entryIndex: undefined,
       initialPayload: [],
@@ -47,24 +48,13 @@ class WordsThing extends Component {
       const node = this.state.initialPayload[entryIndex]
       const content = node && node.data
       // content is the entire sentence.. how does the typing effect work?
-      // console.log(content, entryIndex, this.state.entryIndex)
-      this.setState(
-        {content: content, entryIndex: entryIndex},
-        this.initializeTimeline
-      )
+      this.setState({content, entryIndex}, this.initializeTimeline)
     }
   }
 
-  // this is a way to refresh the wordsScene when transitioning
-  // to a new that happens to be the same words type.
-  // noop if we're on the same scene index
-  initialPayloadDidUpdate = ({sceneIndex, initialPayload}) => {
-    if (sceneIndex === this.state.sceneIndex) { return }
-    console.log("switch scene", sceneIndex, initialPayload)
-    this.setState({
-      sceneIndex,
-      initialPayload,
-    })
+  initialPayloadDidUpdate = ({thingId, initialPayload}) => {
+    if (this.state.isActivated) { return }
+    this.setState({isActivated: true, initialPayload})
   }
 
   initializeTimeline = () => {

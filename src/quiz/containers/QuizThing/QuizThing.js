@@ -44,10 +44,10 @@ class QuizThing extends Component {
     // noop
   }
 
-  initialPayloadDidUpdate = ({sceneIndex, initialPayload}) => {
-    if (sceneIndex === this.state.sceneIndex) { return }
+  initialPayloadDidUpdate = ({thingId, initialPayload}) => {
+    if (thingId === this.state.thingId) { return }
     this.setState({
-      sceneIndex: sceneIndex,
+      thingId,
       answers: initialPayload.answers,
       question: initialPayload.question,
     }, this.props.pause)

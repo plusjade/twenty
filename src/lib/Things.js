@@ -11,12 +11,12 @@ const botsMap = {
   quiz: QuizBot,
 }
 
-function Scenes(set, substitutions) {
+export default function Things(set, substitutions) {
   const personalizer = Personalizer(substitutions)
   let previousOffset = 0
   let previousDuration = 0
 
-  const wordsTransform = (thing, index) => {
+  const wordsTransform = (thing) => {
     const personalizedData = (
       thing.data.map(entry => ({
         ...entry, data: personalizer.personalize(entry.data)
@@ -24,7 +24,7 @@ function Scenes(set, substitutions) {
     )
     const result = WordsToCommands(personalizedData, thing.in)
     thing.payload = result
-    thing.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
+    thing.player = CommandPlayer({thingId: thing.id, initialPayload: personalizedData})
     thing.player.reset(result)
     thing.timeDuration = thing.player.timeDuration() + (thing.out || 0)
 
@@ -32,9 +32,11 @@ function Scenes(set, substitutions) {
   }
 
   const things = set.map((thing, index) => {
+    thing.id = `${index}_${thing.type}`
+
     switch(thing.type) {
       case "words": {
-        wordsTransform(thing, index)
+        wordsTransform(thing)
         break
       }
       case "editor": {
@@ -60,7 +62,7 @@ function Scenes(set, substitutions) {
         }
 
         thing.payload = payload
-        thing.player = CommandPlayer({sceneIndex: index, initialPayload: payload})
+        thing.player = CommandPlayer({thingId: thing.id, initialPayload: payload})
         thing.player.reset([]) // no commands
         thing.timeDuration = 1000 // the time it takes for "after select" animation
         break
@@ -73,9 +75,6 @@ function Scenes(set, substitutions) {
     if (botsMap[thing.type]) {
       thing.player.mount(botsMap[thing.type]())
     }
-
-    thing.index = index
-    thing.id = `${index}_${thing.type}`
 
     if (index === 0) {
       thing.timeOffset = 0
@@ -95,10 +94,10 @@ function Scenes(set, substitutions) {
   }, {})
 
   const scenesObjectsMap = things.reduce((memo, thing) => {
-    if (memo[thing.parentSceneId]) {
-      memo[thing.parentSceneId].push(thing.id)
+    if (memo[thing.sceneId]) {
+      memo[thing.sceneId].push(thing.id)
     } else {
-      memo[thing.parentSceneId] = [thing.id]
+      memo[thing.sceneId] = [thing.id]
     }
     return memo
   }, {})
@@ -160,5 +159,3 @@ function Scenes(set, substitutions) {
     timeDuration,
   })
 }
-
-export default Scenes

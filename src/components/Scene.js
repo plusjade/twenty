@@ -36,7 +36,7 @@ const thingsMap = {
 class Scene extends PureComponent {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
-    scenesObject: PropTypes.object.isRequired,
+    scene: PropTypes.object.isRequired,
     things: PropTypes.object.isRequired,
 
     pause: PropTypes.func.isRequired,
@@ -49,14 +49,14 @@ class Scene extends PureComponent {
       <Layer
         style={[
           {
-            backgroundColor: this.props.scenesObject.bg,
+            backgroundColor: this.props.scene.bg,
             flexDirection: "column",
           },
           this.props.isActive && style.visible,
           !this.props.isActive && style.hidden,
         ]}
       >
-        <h1>{this.props.scenesObject.id}</h1>
+        <h1>{this.props.scene.id}</h1>
         {this.props.things.map(thing => {
           const Thing = thingsMap[thing.type]
           if (!Thing) { return }

@@ -29,9 +29,9 @@ const WordsBot = () => {
     })
   }
 
-  function emitPayload({sceneIndex, initialPayload}) {
+  function emitPayload({thingId, initialPayload}) {
     emitPayloadCallbackStack.forEach((cb) => {
-      cb({sceneIndex, initialPayload})
+      cb({thingId, initialPayload})
     })
   }
 

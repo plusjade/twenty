@@ -1,6 +1,6 @@
 import Commands             from 'lib/Commands'
 
-const CommandPlayer = ({sceneIndex, initialPayload}={}) => {
+const CommandPlayer = ({thingId, initialPayload}={}) => {
   const EVENTS_WHITELIST = ["end"]
   let autobot = undefined
   let callbacks = {}
@@ -35,7 +35,7 @@ const CommandPlayer = ({sceneIndex, initialPayload}={}) => {
     const {chunk, chunkPosition} = nextChunk(newPosition, getChunkPosition())
 
     if (typeof autobot.emitPayload === "function") {
-      autobot.emitPayload({sceneIndex, initialPayload})
+      autobot.emitPayload({thingId, initialPayload})
     }
 
     if (chunk) {
@@ -59,7 +59,7 @@ const CommandPlayer = ({sceneIndex, initialPayload}={}) => {
       commands = commands.concat(chunk)
     })
     if (typeof autobot.emitPayload === "function") {
-      autobot.emitPayload({sceneIndex, initialPayload})
+      autobot.emitPayload({thingId, initialPayload})
     }
     autobot.runCommands(commands)
     setChunkPosition(chunkPosition)
