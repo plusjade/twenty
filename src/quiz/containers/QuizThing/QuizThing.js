@@ -7,11 +7,9 @@ import style from './Style'
 
 class QuizThing extends Component {
   static propTypes = {
-    isActive: PropTypes.bool.isRequired,
+    thing: PropTypes.object.isRequired,
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
-    mountBot: PropTypes.func.isRequired,
-    sceneIndex: PropTypes.number.isRequired,
   }
 
   static initialState() {
@@ -29,25 +27,12 @@ class QuizThing extends Component {
   }
 
   componentDidMount() {
-    // this.props.mountBot("quiz", (
-    //   QuizBot(this.onTick, this.initialPayloadDidUpdate)
-    // ))
-
-    this.props.scene.player.addUpdateCallback(
+    this.props.thing.player.addUpdateCallback(
       this.onTick
     )
-    this.props.scene.player.addEmitPayloadCallback(
+    this.props.thing.player.addEmitPayloadCallback(
       this.initialPayloadDidUpdate
     )
-
-    this.props.pause()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // transitioning from inactive to active
-    if (!this.props.isActive && nextProps.isActive) {
-      this.props.pause()
-    }
   }
 
   onSelect = (answer) => {
@@ -65,18 +50,15 @@ class QuizThing extends Component {
       sceneIndex: sceneIndex,
       answers: initialPayload.answers,
       question: initialPayload.question,
-    })
+    }, this.props.pause)
   }
 
   render() {
-    if (!this.props.isActive) { return null }
-
     return (
-      // <Layer style={{zIndex: 2}}>
-        <div>
-          <h1 style={style.question.default}>
-            {this.state.question}
-          </h1>
+      <div>
+        <h1 style={style.question.default}>
+          {this.state.question}
+        </h1>
         {this.state.answers.map((answer, i) => (
           <button
             key={i}
@@ -91,8 +73,7 @@ class QuizThing extends Component {
             {answer.name}
           </button>
         ))}
-        </div>
-      // </Layer>
+      </div>
     )
   }
 }

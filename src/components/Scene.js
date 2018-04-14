@@ -17,6 +17,13 @@ const style = {
     height: "100%",
     overflow: "hidden",
   },
+  visible: {
+    opacity: 1,
+  },
+  hidden: {
+    opacity: 0,
+    pointerEvents: 'none',
+  }
 }
 
 const thingsMap = {
@@ -28,53 +35,41 @@ const thingsMap = {
 
 class Scene extends PureComponent {
   static propTypes = {
+    isActive: PropTypes.bool.isRequired,
+    scenesObject: PropTypes.object.isRequired,
+    things: PropTypes.object.isRequired,
+
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
-    scene: PropTypes.object.isRequired,
-    activeThings: PropTypes.array.isRequired,
-    mountBot: PropTypes.func.isRequired,
-    sceneTypes: PropTypes.array.isRequired,
     isPlaying: PropTypes.bool.isRequired,
-    isPlayable: PropTypes.bool.isRequired,
-    replay: PropTypes.func.isRequired,
-    seekTo: PropTypes.func.isRequired,
-    timeDuration: PropTypes.number.isRequired,
-    timePosition: PropTypes.number,
-    thingsInScene: PropTypes.number.isRequired,
   }
 
   render() {
     return (
       <Layer
-        style={{
-          backgroundColor: this.props.scene.bg,
-          flexDirection: "column",
-        }}
+        style={[
+          {
+            backgroundColor: this.props.scenesObject.bg,
+            flexDirection: "column",
+          },
+          this.props.isActive && style.visible,
+          !this.props.isActive && style.hidden,
+        ]}
       >
-        {Array(this.props.thingsInScene).fill(0).map((_, i) => {
-          const thing = this.props.activeThings[i]
-          let component
-
-          if (thing && thingsMap[thing.type]) {
-            component = (
-              React.createElement(thingsMap[thing.type], {
-                sceneIndex: this.props.scene.jadeIndex,
-                scene: thing,
-                player: thing.player,
-                isActive: true,
-                pause: this.props.pause,
-                play: this.props.play,
-                isPlaying: this.props.isPlaying,
-              })
-            )
-          } else {
-            component = <span/>
-          }
+        <h1>{this.props.scenesObject.id}</h1>
+        {this.props.things.map(thing => {
+          const Thing = thingsMap[thing.type]
+          if (!Thing) { return }
 
           return (
-            <div style={{minHeight: 200}} key={i}>
-              {component}
-            </div>
+            <Thing
+              key={thing.id}
+              thing={thing}
+
+              pause={this.props.pause}
+              play={this.props.play}
+              isPlaying={this.props.isPlaying}
+            />
           )
         })}
       </Layer>

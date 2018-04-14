@@ -7,14 +7,14 @@ import style                from './Style'
 
 class WordsThing extends Component {
   static propTypes = {
-    mountBot: PropTypes.func.isRequired,
-    sceneIndex: PropTypes.number.isRequired,
+    thing: PropTypes.object.isRequired,
   }
 
   static initialState() {
     return ({
       content: "",
       entryIndex: undefined,
+      initialPayload: [],
     })
   }
 
@@ -29,10 +29,10 @@ class WordsThing extends Component {
   }
 
   componentDidMount() {
-    this.props.player.addUpdateCallback(
+    this.props.thing.player.addUpdateCallback(
       this.onTick
     )
-    this.props.player.addEmitPayloadCallback(
+    this.props.thing.player.addEmitPayloadCallback(
       this.initialPayloadDidUpdate
     )
   }
@@ -44,7 +44,8 @@ class WordsThing extends Component {
       // this.timeline.progress(progress)
     } else {
       // first instance of this entry
-      const content = this.state.initialPayload[entryIndex].data
+      const node = this.state.initialPayload[entryIndex]
+      const content = node && node.data
       // content is the entire sentence.. how does the typing effect work?
       // console.log(content, entryIndex, this.state.entryIndex)
       this.setState(
@@ -60,7 +61,10 @@ class WordsThing extends Component {
   initialPayloadDidUpdate = ({sceneIndex, initialPayload}) => {
     if (sceneIndex === this.state.sceneIndex) { return }
     console.log("switch scene", sceneIndex, initialPayload)
-    this.setState({sceneIndex: sceneIndex, initialPayload: initialPayload})
+    this.setState({
+      sceneIndex,
+      initialPayload,
+    })
   }
 
   initializeTimeline = () => {

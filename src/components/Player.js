@@ -21,9 +21,6 @@ class Player extends PureComponent {
   static propTypes = {
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
-    scene: PropTypes.object.isRequired,
-    mountBot: PropTypes.func.isRequired,
-    sceneTypes: PropTypes.array.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     isPlayable: PropTypes.bool.isRequired,
     replay: PropTypes.func.isRequired,
@@ -45,11 +42,18 @@ class Player extends PureComponent {
   render() {
     return (
       <div id="app-wrapper" style={style.wrap}>
-        <Scene
-          {...this.props}
-          key={`jade-${this.props.scene.jadeIndex}`}
-          thingsInScene={this.props.scene.thingsInScene}
-        />
+        {this.props.scenes.getScenes().map(scenesObject => (
+          <Scene
+            key={`scenesObjects-${scenesObject.id}`}
+            isActive={scenesObject.id == this.props.activeSceneId}
+            scenesObject={scenesObject}
+            things={this.props.scenes.getThings(scenesObject.id)}
+
+            pause={this.props.pause}
+            play={this.props.play}
+            isPlaying={this.props.isPlaying}
+          />
+        ))}
 
         {this.showStartOverlay() && (
           <StartOverlay

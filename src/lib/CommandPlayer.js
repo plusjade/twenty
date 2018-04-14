@@ -10,7 +10,6 @@ const CommandPlayer = ({sceneIndex, initialPayload}={}) => {
   reset([])
 
   function mount(bot) {
-    console.log("mounting bot", bot)
     autobot = bot
   }
 

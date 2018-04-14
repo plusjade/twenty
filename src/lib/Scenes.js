@@ -24,6 +24,7 @@ function Scenes(set, substitutions) {
       }))
     )
     const result = WordsToCommands(personalizedData, scene.in)
+    scene.payload = result
     scene.player = CommandPlayer({sceneIndex: index, initialPayload: personalizedData})
     scene.player.reset(result)
     scene.timeDuration = scene.player.timeDuration() + (scene.out || 0)
@@ -59,6 +60,7 @@ function Scenes(set, substitutions) {
           )
         }
 
+        scene.payload = payload
         scene.player = CommandPlayer({sceneIndex: index, initialPayload: payload})
         scene.player.reset([]) // no commands
         scene.timeDuration = 1000 // the time it takes for "after select" animation
@@ -75,6 +77,7 @@ function Scenes(set, substitutions) {
     }
 
     scene.index = index
+    scene.id = `${index}_${scene.type}`
 
     if (index === 0) {
       scene.timeOffset = 0
@@ -88,20 +91,38 @@ function Scenes(set, substitutions) {
     return scene
   })
 
+  const thingsObjects = scenes.reduce((memo, scene) => {
+    memo[scene.id] = scene
+    return memo
+  }, {})
+
+  const scenesObjectsMap = scenes.reduce((memo, scene) => {
+    if (memo[scene.parentSceneId]) {
+      memo[scene.parentSceneId].push(scene.id)
+    } else {
+      memo[scene.parentSceneId] = [scene.id]
+    }
+    return memo
+  }, {})
+
+  const scenesList = Object.keys(scenesObjectsMap).sort()
+
+  const scenesObjects = scenesList.reduce((memo, id) => {
+    const thingsIds = scenesObjectsMap[id]
+    memo[id] = {
+      id,
+      thingsIds,
+      bg: thingsObjects[thingsIds[0]].bg
+    }
+    return memo
+  }, {})
+
   const scenesReversed = scenes.slice(0).reverse()
 
   function timeDuration() {
     return (
       scenesReversed[0].timeOffset + scenesReversed[0].timeDuration
     )
-  }
-
-  function mount(type, bot) {
-    scenes.forEach((scene) => {
-      if (scene.type === type) {
-        scene.player.mount(bot)
-      }
-    })
   }
 
   function at(timePosition) {
@@ -122,15 +143,26 @@ function Scenes(set, substitutions) {
     )
   }
 
-  function types() {
-    return scenes.map(scene => scene.type)
-  }
+  const getThings = sceneId => (
+    getScene(sceneId).thingsIds.map(id => getThing(id))
+  )
+
+  const getThing = id => thingsObjects[id]
+  const getScene = id => scenesObjects[id]
+
+  const getScenes = () => (
+    scenesList.map(sceneId => getScene(sceneId))
+  )
 
   return ({
-    at: at,
-    mount: mount,
-    timeDuration: timeDuration,
-    types: types,
+    scenesList,
+    scenesObjects,
+    thingsObjects,
+    getThings,
+    getScene,
+    getScenes,
+    at,
+    timeDuration,
   })
 }
 

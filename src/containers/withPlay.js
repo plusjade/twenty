@@ -31,13 +31,12 @@ const withPlay = (WrappedComponent) => {
     initialState = () => ({
       libraryIsOpen: false,
       loadState: undefined,
-      scene: {},
+      thing: {},
       timeDuration: 0,
       timePosition: 0,
       videoId: this.props.videoId,
       isPlaying: false,
-      activeThings: [],
-      activeThingsDict: {},
+      activeSceneId: null,
     })
 
     resetState = () => {
@@ -74,13 +73,14 @@ const withPlay = (WrappedComponent) => {
       //   data: video.commands,
       // })
       // scenes.push(lastScene)
+      const thing = this.props.scenes.at(1)
       this.setState({
         videoId: video.token,
         libraryIsOpen: false,
         loadState: "loaded",
         timeDuration: this.props.scenes.timeDuration(),
-        scene: this.props.scenes.at(1),
-        activeThings: [this.props.scenes.at(1)],
+        thing,
+        activeSceneId: thing.parentSceneId,
       })
     }
 
@@ -110,57 +110,35 @@ const withPlay = (WrappedComponent) => {
       this.sound.play()
 
       this.timeKeeper.start((nextTimePosition) => {
-        let scene
+        let thing
         if (nextTimePosition > this.state.timeDuration) {
           this.pause()
         }
 
-        scene = this.props.scenes.at(nextTimePosition)
-
-        if (this.state.activeThingsDict[scene.index]) {
-          this.setState({
-            timePosition: nextTimePosition,
-            scene,
-          }, () => {
-            scene.player.play(scene.offsetTimePosition)
-          })
-        } else {
-          const activeThingsDict = {...this.state.activeThingsDict}
-          let activeThings = this.state.activeThings.slice(0)
-          if (activeThings[0] && activeThings[0].index !== scene.index) {
-            activeThings.push(scene)
-          }
-
-          activeThingsDict[scene.index] = true
-
-          activeThings = activeThings.filter(s => s.jadeIndex === scene.jadeIndex)
-
-          this.setState({
-            timePosition: nextTimePosition,
-            scene,
-            activeThingsDict,
-            activeThings,
-          }, () => {
-            scene.player.play(scene.offsetTimePosition)
-          })
-        }
-
-
+        thing = this.props.scenes.at(nextTimePosition)
+        // TODO: make sure to verify offsetTimePosition
+        this.setState({
+          timePosition: nextTimePosition,
+          thing,
+          activeSceneId: thing.parentSceneId,
+        }, () => {
+          thing.player.play(thing.offsetTimePosition)
+        })
       })
     }
 
     seekTo = (timePosition) => {
-      const scene = this.props.scenes.at(timePosition)
+      const thing = this.props.scenes.at(timePosition)
 
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
       this.setState({
         timePosition: timePosition,
-        scene,
-        activeThings: [scene],
+        thing,
+        activeSceneId: thing.parentSceneId,
       })
 
-      scene.player.seekTo(scene.offsetTimePosition)
+      thing.player.seekTo(thing.offsetTimePosition)
     }
 
     render() {
@@ -168,15 +146,16 @@ const withPlay = (WrappedComponent) => {
         <WrappedComponent
           {...this.props}
           {...this.state}
+
+          scenes={this.props.scenes}
+
           play={this.play}
           pause={this.pause}
           replay={this.replay}
           seekTo={this.seekTo}
 
           isPlayable={this.isPlayable}
-          mountBot={this.props.scenes.mount}
           toggleLibrary={this.toggleLibrary}
-          sceneTypes={this.props.scenes ? this.props.scenes.types() : []}
         />
       )
     }
