@@ -225,6 +225,7 @@ const testTwo = [
       data: [words1[0]],
       out: 1000,
       sceneId: 0,
+      nextSceneId: 1,
       bg: "#388E3C",
     },
     {
@@ -232,6 +233,7 @@ const testTwo = [
       data: [words1[1]],
       out: 1000,
       sceneId: 1,
+      nextSceneId: 2,
       bg: "#388E3C",
     },
     {
@@ -253,6 +255,7 @@ const testTwo = [
       data: [words1[4]],
       out: 1000,
       sceneId: 2,
+      nextSceneId: 3,
       bg: "#1976D2",
     },
     {
@@ -260,6 +263,7 @@ const testTwo = [
       data: [words1[5]],
       out: 1000,
       sceneId: 3,
+      nextSceneId: 4,
       bg: "#6A1B9A",
     },
     {
@@ -267,6 +271,7 @@ const testTwo = [
       data: [words1[6]],
       out: 1000,
       sceneId: 4,
+      nextSceneId: 5,
       bg: "#BF360C",
     },
     {
@@ -288,6 +293,7 @@ const testTwo = [
       data: [words1[9]],
       out: 1000,
       sceneId: 5,
+      nextSceneId: 6,
       bg: "#FF5722",
     },
 
@@ -296,6 +302,7 @@ const testTwo = [
       data: quiz1,
       out: 1000,
       sceneId: 6,
+      nextSceneId: 7,
       bg: "orange",
     },
     {

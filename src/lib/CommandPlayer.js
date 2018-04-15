@@ -42,7 +42,9 @@ const CommandPlayer = ({initialPayload, rawCommands,
     }
 
     if (newPosition >= timeDuration() && callbacks.end) {
-      callbacks.end()
+      callbacks.end.forEach((cb) => {
+        cb()
+      })
     }
   }
 

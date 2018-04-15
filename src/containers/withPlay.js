@@ -6,6 +6,39 @@ import TimeKeeper           from 'lib/TimeKeeper'
 
 import { findVideo }        from 'lib/actions'
 
+// http://underscorejs.org/docs/underscore.html
+const debounce = function(func, wait, immediate) {
+  var timeout, args, context, timestamp, result;
+
+  var later = function() {
+    var last = Date.now() - timestamp;
+
+    if (last < wait && last >= 0) {
+      timeout = setTimeout(later, wait - last);
+    } else {
+      timeout = null;
+      if (!immediate) {
+        result = func.apply(context, args);
+        if (!timeout) context = args = null;
+      }
+    }
+  };
+
+  return function() {
+    context = this;
+    args = arguments;
+    timestamp = Date.now()
+    var callNow = immediate && !timeout;
+    if (!timeout) timeout = setTimeout(later, wait);
+    if (callNow) {
+      result = func.apply(context, args);
+      context = args = null;
+    }
+
+    return result;
+  };
+};
+
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
@@ -26,6 +59,22 @@ const withPlay = (WrappedComponent) => {
       if (this.state.videoId) {
         this.loadVideo(this.state.videoId)
       }
+
+
+      this.props.things.getThings().forEach((thing) => {
+        if (thing.nextSceneId) {
+          // TODO remove need for debounce
+          const setSceneDebounced = () => {
+            console.log("finished!", thing.id, thing.nextSceneId)
+            this.setActiveSceneId(thing.nextSceneId)
+          }
+          thing.player.on('end', debounce(setSceneDebounced, 100))
+        }
+      })
+    }
+
+    setActiveSceneId = (nextSceneId) => {
+      this.setState({nextSceneId})
     }
 
     initialState = () => ({
@@ -80,7 +129,7 @@ const withPlay = (WrappedComponent) => {
         loadState: "loaded",
         timeDuration: this.props.things.timeDuration(),
         thing,
-        activeSceneId: thing.sceneId,
+        activeSceneId: 1, // TODO, pass this explicitly
       })
     }
 

@@ -48,7 +48,7 @@ class Player extends PureComponent {
             key={`scenes-${scene.id}`}
             isActive={scene.id == this.props.activeSceneId}
             scene={scene}
-            things={this.props.things.getThings(scene.id)}
+            things={this.props.things.getThingsInScene(scene.id)}
 
             pause={this.props.pause}
             play={this.props.play}

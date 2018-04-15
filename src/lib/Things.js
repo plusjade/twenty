@@ -126,9 +126,11 @@ export default function Things(set, substitutions) {
     thingsReversed.find(thing => timePosition > thing.timeOffset)
   )
 
-  const getThings = sceneId => (
+  const getThingsInScene = sceneId => (
     getScene(sceneId).thingsIds.map(id => getThing(id))
   )
+
+  const getThings = () => Object.keys(thingsObjects).map(id => getThing(id))
 
   const getThing = id => thingsObjects[id]
 
@@ -142,6 +144,7 @@ export default function Things(set, substitutions) {
     scenesList,
     scenesObjects,
     thingsObjects,
+    getThingsInScene,
     getThings,
     getScene,
     getScenes,
