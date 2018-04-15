@@ -16,39 +16,27 @@ export default function Things(set, substitutions) {
   let previousOffset = 0
   let previousDuration = 0
 
-  const wordsTransform = (thing) => {
-    const personalizedData = (
-      thing.data.map(entry => ({
-        ...entry, data: personalizer.personalize(entry.data)
-      }))
-    )
-    const result = WordsToCommands(personalizedData, thing.in)
-    thing.payload = result
-    thing.player = CommandPlayer({thingId: thing.id, initialPayload: personalizedData})
-    thing.player.reset(result)
-    thing.timeDuration = thing.player.timeDuration() + (thing.out || 0)
-
-    return thing
-  }
-
   const things = set.map((thing, index) => {
     thing.id = `${index}_${thing.type}`
+    const autobot = botsMap[thing.type]
 
     switch(thing.type) {
       case "words": {
-        wordsTransform(thing)
-        break
-      }
-      case "editor": {
-        thing.player = CommandPlayer()
-        thing.player.reset(thing.data)
-        thing.timeDuration = thing.player.timeDuration()
-        break
-      }
-      case "texting": {
-        thing.player = CommandPlayer()
-        thing.player.reset(TextingToCommands(thing.data))
-        thing.timeDuration = thing.player.timeDuration()
+        const personalizedData = (
+          thing.data.map(entry => ({
+            ...entry,
+            data: personalizer.personalize(entry.data)
+          }))
+        )
+        const rawCommands = WordsToCommands(personalizedData, thing.in)
+        thing.player = CommandPlayer({
+          autobot: autobot(),
+          thingId: thing.id,
+          initialPayload: personalizedData,
+          rawCommands,
+        })
+        thing.timeDuration = thing.player.timeDuration() + (thing.out || 0)
+
         break
       }
       case "quiz": {
@@ -61,19 +49,35 @@ export default function Things(set, substitutions) {
           )
         }
 
-        thing.payload = payload
-        thing.player = CommandPlayer({thingId: thing.id, initialPayload: payload})
-        thing.player.reset([]) // no commands
+        thing.player = CommandPlayer({
+          autobot: autobot(),
+          thingId: thing.id,
+          initialPayload: payload,
+          rawCommands: [],
+        })
         thing.timeDuration = 1000 // the time it takes for "after select" animation
+        break
+      }
+      case "editor": {
+        thing.player = CommandPlayer({
+          autobot: autobot(),
+          rawCommands: thing.data
+        })
+        thing.timeDuration = thing.player.timeDuration()
+        break
+      }
+      case "texting": {
+        const rawCommands = TextingToCommands(thing.data)
+        thing.player = CommandPlayer({
+          autobot: autobot(),
+          rawCommands,
+        })
+        thing.timeDuration = thing.player.timeDuration()
         break
       }
       default: {
         // noop
       }
-    }
-
-    if (botsMap[thing.type]) {
-      thing.player.mount(botsMap[thing.type]())
     }
 
     if (index === 0) {

@@ -2,10 +2,8 @@
 // runCommand
 // runnCommands
 // reset
-// emitPayload (i think this is like an initializer)
 const WordsBot = () => {
   const updateCallbackStack = []
-  const emitPayloadCallbackStack = []
 
   function runCommand(command) {
     // eslint-disable-next-line
@@ -29,26 +27,14 @@ const WordsBot = () => {
     })
   }
 
-  function emitPayload({thingId, initialPayload}) {
-    emitPayloadCallbackStack.forEach((cb) => {
-      cb({thingId, initialPayload})
-    })
-  }
-
   function addUpdateCallback(callback) {
     updateCallbackStack.push(callback)
   }
 
-  function addEmitPayloadCallback(callback) {
-    emitPayloadCallbackStack.push(callback)
-  }
-
   return ({
-    emitPayload,
     runCommand,
     runCommands,
     addUpdateCallback,
-    addEmitPayloadCallback,
   })
 }
 

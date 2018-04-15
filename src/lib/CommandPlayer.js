@@ -1,29 +1,37 @@
-import Commands             from 'lib/Commands'
+import Commands from 'lib/Commands'
 
-const CommandPlayer = ({thingId, initialPayload}={}) => {
-  const EVENTS_WHITELIST = ["end"]
-  let autobot = undefined
-  let callbacks = {}
-  let commands = undefined
-  let currentChunkPosition = undefined
+const EVENTS_WHITELIST = ['end', 'update', 'emitPayload']
 
-  reset([])
+const CommandPlayer = ({
+  thingId,
+  initialPayload,
+  autobot,
+  rawCommands,
+} = {}) => {
+  const callbacks = {}
+  const commands = Commands(rawCommands)
+  let currentChunkPosition = -1
 
-  function mount(bot) {
-    autobot = bot
-  }
-
-  function addUpdateCallback(callback) {
-    autobot.addUpdateCallback(callback)
-  }
-
-  function addEmitPayloadCallback(callback) {
-    autobot.addEmitPayloadCallback(callback)
-  }
-
-  function on(event, callback) {
+  const on = (event, callback) => {
     if (EVENTS_WHITELIST.includes(event)) {
-      callbacks[event] = callback
+      if (callbacks[event]) {
+        callbacks[event].push(callback)
+      } else {
+        callbacks[event] = [callback]
+      }
+
+      switch(event) {
+        case 'update': {
+          autobot.addUpdateCallback(callback)
+          break
+        }
+        case 'emitPayload': {
+          break
+        }
+        default: {
+          // noop
+        }
+      }
     } else {
       throw new TypeError(
         `event name must be in the set ['${EVENTS_WHITELIST.join("', '")}']`
@@ -31,15 +39,17 @@ const CommandPlayer = ({thingId, initialPayload}={}) => {
     }
   }
 
-  function play(newPosition) {
+  const play = (newPosition) => {
     const {chunk, chunkPosition} = nextChunk(newPosition, getChunkPosition())
 
-    if (typeof autobot.emitPayload === "function") {
-      autobot.emitPayload({thingId, initialPayload})
+    if (callbacks.emitPayload) {
+      callbacks.emitPayload.forEach((cb) => {
+        cb({thingId, initialPayload})
+      })
     }
 
     if (chunk) {
-      chunk.forEach((c) => autobot.runCommand(c))
+      chunk.forEach(c => autobot.runCommand(c))
       setChunkPosition(chunkPosition)
     }
 
@@ -48,52 +58,40 @@ const CommandPlayer = ({thingId, initialPayload}={}) => {
     }
   }
 
-  function reset(newCommands) {
-    currentChunkPosition = -1
-    commands = Commands(newCommands)
-  }
-
-  function seekTo(time) {
+  const seekTo = (time) => {
     let commands = []
     const chunkPosition = chunksUpTo(time, (chunk) => {
       commands = commands.concat(chunk)
     })
-    if (typeof autobot.emitPayload === "function") {
-      autobot.emitPayload({thingId, initialPayload})
+
+    if (callbacks.emitPayload) {
+      callbacks.emitPayload.forEach((cb) => {
+        cb({thingId, initialPayload})
+      })
     }
+
     autobot.runCommands(commands)
     setChunkPosition(chunkPosition)
   }
 
-  function timeDuration() {
-    return commands.timeDuration
-  }
+  const timeDuration = () => commands.timeDuration
 
-  function getChunkPosition() {
-    return currentChunkPosition
-  }
+  const nextChunk = (time, position) => commands.nextChunk(time, position)
 
-  function setChunkPosition(index) {
-    return currentChunkPosition = index
-  }
+  const getChunkPosition = () => currentChunkPosition
 
-  function chunksUpTo(time, callback) {
-    return commands.chunksUpTo(time, callback)
-  }
+  const chunksUpTo = (time, callback) => commands.chunksUpTo(time, callback)
 
-  function nextChunk(time, position) {
-    return commands.nextChunk(time, position)
+  const setChunkPosition = (index) => {
+    currentChunkPosition = index
   }
 
   return ({
-    mount: mount,
-    on: on,
-    play: play,
-    reset: reset,
-    seekTo: seekTo,
-    timeDuration: timeDuration,
-    addUpdateCallback,
-    addEmitPayloadCallback,
+    on,
+    play,
+    seekTo,
+    timeDuration,
+    rawCommands,
   })
 }
 
