@@ -1,6 +1,10 @@
-import React, { PureComponent }   from 'react'
-import PropTypes            from 'prop-types'
-import SplitText            from 'vendor/SplitText'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import {
+  typing,
+  fadeIn,
+  enterLeft
+} from './effects'
 
 import style from './Style'
 
@@ -24,7 +28,7 @@ class WordsThing extends PureComponent {
   static initialState() {
     return ({
       isActivated: false,
-      content: "",
+      entry: {},
       entryIndex: undefined,
     })
   }
@@ -69,22 +73,33 @@ class WordsThing extends PureComponent {
       // this.timeline.progress(progress)
     } else {
       // first instance of this entry
-      // content is the entire sentence..
-      const entry = this.props.thing.initialPayload[entryIndex]
-      const content = entry && entry.data
-      this.setState({content, entryIndex}, this.initializeTimeline)
+      // entry is the entire sentence payload...
+      const entry = this.props.thing.initialPayload[entryIndex] || {}
+      this.setState({
+        entry,
+        entryIndex,
+      }, this.initializeTimeline)
     }
   }
 
   initializeTimeline = () => {
-    const mySplitText = new SplitText(this.node, {type:"chars,words"})
-    this.timeline = new window.TimelineLite()
-    // This works on timing. 0.2 is the duration of the effect
-    // so we're basically just coordinating the duraction of the effect to
-    // how long we've given the scene to last. fixme?
-    // console.log(mySplitText.chars)
-    this.timeline.staggerFrom(mySplitText.chars, 0.2, {opacity: 0}, 0.055)
-    this.timeline.pause()
+    switch (this.state.entry.effect) {
+      case 'fadeIn': {
+        this.timeline = fadeIn(this.node)
+        break
+      }
+      case 'typing': {
+        this.timeline = typing(this.node)
+        break
+      }
+      case 'enterLeft': {
+        this.timeline = enterLeft(this.node)
+        break
+      }
+      default: {
+        this.timeline = fadeIn(this.node)
+      }
+    }
   }
 
   getRef = (node) => {
@@ -102,7 +117,7 @@ class WordsThing extends PureComponent {
           style={style.text}
           ref={this.getRef}
         >
-          {this.state.content}
+          {this.state.entry.data}
         </h1>
       </div>
     )

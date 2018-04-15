@@ -3,22 +3,27 @@ const words1 = [
     data: "👋 Hey there!",
     type: "words",
     out: 1000,
+    effect: 'fadeIn',
   },
   {
     data: "how's your day going, {{name}}?",
     out: 1000,
+    effect: 'fadeIn',
   },
   {
     data: "😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
     out: 1000,
+    effect: 'enterLeft',
   },
   {
     data: "Yeah, I hear ya",
     out: 1000,
+    effect: 'typing',
   },
   {
     data: "You're this one: {{emoji}}",
     out: 1000,
+    effect: 'typing',
   },
   {
     data: "Nice huh!",
@@ -32,6 +37,7 @@ const words1 = [
   {
     data: "😵",
     out: 1000,
+    effect: 'enterLeft',
   },
   {
     data: "Don't worry it's not weird!",
