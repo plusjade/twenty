@@ -1,13 +1,7 @@
 const words1 = [
   {
-    data: "Hey there!",
+    data: "👋 Hey there!",
     type: "words",
-    position: [0,1,2,3],
-    transition: "typing",
-    out: 1000,
-  },
-  {
-    data: "Sorry, I'm a little late,",
     out: 1000,
   },
   {
@@ -23,11 +17,11 @@ const words1 = [
     out: 1000,
   },
   {
-    data: "here's your custom emoji: {{emoji}}",
+    data: "You're this one: {{emoji}}",
     out: 1000,
   },
   {
-    data: "Hope you liked it!",
+    data: "Nice huh!",
     out: 1000,
   },
 
@@ -56,7 +50,7 @@ const words2 = [
     out: 1000,
   },
   {
-    data: "So the first thing is random, but it's an iMessage converation...",
+    data: "I'm stil working on it though =(...",
     out: 1000,
   },
 ]
@@ -231,66 +225,83 @@ const testTwo = [
       type: "words",
       data: [words1[1]],
       out: 1000,
-      sceneId: 0,
+      sceneId: 1,
       bg: "#388E3C",
     },
     {
       type: "words",
       data: [words1[2]],
       out: 1000,
-      sceneId: 1,
+      sceneId: 2,
       bg: "#1976D2",
     },
     {
       type: "words",
       data: [words1[3]],
       out: 1000,
-      sceneId: 1,
+      sceneId: 2,
       bg: "#1976D2",
     },
     {
       type: "words",
       data: [words1[4]],
       out: 1000,
-      sceneId: 1,
+      sceneId: 2,
       bg: "#1976D2",
     },
     {
       type: "words",
       data: [words1[5]],
       out: 1000,
-      sceneId: 2,
+      sceneId: 3,
       bg: "#6A1B9A",
     },
     {
       type: "words",
       data: [words1[6]],
       out: 1000,
-      sceneId: 3,
+      sceneId: 4,
       bg: "#BF360C",
     },
     {
       type: "words",
       data: [words1[7]],
       out: 1000,
-      sceneId: 4,
+      sceneId: 5,
       bg: "#FF5722",
     },
+    {
+      type: "words",
+      data: [words1[8]],
+      out: 1000,
+      sceneId: 5,
+      bg: "#FF5722",
+    },
+    {
+      type: "words",
+      data: [words1[9]],
+      out: 1000,
+      sceneId: 5,
+      bg: "#FF5722",
+    },
+
     {
       type: "quiz",
       data: quiz1,
       out: 1000,
-      sceneId: 5,
+      sceneId: 6,
       bg: "orange",
     },
     {
       type: "words",
       data: words2,
       out: 1000,
-      sceneId: 6,
+      sceneId: 7,
       bg: "#E91E63",
     },
-
 ]
 
-export default testTwo
+export default {
+  scenes: {},
+  things: testTwo,
+}

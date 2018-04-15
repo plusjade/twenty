@@ -1,4 +1,9 @@
 const data = {
+  reina: {
+    name: "Reina",
+    emoji: "🐱",
+    excuse: "hanging with Puddles now. Go away",
+  },
   francine: {
     name: "Francine",
     emoji: "🤗",
@@ -42,5 +47,5 @@ const data = {
 }
 
 export const getSubstitutions = (name) => (
-    data[name] || data.robert
+    data[name] || data.reina
 )
