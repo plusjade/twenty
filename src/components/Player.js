@@ -53,6 +53,8 @@ class Player extends PureComponent {
             pause={this.props.pause}
             play={this.props.play}
             isPlaying={this.props.isPlaying}
+
+            setActiveSceneId={this.props.setActiveSceneId}
           />
         ))}
 

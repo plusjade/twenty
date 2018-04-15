@@ -73,8 +73,8 @@ const withPlay = (WrappedComponent) => {
       })
     }
 
-    setActiveSceneId = (nextSceneId) => {
-      this.setState({nextSceneId})
+    setActiveSceneId = (activeSceneId) => {
+      this.setState({activeSceneId})
     }
 
     initialState = () => ({
@@ -129,7 +129,7 @@ const withPlay = (WrappedComponent) => {
         loadState: "loaded",
         timeDuration: this.props.things.timeDuration(),
         thing,
-        activeSceneId: 1, // TODO, pass this explicitly
+        activeSceneId: thing.sceneId, // TODO, pass this explicitly
       })
     }
 
@@ -169,7 +169,6 @@ const withPlay = (WrappedComponent) => {
         this.setState({
           timePosition: nextTimePosition,
           thing,
-          activeSceneId: thing.sceneId,
         }, () => {
           thing.player.play(thing.offsetTimePosition)
         })
@@ -205,6 +204,8 @@ const withPlay = (WrappedComponent) => {
 
           isPlayable={this.isPlayable}
           toggleLibrary={this.toggleLibrary}
+
+          setActiveSceneId={this.setActiveSceneId}
         />
       )
     }

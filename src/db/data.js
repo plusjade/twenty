@@ -302,8 +302,11 @@ const testTwo = [
       data: quiz1,
       out: 1000,
       sceneId: 6,
-      nextSceneId: 7,
-      bg: "orange",
+      nextScenes: {
+        false: 2,
+        true: 7
+      },
+      bg: "#3F51B5",
     },
     {
       type: "words",

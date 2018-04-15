@@ -30,6 +30,8 @@ class QuizThing extends PureComponent {
 
   onSelect = (answer) => {
     this.setState({answer: answer})
+    const sceneId = this.props.thing.nextScenes[answer.value]
+    this.props.setActiveSceneId(sceneId)
     this.props.play()
   }
 
