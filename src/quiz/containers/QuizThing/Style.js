@@ -1,4 +1,11 @@
 export default {
+  wrap: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
   question: {
     default: {
       color: "#FFF",

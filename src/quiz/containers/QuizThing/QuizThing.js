@@ -41,7 +41,7 @@ class QuizThing extends PureComponent {
     const question = this.props.thing.initialPayload.question
     const answers = this.props.thing.initialPayload.answers
     return (
-      <div>
+      <div style={style.wrap}>
         <h1 style={style.question.default}>
           {question}
         </h1>

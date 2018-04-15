@@ -56,7 +56,6 @@ class Scene extends PureComponent {
           !this.props.isActive && style.hidden,
         ]}
       >
-        <h1>{this.props.scene.id}</h1>
         {this.props.things.map(thing => {
           const Thing = thingsMap[thing.type]
           if (!Thing) { return }

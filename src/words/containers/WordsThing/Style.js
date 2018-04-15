@@ -8,6 +8,12 @@ export default {
     color: "#FFF",
     margin: "auto",
     maxWidth: 700,
+    flex: 1,
+
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   text: {
     fontSize: "inherit",
