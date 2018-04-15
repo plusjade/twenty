@@ -3,12 +3,14 @@ import Commands from 'lib/Commands'
 const EVENTS_WHITELIST = [
   'runCommand',
   'runCommands',
+  'start',
   'play',
   'end',
 ]
 
 const CommandPlayer = ({initialPayload, rawCommands,
 } = {}) => {
+  let hasStarted = false
   const callbacks = {}
   const commands = Commands(rawCommands)
   let currentChunkPosition = -1
@@ -16,10 +18,13 @@ const CommandPlayer = ({initialPayload, rawCommands,
   const play = (newPosition) => {
     const {chunk, chunkPosition} = nextChunk(newPosition, getChunkPosition())
 
-    if (callbacks.play) {
-      callbacks.play.forEach((cb) => {
-        cb({initialPayload})
-      })
+    if (!hasStarted) {
+      hasStarted = true
+      if (callbacks.start) {
+        callbacks.start.forEach((cb) => {
+          cb({initialPayload})
+        })
+      }
     }
 
     if (chunk) {
@@ -41,6 +46,7 @@ const CommandPlayer = ({initialPayload, rawCommands,
     }
   }
 
+  // FIXME: Seeking is definitly broken
   const seekTo = (time) => {
     let commands = []
     const chunkPosition = chunksUpTo(time, (chunk) => {

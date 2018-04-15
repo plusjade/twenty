@@ -20,6 +20,7 @@ export default function Things(set, substitutions) {
           }))
         )
         const rawCommands = WordsToCommands(personalizedData, thing.in)
+        thing.initialPayload = personalizedData
         thing.player = CommandPlayer({
           initialPayload: personalizedData,
           rawCommands,
@@ -37,7 +38,7 @@ export default function Things(set, substitutions) {
             ))
           )
         }
-
+        thing.initialPayload = payload
         thing.player = CommandPlayer({
           initialPayload: payload,
           rawCommands: [],

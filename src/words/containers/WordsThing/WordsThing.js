@@ -1,4 +1,4 @@
-import React, {Component}   from 'react'
+import React, { PureComponent }   from 'react'
 import PropTypes            from 'prop-types'
 import SplitText            from 'vendor/SplitText'
 
@@ -16,7 +16,7 @@ const runCommands = (commands) => {
   return ({entryIndex, progress})
 }
 
-class WordsThing extends Component {
+class WordsThing extends PureComponent {
   static propTypes = {
     thing: PropTypes.object.isRequired,
   }
@@ -26,7 +26,6 @@ class WordsThing extends Component {
       isActivated: false,
       content: "",
       entryIndex: undefined,
-      initialPayload: [],
     })
   }
 
@@ -41,19 +40,16 @@ class WordsThing extends Component {
   }
 
   componentDidMount() {
-    this.props.thing.player.on(
-      'play',
-      this.initialPayloadDidUpdate
-    )
-    this.props.thing.player.on(
-      'runCommand',
-      this.runCommand
-    )
+    this.props.thing.player.on('start', this.onStart)
+    this.props.thing.player.on('runCommand', this.runCommand)
     // for seekTo support
-    this.props.thing.player.on(
-      'runCommands',
-      this.runCommands
-    )
+    this.props.thing.player.on('runCommands', this.runCommands)
+  }
+
+  onStart = () => {
+    if (!this.state.isActivated) {
+      this.setState({isActivated: true})
+    }
   }
 
   runCommand = (command) => {
@@ -73,20 +69,14 @@ class WordsThing extends Component {
       // this.timeline.progress(progress)
     } else {
       // first instance of this entry
-      const node = this.state.initialPayload[entryIndex]
-      const content = node && node.data
-      // content is the entire sentence.. how does the typing effect work?
+      // content is the entire sentence..
+      const entry = this.props.thing.initialPayload[entryIndex]
+      const content = entry && entry.data
       this.setState({content, entryIndex}, this.initializeTimeline)
     }
   }
 
-  initialPayloadDidUpdate = ({initialPayload}) => {
-    if (this.state.isActivated) { return }
-    this.setState({isActivated: true, initialPayload})
-  }
-
   initializeTimeline = () => {
-    console.log('initializeTimeline')
     const mySplitText = new SplitText(this.node, {type:"chars,words"})
     this.timeline = new window.TimelineLite()
     // This works on timing. 0.2 is the duration of the effect

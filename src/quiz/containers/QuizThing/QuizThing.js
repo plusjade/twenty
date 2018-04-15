@@ -1,11 +1,11 @@
-import Radium                   from 'radium'
-import React, {Component}   from 'react'
-import PropTypes            from 'prop-types'
-import Layer                from 'components/Layer/Layer'
+import Radium from 'radium'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import Layer from 'components/Layer/Layer'
 
 import style from './Style'
 
-class QuizThing extends Component {
+class QuizThing extends PureComponent {
   static propTypes = {
     thing: PropTypes.object.isRequired,
     pause: PropTypes.func.isRequired,
@@ -14,9 +14,6 @@ class QuizThing extends Component {
 
   static initialState() {
     return ({
-      isActivated: false,
-      question: undefined,
-      answers: [],
       answer: {},
     })
   }
@@ -28,10 +25,7 @@ class QuizThing extends Component {
   }
 
   componentDidMount() {
-    this.props.thing.player.on(
-      'play',
-      this.initialPayloadDidUpdate
-    )
+    this.props.thing.player.on('start', this.onStart)
   }
 
   onSelect = (answer) => {
@@ -39,22 +33,19 @@ class QuizThing extends Component {
     this.props.play()
   }
 
-  initialPayloadDidUpdate = ({initialPayload}) => {
-    if (this.state.isActivated) { return }
-    this.setState({
-      isActivated: true,
-      answers: initialPayload.answers,
-      question: initialPayload.question,
-    }, this.props.pause)
+  onStart = () => {
+    this.setState({isActivated: true}, this.props.pause)
   }
 
   render() {
+    const question = this.props.thing.initialPayload.question
+    const answers = this.props.thing.initialPayload.answers
     return (
       <div>
         <h1 style={style.question.default}>
-          {this.state.question}
+          {question}
         </h1>
-        {this.state.answers.map((answer, i) => (
+        {answers.map((answer, i) => (
           <button
             key={i}
             style={[
