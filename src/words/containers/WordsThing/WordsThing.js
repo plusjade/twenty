@@ -2,8 +2,19 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 import SplitText            from 'vendor/SplitText'
 
-import WordsBot             from 'words/lib/WordsBot'
-import style                from './Style'
+import style from './Style'
+
+const runCommand = (command) => {
+  // eslint-disable-next-line
+  const [time, entryIndex, progress] = command
+  return ({entryIndex, progress})
+}
+
+const runCommands = (commands) => {
+  // eslint-disable-next-line
+  const [time, entryIndex, progress] = commands.slice(-1)[0]
+  return ({entryIndex, progress})
+}
 
 class WordsThing extends Component {
   static propTypes = {
@@ -31,18 +42,33 @@ class WordsThing extends Component {
 
   componentDidMount() {
     this.props.thing.player.on(
-      'update',
-      this.onTick
-    )
-    this.props.thing.player.on(
-      'emitPayload',
+      'play',
       this.initialPayloadDidUpdate
     )
+    this.props.thing.player.on(
+      'runCommand',
+      this.runCommand
+    )
+    // for seekTo support
+    this.props.thing.player.on(
+      'runCommands',
+      this.runCommands
+    )
+  }
+
+  runCommand = (command) => {
+    const {entryIndex, progress} = runCommand(command)
+    this.onTick({entryIndex, progress})
+  }
+
+  runCommands = (commands) => {
+    const {entryIndex, progress} = runCommands(commands)
+    this.onTick({entryIndex, progress})
   }
 
   // wordsThing comes as an array of one or more sentences.
   // entryIndex is the array index that produces the entire sentence
-  onTick = (entryIndex, progress) => {
+  onTick = ({entryIndex, progress}) => {
     if (this.state.entryIndex === entryIndex) {
       // this.timeline.progress(progress)
     } else {
@@ -54,7 +80,7 @@ class WordsThing extends Component {
     }
   }
 
-  initialPayloadDidUpdate = ({thingId, initialPayload}) => {
+  initialPayloadDidUpdate = ({initialPayload}) => {
     if (this.state.isActivated) { return }
     this.setState({isActivated: true, initialPayload})
   }

@@ -1,55 +1,38 @@
 import Commands from 'lib/Commands'
 
-const EVENTS_WHITELIST = ['end', 'update', 'emitPayload']
+const EVENTS_WHITELIST = [
+  'runCommand',
+  'runCommands',
+  'play',
+  'end',
+]
 
-const CommandPlayer = ({
-  thingId,
-  initialPayload,
-  autobot,
-  rawCommands,
+const CommandPlayer = ({initialPayload, rawCommands,
 } = {}) => {
   const callbacks = {}
   const commands = Commands(rawCommands)
   let currentChunkPosition = -1
 
-  const on = (event, callback) => {
-    if (EVENTS_WHITELIST.includes(event)) {
-      if (callbacks[event]) {
-        callbacks[event].push(callback)
-      } else {
-        callbacks[event] = [callback]
-      }
-
-      switch(event) {
-        case 'update': {
-          autobot.addUpdateCallback(callback)
-          break
-        }
-        case 'emitPayload': {
-          break
-        }
-        default: {
-          // noop
-        }
-      }
-    } else {
-      throw new TypeError(
-        `event name must be in the set ['${EVENTS_WHITELIST.join("', '")}']`
-      )
-    }
-  }
-
   const play = (newPosition) => {
     const {chunk, chunkPosition} = nextChunk(newPosition, getChunkPosition())
 
-    if (callbacks.emitPayload) {
-      callbacks.emitPayload.forEach((cb) => {
-        cb({thingId, initialPayload})
+    if (callbacks.play) {
+      callbacks.play.forEach((cb) => {
+        cb({initialPayload})
       })
     }
 
     if (chunk) {
-      chunk.forEach(c => autobot.runCommand(c))
+      chunk.forEach((c) => {
+
+        if (callbacks.runCommand) {
+          callbacks.runCommand.forEach((cb) => {
+            cb(c)
+          })
+        }
+
+
+      })
       setChunkPosition(chunkPosition)
     }
 
@@ -64,13 +47,20 @@ const CommandPlayer = ({
       commands = commands.concat(chunk)
     })
 
-    if (callbacks.emitPayload) {
-      callbacks.emitPayload.forEach((cb) => {
-        cb({thingId, initialPayload})
+    if (callbacks.play) {
+      callbacks.play.forEach((cb) => {
+        cb({initialPayload})
       })
     }
 
-    autobot.runCommands(commands)
+
+    if (callbacks.runCommands) {
+      callbacks.runCommands.forEach((cb) => {
+        cb(commands)
+      })
+    }
+
+
     setChunkPosition(chunkPosition)
   }
 
@@ -84,6 +74,20 @@ const CommandPlayer = ({
 
   const setChunkPosition = (index) => {
     currentChunkPosition = index
+  }
+
+  const on = (event, callback) => {
+    if (EVENTS_WHITELIST.includes(event)) {
+      if (callbacks[event]) {
+        callbacks[event].push(callback)
+      } else {
+        callbacks[event] = [callback]
+      }
+    } else {
+      throw new TypeError(
+        `event name must be in the set ['${EVENTS_WHITELIST.join("', '")}']`
+      )
+    }
   }
 
   return ({

@@ -14,6 +14,7 @@ class QuizThing extends Component {
 
   static initialState() {
     return ({
+      isActivated: false,
       question: undefined,
       answers: [],
       answer: {},
@@ -28,11 +29,7 @@ class QuizThing extends Component {
 
   componentDidMount() {
     this.props.thing.player.on(
-      'update',
-      this.onTick
-    )
-    this.props.thing.player.on(
-      'emitPayload',
+      'play',
       this.initialPayloadDidUpdate
     )
   }
@@ -42,14 +39,10 @@ class QuizThing extends Component {
     this.props.play()
   }
 
-  onTick = () => {
-    // noop
-  }
-
-  initialPayloadDidUpdate = ({thingId, initialPayload}) => {
-    if (thingId === this.state.thingId) { return }
+  initialPayloadDidUpdate = ({initialPayload}) => {
+    if (this.state.isActivated) { return }
     this.setState({
-      thingId,
+      isActivated: true,
       answers: initialPayload.answers,
       question: initialPayload.question,
     }, this.props.pause)

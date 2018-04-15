@@ -3,14 +3,6 @@ import TextingToCommands    from 'texting/lib/TextingToCommands'
 import WordsToCommands      from 'words/lib/WordsToCommands'
 import Personalizer         from 'lib/Personalizer'
 
-import WordsBot             from 'words/lib/WordsBot'
-import QuizBot from 'quiz/lib/QuizBot'
-
-const botsMap = {
-  words: WordsBot,
-  quiz: QuizBot,
-}
-
 export default function Things(set, substitutions) {
   const personalizer = Personalizer(substitutions)
   let previousOffset = 0
@@ -18,7 +10,6 @@ export default function Things(set, substitutions) {
 
   const things = set.map((thing, index) => {
     thing.id = `${index}_${thing.type}`
-    const autobot = botsMap[thing.type]
 
     switch(thing.type) {
       case "words": {
@@ -30,8 +21,6 @@ export default function Things(set, substitutions) {
         )
         const rawCommands = WordsToCommands(personalizedData, thing.in)
         thing.player = CommandPlayer({
-          autobot: autobot(),
-          thingId: thing.id,
           initialPayload: personalizedData,
           rawCommands,
         })
@@ -50,8 +39,6 @@ export default function Things(set, substitutions) {
         }
 
         thing.player = CommandPlayer({
-          autobot: autobot(),
-          thingId: thing.id,
           initialPayload: payload,
           rawCommands: [],
         })
@@ -60,7 +47,6 @@ export default function Things(set, substitutions) {
       }
       case "editor": {
         thing.player = CommandPlayer({
-          autobot: autobot(),
           rawCommands: thing.data
         })
         thing.timeDuration = thing.player.timeDuration()
@@ -69,7 +55,6 @@ export default function Things(set, substitutions) {
       case "texting": {
         const rawCommands = TextingToCommands(thing.data)
         thing.player = CommandPlayer({
-          autobot: autobot(),
           rawCommands,
         })
         thing.timeDuration = thing.player.timeDuration()
