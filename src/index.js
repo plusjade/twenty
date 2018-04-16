@@ -12,7 +12,7 @@ import withRecord       from 'containers/withRecord'
 
 import data from 'db/data'
 import { getSubstitutions } from 'db/substitutions'
-import Things               from 'lib/Things'
+import BlocksTransform from 'lib/BlocksTransform'
 
 import './index.css'
 
@@ -30,10 +30,10 @@ let props = {
 if (parts[1] === "make") {
   app = withRecord(Recorder)
 } else if (videoId) {
-  const computedThings = Things(data.things, getSubstitutions(QParams.get("p")))
+  const computedBlocks = BlocksTransform(data.blocks, getSubstitutions(QParams.get("p")))
 
   app = withPlay(Player)
-  props = {...props, videoId, things: computedThings}
+  props = {...props, videoId, blocks: computedBlocks}
 } else {
   app = Home
 }

@@ -19,7 +19,7 @@ const style = {
 
 class Player extends PureComponent {
   static propTypes = {
-    things: PropTypes.object.isRequired,
+    blocks: PropTypes.object.isRequired,
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
@@ -43,12 +43,12 @@ class Player extends PureComponent {
   render() {
     return (
       <div id="app-wrapper" style={style.wrap}>
-        {this.props.things.getScenes().map(scene => (
+        {this.props.blocks.getScenes().map(scene => (
           <Scene
             key={`scenes-${scene.id}`}
             isActive={scene.id == this.props.activeSceneId}
             scene={scene}
-            things={this.props.things.getThingsInScene(scene.id)}
+            blocks={this.props.blocks.getBlocksInScene(scene.id)}
 
             pause={this.props.pause}
             play={this.props.play}

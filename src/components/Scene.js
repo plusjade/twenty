@@ -4,11 +4,17 @@ import PropTypes                from 'prop-types'
 
 import Layer                from 'components/Layer/Layer'
 
-import WordsThing           from 'words/containers/WordsThing/WordsThing'
+import WordsBlock           from 'words/containers/WordsBlock/WordsBlock'
 import TextingScene         from 'texting/containers/TextingScene'
 import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
-import QuizThing            from 'quiz/containers/QuizThing/QuizThing'
+import QuizBlock            from 'quiz/containers/QuizBlock/QuizBlock'
 
+const blocksMap = {
+  quiz: QuizBlock,
+  words: WordsBlock,
+  texting: TextingScene,
+  editor: TextingScene
+}
 
 const style = {
   wrap: {
@@ -26,18 +32,11 @@ const style = {
   }
 }
 
-const thingsMap = {
-  quiz: QuizThing,
-  words: WordsThing,
-  texting: TextingScene,
-  editor: TextingScene
-}
-
 class Scene extends PureComponent {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
-    things: PropTypes.object.isRequired,
+    blocks: PropTypes.object.isRequired,
 
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
@@ -56,14 +55,14 @@ class Scene extends PureComponent {
           !this.props.isActive && style.hidden,
         ]}
       >
-        {this.props.things.map(thing => {
-          const Thing = thingsMap[thing.type]
-          if (!Thing) { return }
+        {this.props.blocks.map(block => {
+          const Block = blocksMap[block.type]
+          if (!Block) { return }
 
           return (
-            <Thing
-              key={thing.id}
-              thing={thing}
+            <Block
+              key={block.id}
+              block={block}
 
               pause={this.props.pause}
               play={this.props.play}

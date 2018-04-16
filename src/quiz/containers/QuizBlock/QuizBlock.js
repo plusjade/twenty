@@ -1,13 +1,12 @@
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Layer from 'components/Layer/Layer'
 
-import style from './Style'
+import style from './style'
 
-class QuizThing extends PureComponent {
+class QuizBlock extends PureComponent {
   static propTypes = {
-    thing: PropTypes.object.isRequired,
+    block: PropTypes.object.isRequired,
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
   }
@@ -18,19 +17,19 @@ class QuizThing extends PureComponent {
     })
   }
 
-  state = QuizThing.initialState()
+  state = QuizBlock.initialState()
 
   resetState = () => {
-    this.setState(QuizThing.initialState())
+    this.setState(QuizBlock.initialState())
   }
 
   componentDidMount() {
-    this.props.thing.player.on('start', this.onStart)
+    this.props.block.player.on('start', this.onStart)
   }
 
   onSelect = (answer) => {
     this.setState({answer: answer})
-    const sceneId = this.props.thing.nextScenes[answer.value]
+    const sceneId = this.props.block.nextScenes[answer.value]
     this.props.setActiveSceneId(sceneId)
     this.props.play()
   }
@@ -40,8 +39,8 @@ class QuizThing extends PureComponent {
   }
 
   render() {
-    const question = this.props.thing.initialPayload.question
-    const answers = this.props.thing.initialPayload.answers
+    const question = this.props.block.initialPayload.question
+    const answers = this.props.block.initialPayload.answers
     return (
       <div style={style.wrap}>
         <h1 style={style.question.default}>
@@ -66,4 +65,4 @@ class QuizThing extends PureComponent {
   }
 }
 
-export default Radium(QuizThing)
+export default Radium(QuizBlock)

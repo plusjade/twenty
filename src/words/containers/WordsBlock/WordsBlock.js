@@ -6,7 +6,7 @@ import {
   enterLeft
 } from './effects'
 
-import style from './Style'
+import style from './style'
 
 const runCommand = (command) => {
   // eslint-disable-next-line
@@ -20,9 +20,9 @@ const runCommands = (commands) => {
   return ({entryIndex, progress})
 }
 
-class WordsThing extends PureComponent {
+class WordsBlock extends PureComponent {
   static propTypes = {
-    thing: PropTypes.object.isRequired,
+    block: PropTypes.object.isRequired,
   }
 
   static initialState() {
@@ -33,7 +33,7 @@ class WordsThing extends PureComponent {
     })
   }
 
-  state = WordsThing.initialState()
+  state = WordsBlock.initialState()
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isPlaying) {
@@ -44,10 +44,10 @@ class WordsThing extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.thing.player.on('start', this.onStart)
-    this.props.thing.player.on('runCommand', this.runCommand)
+    this.props.block.player.on('start', this.onStart)
+    this.props.block.player.on('runCommand', this.runCommand)
     // for seekTo support
-    this.props.thing.player.on('runCommands', this.runCommands)
+    this.props.block.player.on('runCommands', this.runCommands)
   }
 
   onStart = () => {
@@ -74,7 +74,7 @@ class WordsThing extends PureComponent {
     } else {
       // first instance of this entry
       // entry is the entire sentence payload...
-      const entry = this.props.thing.initialPayload[entryIndex] || {}
+      const entry = this.props.block.initialPayload[entryIndex] || {}
       this.setState({
         entry,
         entryIndex,
@@ -107,7 +107,7 @@ class WordsThing extends PureComponent {
   }
 
   resetState = () => {
-    this.setState(WordsThing.initialState())
+    this.setState(WordsBlock.initialState())
   }
 
   render() {
@@ -124,4 +124,4 @@ class WordsThing extends PureComponent {
   }
 }
 
-export default WordsThing
+export default WordsBlock

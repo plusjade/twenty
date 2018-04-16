@@ -226,7 +226,7 @@ const testTwo = [
       out: 1000,
       sceneId: 0,
       nextSceneId: 1,
-      bg: "#388E3C",
+      bg: "#FFD600",
     },
     {
       type: "words",
@@ -319,5 +319,5 @@ const testTwo = [
 
 export default {
   scenes: {},
-  things: testTwo,
+  blocks: testTwo,
 }

@@ -43,7 +43,7 @@ const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       videoId: PropTypes.string.isRequired,
-      things: PropTypes.object.isRequired,
+      blocks: PropTypes.object.isRequired,
       substitutions: PropTypes.object.isRequired,
     }
 
@@ -61,14 +61,14 @@ const withPlay = (WrappedComponent) => {
       }
 
 
-      this.props.things.getThings().forEach((thing) => {
-        if (thing.nextSceneId) {
+      this.props.blocks.getBlocks().forEach((block) => {
+        if (block.nextSceneId) {
           // TODO remove need for debounce
           const setSceneDebounced = () => {
-            console.log("finished!", thing.id, thing.nextSceneId)
-            this.setActiveSceneId(thing.nextSceneId)
+            console.log("finished!", block.id, block.nextSceneId)
+            this.setActiveSceneId(block.nextSceneId)
           }
-          thing.player.on('end', debounce(setSceneDebounced, 100))
+          block.player.on('end', debounce(setSceneDebounced, 100))
         }
       })
     }
@@ -80,7 +80,7 @@ const withPlay = (WrappedComponent) => {
     initialState = () => ({
       libraryIsOpen: false,
       loadState: undefined,
-      thing: {},
+      block: {},
       timeDuration: 0,
       timePosition: 0,
       videoId: this.props.videoId,
@@ -122,14 +122,14 @@ const withPlay = (WrappedComponent) => {
       //   data: video.commands,
       // })
       // scenes.push(lastScene)
-      const thing = this.props.things.at(1)
+      const block = this.props.blocks.at(1)
       this.setState({
         videoId: video.token,
         libraryIsOpen: false,
         loadState: "loaded",
-        timeDuration: this.props.things.timeDuration(),
-        thing,
-        activeSceneId: thing.sceneId, // TODO, pass this explicitly
+        timeDuration: this.props.blocks.timeDuration(),
+        block,
+        activeSceneId: block.sceneId, // TODO, pass this explicitly
       })
     }
 
@@ -159,34 +159,34 @@ const withPlay = (WrappedComponent) => {
       this.sound.play()
 
       this.timeKeeper.start((nextTimePosition) => {
-        let thing
+        let block
         if (nextTimePosition > this.state.timeDuration) {
           this.pause()
         }
 
-        thing = this.props.things.at(nextTimePosition)
+        block = this.props.blocks.at(nextTimePosition)
         // TODO: make sure to verify offsetTimePosition
         this.setState({
           timePosition: nextTimePosition,
-          thing,
+          block,
         }, () => {
-          thing.player.play(thing.offsetTimePosition)
+          block.player.play(block.offsetTimePosition)
         })
       })
     }
 
     seekTo = (timePosition) => {
-      const thing = this.props.things.at(timePosition)
+      const block = this.props.blocks.at(timePosition)
 
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
       this.setState({
         timePosition: timePosition,
-        thing,
-        activeSceneId: thing.sceneId,
+        block,
+        activeSceneId: block.sceneId,
       })
 
-      thing.player.seekTo(thing.offsetTimePosition)
+      block.player.seekTo(block.offsetTimePosition)
     }
 
     render() {
@@ -195,7 +195,7 @@ const withPlay = (WrappedComponent) => {
           {...this.props}
           {...this.state}
 
-          things={this.props.things}
+          blocks={this.props.blocks}
 
           play={this.play}
           pause={this.pause}
