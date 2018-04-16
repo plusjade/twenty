@@ -110,7 +110,7 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
     blocksReversed[0].timeOffset + blocksReversed[0].timeDuration
   )
 
-  function at(timePosition) {
+  function blockAtTime(timePosition) {
     const block = find(timePosition)
     if (block) {
       return ({
@@ -141,14 +141,14 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
   )
 
   return ({
-    scenesList,
-    scenesObjects,
-    blocksObjects,
+    blockAtTime,
+    blocksObjects, // for debugging, shouldn't need to access
     getBlocksInScene,
     getBlocks,
     getScene,
     getScenes,
-    at,
+    scenesList, // for debugging, shouldn't need to access
+    scenesObjects, // for debugging, shouldn't need to access
     timeDuration,
   })
 }

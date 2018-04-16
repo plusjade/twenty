@@ -122,7 +122,7 @@ const withPlay = (WrappedComponent) => {
       //   data: video.commands,
       // })
       // scenes.push(lastScene)
-      const block = this.props.video.at(1)
+      const block = this.props.video.blockAtTime(1)
       this.setState({
         videoId: video.token,
         libraryIsOpen: false,
@@ -164,7 +164,7 @@ const withPlay = (WrappedComponent) => {
           this.pause()
         }
 
-        block = this.props.video.at(nextTimePosition)
+        block = this.props.video.blockAtTime(nextTimePosition)
         // TODO: make sure to verify offsetTimePosition
         this.setState({
           timePosition: nextTimePosition,
@@ -176,7 +176,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     seekTo = (timePosition) => {
-      const block = this.props.video.at(timePosition)
+      const block = this.props.video.blockAtTime(timePosition)
 
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
