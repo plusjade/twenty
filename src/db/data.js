@@ -226,7 +226,7 @@ const testTwo = [
       out: 1000,
       sceneId: 0,
       nextSceneId: 1,
-      bg: "#FFD600",
+      bg: "#00BCD4",
     },
     {
       type: "words",
@@ -234,7 +234,7 @@ const testTwo = [
       out: 1000,
       sceneId: 1,
       nextSceneId: 2,
-      bg: "#388E3C",
+      bg: "#558B2F",
     },
     {
       type: "words",
