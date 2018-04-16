@@ -8,8 +8,7 @@ const EVENTS_WHITELIST = [
   'end',
 ]
 
-const CommandPlayer = ({initialPayload, rawCommands,
-} = {}) => {
+const CommandPlayer = ({initialPayload, rawCommands} = {}) => {
   let hasStarted = false
   const callbacks = {}
   const commands = Commands(rawCommands)

@@ -43,7 +43,7 @@ const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       videoId: PropTypes.string.isRequired,
-      blocks: PropTypes.object.isRequired,
+      video: PropTypes.object.isRequired,
       substitutions: PropTypes.object.isRequired,
     }
 
@@ -61,7 +61,7 @@ const withPlay = (WrappedComponent) => {
       }
 
 
-      this.props.blocks.getBlocks().forEach((block) => {
+      this.props.video.getBlocks().forEach((block) => {
         if (block.nextSceneId) {
           // TODO remove need for debounce
           const setSceneDebounced = () => {
@@ -122,12 +122,12 @@ const withPlay = (WrappedComponent) => {
       //   data: video.commands,
       // })
       // scenes.push(lastScene)
-      const block = this.props.blocks.at(1)
+      const block = this.props.video.at(1)
       this.setState({
         videoId: video.token,
         libraryIsOpen: false,
         loadState: "loaded",
-        timeDuration: this.props.blocks.timeDuration(),
+        timeDuration: this.props.video.timeDuration(),
         block,
         activeSceneId: block.sceneId, // TODO, pass this explicitly
       })
@@ -164,7 +164,7 @@ const withPlay = (WrappedComponent) => {
           this.pause()
         }
 
-        block = this.props.blocks.at(nextTimePosition)
+        block = this.props.video.at(nextTimePosition)
         // TODO: make sure to verify offsetTimePosition
         this.setState({
           timePosition: nextTimePosition,
@@ -176,7 +176,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     seekTo = (timePosition) => {
-      const block = this.props.blocks.at(timePosition)
+      const block = this.props.video.at(timePosition)
 
       this.sound.seek(timePosition/1000)
       this.timeKeeper.pause(timePosition)
@@ -195,7 +195,7 @@ const withPlay = (WrappedComponent) => {
           {...this.props}
           {...this.state}
 
-          blocks={this.props.blocks}
+          video={this.props.video}
 
           play={this.play}
           pause={this.pause}

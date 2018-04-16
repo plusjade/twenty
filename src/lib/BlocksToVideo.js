@@ -3,12 +3,12 @@ import TextingToCommands    from 'texting/lib/TextingToCommands'
 import WordsToCommands      from 'words/lib/WordsToCommands'
 import Personalizer         from 'lib/Personalizer'
 
-export default function BlocksTransform(set, substitutions) {
+export default function BlocksToVideo(rawBlocks, substitutions) {
   const personalizer = Personalizer(substitutions)
   let previousOffset = 0
   let previousDuration = 0
 
-  const blocks = set.map((block, index) => {
+  const blocks = rawBlocks.map((block, index) => {
     block.id = `${index}_${block.type}`
 
     switch(block.type) {
