@@ -1,6 +1,12 @@
 import { serialize_array, transitions } from 'lib/sceneWizard'
 import { token } from 'lib/actions'
 
+import { getSubstitutions } from 'db/substitutions'
+import { computeBlocks, computeVideo } from 'lib/computeActions'
+
+import QueryParams from 'lib/QueryParams'
+const QParams = QueryParams()
+
 const generateIds = blocks => (
   blocks.map(block => ({ ...block, id: `${block.type}_${token()}` }))
 )
@@ -79,7 +85,7 @@ const quizOne = [{
 }]
 
 
-let pathYes = [
+let quizYes = [
     {
       type: "words",
       data: [
@@ -94,13 +100,13 @@ let pathYes = [
       ],
     },
 ]
-pathYes = generateSceneMeta(pathYes,
+quizYes = generateSceneMeta(quizYes,
   {
     bg: "#E91E63",
   }
 )
 
-let pathNo = [
+let quizNo = [
     {
       type: "words",
       data: [
@@ -130,7 +136,7 @@ let pathNo = [
       ],
     },
 ]
-pathNo = generateSceneMeta(pathNo,
+quizNo = generateSceneMeta(quizNo,
   {
     bg: "#FF5722",
   }
@@ -142,8 +148,8 @@ const SCENE_MAP = {
   emoji,
   nice,
   quizOne,
-  quizYes: pathYes,
-  quizNo: pathNo,
+  quizYes,
+  quizNo,
 }
 
 
@@ -182,7 +188,7 @@ Object.keys(computedTransitions).forEach((key) => {
 })
 
 
-const blocks = (
+let blocks = (
   []
     .concat(hello)
     .concat(greeting)
@@ -193,9 +199,27 @@ const blocks = (
 
 console.log(blocks)
 
+quizNo = generateIds(quizNo)
+quizYes = generateIds(quizYes)
+blocks = generateIds(blocks)
+
+const friend = QParams.get("p")
+const substitutions = getSubstitutions(friend)
+
+const computedBlocks = computeBlocks(blocks, substitutions)
+const timeDuration = computedBlocks.reduce((memo, block) => (memo + block.timeDuration), 0)
+
+quizNo = computeBlocks(quizNo, substitutions, timeDuration)
+quizYes = computeBlocks(quizYes, substitutions, timeDuration)
+
+const video = computeVideo(
+  computedBlocks
+    .concat(quizYes)
+    .concat(quizNo)
+  )
+console.log('video', video.timeDuration())
+
 export default {
   scenes: {},
-  pathNo: generateIds(pathNo),
-  pathYes: generateIds(pathYes),
-  blocks: generateIds(blocks),
+  video,
 }
