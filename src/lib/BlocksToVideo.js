@@ -45,7 +45,7 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
           rawCommands: [],
           blockId: block.id,
         })
-        block.timeDuration = 1000 // the time it takes for "after select" animation
+        block.timeDuration = block.player.timeDuration() // the time it takes for "after select" animation
         break
       }
       case "editor": {
