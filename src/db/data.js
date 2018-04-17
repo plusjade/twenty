@@ -1,66 +1,3 @@
-const words1 = [
-  {
-    data: "👋 Hey there!",
-    type: "words",
-    out: 1000,
-    effect: 'fadeIn',
-  },
-  {
-    data: "how's your day going, {{name}}?",
-    out: 1000,
-    effect: 'fadeIn',
-  },
-  {
-    data: "😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
-    out: 1000,
-    effect: 'enterLeft',
-  },
-  {
-    data: "Yeah, I hear ya",
-    out: 1000,
-    effect: 'typing',
-  },
-  {
-    data: "You're this one: {{emoji}}",
-    out: 1000,
-    effect: 'typing',
-  },
-  {
-    data: "Nice huh!",
-    out: 1000,
-  },
-
-  {
-    data: "You want to see something?",
-    out: 1000,
-  },
-  {
-    data: "😵",
-    out: 1000,
-    effect: 'enterLeft',
-  },
-  {
-    data: "Don't worry it's not weird!",
-    out: 1000,
-  },
-
-  {
-    data: "What do you think?",
-    out: 1000,
-  },
-]
-
-const words2 = [
-  {
-    data: "Great! I knew I could count on you 😬",
-    out: 1000,
-  },
-  {
-    data: "I'm stil working on it though =(...",
-    out: 1000,
-  },
-]
-
 const words3 = [
   {
     data: "Initially, I started with a code editor,",
@@ -90,17 +27,6 @@ const words4 = [
     out: 1000,
   },
 ]
-
-
-const quiz1 = {
-  id: "1",
-  question: "Deal with Jade's nonsense?",
-  answers: [
-    {value: "false", name: "NO"},
-    {value: "false", name: "meh, I'm {{excuse}}"},
-    {value: "true", name: "Um, ya"},
-  ],
-}
 
 const quiz2 = {
   id: "2",
@@ -168,150 +94,186 @@ const messages = [
   },
 ]
 
-const test = words1.map(d => ({
-  type: "words",
-  data: [d],
-  out: 1000,
-}))
-// .concat([{
-//   type: "quiz",
-//   data: quiz1,
-//   in: 1000,
-// }])
-// .concat(
-//   words2.map(d => ({
-//     type: "words",
-//     data: [d],
-//     out: 1000,
-//   }))
-// )
-
-
-const scenes = [
-  {
-    type: "words",
-    data: words1,
-    out: 1000,
-  },
-  // {
-  //   type: "quiz",
-  //   data: quiz1,
-  //   in: 1000,
-  // },
-  // {
-  //   type: "words",
-  //   data: words2,
-  //   in: 1000,
-  // },
-  // {
-  //   type: "words",
-  //   data: words3,
-  //   in: 1000,
-  // },
-  // {
-  //   type: "words",
-  //   data: words4,
-  //   in: 1000,
-  // },
-  // {
-  //   type: "texting",
-  //   data: messages,
-  // },
-]
-
-const testTwo = [
+const blocks = [
     {
       type: "words",
-      data: [words1[0]],
-      out: 1000,
+      data: [
+        {
+          data: "👋 Hey there!",
+          out: 1000,
+          effect: 'fadeIn',
+        },
+      ],
+
       sceneId: 0,
       nextSceneId: 1,
       bg: "#00BCD4",
     },
+
+
     {
       type: "words",
-      data: [words1[1]],
-      out: 1000,
+      data: [
+        {
+          data: "how's your day going, {{name}}?",
+          out: 1000,
+          effect: 'fadeIn',
+        },
+      ],
+
       sceneId: 1,
       nextSceneId: 2,
       bg: "#558B2F",
     },
-    {
-      type: "words",
-      data: [words1[2]],
-      out: 1000,
-      sceneId: 2,
-      bg: "#1976D2",
-    },
-    {
-      type: "words",
-      data: [words1[3]],
-      out: 1000,
-      sceneId: 2,
-      bg: "#1976D2",
-    },
-    {
-      type: "words",
-      data: [words1[4]],
-      out: 1000,
-      sceneId: 2,
-      nextSceneId: 3,
-      bg: "#1976D2",
-    },
-    {
-      type: "words",
-      data: [words1[5]],
-      out: 1000,
-      sceneId: 3,
-      nextSceneId: 4,
-      bg: "#6A1B9A",
-    },
-    {
-      type: "words",
-      data: [words1[6]],
-      out: 1000,
-      sceneId: 4,
-      nextSceneId: 5,
-      bg: "#BF360C",
-    },
-    {
-      type: "words",
-      data: [words1[7]],
-      out: 1000,
-      sceneId: 5,
-      bg: "#FF5722",
-    },
-    {
-      type: "words",
-      data: [words1[8]],
-      out: 1000,
-      sceneId: 5,
-      bg: "#FF5722",
-    },
-    {
-      type: "words",
-      data: [words1[9]],
-      out: 1000,
-      sceneId: 5,
-      nextSceneId: 6,
-      bg: "#FF5722",
-    },
+
 
     {
       type: "quiz",
-      data: quiz1,
-      out: 1000,
-      sceneId: 6,
+      data: {
+        id: "1",
+        question: "Deal with Jade's nonsense?",
+        answers: [
+          // {value: "false", name: "NO"},
+          {value: "false", name: "meh, I'm {{excuse}}"},
+          {value: "true", name: "Um, ya"},
+        ],
+      },
+
+      sceneId: 2,
       nextScenes: {
-        false: 2,
-        true: 7
+        false: 0,
+        true: 3
       },
       bg: "#3F51B5",
     },
+
+
+
     {
       type: "words",
-      data: words2,
-      out: 1000,
+      data: [
+        {
+          data: "😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
+          out: 1000,
+          effect: 'enterLeft',
+        },
+      ],
+
+      sceneId: 3,
+      bg: "#1976D2",
+    },
+    {
+      type: "words",
+      data: [
+        {
+          data: "Yeah, I hear ya",
+          out: 1000,
+          effect: 'typing',
+        },
+      ],
+
+      sceneId: 3,
+      bg: "#1976D2",
+    },
+    {
+      type: "words",
+      data: [
+        {
+          data: "You're this one: {{emoji}}",
+          out: 1000,
+          effect: 'typing',
+        },
+      ],
+
+      sceneId: 3,
+      nextSceneId: 4,
+      bg: "#1976D2",
+    },
+
+
+    {
+      type: "words",
+      data: [
+        {
+          data: "Nice huh!",
+          out: 1000,
+        },
+      ],
+
+      sceneId: 4,
+      nextSceneId: 5,
+      bg: "#6A1B9A",
+    },
+
+
+    {
+      type: "words",
+      data: [
+        {
+          data: "You want to see something?",
+          out: 1000,
+        },
+      ],
+
+      sceneId: 5,
+      nextSceneId: 6,
+      bg: "#BF360C",
+    },
+
+
+    {
+      type: "words",
+      data: [
+        {
+          data: "😵",
+          out: 1000,
+          effect: 'enterLeft',
+        },
+      ],
+
+      sceneId: 6,
+      bg: "#FF5722",
+    },
+    {
+      type: "words",
+      data: [
+        {
+          data: "Don't worry it's not weird!",
+          out: 1000,
+        },
+      ],
+
+      sceneId: 6,
+      bg: "#FF5722",
+    },
+    {
+      type: "words",
+      data: [
+        {
+          data: "What do you think?",
+          out: 1000,
+        },
+      ],
+
+      sceneId: 6,
+      nextSceneId: 7,
+      bg: "#FF5722",
+    },
+
+
+    {
+      type: "words",
+      data: [
+        {
+          data: "Great! I knew I could count on you 😬",
+          out: 1000,
+        },
+        {
+          data: "I'm stil working on it though =(...",
+          out: 1000,
+        },
+      ],
+
       sceneId: 7,
       bg: "#E91E63",
     },
@@ -319,5 +281,5 @@ const testTwo = [
 
 export default {
   scenes: {},
-  blocks: testTwo,
+  blocks: blocks,
 }
