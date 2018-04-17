@@ -1,4 +1,3 @@
-import { token } from 'lib/actions'
 import CommandPlayer        from 'lib/CommandPlayer'
 import TextingToCommands    from 'texting/lib/TextingToCommands'
 import WordsToCommands      from 'words/lib/WordsToCommands'
@@ -10,8 +9,6 @@ export const computeBlocks = (rawBlocks, substitutions, seedOffset) => {
   let previousDuration = 0
 
   const blocks = rawBlocks.map((block, index) => {
-    block.id = `${block.type}_${token()}`
-
     switch(block.type) {
       case "words": {
         const personalizedData = (

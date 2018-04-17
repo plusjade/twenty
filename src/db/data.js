@@ -1,274 +1,85 @@
-const words3 = [
-  {
-    data: "Initially, I started with a code editor,",
-    out: 1000,
-  },
-  {
-    data: "which is much harder, but I'm glad I did it",
-    out: 1000,
-  },
-  {
-    data: "Check it out, it's a real code editor...!",
-    out: 1000,
-  },
-]
+import { serialize_array, transitions } from 'lib/sceneWizard'
+import { token } from 'lib/actions'
 
-const words4 = [
-  {
-    data: "That's it for now,",
-    out: 1000,
-  },
-  {
-    data: "Thank you for checking it out buddy!",
-    out: 1000,
-  },
-  {
-    data: "{{name}} <3",
-    out: 1000,
-  },
-]
+const generateIds = blocks => (
+  blocks.map(block => ({ ...block, id: `${block.type}_${token()}` }))
+)
 
-const quiz2 = {
-  id: "2",
-  answers: [
-    {value: "two", name: "Two"},
-    {value: "four", name: "Four"},
-    {value: "six", name: "Six"},
-    {value: "eight", name: "Eight"},
+const generateSceneMeta = (blocks, meta) => (
+  blocks.map(block => ({...block, ...meta}))
+)
+
+const hello = [{
+  type: "words",
+  data: [
+    {
+      content: "👋 Hey there!",
+      out: 1000,
+      effect: 'fadeIn',
+    },
   ],
-  question: "What is 1 + 5"
-}
 
-const messages = [
-  {
-    text: "Hello",
-    type: "theirs",
-  },
-  {
-    text: "Hi there!",
-    type: "mine",
-  },
-  {
-    text: "What time did you wake up today?",
-    type: "theirs",
-  },
-  {
-    text: "...uhhhhhhh",
-    type: "mine",
-  },
-  {
-    text: "not really sure 😴",
-    type: "mine",
-  },
-  {
-    text: "but it wasn't early",
-    type: "mine",
-  },
-  {
-    text: "Wanna get boba? =D",
-    type: "theirs",
-  },
-  {
-    text: "Of course I do",
-    type: "mine",
-  },
-  {
-    text: "I decided....I'm a disaster, I might as well do what the hell I want right?",
-    type: "mine",
-  },
-  {
-    text: "I don't konw what the hell that means, but sure you got it",
-    type: "theirs",
-  },
-  {
-    text: "oh, you're paying right?",
-    type: "theirs",
-  },
-  {
-    text: "😛",
-    type: "theirs",
-  },
-  {
-    text: "😛",
-    type: "theirs",
-  },
-]
+  bg: "#00BCD4",
+}]
 
 
-
-
-const blocks = [
+const greeting = [{
+  type: "words",
+  data: [
     {
-      type: "words",
-      data: [
-        {
-          content: "👋 Hey there!",
-          out: 1000,
-          effect: 'fadeIn',
-        },
-      ],
-
-      sceneId: 0,
-      nextSceneId: 1,
-      bg: "#00BCD4",
+      content: "how's your day going, {{name}}?",
+      out: 1000,
+      effect: 'fadeIn',
     },
+  ],
 
+  bg: "#558B2F",
+}]
 
-    {
-      type: "words",
-      data: [
-        {
-          content: "how's your day going, {{name}}?",
-          out: 1000,
-          effect: 'fadeIn',
-        },
-      ],
-
-      sceneId: 1,
-      nextSceneId: 2,
-      bg: "#558B2F",
-    },
-
-
-    {
-      type: "quiz",
-      data: {
-        id: "1",
-        question: "Deal with Jade's nonsense?",
-        answers: [
-          // {value: "false", name: "NO"},
-          {value: "false", name: "meh, I'm {{excuse}}"},
-          {value: "true", name: "Um, ya"},
-        ],
+const emoji = [
+  {
+    type: "words",
+    data: [
+      {
+        content: "You're this one: {{emoji}}",
+        out: 1000,
+        effect: 'typing',
       },
+    ],
+    bg: "#1976D2",
+  },
+]
 
-      sceneId: 2,
-      nextScenes: {
-        false: 4,
-        true: 3
+const nice = [
+  {
+    type: "words",
+    data: [
+      {
+        content: "Nice huh!",
+        out: 1000,
       },
-      bg: "#3F51B5",
-    },
+    ],
+
+    bg: "#6A1B9A",
+  },
 ]
 
-const pathExtra = [
-    {
-      type: "words",
-      data: [
-        {
-          content: "oh NO! 😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
-          out: 1000,
-          effect: 'enterLeft',
-        },
-      ],
+const quizOne = [{
+  type: "quiz",
+  data: {
+    id: "1",
+    question: "Wanna see more?",
+    answers: [
+      {value: "no", name: "meh, I'm {{excuse}}"},
+      {value: "yes", name: "Um, ya"},
+    ],
+  },
 
-      sceneId: 3,
-      bg: "#1976D2",
-    },
-    {
-      type: "words",
-      data: [
-        {
-          content: "Yeah, I hear ya",
-          out: 1000,
-          effect: 'typing',
-        },
-      ],
-
-      sceneId: 3,
-      bg: "#1976D2",
-    },
-    {
-      type: "words",
-      data: [
-        {
-          content: "You're this one: {{emoji}}",
-          out: 1000,
-          effect: 'typing',
-        },
-      ],
-
-      sceneId: 3,
-      nextSceneId: 4,
-      bg: "#1976D2",
-    },
+  bg: "#3F51B5",
+}]
 
 
-    {
-      type: "words",
-      data: [
-        {
-          content: "Nice huh!",
-          out: 1000,
-        },
-      ],
-
-      sceneId: 4,
-      nextSceneId: 5,
-      bg: "#6A1B9A",
-    },
-
-
-    {
-      type: "words",
-      data: [
-        {
-          content: "You want to see something?",
-          out: 1000,
-        },
-      ],
-
-      sceneId: 5,
-      nextSceneId: 6,
-      bg: "#BF360C",
-    },
-
-]
-
-
-const pathNo = [
-    {
-      type: "words",
-      data: [
-        {
-          content: "😵",
-          out: 1000,
-          effect: 'enterLeft',
-        },
-      ],
-
-      sceneId: 4,
-      bg: "#FF5722",
-    },
-    {
-      type: "words",
-      data: [
-        {
-          content: "Don't worry it's not weird!",
-          out: 1000,
-        },
-      ],
-
-      sceneId: 4,
-      bg: "#FF5722",
-    },
-    {
-      type: "words",
-      data: [
-        {
-          content: "What do you think?",
-          out: 1000,
-        },
-      ],
-
-      sceneId: 4,
-      // nextSceneId: 7,
-      bg: "#FF5722",
-    },
-]
-
-
-const pathYes = [
+let pathYes = [
     {
       type: "words",
       data: [
@@ -281,16 +92,110 @@ const pathYes = [
           out: 1000,
         },
       ],
-
-      sceneId: 3,
-      bg: "#E91E63",
     },
 ]
+pathYes = generateSceneMeta(pathYes,
+  {
+    bg: "#E91E63",
+  }
+)
+
+let pathNo = [
+    {
+      type: "words",
+      data: [
+        {
+          content: "😵",
+          out: 1000,
+          effect: 'enterLeft',
+        },
+      ],
+    },
+    {
+      type: "words",
+      data: [
+        {
+          content: "Don't worry it's not weird!",
+          out: 1000,
+        },
+      ],
+    },
+    {
+      type: "words",
+      data: [
+        {
+          content: "What do you think?",
+          out: 1000,
+        },
+      ],
+    },
+]
+pathNo = generateSceneMeta(pathNo,
+  {
+    bg: "#FF5722",
+  }
+)
+
+const SCENE_MAP = {
+  hello,
+  greeting,
+  emoji,
+  nice,
+  quizOne,
+  quizYes: pathYes,
+  quizNo: pathNo,
+}
+
+
+const graph = [
+  'hello',
+  'greeting',
+  'emoji',
+  'nice',
+  {
+    quizOne: {
+      yes: ['quizYes'],
+      no: ['quizNo'],
+    }
+  }
+]
+const computedTransitions = transitions(graph)
+
+console.log(computedTransitions)
+
+Object.keys(computedTransitions).forEach((key) => {
+  const trans = computedTransitions[key]
+    // NORMALIZE ALL OF THIS
+    const scene = SCENE_MAP[key]
+    scene.forEach((block) => {
+      if (Object.keys(trans).length > 2) {
+        // custom options. todo this is brittle
+        block.nextScenes = trans
+      } else {
+        block.nextSceneId = trans.next
+        block.prevSceneId = trans.prev
+      }
+
+      block.sceneId = key
+    })
+
+})
+
+
+const blocks = (
+  []
+    .concat(hello)
+    .concat(greeting)
+    .concat(emoji)
+    .concat(nice)
+    .concat(quizOne)
+  )
+
+console.log(blocks)
 
 export default {
   scenes: {},
-  // blocks: blocks.concat(pathYes),
-  pathNo,
-  pathYes,
-  blocks,
+  pathNo: generateIds(pathNo),
+  pathYes: generateIds(pathYes),
+  blocks: generateIds(blocks),
 }
