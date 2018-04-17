@@ -24,8 +24,9 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
         block.player = CommandPlayer({
           initialPayload: personalizedData,
           rawCommands,
+          blockId: block.id,
         })
-        block.timeDuration = block.player.timeDuration() + (block.out || 0)
+        block.timeDuration = block.player.timeDuration() //+ (block.out || 0) // this is bad
 
         break
       }
@@ -42,13 +43,15 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
         block.player = CommandPlayer({
           initialPayload: payload,
           rawCommands: [],
+          blockId: block.id,
         })
         block.timeDuration = 1000 // the time it takes for "after select" animation
         break
       }
       case "editor": {
         block.player = CommandPlayer({
-          rawCommands: block.data
+          rawCommands: block.data,
+          blockId: block.id,
         })
         block.timeDuration = block.player.timeDuration()
         break
@@ -57,6 +60,7 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
         const rawCommands = TextingToCommands(block.data)
         block.player = CommandPlayer({
           rawCommands,
+          blockId: block.id,
         })
         block.timeDuration = block.player.timeDuration()
         break
@@ -110,8 +114,8 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
     blocksReversed[0].timeOffset + blocksReversed[0].timeDuration
   )
 
-  function blockAtTime(timePosition) {
-    const block = find(timePosition)
+  function blockAtTime(timePosition, sceneId) {
+    const block = find(timePosition, sceneId)
     if (block) {
       return ({
         ...block,
@@ -122,9 +126,18 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
     }
   }
 
-  const find = (timePosition) => (
-    blocksReversed.find(block => timePosition > block.timeOffset)
-  )
+  const find = (timePosition, sceneId) => {
+    // console.log(sceneId)
+    return blocksReversed.find(block => {
+      // return timePosition > block.timeOffset
+
+      if (sceneId) {
+        return sceneId == block.sceneId && timePosition > block.timeOffset
+      } else {
+        return timePosition > block.timeOffset
+      }
+    })
+  }
 
   const getBlocksInScene = sceneId => (
     getScene(sceneId).blocksIds.map(id => getBlock(id))

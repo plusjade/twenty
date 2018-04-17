@@ -45,6 +45,8 @@ const TimeKeeper = () => {
     return timePositionPaused + getTimeNow() - getTimeStart()
   }
 
+  // TODO Date.now
+  // http://underscorejs.org/docs/underscore.html#section-159
   function getTimeNow() {
     return (new Date()).getTime()
   }

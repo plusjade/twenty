@@ -6,45 +6,11 @@ import TimeKeeper           from 'lib/TimeKeeper'
 
 import { findVideo }        from 'lib/actions'
 
-// http://underscorejs.org/docs/underscore.html
-const debounce = function(func, wait, immediate) {
-  var timeout, args, context, timestamp, result;
-
-  var later = function() {
-    var last = Date.now() - timestamp;
-
-    if (last < wait && last >= 0) {
-      timeout = setTimeout(later, wait - last);
-    } else {
-      timeout = null;
-      if (!immediate) {
-        result = func.apply(context, args);
-        if (!timeout) context = args = null;
-      }
-    }
-  };
-
-  return function() {
-    context = this;
-    args = arguments;
-    timestamp = Date.now()
-    var callNow = immediate && !timeout;
-    if (!timeout) timeout = setTimeout(later, wait);
-    if (callNow) {
-      result = func.apply(context, args);
-      context = args = null;
-    }
-
-    return result;
-  };
-};
-
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       videoId: PropTypes.string.isRequired,
       video: PropTypes.object.isRequired,
-      substitutions: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -60,15 +26,12 @@ const withPlay = (WrappedComponent) => {
         this.loadVideo(this.state.videoId)
       }
 
-
       this.props.video.getBlocks().forEach((block) => {
         if (block.nextSceneId) {
-          // TODO remove need for debounce
-          const setSceneDebounced = () => {
+          block.player.on('end', () => {
             console.log("finished!", block.id, block.nextSceneId)
             this.setActiveSceneId(block.nextSceneId)
-          }
-          block.player.on('end', debounce(setSceneDebounced, 100))
+          })
         }
       })
     }
@@ -164,8 +127,8 @@ const withPlay = (WrappedComponent) => {
           this.pause()
         }
 
-        block = this.props.video.blockAtTime(nextTimePosition)
-        // TODO: make sure to verify offsetTimePosition
+        block = this.props.video.blockAtTime(nextTimePosition, this.state.activeSceneId)
+
         this.setState({
           timePosition: nextTimePosition,
           block,

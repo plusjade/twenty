@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import TimeKeeper from 'lib/TimeKeeper'
 import {
   typing,
   fadeIn,
@@ -44,6 +45,8 @@ class WordsBlock extends PureComponent {
   }
 
   componentDidMount() {
+    this.timeKeeper = TimeKeeper()
+
     this.props.block.player.on('start', this.onStart)
     this.props.block.player.on('runCommand', this.runCommand)
     // for seekTo support
@@ -53,6 +56,12 @@ class WordsBlock extends PureComponent {
   onStart = () => {
     if (!this.state.isActivated) {
       this.setState({isActivated: true})
+      // this.timeKeeper.start((nextTimePosition) => {
+      //     if (nextTimePosition > this.props.block.timeDuration) {
+      //       console.log('ended!', this.props.block.id)
+      //       this.timeKeeper.pause()
+      //     }
+      // })
     }
   }
 

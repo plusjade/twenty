@@ -1,4 +1,5 @@
 import Commands from 'lib/Commands'
+import TimeKeeper from 'lib/TimeKeeper'
 
 const EVENTS_WHITELIST = [
   'runCommand',
@@ -8,8 +9,9 @@ const EVENTS_WHITELIST = [
   'end',
 ]
 
-const CommandPlayer = ({initialPayload, rawCommands} = {}) => {
+const CommandPlayer = ({initialPayload, rawCommands, blockId} = {}) => {
   let hasStarted = false
+  const timeKeeper = TimeKeeper()
   const callbacks = {}
   const commands = Commands(rawCommands)
   let currentChunkPosition = -1
@@ -19,7 +21,21 @@ const CommandPlayer = ({initialPayload, rawCommands} = {}) => {
 
     if (!hasStarted) {
       hasStarted = true
+
+      timeKeeper.start((nextTimePosition) => {
+        if (nextTimePosition >= timeDuration()) {
+          console.log('end', blockId)
+          timeKeeper.pause()
+          if (callbacks.end) {
+            callbacks.end.forEach((cb) => {
+              cb()
+            })
+          }
+        }
+      })
+
       if (callbacks.start) {
+        console.log('start', blockId)
         callbacks.start.forEach((cb) => {
           cb({initialPayload})
         })
@@ -28,22 +44,13 @@ const CommandPlayer = ({initialPayload, rawCommands} = {}) => {
 
     if (chunk) {
       chunk.forEach((c) => {
-
         if (callbacks.runCommand) {
           callbacks.runCommand.forEach((cb) => {
             cb(c)
           })
         }
-
-
       })
       setChunkPosition(chunkPosition)
-    }
-
-    if (newPosition >= timeDuration() && callbacks.end) {
-      callbacks.end.forEach((cb) => {
-        cb()
-      })
     }
   }
 
@@ -71,7 +78,7 @@ const CommandPlayer = ({initialPayload, rawCommands} = {}) => {
     setChunkPosition(chunkPosition)
   }
 
-  const timeDuration = () => commands.timeDuration
+  const timeDuration = () => commands.timeDuration + 1000
 
   const nextChunk = (time, position) => commands.nextChunk(time, position)
 
