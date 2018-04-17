@@ -109,6 +109,7 @@ const withPlay = (WrappedComponent) => {
       this.setState({isPlaying: false})
       this.timeKeeper.pause(time)
       this.sound.pause()
+      // this.state.block.player.pause()
     }
 
     replay = () => {
@@ -129,12 +130,15 @@ const withPlay = (WrappedComponent) => {
 
         block = this.props.video.blockAtTime(nextTimePosition, this.state.activeSceneId)
 
+        if (!block) { return }
         this.setState({
           timePosition: nextTimePosition,
           block,
         }, () => {
           block.player.play(block.offsetTimePosition)
         })
+
+
       })
     }
 

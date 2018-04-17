@@ -94,6 +94,9 @@ const messages = [
   },
 ]
 
+
+
+
 const blocks = [
     {
       type: "words",
@@ -141,19 +144,19 @@ const blocks = [
 
       sceneId: 2,
       nextScenes: {
-        false: 0,
+        false: 4,
         true: 3
       },
       bg: "#3F51B5",
     },
+]
 
-
-
+const pathExtra = [
     {
       type: "words",
       data: [
         {
-          content: "😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
+          content: "oh NO! 😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
           out: 1000,
           effect: 'enterLeft',
         },
@@ -220,7 +223,10 @@ const blocks = [
       bg: "#BF360C",
     },
 
+]
 
+
+const pathNo = [
     {
       type: "words",
       data: [
@@ -231,7 +237,7 @@ const blocks = [
         },
       ],
 
-      sceneId: 6,
+      sceneId: 4,
       bg: "#FF5722",
     },
     {
@@ -243,7 +249,7 @@ const blocks = [
         },
       ],
 
-      sceneId: 6,
+      sceneId: 4,
       bg: "#FF5722",
     },
     {
@@ -255,12 +261,14 @@ const blocks = [
         },
       ],
 
-      sceneId: 6,
-      nextSceneId: 7,
+      sceneId: 4,
+      // nextSceneId: 7,
       bg: "#FF5722",
     },
+]
 
 
+const pathYes = [
     {
       type: "words",
       data: [
@@ -274,12 +282,15 @@ const blocks = [
         },
       ],
 
-      sceneId: 7,
+      sceneId: 3,
       bg: "#E91E63",
     },
 ]
 
 export default {
   scenes: {},
-  blocks: blocks,
+  // blocks: blocks.concat(pathYes),
+  pathNo,
+  pathYes,
+  blocks,
 }

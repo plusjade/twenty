@@ -1,15 +1,16 @@
+import { token } from 'lib/actions'
 import CommandPlayer        from 'lib/CommandPlayer'
 import TextingToCommands    from 'texting/lib/TextingToCommands'
 import WordsToCommands      from 'words/lib/WordsToCommands'
 import Personalizer         from 'lib/Personalizer'
 
-export default function BlocksToVideo(rawBlocks, substitutions) {
+export const computeBlocks = (rawBlocks, substitutions, seedOffset) => {
   const personalizer = Personalizer(substitutions)
-  let previousOffset = 0
+  let previousOffset = seedOffset || 0
   let previousDuration = 0
 
   const blocks = rawBlocks.map((block, index) => {
-    block.id = `${index}_${block.type}`
+    block.id = `${block.type}_${token()}`
 
     switch(block.type) {
       case "words": {
@@ -70,11 +71,11 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
       }
     }
 
-    if (index === 0) {
-      block.timeOffset = 0
-    } else {
+    // if (index === 0) {
+    //   block.timeOffset = 0
+    // } else {
       block.timeOffset = previousOffset + previousDuration
-    }
+    // }
 
     previousDuration = block.timeDuration
     previousOffset = block.timeOffset
@@ -82,6 +83,10 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
     return block
   })
 
+  return blocks
+}
+
+export const computeVideo = (blocks) => {
   const blocksObjects = blocks.reduce((memo, block) => {
     memo[block.id] = block
     return memo
@@ -111,7 +116,8 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
   const blocksReversed = blocks.slice(0).reverse()
 
   const timeDuration = () => (
-    blocksReversed[0].timeOffset + blocksReversed[0].timeDuration
+    // blocksReversed[0].timeOffset + blocksReversed[0].timeDuration
+    blocks.reduce((memo, block) => (memo + block.timeDuration), 0)
   )
 
   function blockAtTime(timePosition, sceneId) {
@@ -122,7 +128,7 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
         offsetTimePosition: timePosition - block.timeOffset,
       })
     } else {
-      throw new RangeError(`No block found at ${timePosition}`)
+      // throw new RangeError(`No block found at ${timePosition}`)
     }
   }
 
