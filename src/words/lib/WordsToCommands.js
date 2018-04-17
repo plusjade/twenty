@@ -7,7 +7,7 @@ const WordsToCommands = (words, timeOffsetIn) => {
 
   return (
     words.map((entry, entryIndex) => {
-      const characters = Array.from(entry.data)
+      const characters = Array.from(entry.content)
       const totalCharacters = characters.length
       const totalTime = totalCharacters * CHARACTER_DURATION
 

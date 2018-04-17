@@ -16,7 +16,7 @@ export default function BlocksToVideo(rawBlocks, substitutions) {
         const personalizedData = (
           block.data.map(entry => ({
             ...entry,
-            data: personalizer.personalize(entry.data)
+            content: personalizer.personalize(entry.content)
           }))
         )
         const rawCommands = WordsToCommands(personalizedData, block.in)

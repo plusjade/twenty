@@ -99,7 +99,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "👋 Hey there!",
+          content: "👋 Hey there!",
           out: 1000,
           effect: 'fadeIn',
         },
@@ -115,7 +115,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "how's your day going, {{name}}?",
+          content: "how's your day going, {{name}}?",
           out: 1000,
           effect: 'fadeIn',
         },
@@ -153,7 +153,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
+          content: "😜 🙃 🤖 🙄 🤔 👾 😬 🤐",
           out: 1000,
           effect: 'enterLeft',
         },
@@ -166,7 +166,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "Yeah, I hear ya",
+          content: "Yeah, I hear ya",
           out: 1000,
           effect: 'typing',
         },
@@ -179,7 +179,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "You're this one: {{emoji}}",
+          content: "You're this one: {{emoji}}",
           out: 1000,
           effect: 'typing',
         },
@@ -195,7 +195,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "Nice huh!",
+          content: "Nice huh!",
           out: 1000,
         },
       ],
@@ -210,7 +210,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "You want to see something?",
+          content: "You want to see something?",
           out: 1000,
         },
       ],
@@ -225,7 +225,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "😵",
+          content: "😵",
           out: 1000,
           effect: 'enterLeft',
         },
@@ -238,7 +238,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "Don't worry it's not weird!",
+          content: "Don't worry it's not weird!",
           out: 1000,
         },
       ],
@@ -250,7 +250,7 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "What do you think?",
+          content: "What do you think?",
           out: 1000,
         },
       ],
@@ -265,11 +265,11 @@ const blocks = [
       type: "words",
       data: [
         {
-          data: "Great! I knew I could count on you 😬",
+          content: "Great! I knew I could count on you 😬",
           out: 1000,
         },
         {
-          data: "I'm stil working on it though =(...",
+          content: "I'm stil working on it though =(...",
           out: 1000,
         },
       ],

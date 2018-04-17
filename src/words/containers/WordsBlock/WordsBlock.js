@@ -126,7 +126,7 @@ class WordsBlock extends PureComponent {
           style={style.text}
           ref={this.getRef}
         >
-          {this.state.entry.data}
+          {this.state.entry.content}
         </h1>
       </div>
     )
