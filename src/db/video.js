@@ -8,114 +8,105 @@ import QueryParams from 'lib/QueryParams'
 
 const QParams = QueryParams()
 
-const hello = [{
-  type: "words",
-  data: [
+const scenesMap = {
+  hello: [
     {
-      content: "👋 Hey there!",
-      effect: 'fadeIn',
+      type: "words",
+      data: [
+        {
+          content: "👋 Hey there!",
+          effect: 'fadeIn',
+        },
+      ],
+    }
+  ],
+  greeting: [
+    {
+      type: "words",
+      data: [
+        {
+          content: "How's your day, {{name}}?",
+          effect: 'fadeIn',
+        },
+      ],
+    }
+  ],
+  emoji: [
+    {
+      type: "words",
+      data: [
+        {
+          content: "Are you... {{emoji}}",
+          effect: 'typing',
+        },
+      ],
     },
   ],
-}]
-
-
-const greeting = [{
-  type: "words",
-  data: [
+  nice: [
     {
-      content: "How's your day, {{name}}?",
-      effect: 'fadeIn',
+      type: "words",
+      data: [
+        {
+          content: "Must be nice!",
+        },
+      ],
     },
   ],
-}]
-
-const emoji = [
-  {
-    type: "words",
-    data: [
-      {
-        content: "Are you... {{emoji}}",
-        effect: 'typing',
+  quizOne: [
+    {
+      type: "quiz",
+      data: {
+        id: "1",
+        question: "Do you want know what this is?",
+        answers: [
+          {value: "no", name: "meh, I'm {{excuse}}"},
+          {value: "yes", name: "Sure, bro"},
+        ],
       },
-    ],
-  },
-]
-
-const nice = [
-  {
-    type: "words",
-    data: [
-      {
-        content: "Must be nice!",
-      },
-    ],
-  },
-]
-
-const quizOne = [{
-  type: "quiz",
-  data: {
-    id: "1",
-    question: "Do you want know what this is?",
-    answers: [
-      {value: "no", name: "meh, I'm {{excuse}}"},
-      {value: "yes", name: "Sure, bro"},
-    ],
-  },
-}]
-
-
-let quizYes = [
-  {
-    type: "words",
-    data: [
-      {
-        content: "Great! I knew I could count on you 😬",
-      },
-      {
-        content: "I'm stil working on it though =(...",
-      },
-    ],
-  },
-]
-
-let quizNo = [
-  {
-    type: "words",
-    data: [
-      {
-        content: "😵",
-        effect: 'enterLeft',
-      },
-    ],
-  },
-  {
-    type: "words",
-    data: [
-      {
-        content: "Don't worry it's not weird!",
-      },
-    ],
-  },
-  {
-    type: "words",
-    data: [
-      {
-        content: "What do you think?",
-      },
-    ],
-  },
-]
-
-const map = {
-  hello,
-  greeting,
-  emoji,
-  nice,
-  quizOne,
-  quizYes,
-  quizNo,
+    }
+  ],
+  quizYes: [
+    {
+      type: "words",
+      data: [
+        {
+          content: "Great! I knew I could count on you 😬",
+        },
+        {
+          content: "I'm stil working on it though =(...",
+        },
+      ],
+    },
+  ],
+  quizNo: [
+    {
+      type: "words",
+      data: [
+        {
+          content: "😵",
+          effect: 'enterLeft',
+        },
+      ],
+    },
+    {
+      type: "words",
+      data: [
+        {
+          content: "Don't worry it's not weird!",
+        },
+      ],
+    },
+    {
+      type: "words",
+      data: [
+        {
+          content: "What do you think?",
+        },
+      ],
+    },
+  ],
 }
+
 const scenesMeta = {
   hello: { bg: "#00BCD4" },
   greeting: {  bg: "#558B2F" },
@@ -139,7 +130,7 @@ const graph = [
   }
 ]
 
-const blocks = transformGraph({graph, map})
+const blocks = transformGraph({graph, scenesMap})
 console.log(blocks)
 const video = computeVideo(
   computeBlocks({

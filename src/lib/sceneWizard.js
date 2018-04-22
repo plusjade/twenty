@@ -1,12 +1,12 @@
 import flatten from 'vendor/flatten'
 import { token } from 'lib/actions'
 
-export const transformGraph = ({graph, map}) => {
+export const transformGraph = ({graph, scenesMap}) => {
   const transitionsMap = computeTransitions(graph)
   return (
     flatten(
       Object.keys(transitionsMap).map(sceneId => (
-        map[sceneId].map(block => ({
+        scenesMap[sceneId].map(block => ({
           ...block,
           sceneId,
           transitions: transitionsMap[sceneId],
