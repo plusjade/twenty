@@ -43,15 +43,17 @@ class QuizBlock extends PureComponent {
     const answers = this.props.block.initialPayload.answers
     return (
       <div style={style.wrap}>
-        <h1 style={style.question.default}>
-          {question}
-        </h1>
+        <div style={{marginBottom: 40, width: '100%'}}>
+          <h1 style={style.question.default}>
+            {question}
+          </h1>
+        </div>
         {answers.map((answer, i) => (
           <button
             key={i}
             style={[
               style.button.default,
-              this.state.answer.name === answer.name && style.button.active,
+              style.button.animate,
             ]}
             onClick={() => {
               this.onSelect(answer)

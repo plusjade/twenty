@@ -9,29 +9,36 @@ export default {
   question: {
     default: {
       color: "#FFF",
-      textAlign: "center",
+      display: 'inline-block',
+      fontSize: 22,
+      backgroundColor: "#212121",
+      padding: '20px 40px 20px 20px',
+      margin: 0,
     },
   },
   button: {
     default: {
       margin: "0 auto 25px",
-      display: "block",
-      padding: 30,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+      width: 120,
+      height: 120,
       textAlign: "center",
+      // border: "1px solid #9E9E9E",
       border: "none",
-      borderRadius: 60,
-      maxWidth: 400,
-      width: "95%",
-      fontSize: 20,
+      borderRadius: 120,
+      fontSize: 60,
       backgroundColor: "#FFF",
       cursor: "pointer",
-      transition: "all 100ms ease-in-out",
-      // boxShadow: "4px 5px #616161",
       outline: 0,
     },
-    active: {
-      boxShadow: "4px 5px rgba(0,0,0,0)",
-      transform: "translate(5px, 4px)",
-    }
+    animate: {
+      animationDuration: '1.5s',
+      animationName: 'grow',
+      animationIterationCount: 'infinite',
+      animationDirection: 'alternate',
+    },
   }
 }
