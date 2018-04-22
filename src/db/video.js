@@ -36,7 +36,7 @@ const scenesMap = {
       type: "words",
       data: [
         {
-          content: "Are you... {{emoji}}",
+          content: "{{name}}, I knew you liked {{emoji}} 🤗",
           effect: 'typing',
         },
       ],
@@ -52,20 +52,30 @@ const scenesMap = {
       ],
     },
   ],
-  quizOne: [
+  chooseCharacter: [
     {
       type: "quiz",
       auto: false,
       data: {
-        question: "Do you want know what this is?",
+        question: "Choose your character",
         answers: [
-          {value: "no", name: "meh, I'm {{excuse}}"},
-          {value: "yes", name: "Sure, bro"},
+          {
+            value: "custom",
+            name: "{{emoji}}"
+          },
+          {
+            value: "singer",
+            name: "👩‍🎤"
+          },
+          {
+            value: "dog",
+            name: "🐶"
+          },
         ],
       },
     }
   ],
-  quizYes: [
+  yesFlow: [
     {
       type: "words",
       data: [
@@ -78,7 +88,7 @@ const scenesMap = {
       ],
     },
   ],
-  quizNo: [
+  dog: [
     {
       type: "words",
       data: [
@@ -92,7 +102,7 @@ const scenesMap = {
       type: "words",
       data: [
         {
-          content: "Don't worry it's not weird!",
+          content: "Are you sure you want the dog?",
         },
       ],
     },
@@ -100,7 +110,7 @@ const scenesMap = {
       type: "words",
       data: [
         {
-          content: "What do you think?",
+          content: "Well, he is cute!",
         },
       ],
     },
@@ -112,22 +122,21 @@ const scenesMeta = {
   greeting: {  bg: "#558B2F" },
   emoji: { bg: "#1976D2" },
   nice: { bg: "#6A1B9A" },
-  quizOne: { bg: "#3F51B5" },
-  quizNo: { bg: "#FF5722" },
-  quizYes: { bg: "#E91E63" },
+  chooseCharacter: { bg: "#FFEB3B" },
+  dog: { bg: "#FF5722" },
+  yesFlow: { bg: "#E91E63" },
 }
 
 const graph = [
-  'greeting',
-  'hello',
-  'emoji',
-  'nice',
   {
-    quizOne: {
-      yes: ['quizYes'],
-      no: ['quizNo'],
+    chooseCharacter: {
+      dog: ['dog'],
+      custom: ['emoji'],
+      singer: ['yesFlow'],
     }
-  }
+  },
+  'hello',
+  'nice',
 ]
 
 const blocks = transformGraph({graph, scenesMap})
