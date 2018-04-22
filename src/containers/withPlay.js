@@ -27,7 +27,7 @@ const withPlay = (WrappedComponent) => {
       }
 
       this.props.video.getBlocks().forEach((block) => {
-        if (block.transitions.next) {
+        if (block.auto !== false && block.transitions.next) {
           block.player.on('end', () => {
             console.log("finished!", block.id, block.transitions.next)
             this.setActiveSceneId(block.transitions.next)

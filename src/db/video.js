@@ -55,8 +55,8 @@ const scenesMap = {
   quizOne: [
     {
       type: "quiz",
+      auto: false,
       data: {
-        id: "1",
         question: "Do you want know what this is?",
         answers: [
           {value: "no", name: "meh, I'm {{excuse}}"},
