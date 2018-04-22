@@ -50,6 +50,9 @@ class Scene extends PureComponent {
           {
             backgroundColor: this.props.scene.bg,
             flexDirection: "column",
+
+            alignItems: 'stretch',
+            flexFlow: 'column nowrap',
           },
           this.props.isActive && style.visible,
           !this.props.isActive && style.hidden,

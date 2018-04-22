@@ -37,7 +37,8 @@ class Player extends PureComponent {
   // Only show overlay state on initial load lifecycle
   // i.e. before video is loaded/played for first time
   showStartOverlay = () => (
-    this.props.loadState && !(this.props.timePosition > 0)
+    false
+    // this.props.loadState && !(this.props.timePosition > 0)
   )
 
   render() {
