@@ -120,7 +120,7 @@ const withPlay = (WrappedComponent) => {
     play = () => {
       if (this.state.isPlaying) { return }
       this.setState({isPlaying: true})
-      this.sound.play()
+      // this.sound.play()
 
       this.timeKeeper.start((nextTimePosition) => {
         let block

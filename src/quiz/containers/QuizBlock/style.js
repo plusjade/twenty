@@ -14,19 +14,19 @@ export default {
   },
   button: {
     default: {
-      margin: "0 auto 15px",
+      margin: "0 auto 25px",
       display: "block",
-      padding: "15px 10px",
+      padding: 30,
       textAlign: "center",
       border: "none",
-      borderRadius: 10,
+      borderRadius: 60,
       maxWidth: 400,
       width: "95%",
       fontSize: 20,
       backgroundColor: "#FFF",
       cursor: "pointer",
       transition: "all 100ms ease-in-out",
-      boxShadow: "4px 5px #616161",
+      // boxShadow: "4px 5px #616161",
       outline: 0,
     },
     active: {

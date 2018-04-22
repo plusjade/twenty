@@ -33,7 +33,7 @@ const greeting = [{
   type: "words",
   data: [
     {
-      content: "how's your day going, {{name}}?",
+      content: "How's your day, {{name}}?",
       out: 1000,
       effect: 'fadeIn',
     },
@@ -47,7 +47,7 @@ const emoji = [
     type: "words",
     data: [
       {
-        content: "You're this one: {{emoji}}",
+        content: "Are you... {{emoji}}",
         out: 1000,
         effect: 'typing',
       },
@@ -61,7 +61,7 @@ const nice = [
     type: "words",
     data: [
       {
-        content: "Nice huh!",
+        content: "Must be nice!",
         out: 1000,
       },
     ],
@@ -74,10 +74,10 @@ const quizOne = [{
   type: "quiz",
   data: {
     id: "1",
-    question: "Wanna see more?",
+    question: "Do you want know what this is?",
     answers: [
       {value: "no", name: "meh, I'm {{excuse}}"},
-      {value: "yes", name: "Um, ya"},
+      {value: "yes", name: "Sure, bro"},
     ],
   },
 

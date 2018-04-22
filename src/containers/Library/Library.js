@@ -2,12 +2,14 @@ import Radium               from 'radium'
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
+import QueryParams from 'lib/QueryParams'
 import { listVideos }       from 'lib/actions'
 import VideosList           from 'components/VideosList/VideosList'
 import IconClose            from 'components/IconClose'
 import withPromisedData     from 'containers/withPromisedData'
 import style                from './Style'
 
+const QParams = QueryParams()
 const VideosListAsync = withPromisedData(VideosList, "videos")
 
 class Library extends Component {
@@ -17,7 +19,7 @@ class Library extends Component {
   }
 
   static defaultProps = {
-    onSelect: video => window.location = `/?id=${video.token}`,
+    onSelect: video => window.location = `/?id=${video.token}&p=${QParams.get("p")}`,
   }
 
   constructor(props) {

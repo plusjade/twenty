@@ -4,6 +4,12 @@ const data = {
     emoji: "🐱",
     excuse: "hanging with Puddles now. Go away",
   },
+  hetong: {
+    name: "Hetong",
+    emoji: "👜",
+    excuse: "doing my taxes right now",
+  },
+
   francine: {
     name: "Francine",
     emoji: "🤗",
