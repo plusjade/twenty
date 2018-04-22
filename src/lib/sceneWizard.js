@@ -1,31 +1,23 @@
+import flatten from 'vendor/flatten'
+import { token } from 'lib/actions'
 
-// http://underscorejs.org/docs/underscore.html#section-56
-var property = function(key) {
-  return function(obj) {
-    return obj == null ? void 0 : obj[key];
-  };
-};
-var getLength = property('length');
-var flatten = function(input, shallow, strict, startIndex) {
-  var output = [], idx = 0;
-  for (var i = startIndex || 0, length = getLength(input); i < length; i++) {
-    var value = input[i];
-    if (Array.isArray(value)) {
+export const transformGraph = ({graph, map}) => {
+  const transitionsMap = computeTransitions(graph)
+  return (
+    flatten(
+      Object.keys(transitionsMap).map(sceneId => (
+        map[sceneId].map(block => ({
+          ...block,
+          sceneId,
+          transitions: transitionsMap[sceneId],
+          id: `${block.type}_${token()}`,
+        }))
+      ))
+    , true)
+  )
+}
 
-      if (!shallow) value = flatten(value, shallow, strict);
-      var j = 0, len = value.length;
-      output.length += len;
-      while (j < len) {
-        output[idx++] = value[j++];
-      }
-    } else if (!strict) {
-      output[idx++] = value;
-    }
-  }
-  return output;
-};
-
-export const transitions = steps => (
+export const computeTransitions = steps => (
   serialize_array(steps).reduce((memo, path) => {
     path.forEach((step, i) => {
       const prev_step = path[i - 1]
@@ -58,7 +50,7 @@ export const transitions = steps => (
   }, {})
 )
 
-export const serialize_array = steps => (
+const serialize_array = steps => (
   steps.reduce((memo, step) => {
     if (typeof step === 'object') {
       return serialize_object(step, memo)

@@ -1,19 +1,12 @@
-import { serialize_array, transitions } from 'lib/sceneWizard'
-import { token } from 'lib/actions'
+import flatten from 'vendor/flatten'
+import { transformGraph } from 'lib/sceneWizard'
 
 import { getSubstitutions } from 'db/substitutions'
 import { computeBlocks, computeVideo } from 'lib/computeActions'
 
 import QueryParams from 'lib/QueryParams'
+
 const QParams = QueryParams()
-
-const generateIds = blocks => (
-  blocks.map(block => ({ ...block, id: `${block.type}_${token()}` }))
-)
-
-const generateSceneMeta = (blocks, meta) => (
-  blocks.map(block => ({...block, ...meta}))
-)
 
 const hello = [{
   type: "words",
@@ -24,8 +17,6 @@ const hello = [{
       effect: 'fadeIn',
     },
   ],
-
-  bg: "#00BCD4",
 }]
 
 
@@ -38,8 +29,6 @@ const greeting = [{
       effect: 'fadeIn',
     },
   ],
-
-  bg: "#558B2F",
 }]
 
 const emoji = [
@@ -52,7 +41,6 @@ const emoji = [
         effect: 'typing',
       },
     ],
-    bg: "#1976D2",
   },
 ]
 
@@ -65,8 +53,6 @@ const nice = [
         out: 1000,
       },
     ],
-
-    bg: "#6A1B9A",
   },
 ]
 
@@ -80,69 +66,57 @@ const quizOne = [{
       {value: "yes", name: "Sure, bro"},
     ],
   },
-
-  bg: "#3F51B5",
 }]
 
 
 let quizYes = [
-    {
-      type: "words",
-      data: [
-        {
-          content: "Great! I knew I could count on you 😬",
-          out: 1000,
-        },
-        {
-          content: "I'm stil working on it though =(...",
-          out: 1000,
-        },
-      ],
-    },
-]
-quizYes = generateSceneMeta(quizYes,
   {
-    bg: "#E91E63",
-  }
-)
+    type: "words",
+    data: [
+      {
+        content: "Great! I knew I could count on you 😬",
+        out: 1000,
+      },
+      {
+        content: "I'm stil working on it though =(...",
+        out: 1000,
+      },
+    ],
+  },
+]
 
 let quizNo = [
-    {
-      type: "words",
-      data: [
-        {
-          content: "😵",
-          out: 1000,
-          effect: 'enterLeft',
-        },
-      ],
-    },
-    {
-      type: "words",
-      data: [
-        {
-          content: "Don't worry it's not weird!",
-          out: 1000,
-        },
-      ],
-    },
-    {
-      type: "words",
-      data: [
-        {
-          content: "What do you think?",
-          out: 1000,
-        },
-      ],
-    },
-]
-quizNo = generateSceneMeta(quizNo,
   {
-    bg: "#FF5722",
-  }
-)
+    type: "words",
+    data: [
+      {
+        content: "😵",
+        out: 1000,
+        effect: 'enterLeft',
+      },
+    ],
+  },
+  {
+    type: "words",
+    data: [
+      {
+        content: "Don't worry it's not weird!",
+        out: 1000,
+      },
+    ],
+  },
+  {
+    type: "words",
+    data: [
+      {
+        content: "What do you think?",
+        out: 1000,
+      },
+    ],
+  },
+]
 
-const SCENE_MAP = {
+const map = {
   hello,
   greeting,
   emoji,
@@ -151,11 +125,19 @@ const SCENE_MAP = {
   quizYes,
   quizNo,
 }
-
+const scenesMeta = {
+  hello: { bg: "#00BCD4" },
+  greeting: {  bg: "#558B2F" },
+  emoji: { bg: "#1976D2" },
+  nice: { bg: "#6A1B9A" },
+  quizOne: { bg: "#3F51B5" },
+  quizNo: { bg: "#FF5722" },
+  quizYes: { bg: "#E91E63" },
+}
 
 const graph = [
-  'hello',
   'greeting',
+  'hello',
   'emoji',
   'nice',
   {
@@ -165,61 +147,17 @@ const graph = [
     }
   }
 ]
-const computedTransitions = transitions(graph)
 
-console.log(computedTransitions)
-
-Object.keys(computedTransitions).forEach((key) => {
-  const trans = computedTransitions[key]
-    // NORMALIZE ALL OF THIS
-    const scene = SCENE_MAP[key]
-    scene.forEach((block) => {
-      if (Object.keys(trans).length > 2) {
-        // custom options. todo this is brittle
-        block.nextScenes = trans
-      } else {
-        block.nextSceneId = trans.next
-        block.prevSceneId = trans.prev
-      }
-
-      block.sceneId = key
-    })
-
-})
-
-
-let blocks = (
-  []
-    .concat(hello)
-    .concat(greeting)
-    .concat(emoji)
-    .concat(nice)
-    .concat(quizOne)
-  )
-
+const blocks = transformGraph({graph, map})
 console.log(blocks)
-
-quizNo = generateIds(quizNo)
-quizYes = generateIds(quizYes)
-blocks = generateIds(blocks)
-
-const friend = QParams.get("p")
-const substitutions = getSubstitutions(friend)
-
-const computedBlocks = computeBlocks(blocks, substitutions)
-const timeDuration = computedBlocks.reduce((memo, block) => (memo + block.timeDuration), 0)
-
-quizNo = computeBlocks(quizNo, substitutions, timeDuration)
-quizYes = computeBlocks(quizYes, substitutions, timeDuration)
-
 const video = computeVideo(
-  computedBlocks
-    .concat(quizYes)
-    .concat(quizNo)
-  )
-console.log('video', video.timeDuration())
+  computeBlocks({
+    rawBlocks: blocks,
+    substitutions: getSubstitutions(QParams.get("p")),
+  }),
+  scenesMeta
+)
 
 export default {
-  scenes: {},
   video,
 }

@@ -27,10 +27,10 @@ const withPlay = (WrappedComponent) => {
       }
 
       this.props.video.getBlocks().forEach((block) => {
-        if (block.nextSceneId) {
+        if (block.transitions.next) {
           block.player.on('end', () => {
-            console.log("finished!", block.id, block.nextSceneId)
-            this.setActiveSceneId(block.nextSceneId)
+            console.log("finished!", block.id, block.transitions.next)
+            this.setActiveSceneId(block.transitions.next)
           })
         }
       })
@@ -43,7 +43,6 @@ const withPlay = (WrappedComponent) => {
     initialState = () => ({
       libraryIsOpen: false,
       loadState: undefined,
-      block: {},
       timeDuration: 0,
       timePosition: 0,
       videoId: this.props.videoId,
@@ -79,20 +78,14 @@ const withPlay = (WrappedComponent) => {
 
     setVideoData = (video) => {
       this.setStart() // todo
-      // const lastScene = scenes.pop()
-      // scenes.push({
-      //   type: "editor",
-      //   data: video.commands,
-      // })
-      // scenes.push(lastScene)
-      const block = this.props.video.blockAtTime(1)
+      const activeSceneId = this.props.video.getInitialSceneId()
+
       this.setState({
         videoId: video.token,
         libraryIsOpen: false,
         loadState: "loaded",
         timeDuration: this.props.video.timeDuration(),
-        block,
-        activeSceneId: block.sceneId, // TODO, pass this explicitly
+        activeSceneId,
       })
     }
 
@@ -109,7 +102,6 @@ const withPlay = (WrappedComponent) => {
       this.setState({isPlaying: false})
       this.timeKeeper.pause(time)
       this.sound.pause()
-      // this.state.block.player.pause()
     }
 
     replay = () => {
@@ -123,22 +115,17 @@ const withPlay = (WrappedComponent) => {
       // this.sound.play()
 
       this.timeKeeper.start((nextTimePosition) => {
-        let block
         if (nextTimePosition > this.state.timeDuration) {
           this.pause()
         }
 
-        block = this.props.video.blockAtTime(nextTimePosition, this.state.activeSceneId)
+        this.props.video
+          .blocksAtScene(this.state.activeSceneId)
+          .forEach((d) => { d.player.play(nextTimePosition) })
 
-        if (!block) { return }
         this.setState({
           timePosition: nextTimePosition,
-          block,
-        }, () => {
-          block.player.play(block.offsetTimePosition)
         })
-
-
       })
     }
 
@@ -149,7 +136,6 @@ const withPlay = (WrappedComponent) => {
       this.timeKeeper.pause(timePosition)
       this.setState({
         timePosition: timePosition,
-        block,
         activeSceneId: block.sceneId,
       })
 

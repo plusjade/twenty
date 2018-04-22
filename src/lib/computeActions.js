@@ -3,7 +3,7 @@ import TextingToCommands    from 'texting/lib/TextingToCommands'
 import WordsToCommands      from 'words/lib/WordsToCommands'
 import Personalizer         from 'lib/Personalizer'
 
-export const computeBlocks = (rawBlocks, substitutions, seedOffset) => {
+export const computeBlocks = ({rawBlocks, substitutions, seedOffset}) => {
   const personalizer = Personalizer(substitutions)
   let previousOffset = seedOffset || 0
   let previousDuration = 0
@@ -68,11 +68,7 @@ export const computeBlocks = (rawBlocks, substitutions, seedOffset) => {
       }
     }
 
-    // if (index === 0) {
-    //   block.timeOffset = 0
-    // } else {
-      block.timeOffset = previousOffset + previousDuration
-    // }
+    block.timeOffset = previousOffset + previousDuration
 
     previousDuration = block.timeDuration
     previousOffset = block.timeOffset
@@ -83,7 +79,7 @@ export const computeBlocks = (rawBlocks, substitutions, seedOffset) => {
   return blocks
 }
 
-export const computeVideo = (blocks) => {
+export const computeVideo = (blocks, scenesMeta) => {
   const blocksObjects = blocks.reduce((memo, block) => {
     memo[block.id] = block
     return memo
@@ -98,14 +94,14 @@ export const computeVideo = (blocks) => {
     return memo
   }, {})
 
-  const scenesList = Object.keys(scenesObjectsMap).sort()
+  const scenesList = Object.keys(scenesObjectsMap)
 
   const scenesObjects = scenesList.reduce((memo, id) => {
     const blocksIds = scenesObjectsMap[id]
     memo[id] = {
+      ...(scenesMeta[id] || {}),
       id,
       blocksIds,
-      bg: blocksObjects[blocksIds[0]].bg
     }
     return memo
   }, {})
@@ -127,6 +123,10 @@ export const computeVideo = (blocks) => {
     } else {
       // throw new RangeError(`No block found at ${timePosition}`)
     }
+  }
+
+  const blocksAtScene = (sceneId) => {
+    return blocks.filter(block => sceneId === block.sceneId)
   }
 
   const find = (timePosition, sceneId) => {
@@ -156,8 +156,19 @@ export const computeVideo = (blocks) => {
     scenesList.map(sceneId => getScene(sceneId))
   )
 
+  const getInitialSceneId = () => {
+    const initialScene = (
+      getBlocks().find(block => !block.transitions || !block.transitions.prev)
+    )
+    if (initialScene) {
+      return initialScene.sceneId
+    }
+  }
+
   return ({
+    getInitialSceneId,
     blockAtTime,
+    blocksAtScene,
     blocksObjects, // for debugging, shouldn't need to access
     getBlocksInScene,
     getBlocks,

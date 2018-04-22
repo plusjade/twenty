@@ -11,8 +11,6 @@ import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
 import data from 'db/data'
-import { getSubstitutions } from 'db/substitutions'
-import { computeBlocks, computeVideo } from 'lib/computeActions'
 
 import './index.css'
 
