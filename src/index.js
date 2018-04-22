@@ -10,7 +10,7 @@ import Home             from 'containers/Home'
 import withPlay         from 'containers/withPlay'
 import withRecord       from 'containers/withRecord'
 
-import data from 'db/data'
+import video from 'db/video'
 
 import './index.css'
 
@@ -29,7 +29,7 @@ if (parts[1] === "make") {
   app = withRecord(Recorder)
 } else if (videoId) {
   app = withPlay(Player)
-  props = {...props, videoId, video: data.video}
+  props = {...props, videoId, video}
 } else {
   app = Home
 }

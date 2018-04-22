@@ -158,6 +158,4 @@ const video = computeVideo(
   scenesMeta
 )
 
-export default {
-  video,
-}
+export default video
