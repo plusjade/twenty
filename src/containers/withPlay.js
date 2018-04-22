@@ -27,10 +27,19 @@ const withPlay = (WrappedComponent) => {
       }
 
       this.props.video.getBlocks().forEach((block) => {
-        if (block.auto !== false && block.transitions.next) {
+        if (block.transitions.next) {
+          if (block.auto !== false ) {
+            block.player.on('end', () => {
+              setTimeout(() => {
+                console.log("finished!", block.id, block.transitions.next)
+                this.setActiveSceneId(block.transitions.next)
+              }, 1000) // hack for time offset
+            })
+          }
+        } else {
           block.player.on('end', () => {
-            console.log("finished!", block.id, block.transitions.next)
-            this.setActiveSceneId(block.transitions.next)
+            console.log("finished!", block.id)
+            this.pause()
           })
         }
       })
@@ -115,9 +124,9 @@ const withPlay = (WrappedComponent) => {
       // this.sound.play()
 
       this.timeKeeper.start((nextTimePosition) => {
-        if (nextTimePosition > this.state.timeDuration) {
-          this.pause()
-        }
+        // if (nextTimePosition > this.state.timeDuration) {
+        //   this.pause()
+        // }
 
         this.props.video
           .blocksAtScene(this.state.activeSceneId)
