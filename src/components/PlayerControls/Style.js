@@ -1,4 +1,4 @@
-const controlsHeight = "6vh"
+const controlsHeight = "10vh"
 export default {
   controls: {
     default: {
@@ -37,20 +37,20 @@ export default {
   playToggle: {
     default: {
       position: "absolute",
-      bottom: "7vh",
+      bottom: "1vh",
       left: 0,
-      right: 0,
-      textAlign: "center",
+      right: 10,
+      textAlign: "right",
       color: "#FFF",
-      transform: "translateY(7vh)",
+      transform: "translateY(1vh)",
       transition: "transform 300ms ease-in-out",
     },
     active: {
       transform: "translateY(0)",
     },
     icon: {
-      fill: "#E0E0E0",
-      stroke: "#BDBDBD",
+      fill: "#FEFEFE",
+      stroke: "#333",
     }
   },
   rangeInput: {

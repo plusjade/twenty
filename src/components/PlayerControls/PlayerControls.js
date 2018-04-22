@@ -6,13 +6,8 @@ import IconPause              from 'components/IconPause'
 import IconPlay               from 'components/IconPlay'
 import Style                  from './Style'
 
-import Slider                 from 'material-ui/Slider'
-import darkBaseTheme          from 'material-ui/styles/baseThemes/darkBaseTheme'
-import MuiThemeProvider       from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme            from 'material-ui/styles/getMuiTheme'
-
 function PlayerControls(props) {
-  const iconStyle = [{height: 30, width: 30}, Style.playToggle.icon]
+  const iconStyle = [{height: 60, width: 60}, Style.playToggle.icon]
 
   function renderIcon() {
     if (props.isPlaying) {
@@ -31,28 +26,6 @@ function PlayerControls(props) {
         props.isActive && Style.controls.active
       ]}
     >
-      <div style={[Style.wrap.default]}>
-        {props.isPlayable() && (
-          <div style={Style.one}>
-            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <Slider
-                min={0}
-                max={props.timeDuration}
-                value={props.timePosition}
-                onChange={(e, value) => {
-                  const time = Math.floor(parseFloat(value))
-                  if (time >= 0) {
-                    props.seekTo(time)
-                  }
-                }}
-                style={{width: "100%"}}
-                sliderStyle={{margin: 0}}
-              />
-            </MuiThemeProvider>
-          </div>
-        )}
-      </div>
-
       {props.isPlayable() && (
         <div
           style={[
