@@ -9,12 +9,12 @@ import QueryParams from 'lib/QueryParams'
 const QParams = QueryParams()
 
 const scenesMap = {
-  hello: [
+  waive: [
     {
       type: "words",
       data: [
         {
-          content: "👋 Hey there!",
+          content: "👋 bye for now",
           effect: 'fadeIn',
         },
       ],
@@ -25,7 +25,7 @@ const scenesMap = {
       type: "words",
       data: [
         {
-          content: "How's your day, {{name}}?",
+          content: "that little emoji has a lot to say, but unfortunately we have to sleep first",
           effect: 'fadeIn',
         },
       ],
@@ -36,7 +36,7 @@ const scenesMap = {
       type: "words",
       data: [
         {
-          content: "{{name}}, I knew you liked {{emoji}} 🤗",
+          content: "I picked that one just for you, {{name}}",
           effect: 'typing',
         },
       ],
@@ -47,7 +47,19 @@ const scenesMap = {
       type: "words",
       data: [
         {
-          content: "Must be nice!",
+          content: "🤗",
+          effect: 'fadeIn',
+        },
+      ],
+    },
+  ],
+  corgy: [
+    {
+      type: "words",
+      data: [
+        {
+          content: "Ok, we'll make a great story about a corgy since everyone seems to like those dogs",
+          effect: 'fadeIn',
         },
       ],
     },
@@ -75,15 +87,18 @@ const scenesMap = {
       },
     }
   ],
-  yesFlow: [
+  creative: [
     {
       type: "words",
       data: [
         {
-          content: "Great! I knew I could count on you 😬",
+          content: "Great! We're bound to have a creative adventure 😬",
         },
         {
-          content: "I'm stil working on it though =(...",
+          content: "However, the story has yet to unfold...",
+        },
+        {
+          content: "... please wish us well, we'll be back later!",
         },
       ],
     },
@@ -118,25 +133,24 @@ const scenesMap = {
 }
 
 const scenesMeta = {
-  hello: { bg: "#00BCD4" },
+  waive: { bg: "#00BCD4" },
   greeting: {  bg: "#558B2F" },
   emoji: { bg: "#1976D2" },
   nice: { bg: "#6A1B9A" },
   chooseCharacter: { bg: "#FFEB3B" },
   dog: { bg: "#FF5722" },
-  yesFlow: { bg: "#E91E63" },
+  creative: { bg: "#E91E63" },
 }
 
 const graph = [
   {
     chooseCharacter: {
-      dog: ['dog'],
-      custom: ['emoji'],
-      singer: ['yesFlow'],
+      dog: ['dog', 'corgy'],
+      custom: ['emoji', 'nice', 'greeting'],
+      singer: ['creative'],
     }
   },
-  'hello',
-  'nice',
+  'waive',
 ]
 
 const blocks = transformGraph({graph, scenesMap})
