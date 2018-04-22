@@ -13,7 +13,6 @@ const hello = [{
   data: [
     {
       content: "👋 Hey there!",
-      out: 1000,
       effect: 'fadeIn',
     },
   ],
@@ -25,7 +24,6 @@ const greeting = [{
   data: [
     {
       content: "How's your day, {{name}}?",
-      out: 1000,
       effect: 'fadeIn',
     },
   ],
@@ -37,7 +35,6 @@ const emoji = [
     data: [
       {
         content: "Are you... {{emoji}}",
-        out: 1000,
         effect: 'typing',
       },
     ],
@@ -50,7 +47,6 @@ const nice = [
     data: [
       {
         content: "Must be nice!",
-        out: 1000,
       },
     ],
   },
@@ -75,11 +71,9 @@ let quizYes = [
     data: [
       {
         content: "Great! I knew I could count on you 😬",
-        out: 1000,
       },
       {
         content: "I'm stil working on it though =(...",
-        out: 1000,
       },
     ],
   },
@@ -91,7 +85,6 @@ let quizNo = [
     data: [
       {
         content: "😵",
-        out: 1000,
         effect: 'enterLeft',
       },
     ],
@@ -101,7 +94,6 @@ let quizNo = [
     data: [
       {
         content: "Don't worry it's not weird!",
-        out: 1000,
       },
     ],
   },
@@ -110,7 +102,6 @@ let quizNo = [
     data: [
       {
         content: "What do you think?",
-        out: 1000,
       },
     ],
   },
