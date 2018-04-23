@@ -14,7 +14,15 @@ export default {
       backgroundColor: "#212121",
       padding: '20px 40px 20px 20px',
       margin: 0,
+      transition: "all 400ms ease-out 200ms",
+      transform: "translateX(-100%)",
+      // transform: 'scaleY(0)',
+      // transformOrigin: 'bottom',
     },
+    animate: {
+      transform: "translateX(0)",
+      // transform: 'scaleY(1)',
+    }
   },
   button: {
     default: {

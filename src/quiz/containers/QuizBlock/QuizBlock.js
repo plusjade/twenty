@@ -25,6 +25,9 @@ class QuizBlock extends PureComponent {
 
   componentDidMount() {
     this.props.block.player.on('start', this.onStart)
+    setTimeout(() => {
+      this.setState({animate: true})
+    }, 10)
   }
 
   onSelect = (answer) => {
@@ -44,7 +47,12 @@ class QuizBlock extends PureComponent {
     return (
       <div style={style.wrap}>
         <div style={{marginBottom: 40, width: '100%'}}>
-          <h1 style={style.question.default}>
+          <h1
+            style={[
+              style.question.default,
+              this.state.animate && style.question.animate
+            ]}
+          >
             {question}
           </h1>
         </div>
