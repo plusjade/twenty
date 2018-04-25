@@ -49,7 +49,7 @@ export default {
       transform: "translateY(0)",
     },
     icon: {
-      fill: "#FEFEFE",
+      fill: "rgba(255,255,255, 0.3)",
       stroke: "#333",
     }
   },

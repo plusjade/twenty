@@ -7,7 +7,7 @@ import IconPlay               from 'components/IconPlay'
 import Style                  from './Style'
 
 function PlayerControls(props) {
-  const iconStyle = [{height: 60, width: 60}, Style.playToggle.icon]
+  const iconStyle = [{height: 50, width: 50}, Style.playToggle.icon]
 
   function renderIcon() {
     if (props.isPlaying) {
