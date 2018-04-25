@@ -5,7 +5,6 @@ const transformTextingBlock = (block) => {
   const rawCommands = TextingToCommands(block.data)
   const player = CommandPlayer({
     rawCommands,
-    blockId: block.id,
   })
 
   return ({

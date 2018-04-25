@@ -3,24 +3,22 @@ import WordsToCommands from 'words/lib/WordsToCommands'
 import personalize from 'lib/personalize'
 
 const transformWordsBlock = (block, substitutions) => {
-  const personalizedData = (
+  const payload = (
     block.data.map(entry => ({
       ...entry,
       content: personalize(entry.content, substitutions)
     }))
   )
-  const rawCommands = WordsToCommands(personalizedData, block.in)
+  const rawCommands = WordsToCommands(payload, block.in)
   const player = CommandPlayer({
-    initialPayload: personalizedData,
     rawCommands,
-    blockId: block.id,
   })
 
   return ({
     ...block,
     player,
+    payload,
     timeDuration: player.timeDuration(),
-    initialPayload: personalizedData,
   })
 }
 

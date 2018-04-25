@@ -11,16 +11,14 @@ const transformQuizBlock = (block, substitutions) => {
     )
   }
   const player = CommandPlayer({
-    initialPayload: payload,
     rawCommands: [],
-    blockId: block.id,
   })
 
   return ({
     ...block,
     player,
     timeDuration: player.timeDuration(),
-    initialPayload: payload,
+    payload,
   })
 }
 

@@ -9,7 +9,7 @@ const EVENTS_WHITELIST = [
   'end',
 ]
 
-const CommandPlayer = ({initialPayload, rawCommands, blockId} = {}) => {
+const CommandPlayer = ({rawCommands} = {}) => {
   let hasStarted = false
   const timeKeeper = TimeKeeper()
   const callbacks = {}
@@ -24,7 +24,6 @@ const CommandPlayer = ({initialPayload, rawCommands, blockId} = {}) => {
 
       timeKeeper.start((nextTimePosition) => {
         if (nextTimePosition >= timeDuration()) {
-          console.log('end', blockId)
           timeKeeper.pause()
           if (callbacks.end) {
             callbacks.end.forEach((cb) => {
@@ -35,9 +34,8 @@ const CommandPlayer = ({initialPayload, rawCommands, blockId} = {}) => {
       })
 
       if (callbacks.start) {
-        console.log('start', blockId)
         callbacks.start.forEach((cb) => {
-          cb({initialPayload})
+          cb()
         })
       }
     }
@@ -63,7 +61,7 @@ const CommandPlayer = ({initialPayload, rawCommands, blockId} = {}) => {
 
     if (callbacks.play) {
       callbacks.play.forEach((cb) => {
-        cb({initialPayload})
+        cb()
       })
     }
 

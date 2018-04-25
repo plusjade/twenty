@@ -83,7 +83,7 @@ class WordsBlock extends PureComponent {
     } else {
       // first instance of this entry
       // entry is the entire sentence payload...
-      const entry = this.props.block.initialPayload[entryIndex] || {}
+      const entry = this.props.block.payload[entryIndex] || {}
       this.setState({
         entry,
         entryIndex,

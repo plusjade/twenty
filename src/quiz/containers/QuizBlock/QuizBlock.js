@@ -42,8 +42,8 @@ class QuizBlock extends PureComponent {
   }
 
   render() {
-    const question = this.props.block.initialPayload.question
-    const answers = this.props.block.initialPayload.answers
+    const question = this.props.block.payload.question
+    const answers = this.props.block.payload.answers
     return (
       <div style={style.wrap}>
         <div style={{marginBottom: 40, width: '100%'}}>
