@@ -1,5 +1,8 @@
+import transformBlocks from 'lib/transformBlocks'
 
-const computeVideo = (blocks, scenesMeta) => {
+const computeVideo = ({rawBlocks, substitutions, scenesMeta}) => {
+  const blocks = transformBlocks({blocks: rawBlocks, substitutions})
+
   const blocksObjects = blocks.reduce((memo, block) => {
     memo[block.id] = block
     return memo
