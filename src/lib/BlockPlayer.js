@@ -13,7 +13,11 @@ class BlockPlayer {
   timeKeeper = new TimeKeeper()
   callbacks = {}
 
-  timeDuration = () => 1000 // HACK
+  constructor({offset} = {}) {
+    this.offset = offset
+  }
+
+  timeDuration = () => (this.offset || 0 ) + 1000 // HACK
 
   play = (newPosition) => {
     if (!this.hasStarted) {
@@ -25,6 +29,8 @@ class BlockPlayer {
       }
 
       this.timeKeeper.start((nextTimePosition) => {
+        if (this.offset && nextTimePosition < this.offset) { return }
+
         // console.log(nextTimePosition)
         if (nextTimePosition >= this.timeDuration()) {
           console.log("TIMER DONE")

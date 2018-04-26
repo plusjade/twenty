@@ -11,7 +11,7 @@ const transformQuizBlock = (block, substitutions) => {
     )
   }
 
-  const player = new BlockPlayer()
+  const player = new BlockPlayer({offset: block.offset})
 
   return ({
     ...block,

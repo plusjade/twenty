@@ -7,7 +7,7 @@ const transformWordsBlock = (block, substitutions) => {
     content: personalize(block.data.content, substitutions)
   })
 
-  const player = new BlockPlayer()
+  const player = new BlockPlayer({offset: block.offset})
 
   return ({
     ...block,

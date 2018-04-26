@@ -123,19 +123,21 @@ const scenesMap = {
       },
       style: {
         fontSize: 120,
-      }
+      },
     },
     {
       type: "words",
       data: {
         content: "Are you sure you want the dog?",
       },
+      offset: 400,
     },
     {
       type: "words",
       data: {
         content: "Well, he is cute!",
       },
+      offset: 800,
     },
   ],
 }
