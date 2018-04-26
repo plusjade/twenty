@@ -6,10 +6,10 @@ export const transformGraph = ({graph, scenesMap}) => {
   return (
     flatten(
       Object.keys(transitionsMap).map(sceneId => (
-        scenesMap[sceneId].map((block, i) => ({
+        scenesMap[sceneId].map(block => ({
           ...block,
           sceneId,
-          transitions: i === 0 ? transitionsMap[sceneId] : {},
+          transitions: transitionsMap[sceneId],
           id: `${block.type}_${token()}`,
         }))
       ))

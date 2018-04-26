@@ -7,6 +7,7 @@ import style from './style'
 class QuizBlock extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
+    nextScene: PropTypes.func.isRequired,
   }
 
   static initialState() {
@@ -23,9 +24,6 @@ class QuizBlock extends PureComponent {
 
   componentDidMount() {
     this.props.block.player.on('start', this.onStart)
-    setTimeout(() => {
-      this.setState({animate: true})
-    }, 10)
   }
 
   onSelect = (answer) => {
@@ -39,21 +37,9 @@ class QuizBlock extends PureComponent {
   }
 
   render() {
-    const question = this.props.block.payload.question
-    const answers = this.props.block.payload.answers
     return (
       <div style={style.wrap}>
-        <div style={{marginBottom: 40, width: '100%'}}>
-          <h1
-            style={[
-              style.question.default,
-              this.state.animate && style.question.animate
-            ]}
-          >
-            {question}
-          </h1>
-        </div>
-        {answers.map((answer, i) => (
+        {this.props.block.payload.answers.map((answer, i) => (
           <button
             key={i}
             style={[

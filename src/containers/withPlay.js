@@ -24,21 +24,26 @@ const withPlay = (WrappedComponent) => {
         this.loadVideo(this.state.videoId)
       }
 
+      const oncePerScene = {}
       this.props.video.getBlocks().forEach((block) => {
-        if (block.transitions.next) {
+
+        // set the nextSceneId
+        if (block.transitions.next && !oncePerScene[block.sceneId]) {
+          oncePerScene[block.sceneId] = true
+
           block.player.on('start', () => {
-            console.log(block.id, "^_^ start!", block.transitions.next)
+            console.log(block.id, "^_^ set nextSceneId!", block.transitions.next)
             this.setState({nextSceneId: block.transitions.next})
           })
-
-          block.player.on('end', () => {
-            console.log(block.id, "finished!", block.transitions.next)
-          })
-        } else if (block.transitions.prev) {
-          block.player.on('end', () => {
-            console.log("complete!", block.id)
-          })
         }
+
+        block.player.on('start', () => {
+          console.log(block.id, "^_^ start!", block.transitions.next)
+        })
+
+        block.player.on('end', () => {
+          console.log(block.id, "^_^ finished!", block.transitions.next)
+        })
       })
     }
 
@@ -88,7 +93,7 @@ const withPlay = (WrappedComponent) => {
         loadState: "loaded",
         timeDuration: this.props.video.timeDuration(),
         activeSceneId,
-      })
+      }, this.play)
     }
 
     toggleLibrary = () => {
@@ -101,7 +106,6 @@ const withPlay = (WrappedComponent) => {
 
     nextScene = (sceneId) => {
       const activeSceneId = sceneId || this.state.nextSceneId
-      console.log('nextScene', activeSceneId)
       this.setState({activeSceneId}, this.play)
     }
 

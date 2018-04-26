@@ -56,6 +56,13 @@ const scenesMap = {
   ],
   chooseCharacter: [
     {
+      type: "words",
+      data: {
+        content: "Choose your character",
+        effect: 'fadeIn',
+      },
+    },
+    {
       type: "quiz",
       isInteractive: true,
       data: {
