@@ -19,6 +19,7 @@ const style = {
 
 class Player extends PureComponent {
   static propTypes = {
+    activeSceneId: PropTypes.string,
     video: PropTypes.object.isRequired,
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
@@ -41,13 +42,22 @@ class Player extends PureComponent {
     // this.props.loadState && !(this.props.timePosition > 0)
   )
 
+  isInteractive() {
+    if (!this.props.activeSceneId) { return false }
+    return !!(
+      this.props.video
+        .getBlocksInScene(this.props.activeSceneId)
+        .find(block => block.isInteractive)
+    )
+  }
+
   render() {
     return (
       <div id="app-wrapper" style={style.wrap}>
         {this.props.video.getScenes().map(scene => (
           <Scene
             key={`scenes-${scene.id}`}
-            isActive={scene.id == this.props.activeSceneId}
+            isActive={scene.id === this.props.activeSceneId}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.id)}
             isPlaying={this.props.isPlaying}
@@ -64,7 +74,7 @@ class Player extends PureComponent {
         )}
 
         <Hammer onTap={this.handleTap}>
-          <Layer isHidden={!this.props.nextSceneId}>
+          <Layer isHidden={this.isInteractive()}>
             <div />
           </Layer>
         </Hammer>

@@ -57,6 +57,7 @@ const scenesMap = {
   chooseCharacter: [
     {
       type: "quiz",
+      isInteractive: true,
       data: {
         question: "Choose your character",
         answers: [
