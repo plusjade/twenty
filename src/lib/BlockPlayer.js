@@ -10,7 +10,7 @@ const EVENTS_WHITELIST = [
 
 class BlockPlayer {
   hasStarted = false
-  timeKeeper = TimeKeeper()
+  timeKeeper = new TimeKeeper()
   callbacks = {}
 
   timeDuration = () => 1000 // HACK

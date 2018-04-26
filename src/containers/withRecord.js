@@ -47,7 +47,7 @@ const withRecord = (WrappedComponent) => {
     }
 
     componentWillMount() {
-      this.timeKeeper = TimeKeeper()
+      this.timeKeeper = new TimeKeeper()
       this.audioRecorder = AudioRecorder()
       this.newRecording()
 

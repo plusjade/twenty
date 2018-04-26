@@ -12,7 +12,7 @@ const EVENTS_WHITELIST = [
 
 const CommandPlayer = ({rawCommands} = {}) => {
   let hasStarted = false
-  const timeKeeper = TimeKeeper()
+  const timeKeeper = new TimeKeeper()
   const callbacks = {}
   const commands = Commands(rawCommands)
   let currentChunkPosition = -1

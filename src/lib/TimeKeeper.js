@@ -1,63 +1,47 @@
-const TimeKeeper = () => {
-  const TICK_INTERVAL_MS = 50
-  let tickInterval
-  let timePositionPaused
-  let timeStart
+class TimeKeeper {
+  TICK_INTERVAL_MS = 50
+  tickInterval = undefined
+  timePositionPaused = 0
+  timeStart = undefined
 
-  reset()
-
-  function reset() {
-    clearInterval(tickInterval)
-    tickInterval = undefined
-    timePositionPaused = 0
-    timeStart = undefined
+  reset = () => {
+    clearInterval(this.tickInterval)
+    this.tickInterval = undefined
+    this.timePositionPaused = 0
+    this.timeStart = undefined
   }
 
-  function start(callback) {
-    setTimeStart()
-    tickInterval = setInterval(() => {
+  start = (callback) => {
+    this.setTimeStart()
+    this.tickInterval = setInterval(() => {
       if (typeof callback === "function") {
-        callback(getTimePosition())
+        callback(this.getTimePosition())
       }
-    }, TICK_INTERVAL_MS)
+    }, this.TICK_INTERVAL_MS)
   }
 
-  function pause(time) {
-    clearInterval(tickInterval)
-    tickInterval = undefined
-    timePositionPaused = time || getTimePosition()
-    timeStart = undefined
+  pause = (time) => {
+    clearInterval(this.tickInterval)
+    this.tickInterval = undefined
+    this.timePositionPaused = time || this.getTimePosition()
+    this.timeStart = undefined
   }
 
-  function isPlaying() {
-    return !!tickInterval
-  }
+  isPlaying = () => !!this.tickInterval
 
-  function getTimeStart() {
-    return timeStart
-  }
+  getTimeStart = () => this.timeStart
 
-  function setTimeStart(time) {
-    return timeStart = time || getTimeNow()
-  }
+  setTimeStart = time => (
+    this.timeStart = time || this.getTimeNow()
+  )
 
-  function getTimePosition() {
-    return timePositionPaused + getTimeNow() - getTimeStart()
-  }
+  getTimePosition = () => (
+    this.timePositionPaused + this.getTimeNow() - this.getTimeStart()
+  )
 
   // TODO Date.now
   // http://underscorejs.org/docs/underscore.html#section-159
-  function getTimeNow() {
-    return (new Date()).getTime()
-  }
-
-  return ({
-    getTimePosition: getTimePosition,
-    isPlaying: isPlaying,
-    pause: pause,
-    start: start,
-    reset: reset,
-  })
+  getTimeNow = () => (new Date()).getTime()
 }
 
 export default TimeKeeper
