@@ -166,12 +166,11 @@ const graph = [
   'waive',
 ]
 
+const video = new Video()
 const blocks = transformGraph({graph, scenesMap})
 console.log(blocks)
-const video = new Video({
-  blocks,
-  substitutions: getSubstitutions(QParams.get("p")),
-  scenesMeta,
-})
+video.addSubstitutions(getSubstitutions(QParams.get("p")))
+video.addScenesMeta(scenesMeta)
+blocks.forEach(video.addBlock)
 
 export default video

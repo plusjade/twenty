@@ -4,36 +4,24 @@ class Video {
   blocksObjects = {}
   scenesObjects = {}
   substitutions = {}
+  scenesMeta = {}
 
-  constructor({blocks, substitutions, scenesMeta}) {
-    this.substitutions = substitutions
-
-    const scenesObjectsMap = blocks.reduce((memo, block) => {
-      if (memo[block.sceneId]) {
-        memo[block.sceneId].push(block.id)
-      } else {
-        memo[block.sceneId] = [block.id]
-      }
-      return memo
-    }, {})
-
-    Object.keys(scenesObjectsMap).forEach((id) => {
-      this.scenesObjects[id] = {
-        ...(scenesMeta[id] || {}),
-        id,
-        blocksIds: scenesObjectsMap[id],
-      }
-    })
-
-    blocks.forEach(this.updateBlock)
+  addScenesMeta = (scenesMeta) => {
+    this.scenesMeta = {...this.scenesMeta, ...scenesMeta}
   }
 
-  timeDuration = () => (
-    this.getBlocks().reduce((memo, block) => (memo + block.timeDuration), 0)
-  )
+  addSubstitutions = (substitutions) => {
+    this.substitutions = {...this.substitutions, ...substitutions}
+  }
 
-  updateBlock = (block) => {
+  addBlock = (block) => {
+    const scenesObject = this.scenesObjects[block.sceneId] || {blocksIds: []}
     this.blocksObjects[block.id] = transformBlock({block, substitutions: this.substitutions})
+    this.scenesObjects[block.sceneId] = {
+      ...(this.scenesMeta[block.sceneId] || {}),
+      id: block.sceneId,
+      blocksIds: scenesObject.blocksIds.concat([block.id]),
+    }
   }
 
   getBlocksInScene = sceneId => (
@@ -58,6 +46,10 @@ class Video {
       return initialScene.sceneId
     }
   }
+
+  timeDuration = () => (
+    this.getBlocks().reduce((memo, block) => (memo + block.timeDuration), 0)
+  )
 }
 
 export default Video
