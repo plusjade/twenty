@@ -2,7 +2,7 @@ import flatten from 'vendor/flatten'
 import { transformGraph } from 'lib/sceneWizard'
 
 import { getSubstitutions } from 'db/substitutions'
-import computeVideo from 'lib/computeVideo'
+import Video from 'lib/Video'
 
 import QueryParams from 'lib/QueryParams'
 
@@ -168,8 +168,8 @@ const graph = [
 
 const blocks = transformGraph({graph, scenesMap})
 console.log(blocks)
-const video = computeVideo({
-  rawBlocks: blocks,
+const video = new Video({
+  blocks,
   substitutions: getSubstitutions(QParams.get("p")),
   scenesMeta,
 })

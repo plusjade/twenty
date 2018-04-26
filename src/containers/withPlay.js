@@ -132,7 +132,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     seekTo = (timePosition) => {
-      const block = this.props.video.blockAtTime(timePosition)
+      const block = null // todo
 
       this.sound.seek(timePosition/1000)
       this.setState({
