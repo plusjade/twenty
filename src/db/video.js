@@ -32,7 +32,7 @@ const scenesMap = {
       type: "words",
       data: {
         content: "I picked that one just for you, {{name}}",
-        effect: 'typing',
+        effect: 'fadeIn',
       },
     },
   ],
@@ -43,6 +43,9 @@ const scenesMap = {
         content: "🤗",
         effect: 'fadeIn',
       },
+      style: {
+        fontSize: 120,
+      }
     },
   ],
   corgy: [
@@ -61,6 +64,9 @@ const scenesMap = {
         content: "Choose your character",
         effect: 'fadeIn',
       },
+      style: {
+        color: "#212121",
+      }
     },
     {
       type: "quiz",
@@ -115,6 +121,9 @@ const scenesMap = {
         content: "😵",
         effect: 'enterLeft',
       },
+      style: {
+        fontSize: 120,
+      }
     },
     {
       type: "words",
@@ -132,6 +141,7 @@ const scenesMap = {
 }
 
 const scenesMeta = {
+  corgy: { bg: "#607D8B" },
   waive: { bg: "#00BCD4" },
   greeting: {  bg: "#558B2F" },
   emoji: { bg: "#1976D2" },

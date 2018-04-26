@@ -25,7 +25,7 @@ class BlockPlayer {
       }
 
       this.timeKeeper.start((nextTimePosition) => {
-        console.log(nextTimePosition)
+        // console.log(nextTimePosition)
         if (nextTimePosition >= this.timeDuration()) {
           console.log("TIMER DONE")
           this.timeKeeper.pause()

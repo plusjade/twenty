@@ -1,6 +1,6 @@
 export default {
   wrap: {
-    flex: 1,
+    flex: 2,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

@@ -1,3 +1,4 @@
+import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -74,7 +75,10 @@ class WordsBlock extends PureComponent {
     return (
       <div style={style.default}>
         <h1
-          style={style.text}
+          style={[
+            style.text,
+            this.props.block.style
+          ]}
           ref={this.getRef}
         >
           {this.state.entry.content}
@@ -84,4 +88,4 @@ class WordsBlock extends PureComponent {
   }
 }
 
-export default WordsBlock
+export default Radium(WordsBlock)
