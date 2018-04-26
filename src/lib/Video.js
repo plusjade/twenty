@@ -1,15 +1,14 @@
-import transformBlocks from 'lib/transformBlocks'
+import transformBlock from 'lib/transformBlock'
 
 class Video {
+  blocksObjects = {}
+  scenesObjects = {}
+  substitutions = {}
+
   constructor({blocks, substitutions, scenesMeta}) {
-    this.blocks = transformBlocks({blocks, substitutions})
+    this.substitutions = substitutions
 
-    this.blocksObjects = this.blocks.reduce((memo, block) => {
-      memo[block.id] = block
-      return memo
-    }, {})
-
-    this.scenesObjectsMap = this.blocks.reduce((memo, block) => {
+    const scenesObjectsMap = blocks.reduce((memo, block) => {
       if (memo[block.sceneId]) {
         memo[block.sceneId].push(block.id)
       } else {
@@ -18,26 +17,24 @@ class Video {
       return memo
     }, {})
 
-    this.scenesList = Object.keys(this.scenesObjectsMap)
-
-    this.scenesObjects = this.scenesList.reduce((memo, id) => {
-      const blocksIds = this.scenesObjectsMap[id]
-      memo[id] = {
+    Object.keys(scenesObjectsMap).forEach((id) => {
+      this.scenesObjects[id] = {
         ...(scenesMeta[id] || {}),
         id,
-        blocksIds,
+        blocksIds: scenesObjectsMap[id],
       }
-      return memo
-    }, {})
+    })
+
+    blocks.forEach(this.updateBlock)
   }
 
   timeDuration = () => (
-    this.blocks.reduce((memo, block) => (memo + block.timeDuration), 0)
+    this.getBlocks().reduce((memo, block) => (memo + block.timeDuration), 0)
   )
 
-  blocksAtScene = sceneId => (
-    this.blocks.filter(block => sceneId === block.sceneId)
-  )
+  updateBlock = (block) => {
+    this.blocksObjects[block.id] = transformBlock({block, substitutions: this.substitutions})
+  }
 
   getBlocksInScene = sceneId => (
     this.getScene(sceneId).blocksIds.map(id => this.getBlock(id))
@@ -50,7 +47,7 @@ class Video {
   getScene = id => this.scenesObjects[id]
 
   getScenes = () => (
-    this.scenesList.map(sceneId => this.getScene(sceneId))
+    Object.keys(this.scenesObjects).map(sceneId => this.getScene(sceneId))
   )
 
   getInitialSceneId = () => {

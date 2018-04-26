@@ -2,7 +2,7 @@ import BlockPlayer from 'lib/BlockPlayer'
 import personalize from 'lib/personalize'
 
 const transformQuizBlock = (block, substitutions) => {
-  const payload = {
+  const data = {
     question: personalize(block.data.question, substitutions),
     answers: (
       block.data.answers.map(answer => (
@@ -15,9 +15,9 @@ const transformQuizBlock = (block, substitutions) => {
 
   return ({
     ...block,
+    data,
     player,
     timeDuration: player.timeDuration(),
-    payload,
   })
 }
 

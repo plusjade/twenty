@@ -112,7 +112,7 @@ const withPlay = (WrappedComponent) => {
     pause = (time) => {
       this.setState({isPlaying: false})
       this.props.video
-        .blocksAtScene(this.state.activeSceneId)
+        .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => { block.player.pause() })
     }
 
@@ -125,7 +125,7 @@ const withPlay = (WrappedComponent) => {
       this.setState({isPlaying: true})
       // this.sound.play()
       this.props.video
-        .blocksAtScene(this.state.activeSceneId)
+        .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => {
           block.player.play()
         })

@@ -39,7 +39,7 @@ class QuizBlock extends PureComponent {
   render() {
     return (
       <div style={style.wrap}>
-        {this.props.block.payload.answers.map((answer, i) => (
+        {this.props.block.data.answers.map((answer, i) => (
           <button
             key={i}
             style={[

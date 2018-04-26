@@ -30,7 +30,7 @@ class WordsBlock extends PureComponent {
 
   onStart = () => {
     console.log('ON START', this.props.block.id)
-    const entry = this.props.block.payload || {}
+    const entry = this.props.block.data || {}
     this.setState({
       entry,
     }, this.initializeTimeline)
