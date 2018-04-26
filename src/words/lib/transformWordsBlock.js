@@ -2,12 +2,10 @@ import BlockPlayer from 'lib/BlockPlayer'
 import personalize from 'lib/personalize'
 
 const transformWordsBlock = (block, substitutions) => {
-  const payload = (
-    block.data.map(entry => ({
-      ...entry,
-      content: personalize(entry.content, substitutions)
-    }))
-  )
+  const payload = ({
+    ...block.data,
+    content: personalize(block.data.content, substitutions)
+  })
 
   const player = new BlockPlayer()
 

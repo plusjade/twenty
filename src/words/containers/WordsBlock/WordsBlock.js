@@ -17,7 +17,6 @@ class WordsBlock extends PureComponent {
     return ({
       isActivated: false,
       entry: {},
-      entryIndex: undefined,
     })
   }
 
@@ -30,11 +29,9 @@ class WordsBlock extends PureComponent {
 
   onStart = () => {
     console.log('ON START', this.props.block.id)
-    const entryIndex = 0 // TODO remove hard code
-    const entry = this.props.block.payload[entryIndex] || {}
+    const entry = this.props.block.payload || {}
     this.setState({
       entry,
-      entryIndex,
     }, this.initializeTimeline)
   }
 

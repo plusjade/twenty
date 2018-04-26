@@ -12,56 +12,46 @@ const scenesMap = {
   waive: [
     {
       type: "words",
-      data: [
-        {
-          content: "👋 bye for now",
-          effect: 'fadeIn',
-        },
-      ],
+      data: {
+        content: "👋 bye for now",
+        effect: 'fadeIn',
+      },
     }
   ],
   greeting: [
     {
       type: "words",
-      data: [
-        {
-          content: "that little emoji has a lot to say, but unfortunately we have to sleep first",
-          effect: 'fadeIn',
-        },
-      ],
+      data: {
+        content: "that little emoji has a lot to say, but unfortunately we have to sleep first",
+        effect: 'fadeIn',
+      },
     }
   ],
   emoji: [
     {
       type: "words",
-      data: [
-        {
-          content: "I picked that one just for you, {{name}}",
-          effect: 'typing',
-        },
-      ],
+      data: {
+        content: "I picked that one just for you, {{name}}",
+        effect: 'typing',
+      },
     },
   ],
   nice: [
     {
       type: "words",
-      data: [
-        {
-          content: "🤗",
-          effect: 'fadeIn',
-        },
-      ],
+      data: {
+        content: "🤗",
+        effect: 'fadeIn',
+      },
     },
   ],
   corgy: [
     {
       type: "words",
-      data: [
-        {
-          content: "Ok, we'll make a great story about a corgy since everyone seems to like those dogs",
-          effect: 'fadeIn',
-        },
-      ],
+      data: {
+        content: "Ok, we'll make a great story about a corgy since everyone seems to like those dogs",
+        effect: 'fadeIn',
+      },
     },
   ],
   chooseCharacter: [
@@ -86,47 +76,49 @@ const scenesMap = {
       },
     }
   ],
-  creative: [
+  creative1: [
     {
       type: "words",
-      data: [
-        {
-          content: "Great! We're bound to have a creative adventure 😬",
-        },
-        {
-          content: "However, the story has yet to unfold...",
-        },
-        {
-          content: "... please wish us well, we'll be back later!",
-        },
-      ],
+      data: {
+        content: "Great! We're bound to have a creative adventure 😬",
+      },
+    },
+  ],
+  creative2: [
+    {
+      type: "words",
+      data: {
+        content: "However, the story has yet to unfold...",
+      },
+    },
+  ],
+  creative3: [
+    {
+      type: "words",
+      data: {
+        content: "... please wish us well, we'll be back later!",
+      },
     },
   ],
   dog: [
     {
       type: "words",
-      data: [
-        {
-          content: "😵",
-          effect: 'enterLeft',
-        },
-      ],
+      data: {
+        content: "😵",
+        effect: 'enterLeft',
+      },
     },
     {
       type: "words",
-      data: [
-        {
-          content: "Are you sure you want the dog?",
-        },
-      ],
+      data: {
+        content: "Are you sure you want the dog?",
+      },
     },
     {
       type: "words",
-      data: [
-        {
-          content: "Well, he is cute!",
-        },
-      ],
+      data: {
+        content: "Well, he is cute!",
+      },
     },
   ],
 }
@@ -138,7 +130,9 @@ const scenesMeta = {
   nice: { bg: "#6A1B9A" },
   chooseCharacter: { bg: "#FFEB3B" },
   dog: { bg: "#FF5722" },
-  creative: { bg: "#E91E63" },
+  creative1: { bg: "#E91E63" },
+  creative2: { bg: "#E91E63" },
+  creative3: { bg: "#E91E63" },
 }
 
 const graph = [
@@ -146,7 +140,7 @@ const graph = [
     chooseCharacter: {
       dog: ['dog', 'corgy'],
       custom: ['emoji', 'nice', 'greeting'],
-      singer: ['creative'],
+      singer: ['creative1', 'creative2', 'creative3'],
     }
   },
   'waive',
