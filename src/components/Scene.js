@@ -71,7 +71,7 @@ class Scene extends PureComponent {
               play={this.props.play}
               isPlaying={this.props.isPlaying}
 
-              setActiveSceneId={this.props.setActiveSceneId}
+              nextScene={this.props.nextScene}
             />
           )
         })}

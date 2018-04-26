@@ -6,6 +6,7 @@ const EVENTS_WHITELIST = [
   'runCommands',
   'start',
   'play',
+  'pause',
   'end',
 ]
 
@@ -17,38 +18,46 @@ const CommandPlayer = ({rawCommands} = {}) => {
   let currentChunkPosition = -1
 
   const play = (newPosition) => {
-    const {chunk, chunkPosition} = nextChunk(newPosition, getChunkPosition())
-
     if (!hasStarted) {
       hasStarted = true
+      if (callbacks.start) {
+        callbacks.start.forEach((cb) => {
+          cb()
+        })
+      }
 
       timeKeeper.start((nextTimePosition) => {
         if (nextTimePosition >= timeDuration()) {
+          console.log("TIMER DONE")
           timeKeeper.pause()
           if (callbacks.end) {
             callbacks.end.forEach((cb) => {
               cb()
             })
           }
+        } else {
+          const {chunk, chunkPosition} = nextChunk(nextTimePosition, getChunkPosition())
+          if (chunk) {
+            chunk.forEach((c) => {
+              if (callbacks.runCommand) {
+                callbacks.runCommand.forEach((cb) => {
+                  cb(c)
+                })
+              }
+            })
+            setChunkPosition(chunkPosition)
+          }
         }
       })
-
-      if (callbacks.start) {
-        callbacks.start.forEach((cb) => {
-          cb()
-        })
-      }
     }
+  }
 
-    if (chunk) {
-      chunk.forEach((c) => {
-        if (callbacks.runCommand) {
-          callbacks.runCommand.forEach((cb) => {
-            cb(c)
-          })
-        }
+  const pause = () => {
+    timeKeeper.pause()
+    if (callbacks.pause) {
+      callbacks.pause.forEach((cb) => {
+        cb()
       })
-      setChunkPosition(chunkPosition)
     }
   }
 
@@ -65,18 +74,16 @@ const CommandPlayer = ({rawCommands} = {}) => {
       })
     }
 
-
     if (callbacks.runCommands) {
       callbacks.runCommands.forEach((cb) => {
         cb(commands)
       })
     }
 
-
     setChunkPosition(chunkPosition)
   }
 
-  const timeDuration = () => commands.timeDuration + 1000
+  const timeDuration = () => commands.timeDuration < 1000 ? 1000 : commands.timeDuration // HACK
 
   const nextChunk = (time, position) => commands.nextChunk(time, position)
 
@@ -105,6 +112,7 @@ const CommandPlayer = ({rawCommands} = {}) => {
   return ({
     on,
     play,
+    pause,
     seekTo,
     timeDuration,
     rawCommands,

@@ -30,8 +30,8 @@ class Player extends PureComponent {
     timePosition: PropTypes.number,
   }
 
-  handleTapToPause = () => {
-    this.props.pause()
+  handleTap = () => {
+    this.props.nextScene()
   }
 
   // Only show overlay state on initial load lifecycle
@@ -55,7 +55,7 @@ class Player extends PureComponent {
             play={this.props.play}
             isPlaying={this.props.isPlaying}
 
-            setActiveSceneId={this.props.setActiveSceneId}
+            nextScene={this.props.nextScene}
           />
         ))}
 
@@ -67,23 +67,11 @@ class Player extends PureComponent {
           />
         )}
 
-        <Hammer onTap={this.handleTapToPause}>
-          <Layer isHidden={!this.props.isPlaying}>
+        <Hammer onTap={this.handleTap}>
+          <Layer isHidden={!this.props.nextSceneId}>
             <div />
           </Layer>
         </Hammer>
-
-        <PlayerControls
-          isActive={!this.showStartOverlay() && !this.props.isPlaying}
-          isPlaying={this.props.isPlaying}
-          isPlayable={this.props.isPlayable}
-          pause={this.props.pause}
-          play={this.props.play}
-          replay={this.props.replay}
-          seekTo={this.props.seekTo}
-          timeDuration={this.props.timeDuration}
-          timePosition={this.props.timePosition}
-        />
       </div>
     )
   }

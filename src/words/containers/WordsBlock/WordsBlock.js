@@ -36,14 +36,6 @@ class WordsBlock extends PureComponent {
 
   state = WordsBlock.initialState()
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isPlaying) {
-      this.timeline && this.timeline.play()
-    } else {
-      this.timeline && this.timeline.pause()
-    }
-  }
-
   componentDidMount() {
     this.timeKeeper = TimeKeeper()
 
@@ -56,12 +48,15 @@ class WordsBlock extends PureComponent {
   onStart = () => {
     if (!this.state.isActivated) {
       this.setState({isActivated: true})
-      // this.timeKeeper.start((nextTimePosition) => {
-      //     if (nextTimePosition > this.props.block.timeDuration) {
-      //       console.log('ended!', this.props.block.id)
-      //       this.timeKeeper.pause()
-      //     }
-      // })
+      console.log('ON START', this.props.block.id)
+      // first instance of this entry
+      // entry is the entire sentence payload...
+      const entryIndex = 0
+      const entry = this.props.block.payload[entryIndex] || {}
+      this.setState({
+        entry,
+        entryIndex,
+      }, this.initializeTimeline)
     }
   }
 
@@ -79,15 +74,7 @@ class WordsBlock extends PureComponent {
   // entryIndex is the array index that produces the entire sentence
   onTick = ({entryIndex, progress}) => {
     if (this.state.entryIndex === entryIndex) {
-      // this.timeline.progress(progress)
-    } else {
-      // first instance of this entry
-      // entry is the entire sentence payload...
-      const entry = this.props.block.payload[entryIndex] || {}
-      this.setState({
-        entry,
-        entryIndex,
-      }, this.initializeTimeline)
+      this.timeline && this.timeline.play()
     }
   }
 

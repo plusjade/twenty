@@ -33,12 +33,12 @@ class QuizBlock extends PureComponent {
   onSelect = (answer) => {
     this.setState({answer: answer})
     const sceneId = this.props.block.transitions[answer.value]
-    this.props.setActiveSceneId(sceneId)
+    this.props.nextScene(sceneId)
     this.props.play()
   }
 
   onStart = () => {
-    this.setState({isActivated: true}, this.props.pause)
+    this.setState({isActivated: true})
   }
 
   render() {

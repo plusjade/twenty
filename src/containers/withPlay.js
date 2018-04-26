@@ -2,7 +2,6 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
 import AudioPlayer          from 'lib/AudioPlayer'
-import TimeKeeper           from 'lib/TimeKeeper'
 
 import { findVideo }        from 'lib/actions'
 
@@ -20,7 +19,6 @@ const withPlay = (WrappedComponent) => {
 
     componentWillMount() {
       this.sound = AudioPlayer()
-      this.timeKeeper = TimeKeeper()
 
       if (this.state.videoId) {
         this.loadVideo(this.state.videoId)
@@ -28,25 +26,20 @@ const withPlay = (WrappedComponent) => {
 
       this.props.video.getBlocks().forEach((block) => {
         if (block.transitions.next) {
-          if (block.auto !== false ) {
-            block.player.on('end', () => {
-              setTimeout(() => {
-                console.log("finished!", block.id, block.transitions.next)
-                this.setActiveSceneId(block.transitions.next)
-              }, 1000) // hack for time offset
-            })
-          }
-        } else {
+          block.player.on('start', () => {
+            console.log(block.id, "^_^ start!", block.transitions.next)
+            this.setState({nextSceneId: block.transitions.next})
+          })
+
           block.player.on('end', () => {
-            console.log("finished!", block.id)
-            this.pause()
+            console.log(block.id, "finished!", block.transitions.next)
+          })
+        } else if (block.transitions.prev) {
+          block.player.on('end', () => {
+            console.log("complete!", block.id)
           })
         }
       })
-    }
-
-    setActiveSceneId = (activeSceneId) => {
-      this.setState({activeSceneId})
     }
 
     initialState = () => ({
@@ -103,14 +96,20 @@ const withPlay = (WrappedComponent) => {
     }
 
     setStart = () => {
-      this.timeKeeper.reset()
       this.resetState()
+    }
+
+    nextScene = (sceneId) => {
+      const activeSceneId = sceneId || this.state.nextSceneId
+      console.log('nextScene', activeSceneId)
+      this.setState({activeSceneId}, this.play)
     }
 
     pause = (time) => {
       this.setState({isPlaying: false})
-      this.timeKeeper.pause(time)
-      this.sound.pause()
+      this.props.video
+        .blocksAtScene(this.state.activeSceneId)
+        .forEach((block) => { block.player.pause() })
     }
 
     replay = () => {
@@ -119,30 +118,19 @@ const withPlay = (WrappedComponent) => {
     }
 
     play = () => {
-      if (this.state.isPlaying) { return }
       this.setState({isPlaying: true})
       // this.sound.play()
-
-      this.timeKeeper.start((nextTimePosition) => {
-        // if (nextTimePosition > this.state.timeDuration) {
-        //   this.pause()
-        // }
-
-        this.props.video
-          .blocksAtScene(this.state.activeSceneId)
-          .forEach((d) => { d.player.play(nextTimePosition) })
-
-        this.setState({
-          timePosition: nextTimePosition,
+      this.props.video
+        .blocksAtScene(this.state.activeSceneId)
+        .forEach((block) => {
+          block.player.play()
         })
-      })
     }
 
     seekTo = (timePosition) => {
       const block = this.props.video.blockAtTime(timePosition)
 
       this.sound.seek(timePosition/1000)
-      this.timeKeeper.pause(timePosition)
       this.setState({
         timePosition: timePosition,
         activeSceneId: block.sceneId,
@@ -167,7 +155,8 @@ const withPlay = (WrappedComponent) => {
           isPlayable={this.isPlayable}
           toggleLibrary={this.toggleLibrary}
 
-          setActiveSceneId={this.setActiveSceneId}
+          nextScene={this.nextScene}
+          nextSceneId={this.state.nextSceneId}
         />
       )
     }
