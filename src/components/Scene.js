@@ -37,9 +37,6 @@ class Scene extends PureComponent {
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.object.isRequired,
-
-    pause: PropTypes.func.isRequired,
-    play: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
   }
 
@@ -66,11 +63,7 @@ class Scene extends PureComponent {
             <Block
               key={block.id}
               block={block}
-
-              pause={this.props.pause}
-              play={this.props.play}
               isPlaying={this.props.isPlaying}
-
               nextScene={this.props.nextScene}
             />
           )

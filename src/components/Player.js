@@ -50,11 +50,7 @@ class Player extends PureComponent {
             isActive={scene.id == this.props.activeSceneId}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.id)}
-
-            pause={this.props.pause}
-            play={this.props.play}
             isPlaying={this.props.isPlaying}
-
             nextScene={this.props.nextScene}
           />
         ))}

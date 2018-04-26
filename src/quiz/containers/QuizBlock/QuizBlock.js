@@ -7,8 +7,6 @@ import style from './style'
 class QuizBlock extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
-    pause: PropTypes.func.isRequired,
-    play: PropTypes.func.isRequired,
   }
 
   static initialState() {
@@ -34,7 +32,6 @@ class QuizBlock extends PureComponent {
     this.setState({answer: answer})
     const sceneId = this.props.block.transitions[answer.value]
     this.props.nextScene(sceneId)
-    this.props.play()
   }
 
   onStart = () => {
