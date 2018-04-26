@@ -5,15 +5,11 @@ import PropTypes                from 'prop-types'
 import Layer                from 'components/Layer/Layer'
 
 import WordsBlock           from 'words/containers/WordsBlock/WordsBlock'
-import TextingScene         from 'texting/containers/TextingScene'
-import TextEditorScene      from 'textEditor/containers/TextEditorScene/TextEditorScene'
 import QuizBlock            from 'quiz/containers/QuizBlock/QuizBlock'
 
 const blocksMap = {
   quiz: QuizBlock,
   words: WordsBlock,
-  texting: TextingScene,
-  editor: TextingScene
 }
 
 const style = {
@@ -55,7 +51,7 @@ class Scene extends PureComponent {
           !this.props.isActive && style.hidden,
         ]}
       >
-        {this.props.blocks.map(block => {
+        {this.props.blocks.map((block) => {
           const Block = blocksMap[block.type]
           if (!Block) { return }
 

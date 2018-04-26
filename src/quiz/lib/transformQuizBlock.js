@@ -1,4 +1,4 @@
-import CommandPlayer from 'lib/CommandPlayer'
+import BlockPlayer from 'lib/BlockPlayer'
 import personalize from 'lib/personalize'
 
 const transformQuizBlock = (block, substitutions) => {
@@ -10,9 +10,8 @@ const transformQuizBlock = (block, substitutions) => {
       ))
     )
   }
-  const player = CommandPlayer({
-    rawCommands: [],
-  })
+
+  const player = new BlockPlayer()
 
   return ({
     ...block,

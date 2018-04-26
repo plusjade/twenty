@@ -1,5 +1,4 @@
-import CommandPlayer from 'lib/CommandPlayer'
-import WordsToCommands from 'words/lib/WordsToCommands'
+import BlockPlayer from 'lib/BlockPlayer'
 import personalize from 'lib/personalize'
 
 const transformWordsBlock = (block, substitutions) => {
@@ -9,10 +8,8 @@ const transformWordsBlock = (block, substitutions) => {
       content: personalize(entry.content, substitutions)
     }))
   )
-  const rawCommands = WordsToCommands(payload, block.in)
-  const player = CommandPlayer({
-    rawCommands,
-  })
+
+  const player = new BlockPlayer()
 
   return ({
     ...block,

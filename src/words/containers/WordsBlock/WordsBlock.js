@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import TimeKeeper from 'lib/TimeKeeper'
 import {
   typing,
   fadeIn,
@@ -8,18 +7,6 @@ import {
 } from './effects'
 
 import style from './style'
-
-const runCommand = (command) => {
-  // eslint-disable-next-line
-  const [time, entryIndex, progress] = command
-  return ({entryIndex, progress})
-}
-
-const runCommands = (commands) => {
-  // eslint-disable-next-line
-  const [time, entryIndex, progress] = commands.slice(-1)[0]
-  return ({entryIndex, progress})
-}
 
 class WordsBlock extends PureComponent {
   static propTypes = {
@@ -37,45 +24,25 @@ class WordsBlock extends PureComponent {
   state = WordsBlock.initialState()
 
   componentDidMount() {
-    this.timeKeeper = TimeKeeper()
-
     this.props.block.player.on('start', this.onStart)
-    this.props.block.player.on('runCommand', this.runCommand)
-    // for seekTo support
-    this.props.block.player.on('runCommands', this.runCommands)
+    this.props.block.player.on('tick', this.onTick)
   }
 
   onStart = () => {
-    if (!this.state.isActivated) {
-      this.setState({isActivated: true})
-      console.log('ON START', this.props.block.id)
-      // first instance of this entry
-      // entry is the entire sentence payload...
-      const entryIndex = 0
-      const entry = this.props.block.payload[entryIndex] || {}
-      this.setState({
-        entry,
-        entryIndex,
-      }, this.initializeTimeline)
-    }
+    console.log('ON START', this.props.block.id)
+    const entryIndex = 0 // TODO remove hard code
+    const entry = this.props.block.payload[entryIndex] || {}
+    this.setState({
+      entry,
+      entryIndex,
+    }, this.initializeTimeline)
   }
 
-  runCommand = (command) => {
-    const {entryIndex, progress} = runCommand(command)
-    this.onTick({entryIndex, progress})
-  }
-
-  runCommands = (commands) => {
-    const {entryIndex, progress} = runCommands(commands)
-    this.onTick({entryIndex, progress})
-  }
-
-  // wordsThing comes as an array of one or more sentences.
-  // entryIndex is the array index that produces the entire sentence
-  onTick = ({entryIndex, progress}) => {
-    if (this.state.entryIndex === entryIndex) {
-      this.timeline && this.timeline.play()
-    }
+  // TODO: better implementation
+  onTick = () => {
+    if (this.state.isActivated) { return }
+    this.timeline && this.timeline.play()
+    this.setState({isActivated: true})
   }
 
   initializeTimeline = () => {
