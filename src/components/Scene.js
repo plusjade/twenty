@@ -4,12 +4,12 @@ import PropTypes                from 'prop-types'
 
 import Layer                from 'components/Layer/Layer'
 
-import WordsBlock           from 'words/containers/WordsBlock/WordsBlock'
+import BlockWords           from 'words/containers/BlockWords/BlockWords'
 import QuizBlock            from 'quiz/containers/QuizBlock/QuizBlock'
 
 const blocksMap = {
   quiz: QuizBlock,
-  words: WordsBlock,
+  words: BlockWords,
 }
 
 const style = {

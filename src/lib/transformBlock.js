@@ -1,4 +1,4 @@
-import words from 'words/lib/transformWordsBlock'
+import words from 'words/lib/transformBlockWords'
 import quiz from 'quiz/lib/transformQuizBlock'
 
 const transformers = {

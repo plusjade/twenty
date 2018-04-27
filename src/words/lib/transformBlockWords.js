@@ -1,7 +1,7 @@
 import BlockPlayer from 'lib/BlockPlayer'
 import personalize from 'lib/personalize'
 
-const transformWordsBlock = (block, substitutions) => {
+const transformBlockWords = (block, substitutions) => {
   const data = ({
     ...block.data,
     content: personalize(block.data.content, substitutions)
@@ -17,4 +17,4 @@ const transformWordsBlock = (block, substitutions) => {
   })
 }
 
-export default transformWordsBlock
+export default transformBlockWords

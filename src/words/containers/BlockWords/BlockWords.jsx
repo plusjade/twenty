@@ -9,7 +9,7 @@ import {
 
 import style from './style'
 
-class WordsBlock extends PureComponent {
+class BlockWords extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
   }
@@ -21,7 +21,7 @@ class WordsBlock extends PureComponent {
     })
   }
 
-  state = WordsBlock.initialState()
+  state = BlockWords.initialState()
 
   componentDidMount() {
     this.props.block.player.on('start', this.onStart)
@@ -68,7 +68,7 @@ class WordsBlock extends PureComponent {
   }
 
   resetState = () => {
-    this.setState(WordsBlock.initialState())
+    this.setState(BlockWords.initialState())
   }
 
   render() {
@@ -88,4 +88,4 @@ class WordsBlock extends PureComponent {
   }
 }
 
-export default Radium(WordsBlock)
+export default Radium(BlockWords)
