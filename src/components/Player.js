@@ -3,7 +3,6 @@ import React, {PureComponent}   from 'react'
 import PropTypes                from 'prop-types'
 import Hammer                   from 'react-hammerjs'
 
-import PlayerControls       from 'components/PlayerControls/PlayerControls'
 import Layer                from 'components/Layer/Layer'
 import StartOverlay         from 'components/StartOverlay'
 import Scene                from 'components/Scene'
@@ -21,18 +20,19 @@ class Player extends PureComponent {
   static propTypes = {
     activeSceneId: PropTypes.string,
     video: PropTypes.object.isRequired,
-    pause: PropTypes.func.isRequired,
-    play: PropTypes.func.isRequired,
+    sceneTransition: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     isPlayable: PropTypes.bool.isRequired,
-    replay: PropTypes.func.isRequired,
-    seekTo: PropTypes.func.isRequired,
     timeDuration: PropTypes.number.isRequired,
     timePosition: PropTypes.number,
   }
 
-  handleTap = () => {
-    this.props.nextScene()
+  handleTapRight = () => {
+    this.props.sceneTransition()
+  }
+
+  handleTapLeft = () => {
+    this.props.sceneTransition({option: 'prev'})
   }
 
   // Only show overlay state on initial load lifecycle
@@ -61,7 +61,7 @@ class Player extends PureComponent {
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.id)}
             isPlaying={this.props.isPlaying}
-            nextScene={this.props.nextScene}
+            sceneTransition={this.props.sceneTransition}
           />
         ))}
 
@@ -73,10 +73,17 @@ class Player extends PureComponent {
           />
         )}
 
-        <Hammer onTap={this.handleTap}>
-          <Layer isHidden={this.isInteractive()}>
-            <div />
-          </Layer>
+        <Hammer onTap={this.handleTapLeft}>
+          <Layer
+            isHidden={this.isInteractive()}
+            style={{right: "80%"}}
+          />
+        </Hammer>
+        <Hammer onTap={this.handleTapRight}>
+          <Layer
+            isHidden={this.isInteractive()}
+            style={{left: "20%"}}
+          />
         </Hammer>
       </div>
     )

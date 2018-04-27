@@ -24,19 +24,7 @@ const withPlay = (WrappedComponent) => {
         this.loadVideo(this.state.videoId)
       }
 
-      const oncePerScene = {}
       this.props.video.getBlocks().forEach((block) => {
-
-        // set the nextSceneId
-        if (block.transitions.next && !oncePerScene[block.sceneId]) {
-          oncePerScene[block.sceneId] = true
-
-          block.player.on('start', () => {
-            console.log(block.id, "^_^ set nextSceneId!", block.transitions.next)
-            this.setState({nextSceneId: block.transitions.next})
-          })
-        }
-
         block.player.on('start', () => {
           console.log(block.id, "^_^ start!", block.transitions.next)
         })
@@ -104,9 +92,40 @@ const withPlay = (WrappedComponent) => {
       this.resetState()
     }
 
-    nextScene = (sceneId) => {
-      const activeSceneId = sceneId || this.state.nextSceneId
-      this.setState({activeSceneId}, this.play)
+    sceneTransition = (data = {}) => {
+      const {option, ...props} = data
+      const sceneTransitions = this.derivedSceneTransitions()
+      let nextScene
+
+      console.log('sceneTransition', option)
+      console.log("derived", this.state.activeSceneId, sceneTransitions)
+
+      if (option) {
+        let candidateScene = sceneTransitions[option]
+        if (this.props.video.getScene(candidateScene)) {
+          nextScene = candidateScene
+
+        } else if (this.props.video.getScene(sceneTransitions.next)) {
+          nextScene = sceneTransitions.next
+        }
+      } else if (this.props.video.getScene(sceneTransitions.next)) {
+        nextScene = sceneTransitions.next
+      }
+
+      if (nextScene) {
+        this.setState({
+          activeSceneId: nextScene,
+          nextScenePayload: props
+        }, this.play)
+      } else {
+        // throw new Error('nowhere to go')
+        console.error('nowhere to go')
+      }
+    }
+
+    // Find the module in the current step that has the step_transition metadata
+    derivedSceneTransitions() {
+      return this.props.video.getBlocksInScene(this.state.activeSceneId)[0].transitions
     }
 
     pause = (time) => {
@@ -159,8 +178,7 @@ const withPlay = (WrappedComponent) => {
           isPlayable={this.isPlayable}
           toggleLibrary={this.toggleLibrary}
 
-          nextScene={this.nextScene}
-          nextSceneId={this.state.nextSceneId}
+          sceneTransition={this.sceneTransition}
         />
       )
     }

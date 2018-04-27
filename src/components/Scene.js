@@ -60,7 +60,7 @@ class Scene extends PureComponent {
               key={block.id}
               block={block}
               isPlaying={this.props.isPlaying}
-              nextScene={this.props.nextScene}
+              sceneTransition={this.props.sceneTransition}
             />
           )
         })}
