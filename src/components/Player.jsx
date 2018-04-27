@@ -1,11 +1,11 @@
-import Radium                   from 'radium'
-import React, {PureComponent}   from 'react'
-import PropTypes                from 'prop-types'
-import Hammer                   from 'react-hammerjs'
+import Radium from 'radium'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import Hammer from 'react-hammerjs'
 
-import Layer                from 'components/Layer/Layer'
-import StartOverlay         from 'components/StartOverlay'
-import Scene                from 'components/Scene'
+import Layer from 'components/Layer/Layer'
+import StartOverlay from 'components/StartOverlay'
+import Scene from 'components/Scene'
 
 const style = {
   wrap: {
@@ -69,7 +69,7 @@ class Player extends PureComponent {
           <StartOverlay
             loadState={this.props.loadState}
             play={this.props.play}
-            active={true}
+            active
           />
         )}
 
