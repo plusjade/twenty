@@ -1,5 +1,6 @@
+import flatten from 'vendor/flatten'
 import { token } from 'lib/actions'
-import { transformGraph } from 'lib/sceneWizard'
+import { computeTransitions } from 'lib/sceneWizard'
 import transformBlock from 'lib/transformBlock'
 
 class Video {
@@ -42,10 +43,24 @@ class Video {
   }
 
   updateGraph = (graph) => {
-    const blocks = transformGraph({graph, scenesBlocksMap: this.scenesBlocksMap})
-    blocks.forEach((block) => {
-      this.blocksObjects[block.id].transitions = block.transitions
+    const sceneTransitions = this.sceneTransitions(graph)
+    sceneTransitions.forEach((data) => {
+      this.blocksObjects[data.id].transitions = data.transitions
     })
+  }
+
+  sceneTransitions = (graph) => {
+    const transitionsMap = computeTransitions(graph)
+    return (
+      flatten(
+        Object.keys(transitionsMap).map(sceneId => (
+          this.scenesBlocksMap[sceneId].map(id => ({
+            id,
+            transitions: transitionsMap[sceneId],
+          }))
+        ))
+      , true)
+    )
   }
 
   getBlocksInScene = sceneId => (

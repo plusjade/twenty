@@ -1,19 +1,5 @@
 import flatten from 'vendor/flatten'
 
-export const transformGraph = ({graph, scenesBlocksMap}) => {
-  const transitionsMap = computeTransitions(graph)
-  return (
-    flatten(
-      Object.keys(transitionsMap).map(sceneId => (
-        scenesBlocksMap[sceneId].map(id => ({
-          id,
-          transitions: transitionsMap[sceneId],
-        }))
-      ))
-    , true)
-  )
-}
-
 export const computeTransitions = steps => (
   serialize_array(steps).reduce((memo, path) => {
     path.forEach((step, i) => {
