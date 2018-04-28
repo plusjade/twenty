@@ -34,9 +34,7 @@ const withPlay = (WrappedComponent) => {
       libraryIsOpen: false,
       loadState: undefined,
       timeDuration: 0,
-      timePosition: 0,
       videoId: this.props.videoId,
-      isPlaying: false,
       activeSceneId: null,
     })
 
@@ -50,10 +48,6 @@ const withPlay = (WrappedComponent) => {
     resetState = () => {
       this.setState(this.initialState())
     }
-
-    isPlayable = () => (
-      this.state.timeDuration > 0
-    )
 
     loadVideo = (videoId) => {
       this.setState({loadState: "loading", libraryIsOpen: false})
@@ -128,7 +122,6 @@ const withPlay = (WrappedComponent) => {
     }
 
     pause = (time) => {
-      this.setState({isPlaying: false})
       this.props.video
         .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => { block.player.pause() })
@@ -140,7 +133,6 @@ const withPlay = (WrappedComponent) => {
     }
 
     play = () => {
-      this.setState({isPlaying: true})
       this.props.video
         .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => {
@@ -148,14 +140,10 @@ const withPlay = (WrappedComponent) => {
         })
     }
 
-    seekTo = (timePosition) => {
-      const block = null // todo
+    seekTo = (sceneId) => {
       this.setState({
-        timePosition: timePosition,
-        activeSceneId: block.sceneId,
+        activeSceneId: sceneId,
       })
-
-      block.player.seekTo(block.offsetTimePosition)
     }
 
     render() {
@@ -169,9 +157,7 @@ const withPlay = (WrappedComponent) => {
           play={this.play}
           pause={this.pause}
           replay={this.replay}
-          seekTo={this.seekTo}
 
-          isPlayable={this.isPlayable}
           toggleLibrary={this.toggleLibrary}
 
           sceneTransition={this.sceneTransition}

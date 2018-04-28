@@ -37,10 +37,7 @@ class Player extends PureComponent {
     activeSceneId: PropTypes.string,
     video: PropTypes.object.isRequired,
     sceneTransition: PropTypes.func.isRequired,
-    isPlaying: PropTypes.bool.isRequired,
-    isPlayable: PropTypes.bool.isRequired,
     timeDuration: PropTypes.number.isRequired,
-    timePosition: PropTypes.number,
   }
 
   handleTapRight = () => {
@@ -70,7 +67,6 @@ class Player extends PureComponent {
   // i.e. before video is loaded/played for first time
   showStartOverlay = () => (
     false
-    // this.props.loadState && !(this.props.timePosition > 0)
   )
 
   isInteractive() {
@@ -93,7 +89,6 @@ class Player extends PureComponent {
             isEditing={this.state.isEditing && scene.id === this.props.activeSceneId}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.id)}
-            isPlaying={this.props.isPlaying}
             sceneTransition={this.props.sceneTransition}
             editBlock={this.props.editBlock}
           />

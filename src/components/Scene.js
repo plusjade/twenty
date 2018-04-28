@@ -33,7 +33,6 @@ class Scene extends PureComponent {
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.object.isRequired,
-    isPlaying: PropTypes.bool.isRequired,
   }
 
   render() {
@@ -60,7 +59,6 @@ class Scene extends PureComponent {
               key={block.id}
               block={block}
               isEditing={this.props.isEditing}
-              isPlaying={this.props.isPlaying}
               sceneTransition={this.props.sceneTransition}
               editBlock={this.props.editBlock}
             />
