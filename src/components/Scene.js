@@ -59,8 +59,10 @@ class Scene extends PureComponent {
             <Block
               key={block.id}
               block={block}
+              isEditing={this.props.isEditing}
               isPlaying={this.props.isPlaying}
               sceneTransition={this.props.sceneTransition}
+              editBlock={this.props.editBlock}
             />
           )
         })}

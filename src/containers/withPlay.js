@@ -45,6 +45,13 @@ const withPlay = (WrappedComponent) => {
       activeSceneId: null,
     })
 
+    editBlock = (block, attributes) => {
+      console.log('editBlock', attributes)
+      this.setState({editBlockId: block.id})
+      block.data = {...block.data, ...attributes}
+      this.props.video.addBlock(block)
+    }
+
     resetState = () => {
       this.setState(this.initialState())
     }
@@ -179,6 +186,7 @@ const withPlay = (WrappedComponent) => {
           toggleLibrary={this.toggleLibrary}
 
           sceneTransition={this.sceneTransition}
+          editBlock={this.editBlock}
         />
       )
     }

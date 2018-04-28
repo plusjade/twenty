@@ -18,5 +18,9 @@ export default {
   text: {
     fontSize: "inherit",
     color: "inherit",
+  },
+  isEditing: {
+    backgroundColor: "rgba(0,0,0,0.3)",
+    padding: "10px 20px",
   }
 }

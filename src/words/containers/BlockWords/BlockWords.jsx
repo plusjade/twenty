@@ -74,6 +74,7 @@ class BlockWords extends PureComponent {
   }
 
   resetState = () => {
+    this.props.editBlock(this.props.block, {content: this.node.textContent})
     this.setState(BlockWords.initialState())
   }
 
@@ -83,9 +84,12 @@ class BlockWords extends PureComponent {
         <h1
           style={[
             style.text,
-            this.props.block.style
+            this.props.block.style,
+            this.props.isEditing && style.isEditing
           ]}
           ref={this.getRef}
+          suppressContentEditableWarning
+          contentEditable={this.props.isEditing}
         >
           {this.state.entry.content}
         </h1>

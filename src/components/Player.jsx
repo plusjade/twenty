@@ -14,6 +14,22 @@ const style = {
     height: "100%",
     overflow: "hidden",
   },
+  edit: {
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    zIndex: 21,
+    display: "flex",
+    flexDirection: "column-reverse",
+  },
+  editItem: {
+    height: 60,
+    width: 60,
+    lineHeight: "50px",
+    textAlign: "center",
+    fontSize: "4.5vh",
+    fontWeight: 600,
+  },
 }
 
 class Player extends PureComponent {
@@ -35,6 +51,21 @@ class Player extends PureComponent {
     this.props.sceneTransition({option: 'prev'})
   }
 
+  handleTapEdit = () => {
+    this.setState({isEditing: !this.state.isEditing}, () => {
+      if (!this.state.isEditing) {
+        const blocks = this.props.video.getBlocksInScene(this.props.activeSceneId)
+        blocks.forEach((block) => {
+          block.player.replay()
+        })
+      }
+    })
+  }
+
+  handleTapWords = () => {
+    console.log("add words")
+  }
+
   // Only show overlay state on initial load lifecycle
   // i.e. before video is loaded/played for first time
   showStartOverlay = () => (
@@ -43,6 +74,7 @@ class Player extends PureComponent {
   )
 
   isInteractive() {
+    if (this.state.isEditing) { return true }
     if (!this.props.activeSceneId) { return false }
     return !!(
       this.props.video
@@ -58,10 +90,12 @@ class Player extends PureComponent {
           <Scene
             key={`scenes-${scene.id}`}
             isActive={scene.id === this.props.activeSceneId}
+            isEditing={this.state.isEditing && scene.id === this.props.activeSceneId}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.id)}
             isPlaying={this.props.isPlaying}
             sceneTransition={this.props.sceneTransition}
+            editBlock={this.props.editBlock}
           />
         ))}
 
@@ -79,12 +113,38 @@ class Player extends PureComponent {
             style={{right: "80%"}}
           />
         </Hammer>
+
         <Hammer onTap={this.handleTapRight}>
           <Layer
             isHidden={this.isInteractive()}
             style={{left: "20%"}}
           />
         </Hammer>
+
+        <div style={style.edit}>
+          {this.state.isEditing && (
+            <Hammer onTap={this.handleTapEdit}>
+              <div style={style.editItem}>
+                ✔
+              ️</div>
+            </Hammer>
+          )}
+          {!this.state.isEditing && (
+            <Hammer onTap={this.handleTapEdit}>
+              <div style={style.editItem}>
+                {"✍️"}
+              ️</div>
+            </Hammer>
+          )}
+          {this.state.isEditing && (
+            <Hammer onTap={this.handleTapWords}>
+              <div style={style.editItem}>
+                {"T"}
+              </div>
+            </Hammer>
+          )}
+        </div>
+
       </div>
     )
   }
