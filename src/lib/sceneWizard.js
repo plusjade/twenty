@@ -1,11 +1,11 @@
 import flatten from 'vendor/flatten'
 
-export const transformGraph = ({graph, scenesMap}) => {
+export const transformGraph = ({graph, scenesBlocksMap}) => {
   const transitionsMap = computeTransitions(graph)
   return (
     flatten(
       Object.keys(transitionsMap).map(sceneId => (
-        scenesMap[sceneId].map(id => ({
+        scenesBlocksMap[sceneId].map(id => ({
           id,
           transitions: transitionsMap[sceneId],
         }))

@@ -7,7 +7,7 @@ class Video {
   scenesObjects = {}
   substitutions = {}
   scenesMeta = {}
-  scenesMap = {}
+  scenesBlocksMap = {}
 
   addScenesMeta = (scenesMeta) => {
     this.scenesMeta = {...this.scenesMeta, ...scenesMeta}
@@ -20,24 +20,29 @@ class Video {
   addBlock = (block) => {
     const scenesObject = this.scenesObjects[block.sceneId] || {blocksIndex: []}
     block.id = `${block.type}_${token()}`
+    // update the scene to include the block if new
+    if (!scenesObject.blocksIndex.includes(block.id)) {
+      this.scenesObjects[block.sceneId] = {
+        ...(this.scenesMeta[block.sceneId] || {}),
+        id: block.sceneId,
+        blocksIndex: scenesObject.blocksIndex.concat([block.id]),
+      }
+    }
 
+    // add or update the block object
     this.blocksObjects[block.id] = transformBlock({block, substitutions: this.substitutions})
 
-    this.scenesObjects[block.sceneId] = {
-      ...(this.scenesMeta[block.sceneId] || {}),
-      id: block.sceneId,
-      blocksIndex: scenesObject.blocksIndex.concat([block.id]),
+    // add the block to the scenesBlocksMap
+    if (!this.scenesBlocksMap[block.sceneId]) {
+      this.scenesBlocksMap[block.sceneId] = []
     }
-
-    if (!this.scenesMap[block.sceneId]) {
-      this.scenesMap[block.sceneId] = []
+    if (!this.scenesBlocksMap[block.sceneId].includes(block.id)) {
+      this.scenesBlocksMap[block.sceneId] = this.scenesBlocksMap[block.sceneId].concat([block.id])
     }
-
-    this.scenesMap[block.sceneId] = this.scenesMap[block.sceneId].concat([block.id])
   }
 
   updateGraph = (graph) => {
-    const blocks = transformGraph({graph, scenesMap: this.scenesMap})
+    const blocks = transformGraph({graph, scenesBlocksMap: this.scenesBlocksMap})
     blocks.forEach((block) => {
       this.blocksObjects[block.id].transitions = block.transitions
     })
