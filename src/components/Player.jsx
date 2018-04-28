@@ -35,7 +35,7 @@ const style = {
 class Player extends PureComponent {
   static propTypes = {
     activeSceneId: PropTypes.string,
-    video: PropTypes.object.isRequired,
+    scenes: PropTypes.array.isRequired,
     sceneTransition: PropTypes.func.isRequired,
     timeDuration: PropTypes.number.isRequired,
   }
@@ -49,18 +49,12 @@ class Player extends PureComponent {
   }
 
   handleTapEdit = () => {
-    this.setState({isEditing: !this.state.isEditing}, () => {
-      if (!this.state.isEditing) {
-        const blocks = this.props.video.getBlocksInScene(this.props.activeSceneId)
-        blocks.forEach((block) => {
-          block.player.replay()
-        })
-      }
-    })
+    this.props.toggleEditMode()
   }
 
   handleTapWords = () => {
     console.log("add words")
+    this.props.addBlock()
   }
 
   // Only show overlay state on initial load lifecycle
@@ -69,26 +63,16 @@ class Player extends PureComponent {
     false
   )
 
-  isInteractive() {
-    if (this.state.isEditing) { return true }
-    if (!this.props.activeSceneId) { return false }
-    return !!(
-      this.props.video
-        .getBlocksInScene(this.props.activeSceneId)
-        .find(block => block.isInteractive)
-    )
-  }
-
   render() {
     return (
       <div id="app-wrapper" style={style.wrap}>
-        {this.props.video.getScenes().map(scene => (
+        {this.props.scenes.map(scene => (
           <Scene
             key={`scenes-${scene.id}`}
             isActive={scene.id === this.props.activeSceneId}
-            isEditing={this.state.isEditing && scene.id === this.props.activeSceneId}
+            isEditing={this.props.isEditing && scene.id === this.props.activeSceneId}
             scene={scene}
-            blocks={this.props.video.getBlocksInScene(scene.id)}
+            blocks={scene.blocks}
             sceneTransition={this.props.sceneTransition}
             editBlock={this.props.editBlock}
           />
@@ -104,34 +88,34 @@ class Player extends PureComponent {
 
         <Hammer onTap={this.handleTapLeft}>
           <Layer
-            isHidden={this.isInteractive()}
+            isHidden={this.props.isInteractive}
             style={{right: "80%"}}
           />
         </Hammer>
 
         <Hammer onTap={this.handleTapRight}>
           <Layer
-            isHidden={this.isInteractive()}
+            isHidden={this.props.isInteractive}
             style={{left: "20%"}}
           />
         </Hammer>
 
         <div style={style.edit}>
-          {this.state.isEditing && (
+          {this.props.isEditing && (
             <Hammer onTap={this.handleTapEdit}>
               <div style={style.editItem}>
                 ✔
               ️</div>
             </Hammer>
           )}
-          {!this.state.isEditing && (
+          {!this.props.isEditing && (
             <Hammer onTap={this.handleTapEdit}>
               <div style={style.editItem}>
                 {"✍️"}
               ️</div>
             </Hammer>
           )}
-          {this.state.isEditing && (
+          {this.props.isEditing && (
             <Hammer onTap={this.handleTapWords}>
               <div style={style.editItem}>
                 {"T"}
