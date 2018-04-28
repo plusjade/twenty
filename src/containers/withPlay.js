@@ -1,8 +1,5 @@
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
-
-import AudioPlayer          from 'lib/AudioPlayer'
-
 import { findVideo }        from 'lib/actions'
 
 const withPlay = (WrappedComponent) => {
@@ -18,8 +15,6 @@ const withPlay = (WrappedComponent) => {
     }
 
     componentWillMount() {
-      this.sound = AudioPlayer()
-
       if (this.state.videoId) {
         this.loadVideo(this.state.videoId)
       }
@@ -62,16 +57,13 @@ const withPlay = (WrappedComponent) => {
 
     loadVideo = (videoId) => {
       this.setState({loadState: "loading", libraryIsOpen: false})
-      this.sound.stop()
       findVideo(videoId)
         .then((video) => {
           if (video) {
             if (!window.location.search.includes("id")) {
               window.history.replaceState({}, null, `/?id=${videoId}`)
             }
-            this.sound.mount(video.audio_url, () => {
-              this.setVideoData(video)
-            })
+            this.setVideoData(video)
           } else {
             this.setState({loadState: "notFound"})
           }
@@ -149,7 +141,6 @@ const withPlay = (WrappedComponent) => {
 
     play = () => {
       this.setState({isPlaying: true})
-      // this.sound.play()
       this.props.video
         .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => {
@@ -159,8 +150,6 @@ const withPlay = (WrappedComponent) => {
 
     seekTo = (timePosition) => {
       const block = null // todo
-
-      this.sound.seek(timePosition/1000)
       this.setState({
         timePosition: timePosition,
         activeSceneId: block.sceneId,
