@@ -6,7 +6,6 @@ const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       videoId: PropTypes.string.isRequired,
-      video: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -36,14 +35,8 @@ const withPlay = (WrappedComponent) => {
       timeDuration: 0,
       videoId: this.props.videoId,
       activeSceneId: null,
+      isEditing: false,
     })
-
-    editBlock = (block, attributes) => {
-      console.log('editBlock', attributes)
-      this.setState({editBlockId: block.id})
-      block.data = {...block.data, ...attributes}
-      this.props.video.addBlock(block)
-    }
 
     resetState = () => {
       this.setState(this.initialState())
@@ -146,22 +139,70 @@ const withPlay = (WrappedComponent) => {
       })
     }
 
+    toggleEditMode = () => {
+      this.setState({isEditing: !this.state.isEditing}, () => {
+        if (!this.state.isEditing) {
+          const blocks = this.props.video.getBlocksInScene(this.state.activeSceneId)
+          blocks.forEach((block) => {
+            block.player.replay()
+          })
+        }
+      })
+    }
+
+    isInteractive() {
+      if (this.state.isEditing) { return true }
+      if (!this.state.activeSceneId) { return false }
+      return !!(
+        this.props.video
+          .getBlocksInScene(this.state.activeSceneId)
+          .find(block => block.isInteractive)
+      )
+    }
+
+    editBlock = (block, attributes) => {
+      console.log('editBlock', attributes)
+      this.setState({editBlockId: block.id})
+      block.data = {...block.data, ...attributes}
+      this.props.video.addBlock(block)
+    }
+
+    addBlock = () => {
+      this.props.video.addBlock(
+        {
+          type: "words",
+          data: {
+            content: "Hokay =)",
+            effect: 'fadeIn',
+          },
+          offset: 400,
+          sceneId: "emoji",
+        },
+      )
+      this.setState({entropy: Math.random()})
+    }
+
     render() {
+      const scenes = this.props.video.getScenes().map((scene) => {
+        scene.blocks = this.props.video.getBlocksInScene(scene.id)
+        return scene
+      })
       return (
         <WrappedComponent
-          {...this.props}
           {...this.state}
 
-          video={this.props.video}
+          scenes={scenes}
+          isInteractive={this.isInteractive()}
+          sceneTransition={this.sceneTransition}
+          toggleEditMode={this.toggleEditMode}
+          editBlock={this.editBlock}
+          addBlock={this.addBlock}
 
           play={this.play}
           pause={this.pause}
           replay={this.replay}
 
           toggleLibrary={this.toggleLibrary}
-
-          sceneTransition={this.sceneTransition}
-          editBlock={this.editBlock}
         />
       )
     }
