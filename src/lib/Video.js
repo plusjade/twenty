@@ -1,3 +1,4 @@
+import { transformGraph } from 'lib/sceneWizard'
 import transformBlock from 'lib/transformBlock'
 
 class Video {
@@ -5,6 +6,10 @@ class Video {
   scenesObjects = {}
   substitutions = {}
   scenesMeta = {}
+
+  updateGraph = (graph, scenesMap) => {
+    transformGraph({graph, scenesMap}).forEach(this.addBlock)
+  }
 
   addScenesMeta = (scenesMeta) => {
     this.scenesMeta = {...this.scenesMeta, ...scenesMeta}

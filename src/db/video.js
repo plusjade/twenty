@@ -1,6 +1,3 @@
-import flatten from 'vendor/flatten'
-import { transformGraph } from 'lib/sceneWizard'
-
 import { getSubstitutions } from 'db/substitutions'
 import Video from 'lib/Video'
 
@@ -167,10 +164,8 @@ const graph = [
 ]
 
 const video = new Video()
-const blocks = transformGraph({graph, scenesMap})
-console.log(blocks)
 video.addSubstitutions(getSubstitutions(QParams.get("p")))
 video.addScenesMeta(scenesMeta)
-blocks.forEach(video.addBlock)
+video.updateGraph(graph, scenesMap)
 
 export default video
