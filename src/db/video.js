@@ -5,139 +5,133 @@ import QueryParams from 'lib/QueryParams'
 
 const QParams = QueryParams()
 
-const scenesMap = {
-  waive: [
-    {
-      type: "words",
-      data: {
-        content: "👋 bye for now",
-        effect: 'fadeIn',
-      },
-    }
-  ],
-  greeting: [
-    {
-      type: "words",
-      data: {
-        content: "that little emoji has a lot to say, but unfortunately we have to sleep first",
-        effect: 'fadeIn',
-      },
-    }
-  ],
-  emoji: [
-    {
-      type: "words",
-      data: {
-        content: "I picked that one just for you, {{name}}",
-        effect: 'fadeIn',
-      },
+const blocks = [
+  {
+    type: "words",
+    data: {
+      content: "👋 bye for now",
+      effect: 'fadeIn',
     },
-  ],
-  nice: [
-    {
-      type: "words",
-      data: {
-        content: "🤗",
-        effect: 'fadeIn',
-      },
-      style: {
-        fontSize: 120,
-      }
+    sceneId: "waive",
+  },
+  {
+    type: "words",
+    data: {
+      content: "that little emoji has a lot to say, but unfortunately we have to sleep first",
+      effect: 'fadeIn',
     },
-  ],
-  corgy: [
-    {
-      type: "words",
-      data: {
-        content: "Ok, we'll make a great story about a corgy since everyone seems to like those dogs",
-        effect: 'fadeIn',
-      },
+    sceneId: "greeting",
+  },
+  {
+    type: "words",
+    data: {
+      content: "I picked that one just for you, {{name}}",
+      effect: 'fadeIn',
     },
-  ],
-  chooseCharacter: [
-    {
-      type: "words",
-      data: {
-        content: "Choose your character",
-        effect: 'fadeIn',
-      },
-      style: {
-        color: "#212121",
-      }
+    sceneId: "emoji",
+  },
+  {
+    type: "words",
+    data: {
+      content: "🤗",
+      effect: 'fadeIn',
     },
-    {
-      type: "quiz",
-      isInteractive: true,
-      data: {
-        question: "Choose your character",
-        answers: [
-          {
-            value: "custom",
-            name: "{{emoji}}"
-          },
-          {
-            value: "singer",
-            name: "👩‍🎤"
-          },
-          {
-            value: "dog",
-            name: "🐶"
-          },
-        ],
-      },
-    }
-  ],
-  creative1: [
-    {
-      type: "words",
-      data: {
-        content: "Great! We're bound to have a creative adventure 😬",
-      },
+    style: {
+      fontSize: 120,
     },
-  ],
-  creative2: [
-    {
-      type: "words",
-      data: {
-        content: "However, the story has yet to unfold...",
-      },
+    sceneId: "nice",
+  },
+  {
+    type: "words",
+    data: {
+      content: "Ok, we'll make a great story about a corgy since everyone seems to like those dogs",
+      effect: 'fadeIn',
     },
-  ],
-  creative3: [
-    {
-      type: "words",
-      data: {
-        content: "... please wish us well, we'll be back later!",
-      },
+    sceneId: "corgy",
+  },
+  {
+    type: "words",
+    data: {
+      content: "Choose your character",
+      effect: 'fadeIn',
     },
-  ],
-  dog: [
-    {
-      type: "words",
-      data: {
-        content: "😵",
-        effect: 'enterLeft',
-      },
-      style: {
-        fontSize: 120,
-      },
+    style: {
+      color: "#212121",
     },
-    {
-      type: "words",
-      data: {
-        content: "Are you sure you want the dog?",
-      },
-      offset: 400,
+    sceneId: "chooseCharacter",
+  },
+  {
+    type: "quiz",
+    isInteractive: true,
+    data: {
+      question: "Choose your character",
+      answers: [
+        {
+          value: "custom",
+          name: "{{emoji}}"
+        },
+        {
+          value: "singer",
+          name: "👩‍🎤"
+        },
+        {
+          value: "dog",
+          name: "🐶"
+        },
+      ],
     },
-    {
-      type: "words",
-      data: {
-        content: "Well, he is cute!",
-      },
-      offset: 800,
+    sceneId: "chooseCharacter",
+  },
+  {
+    type: "words",
+    data: {
+      content: "Great! We're bound to have a creative adventure 😬",
     },
-  ],
-}
+    sceneId: "creative1",
+  },
+  {
+    type: "words",
+    data: {
+      content: "However, the story has yet to unfold...",
+    },
+    sceneId: "creative2",
+  },
+  {
+    type: "words",
+    data: {
+      content: "... please wish us well, we'll be back later!",
+    },
+    sceneId: "creative3",
+  },
+  {
+    type: "words",
+    data: {
+      content: "😵",
+      effect: 'enterLeft',
+    },
+    style: {
+      fontSize: 120,
+    },
+    sceneId: "dog",
+  },
+  {
+    type: "words",
+    data: {
+      content: "Are you sure you want the dog?",
+    },
+    offset: 400,
+    sceneId: "dog",
+  },
+  {
+    type: "words",
+    data: {
+      content: "Well, he is cute!",
+    },
+    offset: 800,
+    sceneId: "dog",
+  },
+
+]
 
 const scenesMeta = {
   corgy: { bg: "#607D8B" },
@@ -166,6 +160,7 @@ const graph = [
 const video = new Video()
 video.addSubstitutions(getSubstitutions(QParams.get("p")))
 video.addScenesMeta(scenesMeta)
-video.updateGraph(graph, scenesMap)
+blocks.forEach(video.addBlock)
+video.updateGraph(graph)
 
 export default video

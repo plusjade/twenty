@@ -1,3 +1,4 @@
+import { token } from 'lib/actions'
 import { transformGraph } from 'lib/sceneWizard'
 import transformBlock from 'lib/transformBlock'
 
@@ -6,10 +7,7 @@ class Video {
   scenesObjects = {}
   substitutions = {}
   scenesMeta = {}
-
-  updateGraph = (graph, scenesMap) => {
-    transformGraph({graph, scenesMap}).forEach(this.addBlock)
-  }
+  scenesMap = {}
 
   addScenesMeta = (scenesMeta) => {
     this.scenesMeta = {...this.scenesMeta, ...scenesMeta}
@@ -21,12 +19,28 @@ class Video {
 
   addBlock = (block) => {
     const scenesObject = this.scenesObjects[block.sceneId] || {blocksIds: []}
+    block.id = `${block.type}_${token()}`
+
     this.blocksObjects[block.id] = transformBlock({block, substitutions: this.substitutions})
+
     this.scenesObjects[block.sceneId] = {
       ...(this.scenesMeta[block.sceneId] || {}),
       id: block.sceneId,
       blocksIds: scenesObject.blocksIds.concat([block.id]),
     }
+
+    if (!this.scenesMap[block.sceneId]) {
+      this.scenesMap[block.sceneId] = []
+    }
+
+    this.scenesMap[block.sceneId] = this.scenesMap[block.sceneId].concat([block.id])
+  }
+
+  updateGraph = (graph) => {
+    const blocks = transformGraph({graph, scenesMap: this.scenesMap})
+    blocks.forEach((block) => {
+      this.blocksObjects[block.id].transitions = block.transitions
+    })
   }
 
   getBlocksInScene = sceneId => (
