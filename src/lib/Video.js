@@ -18,7 +18,7 @@ class Video {
   }
 
   addBlock = (block) => {
-    const scenesObject = this.scenesObjects[block.sceneId] || {blocksIds: []}
+    const scenesObject = this.scenesObjects[block.sceneId] || {blocksIndex: []}
     block.id = `${block.type}_${token()}`
 
     this.blocksObjects[block.id] = transformBlock({block, substitutions: this.substitutions})
@@ -26,7 +26,7 @@ class Video {
     this.scenesObjects[block.sceneId] = {
       ...(this.scenesMeta[block.sceneId] || {}),
       id: block.sceneId,
-      blocksIds: scenesObject.blocksIds.concat([block.id]),
+      blocksIndex: scenesObject.blocksIndex.concat([block.id]),
     }
 
     if (!this.scenesMap[block.sceneId]) {
@@ -44,7 +44,7 @@ class Video {
   }
 
   getBlocksInScene = sceneId => (
-    this.getScene(sceneId).blocksIds.map(id => this.getBlock(id))
+    this.getScene(sceneId).blocksIndex.map(id => this.getBlock(id))
   )
 
   getBlocks = () => Object.keys(this.blocksObjects).map(id => this.getBlock(id))
