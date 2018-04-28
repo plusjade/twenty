@@ -20,11 +20,11 @@ const withPlay = (WrappedComponent) => {
 
       this.props.video.getBlocks().forEach((block) => {
         block.player.on('start', () => {
-          console.log(block.id, "^_^ start!", block.transitions.next)
+          console.log(block.id, "^_^ start!", block.transitions && block.transitions.next)
         })
 
         block.player.on('end', () => {
-          console.log(block.id, "^_^ finished!", block.transitions.next)
+          console.log(block.id, "^_^ finished!", block.transitions && block.transitions.next)
         })
       })
     }
@@ -163,8 +163,8 @@ const withPlay = (WrappedComponent) => {
     editBlock = (block, attributes) => {
       console.log('editBlock', attributes)
       this.setState({editBlockId: block.id})
-      block.data = {...block.data, ...attributes}
-      this.props.video.addBlock(block)
+      const data = {...block.data, ...attributes}
+      this.props.video.editBlock(block.id, {data})
     }
 
     addBlock = () => {
@@ -176,22 +176,17 @@ const withPlay = (WrappedComponent) => {
             effect: 'fadeIn',
           },
           offset: 400,
-          sceneId: "emoji",
+          sceneId: this.state.activeSceneId,
         },
       )
-      this.setState({entropy: Math.random()})
     }
 
     render() {
-      const scenes = this.props.video.getScenes().map((scene) => {
-        scene.blocks = this.props.video.getBlocksInScene(scene.id)
-        return scene
-      })
       return (
         <WrappedComponent
           {...this.state}
 
-          scenes={scenes}
+          video={this.props.video}
           isInteractive={this.isInteractive()}
           sceneTransition={this.sceneTransition}
           toggleEditMode={this.toggleEditMode}

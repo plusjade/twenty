@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
@@ -35,7 +36,7 @@ const style = {
 class Player extends PureComponent {
   static propTypes = {
     activeSceneId: PropTypes.string,
-    scenes: PropTypes.array.isRequired,
+    video: PropTypes.object.isRequired,
     sceneTransition: PropTypes.func.isRequired,
     timeDuration: PropTypes.number.isRequired,
   }
@@ -53,7 +54,6 @@ class Player extends PureComponent {
   }
 
   handleTapWords = () => {
-    console.log("add words")
     this.props.addBlock()
   }
 
@@ -66,13 +66,13 @@ class Player extends PureComponent {
   render() {
     return (
       <div id="app-wrapper" style={style.wrap}>
-        {this.props.scenes.map(scene => (
+        {this.props.video.getScenes().map(scene => (
           <Scene
-            key={`scenes-${scene.id}`}
-            isActive={scene.id === this.props.activeSceneId}
-            isEditing={this.props.isEditing && scene.id === this.props.activeSceneId}
+            key={`scenes-${scene.get('id')}`}
+            isActive={scene.get('id') === this.props.activeSceneId}
+            isEditing={this.props.isEditing && scene.get('id') === this.props.activeSceneId}
             scene={scene}
-            blocks={scene.blocks}
+            blocks={this.props.video.getBlocksInScene(scene.get('id'))}
             sceneTransition={this.props.sceneTransition}
             editBlock={this.props.editBlock}
           />
@@ -129,4 +129,4 @@ class Player extends PureComponent {
   }
 }
 
-export default Radium(Player)
+export default Radium(observer(Player))

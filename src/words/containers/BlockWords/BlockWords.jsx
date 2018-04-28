@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react'
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
@@ -98,4 +99,4 @@ class BlockWords extends PureComponent {
   }
 }
 
-export default Radium(BlockWords)
+export default Radium(observer(BlockWords))

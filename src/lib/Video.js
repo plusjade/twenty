@@ -1,14 +1,23 @@
 import flatten from 'vendor/flatten'
+import { observable, autorun } from "mobx"
 import { token } from 'lib/actions'
 import { computeTransitions } from 'lib/sceneWizard'
 import transformBlock from 'lib/transformBlock'
+import BlockPlayer from 'lib/BlockPlayer'
 
 class Video {
-  blocksObjects = {}
-  scenesObjects = {}
   substitutions = {}
   scenesMeta = {}
   scenesBlocksMap = {}
+
+  constructor() {
+    this.blocksObjects = observable(new Map())
+    this.scenesObjects = observable(new Map())
+
+    autorun(() => {
+      console.log('new blocksObjects', this.blocksObjects.size)
+    })
+  }
 
   addScenesMeta = (scenesMeta) => {
     this.scenesMeta = {...this.scenesMeta, ...scenesMeta}
@@ -19,19 +28,23 @@ class Video {
   }
 
   addBlock = (block) => {
-    const scenesObject = this.scenesObjects[block.sceneId] || {blocksIndex: []}
-    block.id = `${block.type}_${token()}`
-    // update the scene to include the block if new
-    if (!scenesObject.blocksIndex.includes(block.id)) {
-      this.scenesObjects[block.sceneId] = {
-        ...(this.scenesMeta[block.sceneId] || {}),
-        id: block.sceneId,
-        blocksIndex: scenesObject.blocksIndex.concat([block.id]),
-      }
+    if (block.id) { // this is a merge
+
+    } else {
+      block.id = `${block.type}_${token()}`
+      block.player = new BlockPlayer({offset: block.offset})
     }
 
     // add or update the block object
-    this.blocksObjects[block.id] = transformBlock({block, substitutions: this.substitutions})
+    // TODO: add substitutions back in
+    this.blocksObjects.set(block.id, observable(block))
+
+    const scene = this.addSceneIfNotExists(block.sceneId)
+
+    // update the scene to include the block if new
+    if (!scene.get('blocksIndex').includes(block.id)) {
+      scene.get('blocksIndex').push(block.id)
+    }
 
     // add the block to the scenesBlocksMap
     if (!this.scenesBlocksMap[block.sceneId]) {
@@ -42,10 +55,33 @@ class Video {
     }
   }
 
+  addSceneIfNotExists = (sceneId) => {
+    if (this.scenesObjects.has(sceneId)) { return this.scenesObjects.get(sceneId) }
+
+    const map = new Map()
+    const meta = {
+      ...(this.scenesMeta[sceneId] || {}),
+      blocksIndex: [],
+      id: sceneId,
+    }
+    Object.keys(meta).forEach((key) => { map.set(key, meta[key]) })
+
+    this.scenesObjects.set(sceneId, map)
+
+    return this.scenesObjects.get(sceneId)
+  }
+
+  editBlock = (blockId, attributes) => {
+    Object.keys(attributes).forEach((key) => {
+      this.blocksObjects.get(blockId)[key] = attributes[key]
+    })
+  }
+
   updateGraph = (graph) => {
     const sceneTransitions = this.sceneTransitions(graph)
     sceneTransitions.forEach((data) => {
-      this.blocksObjects[data.id].transitions = data.transitions
+      const block = this.blocksObjects.get(data.id)
+      block.transitions = data.transitions
     })
   }
 
@@ -64,17 +100,17 @@ class Video {
   }
 
   getBlocksInScene = sceneId => (
-    this.getScene(sceneId).blocksIndex.map(id => this.getBlock(id))
+    this.getScene(sceneId).get('blocksIndex').map(id => this.getBlock(id))
   )
 
-  getBlocks = () => Object.keys(this.blocksObjects).map(id => this.getBlock(id))
+  getBlocks = () => Array.from(this.blocksObjects.keys()).map(id => this.getBlock(id))
 
-  getBlock = id => this.blocksObjects[id]
+  getBlock = id => this.blocksObjects.get(id)
 
-  getScene = id => this.scenesObjects[id]
+  getScene = id => this.scenesObjects.get(id)
 
   getScenes = () => (
-    Object.keys(this.scenesObjects).map(sceneId => this.getScene(sceneId))
+    Array.from(this.scenesObjects.keys()).map(sceneId => this.getScene(sceneId))
   )
 
   getInitialSceneId = () => {

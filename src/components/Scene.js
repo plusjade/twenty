@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import Radium                   from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes                from 'prop-types'
@@ -40,7 +41,7 @@ class Scene extends PureComponent {
       <Layer
         style={[
           {
-            backgroundColor: this.props.scene.bg,
+            backgroundColor: this.props.scene.get('bg'),
             flexDirection: "column",
 
             alignItems: 'stretch',
@@ -69,4 +70,4 @@ class Scene extends PureComponent {
   }
 }
 
-export default Radium(Scene)
+export default Radium(observer(Scene))
