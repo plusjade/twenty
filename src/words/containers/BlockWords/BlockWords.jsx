@@ -26,6 +26,7 @@ class BlockWords extends PureComponent {
   componentDidMount() {
     this.props.block.player.on('start', this.onStart)
     this.props.block.player.on('tick', this.onTick)
+    this.props.block.player.on('replay', this.resetState)
   }
 
   onStart = () => {
@@ -41,6 +42,11 @@ class BlockWords extends PureComponent {
     if (this.state.isActivated) { return }
     this.timeline && this.timeline.play()
     this.setState({isActivated: true})
+  }
+
+  replay = () => {
+    this.resetState()
+    this.props.block.player.replay()
   }
 
   initializeTimeline = () => {

@@ -6,6 +6,7 @@ const EVENTS_WHITELIST = [
   'pause',
   'end',
   'tick',
+  'replay'
 ]
 
 class BlockPlayer {
@@ -18,6 +19,18 @@ class BlockPlayer {
   }
 
   timeDuration = () => (this.offset || 0 ) + 1000 // HACK
+
+  replay = () => {
+    if (this.callbacks.replay) {
+      this.callbacks.replay.forEach((cb) => { cb() })
+    }
+
+    setTimeout(() => {
+      this.hasStarted = false
+      this.timeKeeper.reset()
+      this.play()
+    }, 200)
+  }
 
   play = (newPosition) => {
     if (!this.hasStarted) {
