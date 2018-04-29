@@ -85,11 +85,6 @@ class Video {
   }
 
   updateGraph = (graph) => {
-    this.blockTransitions(graph).forEach((scene) => {
-      const block = this.blocksObjects.get(scene.id)
-      block.transitions = scene.transitions
-    })
-
     this.sceneTransitions(graph).forEach((scene) => {
       this.upsertScene(scene.id, {transitions: scene.transitions})
     })
@@ -103,20 +98,6 @@ class Video {
           id: sceneId,
           transitions: transitionsMap[sceneId],
         }))
-      , true)
-    )
-  }
-
-  blockTransitions = (graph) => {
-    const transitionsMap = computeTransitions(graph)
-    return (
-      flatten(
-        Object.keys(transitionsMap).map(sceneId => (
-          this.scenesBlocksMap[sceneId].map(id => ({
-            id,
-            transitions: transitionsMap[sceneId],
-          }))
-        ))
       , true)
     )
   }
@@ -137,10 +118,11 @@ class Video {
 
   getInitialSceneId = () => {
     const initialScene = (
-      this.getBlocks().find(block => !block.transitions || !block.transitions.prev)
+      this.getScenes().find(scene => !scene.get('transitions') || !scene.get('transitions').prev)
     )
+
     if (initialScene) {
-      return initialScene.sceneId
+      return initialScene.get('id')
     }
   }
 

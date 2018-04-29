@@ -20,11 +20,11 @@ const withPlay = (WrappedComponent) => {
 
       this.props.video.getBlocks().forEach((block) => {
         block.player.on('start', () => {
-          console.log(block.id, "^_^ start!", block.transitions && block.transitions.next)
+          console.log(block.id, "^_^ start!")
         })
 
         block.player.on('end', () => {
-          console.log(block.id, "^_^ finished!", block.transitions && block.transitions.next)
+          console.log(block.id, "^_^ finished!")
         })
       })
     }
@@ -111,7 +111,7 @@ const withPlay = (WrappedComponent) => {
 
     // Find the module in the current step that has the step_transition metadata
     derivedSceneTransitions() {
-      return this.props.video.getBlocksInScene(this.state.activeSceneId)[0].transitions
+      return this.props.video.getScene(this.state.activeSceneId).get('transitions')
     }
 
     pause = (time) => {
