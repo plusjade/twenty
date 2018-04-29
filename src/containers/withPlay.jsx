@@ -67,6 +67,7 @@ const withPlay = (WrappedComponent) => {
         loadState: "loaded",
         timeDuration: this.props.video.timeDuration(),
         activeSceneId,
+        initialSceneId: activeSceneId,
       }, this.play)
     }
 
@@ -87,7 +88,8 @@ const withPlay = (WrappedComponent) => {
         let candidateScene = sceneTransitions[option]
         if (this.props.video.getScene(candidateScene)) {
           nextScene = candidateScene
-
+        } else if (option === 'prev' && this.state.activeSceneId == this.state.initialSceneId) {
+          // do nothing
         } else if (this.props.video.getScene(sceneTransitions.next)) {
           nextScene = sceneTransitions.next
         }
