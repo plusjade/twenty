@@ -57,6 +57,10 @@ class Player extends PureComponent {
     this.props.addBlock()
   }
 
+  handleTapScene = () => {
+    this.props.addScene()
+  }
+
   // Only show overlay state on initial load lifecycle
   // i.e. before video is loaded/played for first time
   showStartOverlay = () => (
@@ -113,6 +117,14 @@ class Player extends PureComponent {
               <div style={style.editItem}>
                 {"✍️"}
               ️</div>
+            </Hammer>
+          )}
+
+          {this.props.isEditing && (
+            <Hammer onTap={this.handleTapScene}>
+              <div style={style.editItem}>
+                {"🎬"}
+              </div>
             </Hammer>
           )}
           {this.props.isEditing && (

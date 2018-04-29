@@ -5,10 +5,14 @@ import { computeTransitions } from 'lib/sceneWizard'
 import transformBlock from 'lib/transformBlock'
 import BlockPlayer from 'lib/BlockPlayer'
 
+const getRandomInt = (min, max) => (
+  Math.floor(Math.random() * (max - min + 1) + min)
+)
+
 class Video {
   substitutions = {}
   scenesMeta = {}
-  scenesBlocksMap = {}
+  graph = []
 
   constructor() {
     this.blocksObjects = observable(new Map())
@@ -45,14 +49,6 @@ class Video {
     if (!scene.get('blocksIndex').includes(block.id)) {
       scene.get('blocksIndex').push(block.id)
     }
-
-    // add the block to the scenesBlocksMap
-    if (!this.scenesBlocksMap[block.sceneId]) {
-      this.scenesBlocksMap[block.sceneId] = []
-    }
-    if (!this.scenesBlocksMap[block.sceneId].includes(block.id)) {
-      this.scenesBlocksMap[block.sceneId] = this.scenesBlocksMap[block.sceneId].concat([block.id])
-    }
   }
 
   upsertScene = (sceneId, attributes = {}) => {
@@ -65,6 +61,7 @@ class Video {
       scene = new Map()
       scene.set('blocksIndex', [])
       scene.set('id', sceneId)
+      scene.set('bg', `hsl(${getRandomInt(0, 359)}, 100%, 45%)`)
     }
 
     Object.keys(meta).forEach((key) => {
@@ -84,7 +81,27 @@ class Video {
     })
   }
 
+  // TODO POC
+  addScene = (afterSceneId) => {
+    const sceneId = `scene_${token()}`
+
+    if (afterSceneId) {
+      const index = this.graph.findIndex(node => (
+        node === afterSceneId
+        || ((typeof node === 'object') && Object.keys(node)[0] === afterSceneId)
+      ))
+      this.graph.splice(index + 1, 0, sceneId)
+    } else {
+      this.graph.push(sceneId)
+    }
+
+    this.updateGraph(this.graph)
+
+    return sceneId
+  }
+
   updateGraph = (graph) => {
+    this.graph = graph
     this.sceneTransitions(graph).forEach((scene) => {
       this.upsertScene(scene.id, {transitions: scene.transitions})
     })

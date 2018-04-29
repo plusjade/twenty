@@ -83,9 +83,6 @@ const withPlay = (WrappedComponent) => {
       const sceneTransitions = this.derivedSceneTransitions()
       let nextScene
 
-      console.log('sceneTransition', option)
-      console.log("derived", this.state.activeSceneId, sceneTransitions)
-
       if (option) {
         let candidateScene = sceneTransitions[option]
         if (this.props.video.getScene(candidateScene)) {
@@ -181,6 +178,13 @@ const withPlay = (WrappedComponent) => {
       )
     }
 
+    addScene = () => {
+      const sceneId = this.props.video.addScene(this.state.activeSceneId)
+      this.setState({
+        activeSceneId: sceneId,
+      }, this.play)
+    }
+
     render() {
       return (
         <WrappedComponent
@@ -192,6 +196,7 @@ const withPlay = (WrappedComponent) => {
           toggleEditMode={this.toggleEditMode}
           editBlock={this.editBlock}
           addBlock={this.addBlock}
+          addScene={this.addScene}
 
           play={this.play}
           pause={this.pause}
