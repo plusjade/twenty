@@ -39,7 +39,7 @@ class Video {
     // TODO: add substitutions back in
     this.blocksObjects.set(block.id, observable(block))
 
-    const scene = this.addSceneIfNotExists(block.sceneId)
+    const scene = this.upsertScene(block.sceneId)
 
     // update the scene to include the block if new
     if (!scene.get('blocksIndex').includes(block.id)) {
@@ -55,18 +55,25 @@ class Video {
     }
   }
 
-  addSceneIfNotExists = (sceneId) => {
-    if (this.scenesObjects.has(sceneId)) { return this.scenesObjects.get(sceneId) }
-
-    const map = new Map()
+  upsertScene = (sceneId, attributes = {}) => {
     const meta = {
       ...(this.scenesMeta[sceneId] || {}),
-      blocksIndex: [],
-      id: sceneId,
+      ...attributes,
     }
-    Object.keys(meta).forEach((key) => { map.set(key, meta[key]) })
+    let scene = this.scenesObjects.get(sceneId)
+    if (!scene) {
+      scene = new Map()
+      scene.set('blocksIndex', [])
+      scene.set('id', sceneId)
+    }
 
-    this.scenesObjects.set(sceneId, map)
+    Object.keys(meta).forEach((key) => {
+      scene.set(key, meta[key])
+    })
+
+    if (!this.scenesObjects.has(sceneId)) {
+      this.scenesObjects.set(sceneId, scene)
+    }
 
     return this.scenesObjects.get(sceneId)
   }
@@ -78,14 +85,29 @@ class Video {
   }
 
   updateGraph = (graph) => {
-    const sceneTransitions = this.sceneTransitions(graph)
-    sceneTransitions.forEach((data) => {
-      const block = this.blocksObjects.get(data.id)
-      block.transitions = data.transitions
+    this.blockTransitions(graph).forEach((scene) => {
+      const block = this.blocksObjects.get(scene.id)
+      block.transitions = scene.transitions
+    })
+
+    this.sceneTransitions(graph).forEach((scene) => {
+      this.upsertScene(scene.id, {transitions: scene.transitions})
     })
   }
 
   sceneTransitions = (graph) => {
+    const transitionsMap = computeTransitions(graph)
+    return (
+      flatten(
+        Object.keys(transitionsMap).map(sceneId => ({
+          id: sceneId,
+          transitions: transitionsMap[sceneId],
+        }))
+      , true)
+    )
+  }
+
+  blockTransitions = (graph) => {
     const transitionsMap = computeTransitions(graph)
     return (
       flatten(
