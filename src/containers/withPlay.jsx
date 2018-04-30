@@ -36,6 +36,8 @@ const withPlay = (WrappedComponent) => {
       videoId: this.props.videoId,
       activeSceneId: null,
       isEditing: false,
+      editBlockId: undefined,
+      editBlockContent: ""
     })
 
     resetState = () => {
@@ -159,11 +161,26 @@ const withPlay = (WrappedComponent) => {
       )
     }
 
-    editBlock = (block, attributes) => {
-      console.log('editBlock', attributes)
+    stageBlock = (blockId, content) => {
+      if (blockId === this.state.editBlockId) {
+        this.unStageBlock()
+      } else {
+        this.setState({editBlockId: blockId, editBlockContent: content})
+      }
+    }
+
+    unStageBlock() {
+      this.setState({editBlockId: undefined, editBlockContent: ""})
+    }
+
+    editBlock = (attributes) => {
+      const block = this.props.video.getBlock(this.state.editBlockId)
+      console.log('editBlock', block, attributes)
       this.setState({editBlockId: block.id})
       const data = {...block.data, ...attributes}
       this.props.video.editBlock(block.id, {data})
+      this.unStageBlock()
+      block.player.replay()
     }
 
     addBlock = () => {
@@ -197,6 +214,7 @@ const withPlay = (WrappedComponent) => {
           sceneTransition={this.sceneTransition}
           toggleEditMode={this.toggleEditMode}
           editBlock={this.editBlock}
+          stageBlock={this.stageBlock}
           addBlock={this.addBlock}
           addScene={this.addScene}
 

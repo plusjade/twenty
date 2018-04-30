@@ -21,6 +21,5 @@ export default {
   },
   isEditing: {
     backgroundColor: "rgba(0,0,0,0.3)",
-    padding: "10px 20px",
   }
 }

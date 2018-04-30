@@ -25,6 +25,8 @@ class BlockPlayer {
       this.callbacks.replay.forEach((cb) => { cb() })
     }
 
+    // TODO: this is here so the callbacks have time to execute,
+    // but there's no guarantee it's enough time
     setTimeout(() => {
       this.hasStarted = false
       this.timeKeeper.reset()

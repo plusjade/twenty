@@ -7,6 +7,8 @@ import Hammer from 'react-hammerjs'
 import Layer from 'components/Layer/Layer'
 import StartOverlay from 'components/StartOverlay'
 import Scene from 'components/Scene'
+import BottomPanel from 'components/BottomPanel/BottomPanel'
+import EnterText from 'components/EnterText/EnterText'
 
 const style = {
   wrap: {
@@ -66,14 +68,14 @@ const style = {
     fontSize: "2.8vh",
     fontWeight: 600,
     borderRadius: 100,
-    backgroundColor: "rgba(255,255,255,1)",
+    backgroundColor: "rgba(255,255,255,0.9)",
     color: "#212121",
     textShadow: "-1px 1px 0 #FFF, 1px 1px 0 #FFF, 1px -1px 0 #FFF, -1px -1px 0 #FFF",
   },
   editItemBigger: {
     height: 60,
     width: 60,
-  }
+  },
 }
 
 class Player extends PureComponent {
@@ -89,7 +91,6 @@ class Player extends PureComponent {
   }
 
   handleTapLeft = (e) => {
-    console.log('handleTapLeft', e)
     this.props.sceneTransition({option: 'prev'})
   }
 
@@ -103,6 +104,10 @@ class Player extends PureComponent {
 
   handleTapScene = () => {
     this.props.addScene()
+  }
+
+  onEnterText = (value) => {
+    this.props.editBlock({content: value})
   }
 
   // Only show overlay state on initial load lifecycle
@@ -126,6 +131,7 @@ class Player extends PureComponent {
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
             sceneTransition={this.props.sceneTransition}
             editBlock={this.props.editBlock}
+            stageBlock={this.props.stageBlock}
           />
         ))}
 
@@ -225,6 +231,13 @@ class Player extends PureComponent {
             </Hammer>
           )}
         </div>
+
+        <BottomPanel isActive={this.props.editBlockId}>
+          <EnterText
+            value={this.props.editBlockContent}
+            onSubmit={this.onEnterText}
+          />
+        </BottomPanel>
       </div>
     )
   }

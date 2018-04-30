@@ -2,6 +2,7 @@ import {observer} from 'mobx-react'
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Hammer from 'react-hammerjs'
 import {
   typing,
   fadeIn,
@@ -75,25 +76,29 @@ class BlockWords extends PureComponent {
   }
 
   resetState = () => {
-    this.props.editBlock(this.props.block, {content: this.node.textContent})
     this.setState(BlockWords.initialState())
+  }
+
+  handleTapEdit = () => {
+    if (!this.props.isEditing) { return }
+    this.props.stageBlock(this.props.block.id, this.state.entry.content)
   }
 
   render() {
     return (
       <div style={style.default}>
-        <h1
-          style={[
-            style.text,
-            this.props.block.style,
-            this.props.isEditing && style.isEditing
-          ]}
-          ref={this.getRef}
-          suppressContentEditableWarning
-          contentEditable={this.props.isEditing}
-        >
-          {this.state.entry.content}
-        </h1>
+        <Hammer onTap={this.handleTapEdit}>
+          <h1
+            style={[
+              style.text,
+              this.props.block.style,
+              this.props.isEditing && style.isEditing
+            ]}
+            ref={this.getRef}
+          >
+            {this.state.entry.content}
+          </h1>
+        </Hammer>
       </div>
     )
   }
