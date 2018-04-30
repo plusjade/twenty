@@ -84,10 +84,18 @@ class BlockWords extends PureComponent {
     this.props.stageBlock(this.props.block.id, this.state.entry.content)
   }
 
+  handleOnSwipe = () => {
+    this.props.removeBlock(this.props.block.id)
+  }
+
   render() {
     return (
       <div style={style.default}>
-        <Hammer onTap={this.handleTapEdit}>
+        <Hammer
+          onTap={this.handleTapEdit}
+          onSwipe={this.handleOnSwipe}
+          direction={'DIRECTION_LEFT'}
+        >
           <h1
             style={[
               style.text,

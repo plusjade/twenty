@@ -173,6 +173,11 @@ const withPlay = (WrappedComponent) => {
       this.setState({editBlockId: undefined, editBlockContent: ""})
     }
 
+    removeBlock = (blockId) => {
+      const block = this.props.video.getBlock(blockId)
+      this.props.video.removeBlock(block)
+    }
+
     editBlock = (attributes) => {
       const block = this.props.video.getBlock(this.state.editBlockId)
       console.log('editBlock', block, attributes)
@@ -218,6 +223,7 @@ const withPlay = (WrappedComponent) => {
           stageBlock={this.stageBlock}
           addBlock={this.addBlock}
           addScene={this.addScene}
+          removeBlock={this.removeBlock}
 
           play={this.play}
           pause={this.pause}

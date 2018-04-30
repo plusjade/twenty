@@ -132,6 +132,7 @@ class Player extends PureComponent {
             sceneTransition={this.props.sceneTransition}
             editBlock={this.props.editBlock}
             stageBlock={this.props.stageBlock}
+            removeBlock={this.props.removeBlock}
           />
         ))}
 

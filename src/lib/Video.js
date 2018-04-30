@@ -53,6 +53,16 @@ class Video {
     return this.blocksObjects.get(block.id)
   }
 
+  removeBlock = (block) => {
+    // update the scene to to remove the block
+    const scene = this.getScene(block.sceneId)
+    const index = scene.get('blocksIndex').indexOf(block.id)
+    scene.get('blocksIndex').splice(index, 1)
+
+    // remove the blockObject
+    this.blocksObjects.delete(block.id)
+  }
+
   upsertScene = (sceneId, attributes = {}) => {
     const meta = {
       ...(this.scenesMeta[sceneId] || {}),
