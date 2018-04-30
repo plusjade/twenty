@@ -184,17 +184,18 @@ const withPlay = (WrappedComponent) => {
     }
 
     addBlock = () => {
-      this.props.video.addBlock(
+      const block = this.props.video.addBlock(
         {
           type: "words",
           data: {
-            content: "Hokay =)",
+            content: "Hmmm 🤔 ...",
             effect: 'fadeIn',
           },
-          offset: 400,
           sceneId: this.state.activeSceneId,
         },
       )
+      block.player.play()
+      this.stageBlock(block.id, block.data.content)
     }
 
     addScene = () => {

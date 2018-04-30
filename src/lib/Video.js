@@ -49,6 +49,8 @@ class Video {
     if (!scene.get('blocksIndex').includes(block.id)) {
       scene.get('blocksIndex').push(block.id)
     }
+
+    return this.blocksObjects.get(block.id)
   }
 
   upsertScene = (sceneId, attributes = {}) => {
