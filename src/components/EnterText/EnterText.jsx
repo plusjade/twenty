@@ -66,7 +66,7 @@ class EnterText extends PureComponent {
               this.state.value && style.inputButtonActive,
             ]}
           >
-            {"Add"}
+            {"➤"}
           </button>
         </Hammer>
       </div>
