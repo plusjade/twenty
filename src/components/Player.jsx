@@ -61,11 +61,11 @@ const style = {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: 45,
-    width: 45,
+    height: 40,
+    width: 40,
     margin: "1px 5px",
     textAlign: "center",
-    fontSize: "2.8vh",
+    fontSize: "2.7vh",
     fontWeight: 600,
     borderRadius: 100,
     backgroundColor: "rgba(255,255,255,0.9)",
@@ -73,8 +73,8 @@ const style = {
     textShadow: "-1px 1px 0 #FFF, 1px 1px 0 #FFF, 1px -1px 0 #FFF, -1px -1px 0 #FFF",
   },
   editItemBigger: {
-    height: 60,
-    width: 60,
+    height: 55,
+    width: 55,
   },
 }
 
@@ -104,6 +104,10 @@ class Player extends PureComponent {
 
   handleTapScene = () => {
     this.props.addScene()
+  }
+
+  handleTapRemoveScene = () => {
+    // noop
   }
 
   onEnterText = (value) => {
@@ -177,9 +181,9 @@ class Player extends PureComponent {
             this.props.isEditing && style.editScenes.active
           ]}
         >
-          <Hammer onTap={this.handleTapScene}>
+          <Hammer onTap={this.handleTapRemoveScene}>
             <div style={style.editItem}>
-              <div>{"✖️"}</div>
+              <div>{"️"}</div>
             </div>
           </Hammer>
 
