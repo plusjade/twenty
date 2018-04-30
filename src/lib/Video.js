@@ -86,10 +86,7 @@ class Video {
     const sceneId = `scene_${token()}`
 
     if (afterSceneId) {
-      const index = this.graph.findIndex(node => (
-        node === afterSceneId
-        || ((typeof node === 'object') && Object.keys(node)[0] === afterSceneId)
-      ))
+      const index = this.findSceneIndex(afterSceneId)
       this.graph.splice(index + 1, 0, sceneId)
     } else {
       this.graph.push(sceneId)
@@ -99,6 +96,13 @@ class Video {
 
     return sceneId
   }
+
+  findSceneIndex = sceneId => (
+    this.graph.findIndex(node => (
+      node === sceneId
+      || ((typeof node === 'object') && Object.keys(node)[0] === sceneId)
+    ))
+  )
 
   updateGraph = (graph) => {
     this.graph = graph
@@ -145,6 +149,10 @@ class Video {
 
   timeDuration = () => (
     this.getBlocks().reduce((memo, block) => (memo + block.timeDuration), 0)
+  )
+
+  getScenePosition = sceneId => (
+    this.findSceneIndex(sceneId) + 1
   )
 }
 
