@@ -2,7 +2,7 @@ export default {
   wrap: {
     default: {
       position: "fixed",
-      bottom: -85,
+      bottom: 0,
       left: 0,
       right: 0,
       zIndex: 2,
@@ -11,9 +11,11 @@ export default {
       alignItems: "center",
       justifyContent: "center",
       transition: "all 200ms ease-in-out",
+      transform: "translateY(85px) scale(0)",
+      transformOrigin: "bottom right",
     },
     active: {
-      bottom: 0,
+      transform: "translateY(0) scale(1)",
     }
   },
 }
