@@ -7,7 +7,6 @@ import Hammer from 'react-hammerjs'
 import Layer from 'components/Layer/Layer'
 import StartOverlay from 'components/StartOverlay'
 import Scene from 'components/Scene'
-import BottomPanel from 'components/BottomPanel/BottomPanel'
 import EnterText from 'components/EnterText/EnterText'
 import BlockEditor from 'components/BlockEditor/BlockEditor'
 import SceneEditor from 'components/SceneEditor/SceneEditor'
@@ -73,7 +72,6 @@ class Player extends PureComponent {
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
             sceneTransition={this.props.sceneTransition}
             editBlock={this.props.editBlock}
-            stageBlock={this.props.stageBlock}
             removeBlock={this.props.removeBlock}
           />
         ))}
@@ -105,7 +103,7 @@ class Player extends PureComponent {
           )}
           {!this.props.isEditing && (
             <EditorButton onTap={this.handleTapEdit}>
-              <div>{"✐"}</div>
+              <div>{"✍"}</div>
             </EditorButton>
           )}
         </div>
@@ -117,13 +115,6 @@ class Player extends PureComponent {
           totalScenes={scenes.length}
           scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
         />
-
-        <BottomPanel isActive={this.props.editBlockId}>
-          <EnterText
-            value={this.props.editBlockContent}
-            onSubmit={this.onEnterText}
-          />
-        </BottomPanel>
       </div>
     )
   }

@@ -1,8 +1,7 @@
 export default {
   default: {
     textAlign: "left",
-    fontSize: "34px",
-    padding: "0 10px",
+    fontSize: "28px",
     boxSizing: "border-box",
     width: "100%",
     color: "#FFF",
@@ -20,6 +19,6 @@ export default {
     color: "inherit",
   },
   isEditing: {
-    backgroundColor: "rgba(0,0,0,0.1)",
+    // backgroundColor: "rgba(0,0,0,0.1)",
   }
 }

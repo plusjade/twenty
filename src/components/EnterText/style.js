@@ -1,9 +1,11 @@
 export default {
   input: {
     width: "100%",
-    backgroundColor: "#FFF",
+    backgroundColor: "Transparent",
     borderStyle: "none",
     borderColor: "Transparent",
+    borderBottom: "1px solid #212121",
+    borderRadius: 0,
     fontSize: 18,
     fontWeight: 600,
     fontFamily: "inherit",
@@ -43,6 +45,7 @@ export default {
   },
   level1: {
     position: "relative",
+    width: "100%",
   },
   day: {
     display: "inline-block",
@@ -83,9 +86,10 @@ export default {
     borderRadius: 50,
     backgroundColor: "#F5F5F5",
     color: "#9E9E9E",
+    border: "1px solid #4CAF50",
   },
   inputButtonActive: {
-    backgroundColor: "#4CAF50",
-    color: "#FFF",
+    backgroundColor: "#FFF",
+    color: "#4CAF50",
   },
 }

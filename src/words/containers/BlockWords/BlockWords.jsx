@@ -3,6 +3,7 @@ import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Hammer from 'react-hammerjs'
+import EnterText from 'components/EnterText/EnterText'
 import {
   typing,
   fadeIn,
@@ -29,6 +30,12 @@ class BlockWords extends PureComponent {
     this.props.block.player.on('start', this.onStart)
     this.props.block.player.on('tick', this.onTick)
     this.props.block.player.on('replay', this.resetState)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isEditing && this.props.isEditing) {
+      this.setState({edit: false})
+    }
   }
 
   onStart = () => {
@@ -80,27 +87,41 @@ class BlockWords extends PureComponent {
   }
 
   handleTapEdit = () => {
-    if (!this.props.isEditing) { return }
-    this.props.stageBlock(this.props.block.id, this.state.entry.content)
+    this.setState({edit: !this.state.edit})
   }
 
-  handleOnSwipe = () => {
+  handleSubmitEdit = (value) => {
+    this.setState({edit: false})
+    this.props.editBlock(this.props.block.id, {content: value})
+  }
+
+  handleOnSwipe = (e) => {
+    if (e.direction !== 2) { return }
     this.props.removeBlock(this.props.block.id)
   }
 
   render() {
     return (
       <div style={style.default}>
+      {this.state.edit && (
+          <EnterText
+            isActive={true}
+            value={this.state.entry.content}
+            onSubmit={this.handleSubmitEdit}
+          />
+        )}
+
         <Hammer
           onTap={this.handleTapEdit}
           onSwipe={this.handleOnSwipe}
-          direction={'DIRECTION_LEFT'}
+          direction={'DIRECTION_ALL'}
         >
           <h1
             style={[
               style.text,
               this.props.block.style,
-              this.props.isEditing && style.isEditing
+              this.props.isEditing && style.isEditing,
+              this.state.edit && ({display: 'none'}),
             ]}
             ref={this.getRef}
           >

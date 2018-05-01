@@ -18,10 +18,25 @@ class EnterText extends PureComponent {
     value: "",
   }
 
+  componentDidMount() {
+    if(this.props.isActive) {
+      this.setState({value: this.props.value || ""}, this.focus)
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value && nextProps.value !== this.props.value) {
-      this.setState({value: nextProps.value})
+      this.setState({value: nextProps.value}, this.focus)
     }
+
+    if(nextProps.isActive && !this.props.isActive) {
+      this.focus()
+    }
+  }
+
+  focus = () => {
+    this.handleResize()
+    this.inputRef.focus()
   }
 
   reset = () => {
@@ -48,6 +63,12 @@ class EnterText extends PureComponent {
     this.setState({value: ""})
   }
 
+  moveCaretAtEnd(e) {
+    const temp_value = e.target.value
+    e.target.value = ''
+    e.target.value = temp_value
+  }
+
   render() {
     return (
       <div style={style.level1}>
@@ -58,6 +79,8 @@ class EnterText extends PureComponent {
           placeholder={this.props.placeholder}
           onChange={this.handleChange}
           ref={this.refInput}
+          onFocus={this.moveCaretAtEnd}
+          autoFocus
         />
         <Hammer onTap={this.handleSubmitCustom}>
           <button

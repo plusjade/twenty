@@ -2,6 +2,7 @@ import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 import { findVideo }        from 'lib/actions'
 
+const EMOJIS = ["🤔", "👻", "🤖", "😻", "👽", "😴", "🙌"]
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
@@ -161,46 +162,33 @@ const withPlay = (WrappedComponent) => {
       )
     }
 
-    stageBlock = (blockId, content) => {
-      if (blockId === this.state.editBlockId) {
-        this.unStageBlock()
-      } else {
-        this.setState({editBlockId: blockId, editBlockContent: content})
-      }
-    }
-
-    unStageBlock() {
-      this.setState({editBlockId: undefined, editBlockContent: ""})
-    }
-
     removeBlock = (blockId) => {
       const block = this.props.video.getBlock(blockId)
       this.props.video.removeBlock(block)
     }
 
-    editBlock = (attributes) => {
-      const block = this.props.video.getBlock(this.state.editBlockId)
+    editBlock = (blockId, attributes) => {
+      const block = this.props.video.getBlock(blockId)
       console.log('editBlock', block, attributes)
       this.setState({editBlockId: block.id})
       const data = {...block.data, ...attributes}
       this.props.video.editBlock(block.id, {data})
-      this.unStageBlock()
       block.player.replay()
     }
 
     addBlock = () => {
+      const content = EMOJIS[Math.floor(Math.random()*EMOJIS.length)]
       const block = this.props.video.addBlock(
         {
           type: "words",
           data: {
-            content: "Hmmm 🤔 ...",
+            content,
             effect: 'fadeIn',
           },
           sceneId: this.state.activeSceneId,
         },
       )
       block.player.play()
-      this.stageBlock(block.id, block.data.content)
     }
 
     addScene = () => {
@@ -220,7 +208,6 @@ const withPlay = (WrappedComponent) => {
           sceneTransition={this.sceneTransition}
           toggleEditMode={this.toggleEditMode}
           editBlock={this.editBlock}
-          stageBlock={this.stageBlock}
           addBlock={this.addBlock}
           addScene={this.addScene}
           removeBlock={this.removeBlock}
