@@ -10,7 +10,7 @@ export default {
       transition: "all 200ms ease-in-out",
     },
     active: {
-      top: 4,
+      top: 7,
     },
   },
 }
