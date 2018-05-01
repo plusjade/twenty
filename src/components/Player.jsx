@@ -21,9 +21,9 @@ const style = {
   },
   edit: {
     position: "fixed",
-    top: 0,
+    bottom: 0,
     left: 0,
-    zIndex: 21,
+    zIndex: 3,
     display: "flex",
     flexDirection: "column",
   },
@@ -98,7 +98,7 @@ class Player extends PureComponent {
         <div style={style.edit}>
           {this.props.isEditing && (
             <EditorButton onTap={this.handleTapEdit}>
-              <div>{"✔"}</div>
+              <div>{"👌"}</div>
             </EditorButton>
           )}
           {!this.props.isEditing && (

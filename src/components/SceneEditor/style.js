@@ -5,7 +5,7 @@ export default {
       bottom: -85,
       left: 0,
       right: 0,
-      zIndex: 21,
+      zIndex: 2,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",

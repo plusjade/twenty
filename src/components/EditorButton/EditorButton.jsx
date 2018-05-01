@@ -14,11 +14,18 @@ class EditorButton extends PureComponent {
       <Hammer onTap={this.props.onTap}>
         <div
           style={[
-            style.default,
-            this.props.bigger && style.bigger
+            style.default
           ]}
         >
-          {this.props.children}
+          <div
+            style={[
+              style.inner,
+              this.props.bigger && style.bigger,
+              this.props.disabled && style.disabled
+            ]}
+          >
+            {this.props.children}
+          </div>
         </div>
       </Hammer>
     )

@@ -37,26 +37,27 @@ class SceneEditor extends PureComponent {
           this.props.isEditing && style.wrap.active
         ]}
       >
-        <EditorButton onTap={this.handleTapRemoveScene}>
-          <div>{"️"}</div>
-        </EditorButton>
+        <div style={{flex: 1}} />
 
-        <EditorButton onTap={this.handleTapLeft}>
+        <EditorButton
+          onTap={this.handleTapLeft}
+          disabled={this.props.scenePosition <= 1}
+        >
           <div style={{transform: "rotate(180deg)"}}>
             {"➜"}
           </div>
         </EditorButton>
 
-        <EditorButton
-          onTap={this.handleTapRemoveScene}
-          bigger
-        >
+        <EditorButton bigger>
           <span>
             {`${this.props.scenePosition}/${this.props.totalScenes}`}
           </span>
         </EditorButton>
 
-        <EditorButton onTap={this.handleTapRight}>
+        <EditorButton
+          onTap={this.handleTapRight}
+          disabled={this.props.scenePosition >= this.props.totalScenes}
+        >
           <div>{"➜"}</div>
         </EditorButton>
 
