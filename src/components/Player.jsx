@@ -9,6 +9,9 @@ import StartOverlay from 'components/StartOverlay'
 import Scene from 'components/Scene'
 import BottomPanel from 'components/BottomPanel/BottomPanel'
 import EnterText from 'components/EnterText/EnterText'
+import BlockEditor from 'components/BlockEditor/BlockEditor'
+import SceneEditor from 'components/SceneEditor/SceneEditor'
+import EditorButton from 'components/EditorButton/EditorButton'
 
 const style = {
   wrap: {
@@ -17,64 +20,13 @@ const style = {
     height: "100%",
     overflow: "hidden",
   },
-  editBlocks: {
-    default: {
-      position: "fixed",
-      top: 2,
-      right: -70,
-      zIndex: 21,
-      display: "flex",
-      flexDirection: "column",
-      transition: "all 200ms ease-in-out",
-    },
-    active: {
-      right: 0,
-    },
-  },
-  editScenes: {
-    default: {
-      position: "fixed",
-      bottom: -85,
-      left: 0,
-      right: 0,
-      zIndex: 21,
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      transition: "all 200ms ease-in-out",
-    },
-    active: {
-      bottom: 0,
-    }
-  },
   edit: {
     position: "fixed",
-    top: 2,
+    top: 0,
     left: 0,
     zIndex: 21,
     display: "flex",
     flexDirection: "column",
-  },
-  editItem: {
-    display: "flex",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 40,
-    width: 40,
-    margin: "1px 5px",
-    textAlign: "center",
-    fontSize: "2.7vh",
-    fontWeight: 600,
-    borderRadius: 100,
-    backgroundColor: "rgba(255,255,255,0.9)",
-    color: "#212121",
-    textShadow: "-1px 1px 0 #FFF, 1px 1px 0 #FFF, 1px -1px 0 #FFF, -1px -1px 0 #FFF",
-  },
-  editItemBigger: {
-    height: 55,
-    width: 55,
   },
 }
 
@@ -98,18 +50,6 @@ class Player extends PureComponent {
     this.props.toggleEditMode()
   }
 
-  handleTapWords = () => {
-    this.props.addBlock()
-  }
-
-  handleTapScene = () => {
-    this.props.addScene()
-  }
-
-  handleTapRemoveScene = () => {
-    // noop
-  }
-
   onEnterText = (value) => {
     this.props.editBlock({content: value})
   }
@@ -122,8 +62,6 @@ class Player extends PureComponent {
 
   render() {
     const scenes = this.props.video.getScenes()
-    const totalScenes = scenes.length
-    const scenePosition = this.props.video.getScenePosition(this.props.activeSceneId)
     return (
       <div id="app-wrapper" style={style.wrap}>
         {scenes.map(scene => (
@@ -140,14 +78,6 @@ class Player extends PureComponent {
           />
         ))}
 
-        {this.showStartOverlay() && (
-          <StartOverlay
-            loadState={this.props.loadState}
-            play={this.props.play}
-            active
-          />
-        )}
-
         <Hammer onTap={this.handleTapLeft}>
           <Layer
             isHidden={this.props.isInteractive}
@@ -162,80 +92,31 @@ class Player extends PureComponent {
           />
         </Hammer>
 
-        <div
-          style={[
-            style.editBlocks.default,
-            this.props.isEditing && style.editBlocks.active
-          ]}
-        >
-          <Hammer onTap={this.handleTapWords}>
-            <div style={style.editItem}>
-              <div>{"T"}</div>
-            </div>
-          </Hammer>
-        </div>
-
-        <div
-          style={[
-            style.editScenes.default,
-            this.props.isEditing && style.editScenes.active
-          ]}
-        >
-          <Hammer onTap={this.handleTapRemoveScene}>
-            <div style={style.editItem}>
-              <div>{"️"}</div>
-            </div>
-          </Hammer>
-
-          <Hammer onTap={this.handleTapLeft}>
-            <div style={[style.editItem, {transform: "rotate(180deg)"}]}>
-              <div>{"➜"}</div>
-            </div>
-          </Hammer>
-
-          <div
-            style={[
-              style.editItem,
-              style.editItemBigger,
-              {fontSize: "2.5vh"},
-            ]}
-          >
-            <div>
-              {`${scenePosition}/${totalScenes}`}
-            </div>
-          </div>
-
-          <Hammer onTap={this.handleTapRight}>
-            <div style={style.editItem}>
-              <div>{"➜"}</div>
-            </div>
-          </Hammer>
-
-
-          <Hammer onTap={this.handleTapScene}>
-            <div style={style.editItem}>
-              <div>{"🎬"}</div>
-            </div>
-          </Hammer>
-
-        </div>
+        <BlockEditor
+          isEditing={this.props.isEditing}
+          addBlock={this.props.addBlock}
+        />
 
         <div style={style.edit}>
           {this.props.isEditing && (
-            <Hammer onTap={this.handleTapEdit}>
-              <div style={style.editItem}>
-                <div>{"✔"}</div>
-              ️</div>
-            </Hammer>
+            <EditorButton onTap={this.handleTapEdit}>
+              <div>{"✔"}</div>
+            </EditorButton>
           )}
           {!this.props.isEditing && (
-            <Hammer onTap={this.handleTapEdit}>
-              <div style={[style.editItem, {transform: "rotate(180deg)"}]}>
-                <div>{"✐"}</div>
-              ️</div>
-            </Hammer>
+            <EditorButton onTap={this.handleTapEdit}>
+              <div>{"✐"}</div>
+            </EditorButton>
           )}
         </div>
+
+        <SceneEditor
+          isEditing={this.props.isEditing}
+          addScene={this.props.addScene}
+          sceneTransition={this.props.sceneTransition}
+          totalScenes={scenes.length}
+          scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
+        />
 
         <BottomPanel isActive={this.props.editBlockId}>
           <EnterText
