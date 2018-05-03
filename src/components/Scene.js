@@ -42,10 +42,7 @@ class Scene extends PureComponent {
         style={[
           {
             backgroundColor: this.props.scene.get('bg'),
-            flexDirection: "column",
-
-            alignItems: 'stretch',
-            flexFlow: 'column nowrap',
+            display: "block",
           },
           this.props.isActive && style.visible,
           !this.props.isActive && style.hidden,
