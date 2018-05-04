@@ -21,6 +21,7 @@ class BlockWords extends PureComponent {
     return ({
       isActivated: false,
       entry: {},
+      position: [],
     })
   }
 
@@ -30,12 +31,24 @@ class BlockWords extends PureComponent {
     this.props.block.player.on('start', this.onStart)
     this.props.block.player.on('tick', this.onTick)
     this.props.block.player.on('replay', this.resetState)
+    window.Draggable.create(this.node, {
+      onDragEnd: this.onDragEnd,
+      onDragEndParams: [this.syncPosition],
+    })
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isEditing && this.props.isEditing) {
       this.setState({edit: false})
     }
+  }
+
+  onDragEnd(syncPosition) {
+    syncPosition({position: [this.endX, this.endY]})
+  }
+
+  syncPosition = (params) => {
+    this.setState(params)
   }
 
   onStart = () => {
@@ -101,8 +114,18 @@ class BlockWords extends PureComponent {
   }
 
   render() {
+    const position = this.props.block.position
+      ? this.props.block.position.concat([0]).join(',')
+      : 0
     return (
-      <div style={style.default}>
+      <div
+        ref={this.getRef}
+        style={[
+          style.default,
+          {transform: `translate3d(${position})`},
+          this.state.edit && {left: `${-this.state.position[0]}px`},
+        ]}
+      >
       {this.state.edit && (
           <EnterText
             isActive={true}
@@ -123,7 +146,7 @@ class BlockWords extends PureComponent {
               this.props.isEditing && style.isEditing,
               this.state.edit && ({display: 'none'}),
             ]}
-            ref={this.getRef}
+
           >
             {this.state.entry.content}
           </h1>

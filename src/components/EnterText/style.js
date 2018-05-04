@@ -1,4 +1,8 @@
 export default {
+  wrap: {
+    position: "relative",
+    width: "100%",
+  },
   input: {
     width: "100%",
     backgroundColor: "Transparent",
@@ -15,19 +19,6 @@ export default {
     resize: "none",
     outline: "none",
   },
-  buttonsWrap: {
-    display: "flex",
-    flexDirection: "row",
-    padding: "10px",
-    marginBottom: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    display: "none",
-  },
-  buttonInner: {
-    flex: 1,
-    textAlign: "right",
-  },
   button: {
     padding: "7px 21px",
     display: "inline-block",
@@ -43,34 +34,6 @@ export default {
     backgroundColor: "#8BC34A",
     color: "#FFF",
   },
-  level1: {
-    position: "relative",
-    width: "100%",
-  },
-  day: {
-    display: "inline-block",
-    padding: "0 15px",
-    backgroundColor: "#EEEEEE",
-    textAlign: "center",
-    border: 0,
-    fontSize: 14,
-    lineHeight: "34px",
-    borderRadius: 10,
-    outline: "none",
-    color: "inherit",
-  },
-  yesterday: {
-    // borderRadius: "10px 0 0 10px",
-  },
-  today: {
-    // borderRadius: "0 10px 10px 0",
-  },
-  dayIsActive: {
-    backgroundColor: "#8BC34A",
-    color: "#FFF",
-  },
-
-
   inputButton: {
     position: "absolute",
     bottom: 10,

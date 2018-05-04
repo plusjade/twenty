@@ -71,7 +71,7 @@ class EnterText extends PureComponent {
 
   render() {
     return (
-      <div style={style.level1}>
+      <div style={style.wrap}>
         <textarea
           style={style.input}
           rows={1}
