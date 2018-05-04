@@ -235,15 +235,16 @@ const demo = [
 
 let video
 const subscribe = (data) => {
+  console.log("subscribe")
   console.log(data)
   const string = JSON.stringify(data)
-  localStorage.setItem('video', string)
+  window.localStorage.setItem('video', string)
 }
-const storedData = localStorage.getItem('video')
+const storedData = window.localStorage.getItem('video')
 if (storedData) {
   video = new Video({...JSON.parse(storedData), subscribe})
 } else {
-  video = new Video()
+  video = new Video({subscribe})
   // video.addSubstitutions(getSubstitutions(QParams.get("p")))
   video.addScenesMeta(scenesMeta)
   demo.forEach(video.addBlock)
