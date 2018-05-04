@@ -45,10 +45,13 @@ class BlockWords extends PureComponent {
 
   onDragEnd(syncPosition) {
     syncPosition({position: [this.endX, this.endY]})
+
   }
 
   syncPosition = (params) => {
     this.setState(params)
+    this.props.block.position = [`${params.position[0]}px`, `${params.position[1]}px`]
+    this.props.block._hack = "hello"
   }
 
   onStart = () => {

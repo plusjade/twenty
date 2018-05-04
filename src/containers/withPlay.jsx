@@ -18,16 +18,6 @@ const withPlay = (WrappedComponent) => {
       if (this.state.videoId) {
         this.loadVideo(this.state.videoId)
       }
-
-      this.props.video.getBlocks().forEach((block) => {
-        block.player.on('start', () => {
-          console.log(block.id, "^_^ start!")
-        })
-
-        block.player.on('end', () => {
-          console.log(block.id, "^_^ finished!")
-        })
-      })
     }
 
     initialState = () => ({

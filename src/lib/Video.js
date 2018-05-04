@@ -1,5 +1,5 @@
 import flatten from 'vendor/flatten'
-import { observable, autorun } from "mobx"
+import { observable, autorun, toJS } from "mobx"
 import { token } from 'lib/actions'
 import { computeTransitions } from 'lib/sceneWizard'
 import transformBlock from 'lib/transformBlock'
@@ -14,12 +14,44 @@ class Video {
   scenesMeta = {}
   graph = []
 
-  constructor() {
-    this.blocksObjects = observable(new Map())
+  constructor({scenesObjects, blocksObjects, graph, subscribe} = {}) {
     this.scenesObjects = observable(new Map())
+    if (scenesObjects) {
+      Object.keys(scenesObjects).forEach((key) => {
+        this.upsertScene(key, scenesObjects[key])
+      })
+    }
+
+    if (blocksObjects) {
+      this.blocksObjects = observable(new Map(
+        Object.keys(blocksObjects).map(key => (
+          [
+            key,
+            {
+              ...blocksObjects[key],
+              player: new BlockPlayer({offset: blocksObjects[key].offset})
+            }
+          ]
+        ))
+      ))
+    } else {
+      this.blocksObjects = observable(new Map())
+    }
+
+    if (graph) {
+      this.updateGraph(graph)
+    }
 
     autorun(() => {
       console.log('new blocksObjects', this.blocksObjects.size)
+      console.log('new scenesObjects', this.scenesObjects.size)
+      if (typeof subscribe === 'function') {
+        subscribe({
+          scenesObjects: toJS(this.scenesObjects),
+          blocksObjects: toJS(this.blocksObjects),
+          graph: this.graph,
+        })
+      }
     })
   }
 
@@ -94,6 +126,7 @@ class Video {
   }
 
   // TODO POC
+  // This is not a high integrity entry point for a scene O_o
   addScene = (afterSceneId) => {
     const sceneId = `scene_${token()}`
 

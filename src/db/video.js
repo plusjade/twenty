@@ -130,12 +130,11 @@ const blocks = [
     offset: 800,
     sceneId: "dog",
   },
-
 ]
 
 const scenesMeta = {
   corgy: { bg: "#607D8B" },
-  waive: { bg: "#00BCD4" },
+  waive: { bg: "#FFEB3B" },
   greeting: {  bg: "#558B2F" },
   emoji: { bg: "#1976D2" },
   nice: { bg: "#6A1B9A" },
@@ -147,20 +146,121 @@ const scenesMeta = {
 }
 
 const graph = [
-  {
-    chooseCharacter: {
-      dog: ['dog', 'corgy'],
-      custom: ['emoji', 'nice', 'greeting'],
-      singer: ['creative1', 'creative2', 'creative3'],
-    }
-  },
-  'waive',
+  // 'emoji',
+  // 'nice',
+  // 'greeting',
+  // 'waive',
+  // 'creative1',
+  // 'creative2',
+  // 'creative3'
 ]
 
-const video = new Video()
-video.addSubstitutions(getSubstitutions(QParams.get("p")))
-video.addScenesMeta(scenesMeta)
-blocks.forEach(video.addBlock)
-video.updateGraph(graph)
+
+// blocks.forEach(video.addBlock)
+// video.addBlock(  {
+//     type: "words",
+//     data: {
+//       content: "I picked that one just for you, {{name}}",
+//       effect: 'fadeIn',
+//     },
+//     sceneId: "emoji",
+//   })
+// video.addBlock(  {
+//     type: "words",
+//     data: {
+//       content: "🤗",
+//       effect: 'fadeIn',
+//     },
+//     style: {
+//       fontSize: 120,
+//     },
+//     sceneId: "nice",
+//   })
+
+
+const demo = [
+{
+    type: "words",
+    data: {
+      content: "👋 Hi there",
+      effect: 'fadeIn',
+    },
+    style: {
+      color: "#212121",
+    },
+    position: [0, '-15vh'],
+    sceneId: "waive",
+  },
+{
+    type: "words",
+    data: {
+      content: "Tap to continue...",
+      effect: 'fadeIn',
+    },
+    style: {
+      color: "#212121",
+    },
+    position: [0, '15vh'],
+    offset: 500,
+    sceneId: "waive",
+  },
+{
+    type: "words",
+    data: {
+      content: "🎨 Create something! 🎨",
+      effect: 'fadeIn',
+    },
+    sceneId: "addblock",
+  },
+{
+    type: "words",
+    data: {
+      content: "Click ✍ to edit this video",
+      effect: 'fadeIn',
+    },
+    offset: 500,
+    position: [0, '25vh'],
+    sceneId: "addblock",
+  },
+
+{
+    type: "words",
+    data: {
+      content: "Go go go!",
+      effect: 'fadeIn',
+    },
+    sceneId: "go",
+  },
+]
+
+let video
+const subscribe = (data) => {
+  console.log(data)
+  const string = JSON.stringify(data)
+  localStorage.setItem('video', string)
+}
+const storedData = localStorage.getItem('video')
+if (storedData) {
+  video = new Video({...JSON.parse(storedData), subscribe})
+} else {
+  video = new Video()
+  // video.addSubstitutions(getSubstitutions(QParams.get("p")))
+  video.addScenesMeta(scenesMeta)
+  demo.forEach(video.addBlock)
+  video.updateGraph(['waive', 'addblock', 'go'])
+
+  // const sceneId = video.addScene()
+  // video.addBlock({
+  //   type: "words",
+  //   data: {
+  //     content: "👋 🌎",
+  //   },
+  //   style: {
+  //     color: "#FFF",
+  //   },
+
+  //   sceneId: sceneId,
+  // })
+}
 
 export default video
