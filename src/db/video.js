@@ -235,8 +235,8 @@ const demo = [
 
 let video
 const subscribe = (data) => {
-  console.log("subscribe")
-  console.log(data)
+  // console.log("subscribe")
+  // console.log(data)
   const string = JSON.stringify(data)
   window.localStorage.setItem('video', string)
 }

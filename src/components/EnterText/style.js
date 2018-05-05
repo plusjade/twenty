@@ -2,6 +2,10 @@ export default {
   wrap: {
     position: "relative",
     width: "100%",
+    display: "none",
+  },
+  isActive: {
+    display: "block",
   },
   input: {
     width: "100%",

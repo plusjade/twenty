@@ -2,8 +2,6 @@ import flatten from 'vendor/flatten'
 import { observable, autorun, toJS } from "mobx"
 import { token } from 'lib/actions'
 import { computeTransitions } from 'lib/sceneWizard'
-import transformBlock from 'lib/transformBlock'
-import BlockPlayer from 'lib/BlockPlayer'
 
 const getRandomInt = (min, max) => (
   Math.floor(Math.random() * (max - min + 1) + min)
@@ -27,10 +25,16 @@ class Video {
         Object.keys(blocksObjects).map(key => (
           [
             key,
-            {
-              ...blocksObjects[key],
-              player: new BlockPlayer({offset: blocksObjects[key].offset})
-            }
+            observable.map(
+              Object.keys(blocksObjects[key]).map(attributeName => (
+                [
+                  attributeName,
+                  attributeName === 'lifecycle'
+                    ? 'undefined'
+                    : blocksObjects[key][attributeName]
+                ]
+              ))
+            )
           ]
         ))
       ))
@@ -63,36 +67,39 @@ class Video {
     this.substitutions = {...this.substitutions, ...substitutions}
   }
 
-  addBlock = (block) => {
-    if (block.id) { // this is a merge
+  addBlock = (rawBlock) => {
+    if (rawBlock.id) { // this is a merge
 
     } else {
-      block.id = `${block.type}_${token()}`
-      block.player = new BlockPlayer({offset: block.offset})
+      rawBlock.id = `${rawBlock.type}_${token()}`
     }
+
+    const block = new Map(
+      Object.keys(rawBlock).map(key => [key, rawBlock[key]])
+    )
 
     // add or update the block object
     // TODO: add substitutions back in
-    this.blocksObjects.set(block.id, observable(block))
+    this.blocksObjects.set(block.get('id'), observable(block))
 
-    const scene = this.upsertScene(block.sceneId)
+    const scene = this.upsertScene(block.get('sceneId'))
 
     // update the scene to include the block if new
-    if (!scene.get('blocksIndex').includes(block.id)) {
-      scene.get('blocksIndex').push(block.id)
+    if (!scene.get('blocksIndex').includes(block.get('id'))) {
+      scene.get('blocksIndex').push(block.get('id'))
     }
 
-    return this.blocksObjects.get(block.id)
+    return this.blocksObjects.get(block.get('id'))
   }
 
   removeBlock = (block) => {
     // update the scene to to remove the block
-    const scene = this.getScene(block.sceneId)
-    const index = scene.get('blocksIndex').indexOf(block.id)
+    const scene = this.getScene(block.get('sceneId'))
+    const index = scene.get('blocksIndex').indexOf(block.get('id'))
     scene.get('blocksIndex').splice(index, 1)
 
     // remove the blockObject
-    this.blocksObjects.delete(block.id)
+    this.blocksObjects.delete(block.get('id'))
   }
 
   upsertScene = (sceneId, attributes = {}) => {
@@ -121,7 +128,7 @@ class Video {
 
   editBlock = (blockId, attributes) => {
     Object.keys(attributes).forEach((key) => {
-      this.blocksObjects.get(blockId)[key] = attributes[key]
+      this.blocksObjects.get(blockId).set(key, attributes[key])
     })
   }
 
@@ -193,7 +200,7 @@ class Video {
   }
 
   timeDuration = () => (
-    this.getBlocks().reduce((memo, block) => (memo + block.timeDuration), 0)
+    this.getBlocks().reduce((memo, block) => (memo + block.get('timeDuration')), 0)
   )
 
   getScenePosition = sceneId => (

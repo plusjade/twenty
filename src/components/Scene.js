@@ -49,12 +49,14 @@ class Scene extends PureComponent {
         ]}
       >
         {this.props.blocks.map((block) => {
-          const Block = blocksMap[block.type]
-          if (!Block) { return }
+          const Block = blocksMap[block.get('type')]
+          if (!Block) {
+            throw new TypeError(`No supported block for type: '${block.get('type')}'`)
+          }
 
           return (
             <Block
-              key={block.id}
+              key={block.get('id')}
               block={block}
               isEditing={this.props.isEditing}
               sceneTransition={this.props.sceneTransition}

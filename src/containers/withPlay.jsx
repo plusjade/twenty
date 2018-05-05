@@ -27,7 +27,6 @@ const withPlay = (WrappedComponent) => {
       videoId: this.props.videoId,
       activeSceneId: null,
       isEditing: false,
-      editBlockId: undefined,
       editBlockContent: ""
     })
 
@@ -107,9 +106,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     pause = (time) => {
-      this.props.video
-        .getBlocksInScene(this.state.activeSceneId)
-        .forEach((block) => { block.player.pause() })
+      //
     }
 
     replay = () => {
@@ -121,7 +118,7 @@ const withPlay = (WrappedComponent) => {
       this.props.video
         .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => {
-          block.player.play()
+          block.set('lifecycle', 'play')
         })
     }
 
@@ -136,7 +133,7 @@ const withPlay = (WrappedComponent) => {
         if (!this.state.isEditing) {
           const blocks = this.props.video.getBlocksInScene(this.state.activeSceneId)
           blocks.forEach((block) => {
-            block.player.replay()
+            block.set('lifecycle', 'replay')
           })
         }
       })
@@ -160,10 +157,9 @@ const withPlay = (WrappedComponent) => {
     editBlock = (blockId, attributes) => {
       const block = this.props.video.getBlock(blockId)
       console.log('editBlock', block, attributes)
-      this.setState({editBlockId: block.id})
-      const data = {...block.data, ...attributes}
-      this.props.video.editBlock(block.id, {data})
-      block.player.replay()
+      const data = {...block.get('data'), ...attributes}
+      this.props.video.editBlock(block.get('id'), {data})
+      block.set('lifecycle', 'replay')
     }
 
     addBlock = () => {
@@ -178,7 +174,7 @@ const withPlay = (WrappedComponent) => {
           sceneId: this.state.activeSceneId,
         },
       )
-      block.player.play()
+      block.set('lifecycle', 'play')
     }
 
     addScene = () => {

@@ -71,7 +71,7 @@ class EnterText extends PureComponent {
 
   render() {
     return (
-      <div style={style.wrap}>
+      <div style={[style.wrap, this.props.isActive && style.isActive]}>
         <textarea
           style={style.input}
           rows={1}
