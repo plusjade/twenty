@@ -1,11 +1,8 @@
 import { getSubstitutions } from 'db/substitutions'
 import Video from 'lib/Video'
-import { persist } from 'lib/actions'
+import { videoFind, videoSave } from 'lib/actions'
 import QueryParams from 'lib/QueryParams'
 
-const QParams = QueryParams()
-const videoId = QParams.get("id")
-const videoStorageKey = `video_${videoId}`
 const blocks = [
   {
     type: "words",
@@ -235,50 +232,5 @@ const demo = [
 ]
 
 let video
-if (videoId) {
-  const subscribe = (data) => {
-    console.log("SUBSCRIBE!!!")
-    // console.log(data)
-    const string = JSON.stringify(data)
-    window.localStorage.setItem(videoStorageKey, string)
-    // persist({videoId, payload: string})
-  }
-  const storedData = window.localStorage.getItem(videoStorageKey)
-  if (storedData) {
-    window.localStorage.setItem(videoStorageKey, storedData)
-    video = new Video({...JSON.parse(storedData), subscribe})
-  } else {
-    video = new Video({subscribe})
-    // video.addSubstitutions(getSubstitutions(QParams.get("p")))
-    // video.addScenesMeta(scenesMeta)
-    // demo.forEach(video.addBlock)
-    // video.updateGraph(['waive', 'addblock', 'go'])
-
-    const sceneId = video.addScene()
-    video.addBlock({
-      type: "words",
-      data: {
-        content: "👋 🌎",
-      },
-      style: {
-        color: "#FFF",
-      },
-      sceneId: sceneId,
-    })
-    video.addBlock({
-      type: "words",
-      data: {
-        content: videoId,
-      },
-      style: {
-        color: "#FFF",
-      },
-      position: [0, '15vh'],
-      sceneId: sceneId,
-    })
-
-  }
-}
-
 
 export default video

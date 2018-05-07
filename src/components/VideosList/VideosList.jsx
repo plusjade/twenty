@@ -1,7 +1,9 @@
+import Radium from 'radium'
 import React, { PureComponent }   from 'react'
 import QueryParams from 'lib/QueryParams'
-import { token, remove } from 'lib/actions'
+import { token, videoRemove } from 'lib/actions'
 import EditorButton from 'components/EditorButton/EditorButton'
+import VideoCard from 'components/VideoCard/VideoCard'
 
 import style                from './Style'
 
@@ -10,8 +12,8 @@ const QParams = QueryParams()
 const getVideos = () => (
   Object.keys(window.localStorage)
     .filter(key => key.startsWith('video_'))
-    .map(videoId => ({
-      token: videoId.replace('video_', ''),
+    .map(key => ({
+      videoId: key.replace('video_', ''),
       created_at: ""
     }))
 )
@@ -23,55 +25,40 @@ class VideosList extends PureComponent {
   }
 
   render() {
+    const videos = getVideos()
     return (
       <div style={style.wrap}>
-        {getVideos().map((v, i) => (
-          <div
-            key={i}
-            style={{position: "relative"}}
+        <div style={[style.video, style.create]}>
+          <a
+            href={'#new'}
+            onClick={this.handleCreateNew}
+            style={[style.inner, style.createInner]}
           >
-            <a
-              style={style.video}
-              href={`/?id=${v.token}`}
-            >
-              <span>{v.created_at}</span>
-              <br/>
-              <span>{` ${v.token} `}</span>
-            </a>
-
-            <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
-              <EditorButton
-                onTap={() => {
-                  window.location = `/?id=${v.token}&edit=1`
-                }}
-                dark
-              >
-                <div>{"✍"}</div>
-              </EditorButton>
-              <EditorButton
-                onTap={() => {
-                  if (window.confirm(`delete '${v.token}' video forever?`)) {
-                    remove(v.token)
-                    window.location.reload()
-                  }
-                }}
-                dark
-              >
-                <div>{"X"}</div>
-              </EditorButton>
-            </div>
-          </div>
+            <span>{'+ new'}</span>
+          </a>
+        </div>
+        {videos.map((v, i) => (
+          <VideoCard
+            key={v.videoId}
+            videoId={v.videoId}
+            created_at={v.created_at}
+            offset={i % 2 === 1}
+          />
         ))}
-        <a
-          style={style.video}
-          href={'#new'}
-          onClick={this.handleCreateNew}
-        >
-          <span>{'create new'}</span>
-        </a>
+        {true && (
+          <div style={[style.video, style.create]}>
+            <a
+              href={'#new'}
+              onClick={this.handleCreateNew}
+              style={[style.inner, style.createInner]}
+            >
+              <span>{'+ new'}</span>
+            </a>
+          </div>
+        )}
       </div>
     )
   }
 }
 
-export default VideosList
+export default Radium(VideosList)

@@ -1,13 +1,4 @@
 export default {
-  wrap: {
-    display: "flex",
-    flexWrap: 'wrap',
-    zIndex: 1001,
-    // backgroundColor: "#FFF",
-    overflow: "auto",
-    opacity: 1,
-    borderRadius: "0 0 15px 15px",
-  },
   video: {
     position: 'relative',
     flex: 1,

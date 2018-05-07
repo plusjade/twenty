@@ -8,6 +8,23 @@ const API_ENDPOINT = (
 
 const SEPARATOR = "_"
 
+export const videoFind = (videoId) => {
+  const string = window.localStorage.getItem(namespace(videoId))
+  if (!string) { return }
+
+  return JSON.parse(string)
+}
+
+export const videoRemove = (videoId) => {
+  window.localStorage.removeItem(namespace(videoId))
+}
+
+export const videoSave = (videoId, data) => {
+  const payload = JSON.stringify(data)
+  window.localStorage.setItem(namespace(videoId), payload)
+  console.log('🌽 video saved!', videoId)
+}
+
 export function findVideo(videoId) {
   return (
     window.fetch(buildUrl(videoId), {
@@ -38,11 +55,6 @@ export function listVideos() {
       console.log('request failed', error)
     })
   )
-}
-
-export function remove(videoId) {
-  console.log('remove', namespace(videoId))
-  window.localStorage.removeItem(namespace(videoId))
 }
 
 export function save(videoId, data) {
