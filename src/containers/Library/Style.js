@@ -4,7 +4,6 @@ export default {
     boxSizing: "border-box",
     color: "#9E9E9E",
     position: "relative",
-    maxHeight: 0,
   },
   close: {
     position: "fixed",

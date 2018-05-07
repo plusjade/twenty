@@ -4,11 +4,8 @@ import ReactDOM         from 'react-dom'
 import QueryParams      from 'lib/QueryParams'
 
 import Player           from 'components/Player'
-import Recorder         from 'components/Recorder'
-
 import Home             from 'containers/Home'
 import withPlay         from 'containers/withPlay'
-import withRecord       from 'containers/withRecord'
 
 import video from 'db/video'
 
@@ -21,17 +18,14 @@ const QParams = QueryParams()
 const videoId = QParams.get("id")
 const parts = window.location.pathname.split("/")
 let app
-let props = {
-  resultRendererEnabled: !QParams.get("disable_result")
-}
+let props = {canEdit: !!QParams.get("edit")}
 
-if (parts[1] === "make") {
-  app = withRecord(Recorder)
-} else if (videoId) {
+if (videoId) {
   app = withPlay(Player)
   props = {...props, videoId, video}
 } else {
   app = Home
+  window.document.body.style.overflow = 'auto'
 }
 
 ReactDOM.render(React.createElement(app, props), document.getElementById('root'))

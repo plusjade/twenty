@@ -6,7 +6,7 @@ const API_ENDPOINT = (
     : "http://localhost:4000/videos"
 )
 
-const SEPARATOR = ":"
+const SEPARATOR = "_"
 
 export function findVideo(videoId) {
   return (
@@ -41,6 +41,7 @@ export function listVideos() {
 }
 
 export function remove(videoId) {
+  console.log('remove', namespace(videoId))
   window.localStorage.removeItem(namespace(videoId))
 }
 
@@ -99,7 +100,7 @@ function parseJSON(response) {
 }
 
 function namespace(id) {
-  return `vids${SEPARATOR}${id}`
+  return `video${SEPARATOR}${id}`
 }
 
 function buildUrl(videoId) {

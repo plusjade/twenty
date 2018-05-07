@@ -14,12 +14,7 @@ const VideosListAsync = withPromisedData(VideosList, "videos")
 
 class Library extends Component {
   static propTypes = {
-    onSelect: PropTypes.func,
     isOpen: PropTypes.bool,
-  }
-
-  static defaultProps = {
-    onSelect: video => window.location = `/?id=${video.token}&p=${QParams.get("p")}`,
   }
 
   constructor(props) {
@@ -39,24 +34,23 @@ class Library extends Component {
 
   render() {
     return(
-      <div style={[
-        style.wrap,
-        {maxHeight: this.props.libraryDistance}
-      ]}>
-      {this.props.isOpen && !this.props.disableClose && (
-        <div
-          style={style.close}
-          onClick={this.props.toggleLibrary}
-        >
-          <IconClose fill="#9E9E9E"/>
-        </div>
-      )}
+      <div
+        style={[
+          style.wrap
+        ]}
+      >
+        {false && (
+          <div
+            style={style.close}
+            onClick={this.props.toggleLibrary}
+          >
+            <IconClose fill="#9E9E9E"/>
+          </div>
+        )}
         <VideosListAsync
           key={this.state.entropyKey}
-          async={true ? listVideos : undefined}
-          onSelect={this.props.onSelect}
+          async={listVideos}
           isOpen={this.props.isOpen}
-          libraryDistance={this.props.libraryDistance}
         />
       </div>
     )

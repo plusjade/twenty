@@ -17,12 +17,18 @@ export default {
     textAlign: "center",
     borderTop: "1px solid #111",
   },
-  delete: {
+  edit: {
     position: "absolute",
-    top: 0,
-    left: 0,
+    top: 3,
+    right: 3,
+    height: 25,
+    width: 25,
+    textAlign: 'center',
+    lineHeight: '25px',
     color: "inherit",
-    padding: "20px",
+    padding: "2px",
     textDecoration: "none",
+    borderRadius: '100%',
+    backgroundColor: 'rgba(255,255,255,0.1)',
   }
 }
