@@ -20,8 +20,9 @@ class EditorButton extends PureComponent {
           <div
             style={[
               style.inner,
+              this.props.dark && style.dark,
               this.props.bigger && style.bigger,
-              this.props.disabled && style.disabled
+              this.props.disabled && style.disabled,
             ]}
           >
             {this.props.children}
