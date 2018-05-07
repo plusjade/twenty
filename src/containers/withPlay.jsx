@@ -105,27 +105,13 @@ const withPlay = (WrappedComponent) => {
       return this.props.video.getScene(this.state.activeSceneId).get('transitions')
     }
 
-    pause = (time) => {
-      //
-    }
-
-    replay = () => {
-      this.setStart()
-      this.play()
-    }
-
     play = () => {
+      this.unStageBlock()
       this.props.video
         .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => {
           block.set('lifecycle', 'play')
         })
-    }
-
-    seekTo = (sceneId) => {
-      this.setState({
-        activeSceneId: sceneId,
-      })
     }
 
     toggleEditMode = () => {
@@ -135,10 +121,12 @@ const withPlay = (WrappedComponent) => {
           blocks.forEach((block) => {
             block.set('lifecycle', 'replay')
           })
+          this.unStageBlock()
         }
       })
     }
 
+    // some blocks are interactive so the tap overlays shouldnt render
     isInteractive() {
       if (this.state.isEditing) { return true }
       if (!this.state.activeSceneId) { return false }
@@ -150,6 +138,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     removeBlock = (blockId) => {
+      this.unStageBlock({replay: false})
       const block = this.props.video.getBlock(blockId)
       this.props.video.removeBlock(block)
     }
@@ -160,6 +149,28 @@ const withPlay = (WrappedComponent) => {
       const data = {...block.get('data'), ...attributes}
       this.props.video.editBlock(block.get('id'), {data})
       block.set('lifecycle', 'replay')
+      this.unStageBlock()
+    }
+
+    stageBlock = (blockId) => {
+      this.unStageBlock({callback: ()=> {
+        this.setState({stagedBlockId: blockId})
+        this.props.video.getBlock(blockId).set('lifecycle', 'edit')
+      }})
+    }
+
+    unStageBlock = ({callback, replay} = {}) => {
+      if (!this.state.stagedBlockId) {
+        if (callback) { callback() }
+        return
+      }
+      const blockId = this.state.stagedBlockId
+      this.setState({stagedBlockId: undefined}, () => {
+        if (replay) {
+          this.props.video.getBlock(blockId).set('lifecycle', 'replay')
+        }
+        if (callback) { callback() }
+      })
     }
 
     addBlock = () => {
@@ -169,12 +180,12 @@ const withPlay = (WrappedComponent) => {
           type: "words",
           data: {
             content,
-            effect: 'fadeIn',
           },
           sceneId: this.state.activeSceneId,
         },
       )
       block.set('lifecycle', 'play')
+      this.unStageBlock()
     }
 
     addScene = () => {
@@ -188,21 +199,17 @@ const withPlay = (WrappedComponent) => {
       return (
         <WrappedComponent
           {...this.state}
-
+          canEdit={this.props.canEdit}
           video={this.props.video}
           isInteractive={this.isInteractive()}
           sceneTransition={this.sceneTransition}
           toggleEditMode={this.toggleEditMode}
-          editBlock={this.editBlock}
-          addBlock={this.addBlock}
+
           addScene={this.addScene}
+          addBlock={this.addBlock}
+          editBlock={this.editBlock}
           removeBlock={this.removeBlock}
-
-          play={this.play}
-          pause={this.pause}
-          replay={this.replay}
-
-          toggleLibrary={this.toggleLibrary}
+          stageBlock={this.stageBlock}
         />
       )
     }

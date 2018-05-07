@@ -132,18 +132,13 @@ class BlockWords extends PureComponent {
   }
 
   handleTapEdit = () => {
-    this.setState({edit: !this.state.edit})
+    this.props.stageBlock(this.props.block.get('id'))
   }
 
   handleSubmitEdit = (value) => {
     this.setState({edit: false}, () => {
       this.props.editBlock(this.props.block.get('id'), {content: value})
     })
-  }
-
-  handleOnSwipe = (e) => {
-    if (e.direction !== 2) { return }
-    this.props.removeBlock(this.props.block.get('id'))
   }
 
   render() {
@@ -156,19 +151,11 @@ class BlockWords extends PureComponent {
         style={[
           style.default,
           {transform: `translate3d(${position})`},
-          this.state.edit && {left: `${-this.state.position[0]}px`},
+          // this.state.edit && {left: `${-this.state.position[0]}px`},
         ]}
       >
-        <EnterText
-          isActive={this.state.edit}
-          value={this.state.entry.content}
-          onSubmit={this.handleSubmitEdit}
-        />
-
         <Hammer
           onTap={this.handleTapEdit}
-          onSwipe={this.handleOnSwipe}
-          direction={'DIRECTION_ALL'}
         >
           <h1
             ref={this.getRefText}
@@ -176,7 +163,7 @@ class BlockWords extends PureComponent {
               style.text,
               this.props.block.get('style'),
               this.props.isEditing && style.isEditing,
-              this.state.edit && ({display: 'none'}),
+              this.props.block.get('lifecycle') === 'edit' && ({display: 'none'}),
             ]}
           >
             {this.state.entry.content}

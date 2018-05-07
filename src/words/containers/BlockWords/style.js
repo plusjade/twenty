@@ -21,6 +21,6 @@ export default {
     color: "inherit",
   },
   isEditing: {
-    // backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: "rgba(0,0,0,0.1)",
   }
 }

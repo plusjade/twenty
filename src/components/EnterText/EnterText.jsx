@@ -89,7 +89,7 @@ class EnterText extends PureComponent {
               this.state.value && style.inputButtonActive,
             ]}
           >
-            {"➤"}
+            {this.state.value ? "SAVE" : "DELETE"}
           </button>
         </Hammer>
       </div>

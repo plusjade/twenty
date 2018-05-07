@@ -47,8 +47,6 @@ class Video {
     }
 
     autorun(() => {
-      console.log('new blocksObjects', this.blocksObjects.size)
-      console.log('new scenesObjects', this.scenesObjects.size)
       if (typeof subscribe === 'function') {
         subscribe({
           scenesObjects: toJS(this.scenesObjects),

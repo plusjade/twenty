@@ -13,6 +13,9 @@ import BlockEditor from 'components/BlockEditor/BlockEditor'
 import SceneEditor from 'components/SceneEditor/SceneEditor'
 import EditorButton from 'components/EditorButton/EditorButton'
 
+import BottomPanel from 'components/BottomPanel/BottomPanel'
+
+
 const style = {
   wrap: {
     position: "fixed",
@@ -32,10 +35,15 @@ const style = {
 
 class Player extends PureComponent {
   static propTypes = {
-    activeSceneId: PropTypes.string,
+    activeSceneId: PropTypes.string.isRequired,
+    stagedBlockId: PropTypes.string.isRequired,
     video: PropTypes.object.isRequired,
     sceneTransition: PropTypes.func.isRequired,
-    timeDuration: PropTypes.number.isRequired,
+    addScene: PropTypes.func.isRequired,
+    addBlock: PropTypes.func.isRequired,
+    editBlock: PropTypes.func.isRequired,
+    removeBlock: PropTypes.func.isRequired,
+    stageBlock: PropTypes.func.isRequired,
   }
 
   handleTapRight = () => {
@@ -51,13 +59,18 @@ class Player extends PureComponent {
   }
 
   onEnterText = (value) => {
-    this.props.editBlock({content: value})
+    if (value) {
+      this.props.editBlock(this.props.stagedBlockId, {content: value})
+    } else {
+      this.props.removeBlock(this.props.stagedBlockId)
+    }
   }
 
-  // Only show overlay state on initial load lifecycle
-  // i.e. before video is loaded/played for first time
-  showStartOverlay = () => (
-    false
+  getStagedText = () => (
+    this.props.stagedBlockId
+      ? this.props.video.getBlock(this.props.stagedBlockId)
+         && this.props.video.getBlock(this.props.stagedBlockId).get('data').content
+      : ""
   )
 
   render() {
@@ -74,6 +87,7 @@ class Player extends PureComponent {
             sceneTransition={this.props.sceneTransition}
             editBlock={this.props.editBlock}
             removeBlock={this.props.removeBlock}
+            stageBlock={this.props.stageBlock}
           />
         ))}
 
@@ -91,23 +105,35 @@ class Player extends PureComponent {
           />
         </Hammer>
 
+        <BottomPanel
+          isActive={!!this.props.stagedBlockId}
+        >
+          <EnterText
+            isActive={true}
+            value={this.getStagedText()}
+            onSubmit={this.onEnterText}
+          />
+        </BottomPanel>
+
         <BlockEditor
           isEditing={this.props.isEditing}
           addBlock={this.props.addBlock}
         />
 
-        <div style={style.edit}>
-          {this.props.isEditing && (
-            <EditorButton onTap={this.handleTapEdit}>
-              <div>{"👌"}</div>
-            </EditorButton>
-          )}
-          {!this.props.isEditing && (
-            <EditorButton onTap={this.handleTapEdit}>
-              <div>{"✍"}</div>
-            </EditorButton>
-          )}
-        </div>
+        {this.props.canEdit && (
+          <div style={style.edit}>
+            {this.props.isEditing && (
+              <EditorButton onTap={this.handleTapEdit}>
+                <div>{"👌"}</div>
+              </EditorButton>
+            )}
+            {!this.props.isEditing && (
+              <EditorButton onTap={this.handleTapEdit}>
+                <div>{"✍"}</div>
+              </EditorButton>
+            )}
+          </div>
+        )}
 
         <SceneEditor
           isEditing={this.props.isEditing}

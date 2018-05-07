@@ -62,6 +62,7 @@ class Scene extends PureComponent {
               sceneTransition={this.props.sceneTransition}
               editBlock={this.props.editBlock}
               removeBlock={this.props.removeBlock}
+              stageBlock={this.props.stageBlock}
             />
           )
         })}
