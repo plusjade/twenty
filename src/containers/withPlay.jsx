@@ -6,7 +6,7 @@ const EMOJIS = ["🤔", "👻", "🤖", "😻", "👽", "😴", "🙌"]
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
-      videoId: PropTypes.string.isRequired,
+      video: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -15,60 +15,28 @@ const withPlay = (WrappedComponent) => {
     }
 
     componentWillMount() {
-      if (this.state.videoId) {
-        this.loadVideo(this.state.videoId)
+      this.setVideoData()
+      if (this.props.canEdit) {
+        this.setState({isEditing: true})
       }
     }
 
     initialState = () => ({
-      libraryIsOpen: false,
-      loadState: undefined,
-      timeDuration: 0,
-      videoId: this.props.videoId,
       activeSceneId: null,
       isEditing: false,
-      editBlockContent: ""
     })
 
     resetState = () => {
       this.setState(this.initialState())
     }
 
-    loadVideo = (videoId) => {
-      this.setState({loadState: "loading", libraryIsOpen: false})
-      findVideo(videoId)
-        .then((video) => {
-          if (video) {
-            if (!window.location.search.includes("id")) {
-              window.history.replaceState({}, null, `/?id=${videoId}`)
-            }
-            this.setVideoData(video)
-          } else {
-            this.setState({loadState: "notFound"})
-          }
-        })
-    }
-
-    setVideoData = (video) => {
-      this.setStart() // todo
+    setVideoData = () => {
+      this.resetState() // todo
       const activeSceneId = this.props.video.getInitialSceneId()
-
       this.setState({
-        videoId: video.token,
-        libraryIsOpen: false,
-        loadState: "loaded",
-        timeDuration: this.props.video.timeDuration(),
         activeSceneId,
         initialSceneId: activeSceneId,
       }, this.play)
-    }
-
-    toggleLibrary = () => {
-      this.setState({libraryIsOpen: !this.state.libraryIsOpen})
-    }
-
-    setStart = () => {
-      this.resetState()
     }
 
     sceneTransition = (data = {}) => {
@@ -92,7 +60,7 @@ const withPlay = (WrappedComponent) => {
       if (nextScene) {
         this.setState({
           activeSceneId: nextScene,
-          nextScenePayload: props
+          nextScenePayload: props,
         }, this.play)
       } else {
         // throw new Error('nowhere to go')
