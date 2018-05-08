@@ -33,7 +33,7 @@ class Scene extends PureComponent {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
-    blocks: PropTypes.object.isRequired,
+    blocks: PropTypes.array.isRequired,
   }
 
   render() {

@@ -1,6 +1,5 @@
-import React, {Component}   from 'react'
-import PropTypes            from 'prop-types'
-import { findVideo }        from 'lib/actions'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import randomEmoji from 'db/randomEmoji'
 
 const withPlay = (WrappedComponent) => {
@@ -48,7 +47,7 @@ const withPlay = (WrappedComponent) => {
         let candidateScene = sceneTransitions[option]
         if (this.props.video.getScene(candidateScene)) {
           nextScene = candidateScene
-        } else if (option === 'prev' && this.state.activeSceneId == this.state.initialSceneId) {
+        } else if (option === 'prev' && this.state.activeSceneId === this.state.initialSceneId) {
           // do nothing
         } else if (this.props.video.getScene(sceneTransitions.next)) {
           nextScene = sceneTransitions.next

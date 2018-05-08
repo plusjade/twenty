@@ -16,7 +16,6 @@ injectTapEventPlugin()
 const QParams = QueryParams()
 const videoId = QParams.get("id")
 const canEdit = !!QParams.get("edit")
-const parts = window.location.pathname.split("/")
 let app
 let props = {canEdit}
 

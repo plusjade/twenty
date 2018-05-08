@@ -1,13 +1,9 @@
 import Radium from 'radium'
 import React, { PureComponent }   from 'react'
-import QueryParams from 'lib/QueryParams'
-import { token, videoRemove } from 'lib/actions'
-import EditorButton from 'components/EditorButton/EditorButton'
+import { token } from 'lib/actions'
 import VideoCard from 'components/VideoCard/VideoCard'
 
 import style                from './Style'
-
-const QParams = QueryParams()
 
 const getVideos = () => (
   Object.keys(window.localStorage)

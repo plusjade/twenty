@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import Hammer from 'react-hammerjs'
 
 import Layer from 'components/Layer/Layer'
-import StartOverlay from 'components/StartOverlay'
 import Scene from 'components/Scene'
 import EnterText from 'components/EnterText/EnterText'
 import BlockEditor from 'components/BlockEditor/BlockEditor'

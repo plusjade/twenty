@@ -4,7 +4,6 @@ import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Hammer from 'react-hammerjs'
-import EnterText from 'components/EnterText/EnterText'
 import BlockPlayer from 'lib/BlockPlayer'
 import {
   typing,

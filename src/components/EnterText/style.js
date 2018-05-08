@@ -48,7 +48,6 @@ export default {
     fontSize: 10,
     lineHeight: "12px",
     textAlign: "center",
-    border: 0,
     borderRadius: 15,
     backgroundColor: "#F44336",
     // color: "#9E9E9E",

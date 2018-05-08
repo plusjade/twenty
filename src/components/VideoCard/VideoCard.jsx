@@ -1,19 +1,9 @@
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { token, videoFind, videoRemove } from 'lib/actions'
+import { token, videoRemove } from 'lib/actions'
 import EditorButton from 'components/EditorButton/EditorButton'
-
-import Player from 'components/Player'
-import withPlay from 'containers/withPlay'
-import Video from 'lib/Video'
-
 import style from './style'
-
-// {React.createElement(
-//   withPlay(Player),
-//   {video: new Video(videoFind(this.props.videoId))}
-// )}
 
 class VideoCard extends PureComponent {
   static propTypes = {
