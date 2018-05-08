@@ -65,12 +65,41 @@ class Player extends PureComponent {
     }
   }
 
+  getStagedBlock = () => (
+    this.props.stagedBlockId
+    ? this.props.video.getBlock(this.props.stagedBlockId)
+    : undefined
+  )
+
   getStagedText = () => (
     this.props.stagedBlockId
-      ? this.props.video.getBlock(this.props.stagedBlockId)
-         && this.props.video.getBlock(this.props.stagedBlockId).get('data').content
+      ? this.getStagedBlock()
+         && this.getStagedBlock().get('data').content
       : ""
   )
+
+  handleScaleUp = () => {
+    const block = this.getStagedBlock()
+    if (!block) { return }
+    const scale = block.get('scale') || 1
+    block.set('scale', (+scale + 0.1).toFixed(2))
+  }
+
+  handleScaleDown = () => {
+    const block = this.getStagedBlock()
+    if (!block) { return }
+    const scale = block.get('scale') || 1
+    block.set('scale', (+scale - 0.1).toFixed(2))
+  }
+
+  getStagedRotation = () => {
+    const block = this.getStagedBlock()
+    if (!block) { return 0 }
+    const rotation = block.get('rotation') || 0
+    if (!rotation) { return 0 }
+
+    return rotation.replace('deg', '')
+  }
 
   render() {
     const scenes = this.props.video.getScenes()
@@ -112,6 +141,32 @@ class Player extends PureComponent {
             value={this.getStagedText()}
             onSubmit={this.onEnterText}
           />
+
+          <div style={{display: 'flex', paddingTop: 10}}>
+            <EditorButton onTap={this.handleScaleDown} dark>
+              <div>{"-"}</div>
+            </EditorButton>
+            <EditorButton dark>
+              <div>
+                {(this.getStagedBlock() && this.getStagedBlock().get('scale') || 1) + 'x'}
+              </div>
+            </EditorButton>
+            <EditorButton onTap={this.handleScaleUp} dark>
+              <div>{"+"}</div>
+            </EditorButton>
+            <div style={{flex: 1}}>
+              <input
+                type="number"
+                maxLength="3"
+                value={this.getStagedRotation()}
+                onChange={(e) => {
+                  console.log(e.target.value)
+                  const block = this.getStagedBlock()
+                  block.set('rotation', `${+e.target.value}deg`)
+                }}
+              />
+            </div>
+          </div>
         </BottomPanel>
 
         <BlockEditor

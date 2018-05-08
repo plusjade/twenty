@@ -23,7 +23,7 @@ if (videoId) {
   let video
   const subscribe = canEdit
     ? (data) => {
-        console.log("monitor SUBSCRIBE")
+        // console.log("monitor SUBSCRIBE")
         // console.log(data)
         videoSave(videoId, data)
       }

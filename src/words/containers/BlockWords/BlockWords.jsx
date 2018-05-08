@@ -52,8 +52,9 @@ class BlockWords extends PureComponent {
     this.player.on('tick', this.onTick)
     this.player.on('replay', this.resetState)
     window.Draggable.create(this.node, {
+      // type: "rotation",
       onDragEnd: this.onDragEnd,
-      onDragEndParams: [this.syncPosition],
+      onDragEndParams: [this.syncTransforms],
     })
   }
 
@@ -63,14 +64,21 @@ class BlockWords extends PureComponent {
     }
   }
 
-  onDragEnd(syncPosition) {
-    syncPosition({position: [this.endX, this.endY]})
-
+  onDragEnd(syncTransforms) {
+    if (this.rotation) {
+      syncTransforms({rotation: this.rotation})
+    } else {
+      syncTransforms({position: [this.endX, this.endY]})
+    }
   }
 
-  syncPosition = (params) => {
+  syncTransforms = (params) => {
     this.setState(params)
-    this.props.block.set('position', [`${params.position[0]}px`, `${params.position[1]}px`])
+    if (params.position) {
+      this.props.block.set('position', [`${params.position[0].toFixed(2)}px`, `${params.position[1].toFixed(2)}px`])
+    } else if (params.rotation) {
+      this.props.block.set('rotation', `${params.rotation.toFixed(2)}deg`)
+    }
   }
 
   onEnd = () => {
@@ -78,7 +86,6 @@ class BlockWords extends PureComponent {
   }
 
   onStart = () => {
-    console.log('ON START', this.props.block.get('id'))
     const entry = this.props.block.get('data') || {}
     this.setState({
       hasStarted: true,
@@ -141,21 +148,39 @@ class BlockWords extends PureComponent {
   }
 
   render() {
+    const transforms = []
+    const innerTransforms = []
     const position = this.props.block.get('position')
       ? this.props.block.get('position').concat([0]).join(',')
       : 0
+    const rotation = this.props.block.get('rotation') || 0
+    const scale = this.props.block.get('scale') || 0
+    if (position) {
+      transforms.push(`translate3d(${position})`)
+    }
+    if (scale) {
+      innerTransforms.push(`scale(${scale})`)
+    }
+    if (rotation) {
+      innerTransforms.push(`rotate(${rotation})`)
+    }
+
     return (
       <div
         ref={this.getRef}
         style={[
           style.default,
-          {transform: `translate3d(${position})`},
-          // this.state.edit && {left: `${-this.state.position[0]}px`},
+          transforms.length > 0 && {transform: transforms.join(' ')}
         ]}
       >
         <Hammer
           onTap={this.handleTapEdit}
         >
+          <div
+            style={[
+              innerTransforms.length > 0 && {transform: innerTransforms.join(' ')}
+            ]}
+          >
           <h1
             ref={this.getRefText}
             style={[
@@ -167,6 +192,7 @@ class BlockWords extends PureComponent {
           >
             {this.state.entry.content}
           </h1>
+          </div>
         </Hammer>
       </div>
     )
