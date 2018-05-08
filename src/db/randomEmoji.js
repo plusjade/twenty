@@ -6,6 +6,8 @@ const EMOJIS = ` \
 🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🍈 🍒 🍑 🍍 🥥 🥝 🍅 🍆 🥑 🥦 🥒 🌶 🌽 🥕 🥔 🍠 🥐 🍞 🥖 🥨 🧀 🥚 🍳 🥞 🥓 🥩 🍗 🍖 🌭 🍔 🍟 🍕 🥪 🥙 🌮 🌯 🥗 🥘 🥫 🍝 🍜 🍲 🍛 🍣 🍱 🥟 🍤 🍙 🍚 🍘 🍥 🥠 🍢 🍡 🍧 🍨 🍦 🥧 🍰 🎂 🍮 🍭 🍬 🍫 🍿 🍩 🍪 🌰 🥜 🍯 🥛 🍼 ☕️ 🍵 🥤 🍶 🍺 🍻 🥂 🍷 🥃 🍸 🍹 🍾 🥄 🍴 🍽 🥣 🥡 🥢
 `.split(/\s+/)
 
-const randomEmoji = () => EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+const randomEmoji = (times = 1) => (
+  new Array(times).fill(1).map(_ => EMOJIS[Math.floor(Math.random() * EMOJIS.length)]).join(' ')
+)
 
 export default randomEmoji

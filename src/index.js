@@ -38,7 +38,7 @@ if (videoId) {
     video.addBlock({
       type: "words",
       data: {
-        content: randomEmoji(),
+        content: `${randomEmoji(3)}`,
       },
       style: {
         color: "#FFF",
