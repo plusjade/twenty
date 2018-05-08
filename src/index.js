@@ -7,6 +7,7 @@ import withPlay         from 'containers/withPlay'
 import Home             from 'containers/Home'
 import { videoFind, videoSave } from 'lib/actions'
 import Video from 'lib/Video'
+import randomEmoji from 'db/randomEmoji'
 
 import './index.css'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -38,22 +39,11 @@ if (videoId) {
     video.addBlock({
       type: "words",
       data: {
-        content: "👋 🌎",
+        content: randomEmoji(),
       },
       style: {
         color: "#FFF",
       },
-      sceneId: sceneId,
-    })
-    video.addBlock({
-      type: "words",
-      data: {
-        content: videoId,
-      },
-      style: {
-        color: "#FFF",
-      },
-      position: [0, '15vh'],
       sceneId: sceneId,
     })
   }

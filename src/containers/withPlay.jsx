@@ -1,8 +1,8 @@
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 import { findVideo }        from 'lib/actions'
+import randomEmoji from 'db/randomEmoji'
 
-const EMOJIS = ["🤔", "👻", "🤖", "😻", "👽", "😴", "🙌"]
 const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
@@ -142,12 +142,11 @@ const withPlay = (WrappedComponent) => {
     }
 
     addBlock = () => {
-      const content = EMOJIS[Math.floor(Math.random()*EMOJIS.length)]
       const block = this.props.video.addBlock(
         {
           type: "words",
           data: {
-            content,
+            content: randomEmoji(),
           },
           sceneId: this.state.activeSceneId,
         },
