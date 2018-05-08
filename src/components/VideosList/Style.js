@@ -1,11 +1,12 @@
 export default {
   wrap: {
     display: "flex",
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
+    flexDirection: "column",
     zIndex: 1001,
     // backgroundColor: "#FFF",
     overflow: "auto",
-    opacity: 1,
+    margin: "auto",
     borderRadius: "0 0 15px 15px",
   },
   video: {
@@ -24,7 +25,7 @@ export default {
     alignItems: "stretch",
   },
   create: {
-    height: 100,
+    height: 50,
     backgroundColor: 'Transparent',
     border: 0,
   },
@@ -39,9 +40,12 @@ export default {
     textDecoration: "none",
   },
   createInner: {
+    // backgroundColor: "#76FF03",
     color: "#76FF03",
-    lineHeight: "100px",
-    textDecoration: 'none',
+    fontWeight: 600,
+    lineHeight: "50px",
+    fontSize: 20,
+    textDecoration: "underline",
   },
   editor: {
     position: 'absolute',

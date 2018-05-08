@@ -36,7 +36,7 @@ const style = {
 class Player extends PureComponent {
   static propTypes = {
     activeSceneId: PropTypes.string.isRequired,
-    stagedBlockId: PropTypes.string.isRequired,
+    stagedBlockId: PropTypes.string,
     video: PropTypes.object.isRequired,
     sceneTransition: PropTypes.func.isRequired,
     addScene: PropTypes.func.isRequired,
@@ -76,7 +76,7 @@ class Player extends PureComponent {
   render() {
     const scenes = this.props.video.getScenes()
     return (
-      <div id="app-wrapper" style={style.wrap}>
+      <div className="app-wrapper" style={style.wrap}>
         {scenes.map(scene => (
           <Scene
             key={`scenes-${scene.get('id')}`}
