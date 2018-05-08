@@ -20,10 +20,10 @@ export const fadeIn = (node) => {
         mySplitText.lines,
         0.5,
         {
-          opacity:0,
-          rotationX:-20,
-          force3D:true,
-          transformOrigin:"top center -150"
+          opacity: 0,
+          rotationX: -20,
+          force3D: true,
+          transformOrigin:"top center -50"
         },
         0.1
       )
