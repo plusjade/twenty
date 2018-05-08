@@ -53,8 +53,8 @@ class Player extends PureComponent {
     this.props.sceneTransition({option: 'prev'})
   }
 
-  handleTapEdit = () => {
-    this.props.toggleEditMode()
+  handleTapHome = () => {
+    window.location = '/'
   }
 
   onEnterText = (value) => {
@@ -119,20 +119,14 @@ class Player extends PureComponent {
           addBlock={this.props.addBlock}
         />
 
-        {this.props.canEdit && (
           <div style={style.edit}>
-            {this.props.isEditing && (
-              <EditorButton onTap={this.handleTapEdit}>
-                <div>{"👌"}</div>
-              </EditorButton>
-            )}
-            {!this.props.isEditing && (
-              <EditorButton onTap={this.handleTapEdit}>
-                <div>{"✍"}</div>
-              </EditorButton>
-            )}
+            <EditorButton
+              onTap={this.handleTapHome}
+              dark
+            >
+              <div>{"🏠"}</div>
+            </EditorButton>
           </div>
-        )}
 
         <SceneEditor
           isEditing={this.props.isEditing}

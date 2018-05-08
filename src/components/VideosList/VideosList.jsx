@@ -20,15 +20,19 @@ class VideosList extends PureComponent {
     window.location = `/?id=${token()}&edit=1`
   }
 
+   reload = () => {
+    this.setState({entropy: Math.random()})
+  }
+
   render() {
     const videos = getVideos()
     return (
       <div style={style.wrap}>
-        <div style={[style.video, style.create]}>
+        <div style={style.video}>
           <a
             href={'#new'}
             onClick={this.handleCreateNew}
-            style={[style.inner, style.createInner]}
+            style={style.inner}
           >
             <span>{'+ new'}</span>
           </a>
@@ -37,16 +41,17 @@ class VideosList extends PureComponent {
           <VideoCard
             key={v.videoId}
             videoId={v.videoId}
+            reload={this.reload}
             created_at={v.created_at}
             offset={i % 2 === 1}
           />
         ))}
         {true && (
-          <div style={[style.video, style.create]}>
+          <div style={style.video}>
             <a
               href={'#new'}
               onClick={this.handleCreateNew}
-              style={[style.inner, style.createInner]}
+              style={style.inner}
             >
               <span>{'+ new'}</span>
             </a>

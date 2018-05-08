@@ -51,4 +51,16 @@ export default {
     borderRadius: "0 0 15px 15px",
     background: "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.1))"
   },
+  remove: {
+    position: 'absolute',
+    top: 5,
+    left: 0,
+    display: 'flex',
+  },
+  edit: {
+    position: 'absolute',
+    top: 5,
+    right: 0,
+    display: 'flex',
+  },
 }
