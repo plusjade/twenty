@@ -8,6 +8,7 @@ import Home             from 'containers/Home'
 import { videoFind, videoSave } from 'lib/actions'
 import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
+import debounce from 'lodash.debounce'
 
 import './index.css'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -28,10 +29,11 @@ if (videoId) {
         videoSave(videoId, data)
       }
     : () => {}
+  const debouncedSubscribe = subscribe ? debounce(subscribe, 500) : () => {}
   const videoData = videoFind(videoId)
 
   if (videoData) {
-    video = new Video({...videoData, subscribe})
+    video = new Video({...videoData, subscribe: debouncedSubscribe})
   } else {
     video = new Video({subscribe})
     const sceneId = video.addScene()

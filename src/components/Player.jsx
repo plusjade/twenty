@@ -148,7 +148,7 @@ class Player extends PureComponent {
             </EditorButton>
             <EditorButton dark>
               <div>
-                {(this.getStagedBlock() && this.getStagedBlock().get('scale') || 1) + 'x'}
+                {((this.getStagedBlock() && this.getStagedBlock().get('scale')) || 1) + 'x'}
               </div>
             </EditorButton>
             <EditorButton onTap={this.handleScaleUp} dark>
@@ -160,7 +160,6 @@ class Player extends PureComponent {
                 maxLength="3"
                 value={this.getStagedRotation()}
                 onChange={(e) => {
-                  console.log(e.target.value)
                   const block = this.getStagedBlock()
                   block.set('rotation', `${+e.target.value}deg`)
                 }}
