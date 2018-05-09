@@ -1,18 +1,9 @@
 import Radium from 'radium'
 import React, { PureComponent }   from 'react'
-import { token } from 'lib/actions'
+import { token, videosList } from 'lib/actions'
 import VideoCard from 'components/VideoCard/VideoCard'
 
 import style                from './Style'
-
-const getVideos = () => (
-  Object.keys(window.localStorage)
-    .filter(key => key.startsWith('video_'))
-    .map(key => ({
-      videoId: key.replace('video_', ''),
-      created_at: ""
-    }))
-)
 
 class VideosList extends PureComponent {
    handleCreateNew = (e) => {
@@ -25,7 +16,7 @@ class VideosList extends PureComponent {
   }
 
   render() {
-    const videos = getVideos()
+    const videos = videosList()
     return (
       <div style={style.wrap}>
         <div style={style.video}>

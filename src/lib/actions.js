@@ -1,4 +1,4 @@
-import Crypto         from 'crypto'
+import Crypto from 'crypto'
 
 const API_ENDPOINT = (
   process.env.NODE_ENV === 'production'
@@ -8,63 +8,69 @@ const API_ENDPOINT = (
 
 const SEPARATOR = "_"
 
-export const videoFind = (videoId) => {
-  const string = window.localStorage.getItem(namespace(videoId))
-  if (!string) { return }
+export const token = () => Crypto.randomBytes(6).toString('hex')
 
-  return JSON.parse(string)
-}
+export const videosFind = videoId => (
+  new Promise((resolve, reject) => {
+    const string = window.localStorage.getItem(namespace(videoId))
+    if (string) {
+      resolve(JSON.parse(string))
+    } else {
+      videosFindDB(videoId).then(({payload}) => {
+        resolve(payload)
+      }).catch(() => {
+        reject()
+      })
+    }
+  })
+)
 
-export const videoRemove = (videoId) => {
-  window.localStorage.removeItem(namespace(videoId))
-}
+export const videosSave = (videoId, data) => {
+  if (!videoId) { throw new TypeError('videoId required') }
 
-export const videoSave = (videoId, data) => {
   const payload = JSON.stringify(data)
   window.localStorage.setItem(namespace(videoId), payload)
+  videosSaveDB({videoId, payload})
   console.log('🌽 video saved!', videoId)
 }
 
-export function findVideo(videoId) {
-  return (
-    window.fetch(buildUrl(videoId), {
-      method: 'GET'
-    })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then((rsp) => {
-      const payload = JSON.parse(rsp.data.payload)
-      return (
-        Object.assign({}, rsp.data, {commands: payload.commands, mode: payload.mode})
-      )
-    })
-    .catch((error) => {
-      console.log('request failed', error)
-    })
-  )
+export const videosRemove = (videoId) => {
+  if (!videoId) { throw new TypeError('videoId required') }
+
+  window.localStorage.removeItem(namespace(videoId))
 }
 
-export function listVideos() {
-  return (
-    window.fetch(API_ENDPOINT, {
-      method: 'GET'
-    })
-    .then(checkStatus)
-    .then(parseJSON)
-    .catch((error) => {
-      console.log('request failed', error)
-    })
-  )
-}
+export const videosList = () => (
+  Object.keys(window.localStorage)
+    .filter(key => key.startsWith('video_'))
+    .map(key => ({
+      videoId: key.replace('video_', ''),
+      created_at: ""
+    }))
+)
 
-export function save(videoId, data) {
-  const payload = JSON.stringify(data)
-  window.localStorage.setItem(namespace(videoId), payload)
+export const canEditVideo = videoId => (
+  videoId && !!window.localStorage.getItem(namespace(videoId))
+)
 
-  persist({videoId, payload})
-}
+const videosFindDB = videoId => (
+  window.fetch(buildUrl(videoId), {
+    method: 'GET'
+  })
+  .then(checkStatus)
+  .then(parseJSON)
+  .then((rsp) => {
+    const payload = JSON.parse(rsp.data.payload)
+    return ({payload})
+  })
+  .catch((error) => {
+    console.log('request failed', error)
+  })
+)
 
-export function persist({videoId, payload, blob}) {
+const videosSaveDB = ({videoId, payload, blob}) => {
+  if (!videoId) { throw new TypeError('videoId required') }
+
   const fdata = new FormData()
   if (payload) {
     fdata.append("payload", payload)
@@ -73,20 +79,33 @@ export function persist({videoId, payload, blob}) {
     fdata.append("blob", blob)
   }
 
-  window.fetch(buildUrl(videoId), {
-    method: 'PUT',
-    body: fdata
+  return (
+    window.fetch(buildUrl(videoId), {
+      method: 'PUT',
+      body: fdata
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then((data) => {
+      console.log('request succeeded with JSON response', data)
+    }).catch((error) => {
+      console.log('request failed', error)
+    })
+  )
+}
+
+const videoListDB = () => (
+  window.fetch(API_ENDPOINT, {
+    method: 'GET'
   })
   .then(checkStatus)
   .then(parseJSON)
-  .then((data) => {
-    console.log('request succeeded with JSON response', data)
-  }).catch((error) => {
+  .catch((error) => {
     console.log('request failed', error)
   })
-}
+)
 
-export function checkStatus(response) {
+const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response
   } else {
@@ -96,22 +115,8 @@ export function checkStatus(response) {
   }
 }
 
-export function token() {
-  return (
-    Crypto
-      .randomBytes(6)
-      .toString('hex')
-  )
-}
+const parseJSON = response => response.json()
 
-function parseJSON(response) {
-  return response.json()
-}
+const namespace = id => `video${SEPARATOR}${id}`
 
-function namespace(id) {
-  return `video${SEPARATOR}${id}`
-}
-
-function buildUrl(videoId) {
-  return `${API_ENDPOINT}/${videoId}`
-}
+const buildUrl = videoId => `${API_ENDPOINT}/${videoId}`

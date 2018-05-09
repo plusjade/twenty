@@ -5,7 +5,7 @@ import QueryParams      from 'lib/QueryParams'
 import Player           from 'components/Player'
 import withPlay         from 'containers/withPlay'
 import Home             from 'containers/Home'
-import { videoFind, videoSave } from 'lib/actions'
+import { videosFind, videosSave, canEditVideo } from 'lib/actions'
 import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
 import debounce from 'lodash.debounce'
@@ -16,27 +16,52 @@ injectTapEventPlugin()
 
 const QParams = QueryParams()
 const videoId = QParams.get("id")
-const canEdit = !!QParams.get("edit")
-let app
-let props = {canEdit}
+const canEdit = !!QParams.get("edit") && canEditVideo(videoId)
+const props = {canEdit}
 
-if (videoId) {
-  let video
-  const subscribe = canEdit
-    ? (data) => {
-        // console.log("monitor SUBSCRIBE")
-        // console.log(data)
-        videoSave(videoId, data)
-      }
-    : () => {}
-  const debouncedSubscribe = subscribe ? debounce(subscribe, 500) : () => {}
-  const videoData = videoFind(videoId)
-
-  if (videoData) {
-    video = new Video({...videoData, subscribe: debouncedSubscribe})
-  } else {
-    video = new Video({subscribe})
+if (!videoId) {
+  window.document.body.style.overflow = 'auto'
+  ReactDOM.render(
+    React.createElement(
+      Home,
+      {}
+    ),
+    document.getElementById('root')
+  )
+} else {
+  videosFind(videoId)
+  .then((videoData) => {
+    const subscribe = canEdit
+      ? (data) => {
+          // console.log("monitor SUBSCRIBE")
+          // console.log(data)
+          videosSave(videoId, data)
+        }
+      : () => {}
+    const debouncedSubscribe = subscribe ? debounce(subscribe, 500) : () => {}
+    const video = new Video({...videoData, subscribe: debouncedSubscribe})
+    ReactDOM.render(
+      React.createElement(
+        withPlay(Player),
+        {...props, video}
+      ),
+      document.getElementById('root')
+    )
+  })
+  .catch(() => {
+    const video = new Video()
     const sceneId = video.addScene()
+    video.addBlock({
+      type: "words",
+      data: {
+        content: "Sorry that video wasn't found",
+      },
+      style: {
+        color: "#FFF",
+      },
+      position: [0, '-15vh'],
+      sceneId: sceneId,
+    })
     video.addBlock({
       type: "words",
       data: {
@@ -45,15 +70,17 @@ if (videoId) {
       style: {
         color: "#FFF",
       },
+      offset: 200,
+      position: [0, '15vh'],
       sceneId: sceneId,
     })
-  }
 
-  app = withPlay(Player)
-  props = {...props, video}
-} else {
-  app = Home
-  window.document.body.style.overflow = 'auto'
+    ReactDOM.render(
+      React.createElement(
+        withPlay(Player),
+        {...props, video}
+      ),
+      document.getElementById('root')
+    )
+  })
 }
-
-ReactDOM.render(React.createElement(app, props), document.getElementById('root'))

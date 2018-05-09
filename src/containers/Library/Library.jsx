@@ -2,7 +2,6 @@ import Radium               from 'radium'
 import React, {Component}   from 'react'
 import PropTypes            from 'prop-types'
 
-import { listVideos }       from 'lib/actions'
 import VideosList           from 'components/VideosList/VideosList'
 import IconClose            from 'components/IconClose'
 import withPromisedData     from 'containers/withPromisedData'
@@ -47,7 +46,6 @@ class Library extends Component {
         )}
         <VideosListAsync
           key={this.state.entropyKey}
-          async={listVideos}
           isOpen={this.props.isOpen}
         />
       </div>

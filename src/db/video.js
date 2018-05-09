@@ -1,6 +1,6 @@
 import { getSubstitutions } from 'db/substitutions'
 import Video from 'lib/Video'
-import { videoFind, videoSave } from 'lib/actions'
+import { videosFind, videosSave } from 'lib/actions'
 import QueryParams from 'lib/QueryParams'
 
 const blocks = [

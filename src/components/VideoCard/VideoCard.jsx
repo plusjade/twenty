@@ -1,7 +1,7 @@
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { token, videoRemove } from 'lib/actions'
+import { token, videosRemove } from 'lib/actions'
 import EditorButton from 'components/EditorButton/EditorButton'
 import style from './style'
 
@@ -31,7 +31,7 @@ class VideoCard extends PureComponent {
 
   handleRemove = () => {
     if (window.confirm(`delete '${this.props.videoId}' video forever?`)) {
-      videoRemove(this.props.videoId)
+      videosRemove(this.props.videoId)
       this.props.reload()
     }
   }
