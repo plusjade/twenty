@@ -99,11 +99,8 @@ export function checkStatus(response) {
 export function token() {
   return (
     Crypto
-      .randomBytes(9)
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '')
+      .randomBytes(6)
+      .toString('hex')
   )
 }
 
