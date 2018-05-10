@@ -1,10 +1,6 @@
 import Crypto from 'crypto'
-
-const API_ENDPOINT = (
-  process.env.NODE_ENV === 'production'
-    ? "https://www.getdamon.com/videos"
-    : "http://localhost:4000/videos"
-)
+import { API_ENDPOINT } from 'api/config'
+import { getCookie } from 'vendor/cookies'
 
 const SEPARATOR = "_"
 
@@ -55,7 +51,7 @@ export const canEditVideo = videoId => (
 
 const videosFindDB = videoId => (
   window.fetch(buildUrl(videoId), {
-    method: 'GET'
+    method: 'GET',
   })
   .then(checkStatus)
   .then(parseJSON)
@@ -82,7 +78,8 @@ const videosSaveDB = ({videoId, payload, blob}) => {
   return (
     window.fetch(buildUrl(videoId), {
       method: 'PUT',
-      body: fdata
+      body: fdata,
+      headers: buildHeaders(),
     })
     .then(checkStatus)
     .then(parseJSON)
@@ -95,8 +92,9 @@ const videosSaveDB = ({videoId, payload, blob}) => {
 }
 
 const videoListDB = () => (
-  window.fetch(API_ENDPOINT, {
-    method: 'GET'
+  window.fetch(`${API_ENDPOINT}/videos`, {
+    method: 'GET',
+    headers: buildHeaders(),
   })
   .then(checkStatus)
   .then(parseJSON)
@@ -104,6 +102,15 @@ const videoListDB = () => (
     console.log('request failed', error)
   })
 )
+
+const buildHeaders = () => {
+  const headers = {}
+  const access_token = getCookie('access_token')
+  if (access_token) {
+    headers.Authorization = `Bearer ${access_token}`
+  }
+  return headers
+}
 
 const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
@@ -119,4 +126,4 @@ const parseJSON = response => response.json()
 
 const namespace = id => `video${SEPARATOR}${id}`
 
-const buildUrl = videoId => `${API_ENDPOINT}/${videoId}`
+const buildUrl = videoId => `${API_ENDPOINT}/videos/${videoId}`

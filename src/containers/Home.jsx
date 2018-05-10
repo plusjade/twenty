@@ -1,15 +1,16 @@
-import React                from 'react'
+import React, { PureComponent } from 'react'
+import AuthPanel from 'components/AuthPanel/AuthPanel'
+import Library from 'containers/Library/Library'
 
-import Library              from 'containers/Library/Library'
-
-const Home = (props) => {
-  return(
-    <Library
-      isOpen={true}
-      videosDB={props.videosDB}
-      disableClose={true}
-    />
-  )
+class Home extends PureComponent {
+  render() {
+    return(
+      <div>
+        <AuthPanel />
+        <Library isOpen />
+      </div>
+    )
+  }
 }
 
 export default Home
