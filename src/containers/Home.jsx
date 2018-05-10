@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react'
 import AuthPanel from 'components/AuthPanel/AuthPanel'
-import Library from 'containers/Library/Library'
+import VideosList from 'components/VideosList/VideosList'
 
 class Home extends PureComponent {
   render() {
     return(
       <div>
         <AuthPanel />
-        <Library isOpen />
+        <VideosList />
       </div>
     )
   }

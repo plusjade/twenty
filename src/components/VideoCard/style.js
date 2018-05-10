@@ -16,14 +16,6 @@ export default {
     backgroundColor: 'Transparent',
     // border: "2px solid #212121",
   },
-  create: {
-    height: 100,
-    backgroundColor: 'Transparent',
-    border: 0,
-  },
-  offset: {
-    // marginTop: -195,
-  },
   innerWrap: {
     borderRadius: 20,
     backgroundColor: "Transparent",

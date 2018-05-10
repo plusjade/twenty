@@ -1,17 +1,12 @@
 import Radium from 'radium'
 import React, { PureComponent }   from 'react'
-import { token, videosList } from 'lib/actions'
+import { videosList } from 'lib/actions'
 import VideoCard from 'components/VideoCard/VideoCard'
-
-import style                from './Style'
+import VideosAdd from 'components/VideosAdd/VideosAdd'
+import style from './Style'
 
 class VideosList extends PureComponent {
-   handleCreateNew = (e) => {
-    e.preventDefault()
-    window.location = `/?id=${token()}&edit=1`
-  }
-
-   reload = () => {
+  reload = () => {
     this.setState({entropy: Math.random()})
   }
 
@@ -19,15 +14,7 @@ class VideosList extends PureComponent {
     const videos = videosList()
     return (
       <div style={style.wrap}>
-        <div style={style.video}>
-          <a
-            href={'#new'}
-            onClick={this.handleCreateNew}
-            style={style.inner}
-          >
-            <span>{'+ new'}</span>
-          </a>
-        </div>
+        <VideosAdd />
         {videos.map((v, i) => (
           <VideoCard
             key={v.videoId}
@@ -37,16 +24,8 @@ class VideosList extends PureComponent {
             offset={i % 2 === 1}
           />
         ))}
-        {true && (
-          <div style={style.video}>
-            <a
-              href={'#new'}
-              onClick={this.handleCreateNew}
-              style={style.inner}
-            >
-              <span>{'+ new'}</span>
-            </a>
-          </div>
+        {videos.length > 1 && (
+          <VideosAdd />
         )}
       </div>
     )

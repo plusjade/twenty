@@ -1,0 +1,31 @@
+export default {
+  video: {
+    position: 'relative',
+    flex: 1,
+    color: "inherit",
+    textDecoration: "none",
+    textAlign: "center",
+    borderRadius: 10,
+    margin: "5px 5px 0 0",
+    display: "flex",
+    justifyContent: "stretch",
+    alignItems: "stretch",
+    height: 80,
+    backgroundColor: 'Transparent',
+    border: 0,
+  },
+  inner: {
+    margin: "auto",
+    display:'block',
+    height: 60,
+    padding: "0 20px",
+    backgroundColor: "#76FF03",
+    border: "2px solid #FCE4EC",
+    color: "#FFF",
+    fontWeight: 600,
+    lineHeight: "60px",
+    fontSize: 20,
+    textDecoration: "none",
+    transform: "skewX(-15deg)"
+  },
+}

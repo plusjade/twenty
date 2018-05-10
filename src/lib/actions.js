@@ -21,13 +21,15 @@ export const videosFind = videoId => (
   })
 )
 
-export const videosSave = (videoId, data) => {
+export const videosSave = (videoId, data, db = true) => {
   if (!videoId) { throw new TypeError('videoId required') }
 
   const payload = JSON.stringify(data)
   window.localStorage.setItem(namespace(videoId), payload)
-  videosSaveDB({videoId, payload})
-  console.log('🌽 video saved!', videoId)
+  console.log('🌽 video saved (local)!', videoId)
+  if (db) {
+    videosSaveDB({videoId, payload})
+  }
 }
 
 export const videosRemove = (videoId) => {
