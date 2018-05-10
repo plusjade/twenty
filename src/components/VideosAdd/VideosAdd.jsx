@@ -13,8 +13,7 @@ class VideosAdd extends PureComponent {
     const subscribe = (data) => {
       videosSave(videoId, data, false) // don't save to db
     }
-    const debouncedSubscribe = debounce(subscribe, 500)
-    const video = new Video({subscribe: debouncedSubscribe})
+    const video = new Video({subscribe: subscribe})
     const sceneId = video.addScene()
     video.addBlock({
       type: "words",
