@@ -219,6 +219,8 @@ class BlockWords extends PureComponent {
               style={[
                 style.text,
                 this.props.block.get('style'),
+                this.props.block.get('color') && {color: this.props.block.get('color')},
+                this.props.block.get('align') && {textAlign: this.props.block.get('align')},
                 this.props.isEditing && style.isEditing,
               ]}
             >
