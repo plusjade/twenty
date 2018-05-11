@@ -25,7 +25,8 @@ class BlockWords extends PureComponent {
       isActivated: false,
       content: '',
       effect: null,
-      position: [],
+      positionX: 0,
+      positionY: 0,
     })
   }
 
@@ -71,15 +72,24 @@ class BlockWords extends PureComponent {
     if (this.rotation) {
       syncTransforms({rotation: this.rotation})
     } else {
-      syncTransforms({position: [this.endX, this.endY]})
+      syncTransforms({
+        positionX: this.endX,
+        positionY: this.endY,
+      })
     }
   }
 
   syncTransforms = (params) => {
     this.setState(params)
-    if (params.position) {
-      this.props.block.set('position', [`${params.position[0].toFixed(2)}px`, `${params.position[1].toFixed(2)}px`])
-    } else if (params.rotation) {
+    if (Object.prototype.hasOwnProperty.call(params, 'positionX')) {
+      this.props.block.set('positionX', `${params.positionX.toFixed(2)}px`)
+    }
+
+    if (Object.prototype.hasOwnProperty.call(params, 'positionY')) {
+      this.props.block.set('positionY', `${params.positionY.toFixed(2)}px`)
+    }
+
+    if (Object.prototype.hasOwnProperty.call(params, 'rotation')) {
       this.props.block.set('rotation', `${params.rotation.toFixed(2)}deg`)
     }
   }
@@ -144,11 +154,21 @@ class BlockWords extends PureComponent {
 
   getTransforms() {
     const transforms = []
-    const position = this.props.block.get('position')
-      ? this.props.block.get('position').concat([0]).join(',')
-      : 0
-    if (position) {
-      transforms.push(`translate3d(${position})`)
+
+    if (this.props.block.has('positionX') || this.props.block.has('positionY')) {
+      const positionX = this.props.block.get('positionX') || 0
+      const positionY = this.props.block.get('positionY') || 0
+
+      if (positionX || positionY) {
+        transforms.push(`translate3d(${positionX}, ${positionY}, 0)`)
+      }
+    } else {
+      const position = this.props.block.get('position')
+        ? this.props.block.get('position').concat([0]).join(',')
+        : 0
+      if (position) {
+        transforms.push(`translate3d(${position})`)
+      }
     }
 
     return transforms

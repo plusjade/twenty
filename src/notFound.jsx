@@ -13,15 +13,16 @@ const notFound = () => {
     type: "words",
     content: "Sorry that video wasn't found",
     color: "#FFF",
-    position: [0, '-15vh'],
+    positionX: '0',
+    positionY: '-15vh',
     sceneId: sceneId,
   })
   video.addBlock({
     type: "words",
     content: `${randomEmoji(3)}`,
     color: "#FFF",
-    offset: 200,
-    position: [0, '15vh'],
+    positionX: '0',
+    positionY: '15vh',
     sceneId: sceneId,
   })
 
