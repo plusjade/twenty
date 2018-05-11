@@ -51,7 +51,14 @@ class VideoCard extends PureComponent {
             style={style.iframe}
             frameBorder={"0"}
           />
-          <div style={style.editor}>
+          <div style={style.bottomRight}>
+            <EditorButton
+              onTap={this.handleEdit}
+              dark
+            >
+              <div>{"✍"}</div>
+            </EditorButton>
+
             <EditorButton
               onTap={this.handleShow}
               dark
@@ -60,15 +67,7 @@ class VideoCard extends PureComponent {
             </EditorButton>
           </div>
 
-          <div style={style.edit}>
-            <EditorButton
-              onTap={this.handleEdit}
-              dark
-            >
-              <div>{"✍"}</div>
-            </EditorButton>
-          </div>
-          <div style={style.remove}>
+          <div style={style.topRight}>
             <EditorButton
               onTap={this.handleRemove}
               dark

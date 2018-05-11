@@ -1,4 +1,3 @@
-// rgba(0,0,0,0.5)
 export default {
   video: {
     position: 'relative',
@@ -32,24 +31,25 @@ export default {
     height: "100%",
     border: 0,
   },
-  editor: {
+  bottomRight: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
     display: 'flex',
-    flexDirection: 'row-reverse',
+    flexDirection: 'column',
+    alignItems: "flex-end",
     paddingTop: 50,
     borderRadius: "0 0 15px 15px",
     background: "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.1))"
   },
-  remove: {
+  topLeft: {
     position: 'absolute',
     top: 5,
     left: 0,
     display: 'flex',
   },
-  edit: {
+  topRight: {
     position: 'absolute',
     top: 5,
     right: 0,
