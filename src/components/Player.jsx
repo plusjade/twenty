@@ -7,13 +7,10 @@ import Hammer from 'react-hammerjs'
 
 import Layer from 'components/Layer/Layer'
 import Scene from 'components/Scene'
-import EnterText from 'components/EnterText/EnterText'
-import BlockEditor from 'components/BlockEditor/BlockEditor'
+import BlockList from 'components/BlockList/BlockList'
 import SceneEditor from 'components/SceneEditor/SceneEditor'
 import EditorButton from 'components/EditorButton/EditorButton'
-
-import BottomPanel from 'components/BottomPanel/BottomPanel'
-
+import BlockWordsEditor from 'components/BlockWordsEditor/BlockWordsEditor'
 
 const style = {
   wrap: {
@@ -37,6 +34,8 @@ class Player extends PureComponent {
     activeSceneId: PropTypes.string.isRequired,
     stagedBlockId: PropTypes.string,
     video: PropTypes.object.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    isInteractive: PropTypes.bool.isRequired,
     sceneTransition: PropTypes.func.isRequired,
     addScene: PropTypes.func.isRequired,
     addBlock: PropTypes.func.isRequired,
@@ -44,6 +43,12 @@ class Player extends PureComponent {
     removeBlock: PropTypes.func.isRequired,
     stageBlock: PropTypes.func.isRequired,
   }
+
+  getStagedBlock = () => (
+    this.props.stagedBlockId
+    ? this.props.video.getBlock(this.props.stagedBlockId)
+    : undefined
+  )
 
   handleTapRight = () => {
     this.props.sceneTransition()
@@ -55,59 +60,6 @@ class Player extends PureComponent {
 
   handleTapHome = () => {
     window.location = '/'
-  }
-
-  onEnterText = (value) => {
-    if (value) {
-      this.props.editBlock(this.props.stagedBlockId, {content: value})
-    } else {
-      this.props.removeBlock(this.props.stagedBlockId)
-    }
-  }
-
-  onChange = (value) => {
-    if (value) {
-      this.props.video.editBlock(this.props.stagedBlockId, {content: value})
-    }
-  }
-
-  getStagedBlock = () => (
-    this.props.stagedBlockId
-    ? this.props.video.getBlock(this.props.stagedBlockId)
-    : undefined
-  )
-
-  getStagedText = () => {
-    const block = this.getStagedBlock()
-
-    if (!block) { return '' }
-
-    return (
-      block.get('content') || (block.get('data') && block.get('data').content)
-    )
-  }
-
-  handleScaleUp = () => {
-    const block = this.getStagedBlock()
-    if (!block) { return }
-    const scale = block.get('scale') || 1
-    block.set('scale', (+scale + 0.1).toFixed(2))
-  }
-
-  handleScaleDown = () => {
-    const block = this.getStagedBlock()
-    if (!block) { return }
-    const scale = block.get('scale') || 1
-    block.set('scale', (+scale - 0.1).toFixed(2))
-  }
-
-  getStagedRotation = () => {
-    const block = this.getStagedBlock()
-    if (!block) { return 0 }
-    const rotation = block.get('rotation') || 0
-    if (!rotation) { return 0 }
-
-    return rotation.replace('deg', '')
   }
 
   render() {
@@ -142,55 +94,26 @@ class Player extends PureComponent {
           />
         </Hammer>
 
-        <BottomPanel
+        <BlockWordsEditor
           isActive={!!this.props.stagedBlockId}
-        >
-          <EnterText
-            isActive={true}
-            value={this.getStagedText()}
-            onSubmit={this.onEnterText}
-            onChange={this.onChange}
-          />
+          editBlock={this.props.editBlock}
+          removeBlock={this.props.removeBlock}
+          getStagedBlock={this.getStagedBlock}
+        />
 
-          <div style={{display: 'flex', paddingTop: 10}}>
-            <EditorButton onTap={this.handleScaleDown} dark>
-              <div>{"-"}</div>
-            </EditorButton>
-            <EditorButton dark>
-              <div>
-                {((this.getStagedBlock() && this.getStagedBlock().get('scale')) || 1) + 'x'}
-              </div>
-            </EditorButton>
-            <EditorButton onTap={this.handleScaleUp} dark>
-              <div>{"+"}</div>
-            </EditorButton>
-            <div style={{flex: 1}}>
-              <input
-                type="number"
-                maxLength="3"
-                value={this.getStagedRotation()}
-                onChange={(e) => {
-                  const block = this.getStagedBlock()
-                  block.set('rotation', `${+e.target.value}deg`)
-                }}
-              />
-            </div>
-          </div>
-        </BottomPanel>
-
-        <BlockEditor
+        <BlockList
           isEditing={this.props.isEditing}
           addBlock={this.props.addBlock}
         />
 
-          <div style={style.edit}>
-            <EditorButton
-              onTap={this.handleTapHome}
-              dark
-            >
-              <div>{"🏠"}</div>
-            </EditorButton>
-          </div>
+        <div style={style.edit}>
+          <EditorButton
+            onTap={this.handleTapHome}
+            dark
+          >
+            <div>{"🏠"}</div>
+          </EditorButton>
+        </div>
 
         <SceneEditor
           isEditing={this.props.isEditing}

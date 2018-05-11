@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import EditorButton from 'components/EditorButton/EditorButton'
 import style from './style'
 
-class BlockEditor extends PureComponent {
+class BlockList extends PureComponent {
   static propTypes = {
     isEditing: PropTypes.bool.isRequired,
     addBlock: PropTypes.func.isRequired,
@@ -30,4 +30,4 @@ class BlockEditor extends PureComponent {
   }
 }
 
-export default Radium(BlockEditor)
+export default Radium(BlockList)
