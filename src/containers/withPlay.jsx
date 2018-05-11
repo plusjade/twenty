@@ -119,7 +119,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     stageBlock = (blockId) => {
-      this.unStageBlock({callback: ()=> {
+      this.unStageBlock({callback: () => {
         this.setState({stagedBlockId: blockId})
         this.props.video.getBlock(blockId).set('lifecycle', 'edit')
       }})
@@ -134,6 +134,8 @@ const withPlay = (WrappedComponent) => {
       this.setState({stagedBlockId: undefined}, () => {
         if (replay) {
           this.props.video.getBlock(blockId).set('lifecycle', 'replay')
+        } else {
+          this.props.video.getBlock(blockId).delete('lifecycle')
         }
         if (callback) { callback() }
       })

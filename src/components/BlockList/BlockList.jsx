@@ -23,7 +23,7 @@ class BlockList extends PureComponent {
         ]}
       >
         <EditorButton onTap={this.handleTapWords}>
-          <div>{"T"}</div>
+          <div>{"+"}</div>
         </EditorButton>
       </div>
     )

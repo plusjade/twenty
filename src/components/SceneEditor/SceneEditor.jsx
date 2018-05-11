@@ -13,6 +13,10 @@ class SceneEditor extends PureComponent {
     totalScenes: PropTypes.number.isRequired,
   }
 
+  state = {
+    isExpanded: false
+  }
+
   handleTapRight = () => {
     this.props.sceneTransition()
   }
@@ -29,40 +33,52 @@ class SceneEditor extends PureComponent {
     // noop
   }
 
+  handleTapToggle = () => {
+    this.setState({isExpanded: !this.state.isExpanded})
+  }
+
   render() {
     return (
       <div
         style={[
-          style.wrap.default,
-          this.props.isEditing && style.wrap.active
+          style.default,
+          this.props.isEditing && style.active
         ]}
       >
-        <div style={{flex: 1}} />
+        <div
+          style={[
+            style.tools,
+            this.state.isExpanded && style.active
+          ]}
+        >
+          <EditorButton onTap={this.handleTapScene}>
+            <div>{"🎬"}</div>
+          </EditorButton>
 
-        <EditorButton onTap={this.handleTapScene}>
-          <div>{"🎬"}</div>
-        </EditorButton>
+          <EditorButton
+            onTap={this.handleTapLeft}
+            disabled={this.props.scenePosition <= 1}
+          >
+            <div style={{transform: "rotate(180deg)"}}>
+              {"➜"}
+            </div>
+          </EditorButton>
 
-        <EditorButton bigger>
+          <EditorButton
+            onTap={this.handleTapRight}
+            disabled={this.props.scenePosition >= this.props.totalScenes}
+          >
+            <div>{"➜"}</div>
+          </EditorButton>
+        </div>
+
+        <EditorButton
+          onTap={this.handleTapToggle}
+          dark={this.state.isExpanded}
+        >
           <span>
             {`${this.props.scenePosition}/${this.props.totalScenes}`}
           </span>
-        </EditorButton>
-
-        <EditorButton
-          onTap={this.handleTapLeft}
-          disabled={this.props.scenePosition <= 1}
-        >
-          <div style={{transform: "rotate(180deg)"}}>
-            {"➜"}
-          </div>
-        </EditorButton>
-
-        <EditorButton
-          onTap={this.handleTapRight}
-          disabled={this.props.scenePosition >= this.props.totalScenes}
-        >
-          <div>{"➜"}</div>
         </EditorButton>
       </div>
     )
