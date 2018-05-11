@@ -11,23 +11,15 @@ const notFound = () => {
   const sceneId = video.addScene()
   video.addBlock({
     type: "words",
-    data: {
-      content: "Sorry that video wasn't found",
-    },
-    style: {
-      color: "#FFF",
-    },
+    content: "Sorry that video wasn't found",
+    color: "#FFF",
     position: [0, '-15vh'],
     sceneId: sceneId,
   })
   video.addBlock({
     type: "words",
-    data: {
-      content: `${randomEmoji(3)}`,
-    },
-    style: {
-      color: "#FFF",
-    },
+    content: `${randomEmoji(3)}`,
+    color: "#FFF",
     offset: 200,
     position: [0, '15vh'],
     sceneId: sceneId,

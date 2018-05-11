@@ -17,12 +17,8 @@ class VideosAdd extends PureComponent {
     const sceneId = video.addScene()
     video.addBlock({
       type: "words",
-      data: {
-        content: `${randomEmoji(3)}`,
-      },
-      style: {
-        color: "#FFF",
-      },
+      content: `${randomEmoji(3)}`,
+      color: "#FFF",
       sceneId: sceneId,
     })
 

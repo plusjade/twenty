@@ -65,18 +65,27 @@ class Player extends PureComponent {
     }
   }
 
+  onChange = (value) => {
+    if (value) {
+      this.props.video.editBlock(this.props.stagedBlockId, {content: value})
+    }
+  }
+
   getStagedBlock = () => (
     this.props.stagedBlockId
     ? this.props.video.getBlock(this.props.stagedBlockId)
     : undefined
   )
 
-  getStagedText = () => (
-    this.props.stagedBlockId
-      ? this.getStagedBlock()
-         && this.getStagedBlock().get('data').content
-      : ""
-  )
+  getStagedText = () => {
+    const block = this.getStagedBlock()
+
+    if (!block) { return '' }
+
+    return (
+      block.get('content') || (block.get('data') && block.get('data').content)
+    )
+  }
 
   handleScaleUp = () => {
     const block = this.getStagedBlock()
@@ -140,6 +149,7 @@ class Player extends PureComponent {
             isActive={true}
             value={this.getStagedText()}
             onSubmit={this.onEnterText}
+            onChange={this.onChange}
           />
 
           <div style={{display: 'flex', paddingTop: 10}}>

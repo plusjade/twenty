@@ -10,6 +10,7 @@ const MAX_HEIGHT = 200
 class EnterText extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
+    onChange: PropTypes.func,
     placeholder: PropTypes.string,
     value: PropTypes.string,
   }
@@ -36,7 +37,7 @@ class EnterText extends PureComponent {
 
   focus = () => {
     this.handleResize()
-    this.inputRef.focus()
+    // this.inputRef.focus()
   }
 
   reset = () => {
@@ -46,6 +47,9 @@ class EnterText extends PureComponent {
 
   handleChange = (e) => {
     this.setState({value: e.target.value})
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(e.target.value)
+    }
     this.handleResize()
   }
 
@@ -80,7 +84,6 @@ class EnterText extends PureComponent {
           onChange={this.handleChange}
           ref={this.refInput}
           onFocus={this.moveCaretAtEnd}
-          autoFocus
         />
         <Hammer onTap={this.handleSubmitCustom}>
           <button
@@ -89,7 +92,7 @@ class EnterText extends PureComponent {
               this.state.value && style.inputButtonActive,
             ]}
           >
-            {this.state.value ? "SAVE" : "DELETE"}
+            {this.state.value ? "DONE" : "DELETE"}
           </button>
         </Hammer>
       </div>

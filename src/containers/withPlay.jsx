@@ -113,8 +113,7 @@ const withPlay = (WrappedComponent) => {
     editBlock = (blockId, attributes) => {
       const block = this.props.video.getBlock(blockId)
       console.log('editBlock', block, attributes)
-      const data = {...block.get('data'), ...attributes}
-      this.props.video.editBlock(block.get('id'), {data})
+      this.props.video.editBlock(blockId, attributes)
       block.set('lifecycle', 'replay')
       this.unStageBlock()
     }
@@ -144,9 +143,7 @@ const withPlay = (WrappedComponent) => {
       const block = this.props.video.addBlock(
         {
           type: "words",
-          data: {
-            content: randomEmoji(),
-          },
+          content: randomEmoji(),
           sceneId: this.state.activeSceneId,
         },
       )

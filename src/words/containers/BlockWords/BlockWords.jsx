@@ -16,12 +16,15 @@ import style from './style'
 class BlockWords extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
+    stageBlock: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired,
   }
 
   static initialState() {
     return ({
       isActivated: false,
-      entry: {},
+      content: '',
+      effect: null,
       position: [],
     })
   }
@@ -86,10 +89,8 @@ class BlockWords extends PureComponent {
   }
 
   onStart = () => {
-    const entry = this.props.block.get('data') || {}
     this.setState({
       hasStarted: true,
-      entry,
     }, this.initializeTimeline)
   }
 
@@ -106,7 +107,7 @@ class BlockWords extends PureComponent {
   }
 
   initializeTimeline = () => {
-    switch (this.state.entry.effect) {
+    switch (this.props.block.get('effect')) {
       case 'fadeIn': {
         this.timeline = fadeIn(this.nodeText)
         break
@@ -141,29 +142,41 @@ class BlockWords extends PureComponent {
     this.props.stageBlock(this.props.block.get('id'))
   }
 
-  handleSubmitEdit = (value) => {
-    this.setState({edit: false}, () => {
-      this.props.editBlock(this.props.block.get('id'), {content: value})
-    })
-  }
-
-  render() {
+  getTransforms() {
     const transforms = []
-    const innerTransforms = []
     const position = this.props.block.get('position')
       ? this.props.block.get('position').concat([0]).join(',')
       : 0
-    const rotation = this.props.block.get('rotation') || 0
-    const scale = this.props.block.get('scale') || 0
     if (position) {
       transforms.push(`translate3d(${position})`)
     }
+
+    return transforms
+  }
+
+  getInnerTransforms() {
+    const innerTransforms = []
+    const rotation = this.props.block.get('rotation') || 0
+    const scale = this.props.block.get('scale') || 0
     if (scale) {
       innerTransforms.push(`scale(${scale})`)
     }
     if (rotation) {
       innerTransforms.push(`rotate(${rotation})`)
     }
+
+    return innerTransforms
+  }
+
+  getContent() {
+    const legacyContent = this.props.block.get('data') && this.props.block.get('data').content
+    return this.props.block.get('content') || legacyContent
+  }
+
+  render() {
+    const content = this.getContent()
+    const transforms = this.getTransforms()
+    const innerTransforms = this.getInnerTransforms()
 
     return (
       <div
@@ -181,17 +194,16 @@ class BlockWords extends PureComponent {
               innerTransforms.length > 0 && {transform: innerTransforms.join(' ')}
             ]}
           >
-          <h1
-            ref={this.getRefText}
-            style={[
-              style.text,
-              this.props.block.get('style'),
-              this.props.isEditing && style.isEditing,
-              this.props.block.get('lifecycle') === 'edit' && ({display: 'none'}),
-            ]}
-          >
-            {this.state.entry.content}
-          </h1>
+            <h1
+              ref={this.getRefText}
+              style={[
+                style.text,
+                this.props.block.get('style'),
+                this.props.isEditing && style.isEditing,
+              ]}
+            >
+              {this.state.hasStarted && content}
+            </h1>
           </div>
         </Hammer>
       </div>
