@@ -96,9 +96,11 @@ class Player extends PureComponent {
 
         <BlockWordsEditor
           isActive={!!this.props.stagedBlockId}
+          video={this.props.video}
           editBlock={this.props.editBlock}
           removeBlock={this.props.removeBlock}
           getStagedBlock={this.getStagedBlock}
+          stagedBlockId={this.props.stagedBlockId}
         />
 
         <BlockList
