@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Radium from 'radium'
 import EditorButton from 'components/EditorButton/EditorButton'
 import EnterText from 'components/EnterText/EnterText'
+import Slider from 'components/Slider/Slider'
+
 import style from './style'
 
 class BlockWordsEditor extends PureComponent {
@@ -24,12 +26,6 @@ class BlockWordsEditor extends PureComponent {
     }
   }
 
-  onChange = (value) => {
-    if (value) {
-      this.props.video.editBlock(this.props.stagedBlockId, {content: value})
-    }
-  }
-
   getStagedText = () => {
     const block = this.props.getStagedBlock()
 
@@ -38,6 +34,12 @@ class BlockWordsEditor extends PureComponent {
     return (
       block.get('content') || (block.get('data') && block.get('data').content)
     )
+  }
+
+  onChangeText = (value) => {
+    if (value) {
+      this.props.video.editBlock(this.props.stagedBlockId, {content: value})
+    }
   }
 
   getStagedRotation = () => {
@@ -49,18 +51,70 @@ class BlockWordsEditor extends PureComponent {
     return rotation.replace('deg', '')
   }
 
-  handleScaleUp = () => {
+  onChangeRotation = (value) => {
     const block = this.props.getStagedBlock()
     if (!block) { return }
-    const scale = block.get('scale') || 1
-    block.set('scale', (+scale + 0.1).toFixed(2))
+    block.set('rotation', `${+value}deg`)
   }
 
-  handleScaleDown = () => {
+  getStagedColor = () => {
+    const defaultColor = -100
+    const block = this.props.getStagedBlock()
+    if (!block) { return defaultColor }
+    const color = block.get('color_hsl') || defaultColor
+    if (!color) { return defaultColor }
+
+    return color
+  }
+
+  onChangeColor = (value) => {
     const block = this.props.getStagedBlock()
     if (!block) { return }
-    const scale = block.get('scale') || 1
-    block.set('scale', (+scale - 0.1).toFixed(2))
+    block.set('color_hsl', value)
+  }
+
+  getStagedScale = () => {
+    const defaultScale = 1
+    const block = this.props.getStagedBlock()
+    if (!block) { return defaultScale }
+    const scale = block.get('scale') || defaultScale
+    if (!scale) { return defaultScale }
+
+    return scale
+  }
+
+  onChangeScale = (value) => {
+    const block = this.props.getStagedBlock()
+    if (!block) { return }
+    block.set('scale', value)
+  }
+
+  getStagedAlign = () => {
+    const defaultValue = 'left'
+    const block = this.props.getStagedBlock()
+    if (!block) { return defaultValue }
+    const value = block.get('align') || defaultValue
+    if (!value) { return defaultValue }
+
+    return value
+  }
+
+  onChangeAlignLeft = () => {
+    const block = this.props.getStagedBlock()
+    if (!block) { return }
+    block.set('align', 'left')
+  }
+
+  onChangeAlignCenter = () => {
+    const block = this.props.getStagedBlock()
+    if (!block) { return }
+    block.set('align', 'center')
+  }
+
+  onChangeAlignRight = () => {
+    const block = this.props.getStagedBlock()
+    if (!block) { return }
+    block.set('align', 'right')
   }
 
   render() {
@@ -72,34 +126,90 @@ class BlockWordsEditor extends PureComponent {
         ]}
       >
         <EnterText
-          isActive={true}
           value={this.getStagedText()}
           onSubmit={this.onEnterText}
-          onChange={this.onChange}
+          onChange={this.onChangeText}
+          isActive
         />
 
-        <div style={{display: 'flex', paddingTop: 10}}>
-          <EditorButton onTap={this.handleScaleDown} dark>
-            <div>{"-"}</div>
-          </EditorButton>
-          <EditorButton dark>
-            <div>
-              {((this.props.getStagedBlock() && this.props.getStagedBlock().get('scale')) || 1) + 'x'}
+        <div style={[style.toolWrap, {marginTop: 10}]}>
+          <div style={style.toolLabelWrap}>
+            <div style={style.toolLabel}>
+              color
             </div>
-          </EditorButton>
-          <EditorButton onTap={this.handleScaleUp} dark>
-            <div>{"+"}</div>
-          </EditorButton>
-          <div style={{flex: 1}}>
-            <input
-              type="number"
-              maxLength="3"
-              value={this.getStagedRotation()}
-              onChange={(e) => {
-                const block = this.props.getStagedBlock()
-                block.set('rotation', `${+e.target.value}deg`)
-              }}
+          </div>
+          <div style={style.toolSliderWrap}>
+            <Slider
+              min={-100}
+              max={360}
+              value={this.getStagedColor()}
+              onChange={this.onChangeColor}
+              dataType={'color'}
             />
+          </div>
+        </div>
+
+        <div style={style.toolWrap}>
+          <div style={style.toolLabelWrap}>
+            <div style={style.toolLabel}>
+              size
+            </div>
+          </div>
+          <div style={style.toolSliderWrap}>
+            <Slider
+              min={0.1}
+              max={5}
+              step={0.1}
+              value={this.getStagedScale()}
+              onChange={this.onChangeScale}
+            />
+          </div>
+        </div>
+
+        <div style={style.toolWrap}>
+          <div style={style.toolLabelWrap}>
+            <div style={style.toolLabel}>
+              rotate
+            </div>
+          </div>
+          <div style={style.toolSliderWrap}>
+            <Slider
+              min={-180}
+              max={180}
+              value={this.getStagedRotation()}
+              onChange={this.onChangeRotation}
+            />
+          </div>
+        </div>
+        <div style={style.toolWrap}>
+          <div style={style.toolLabelWrap}>
+            <div style={style.toolLabel}>
+              align
+            </div>
+          </div>
+          <div style={style.toolSliderWrap}>
+
+            <div style={style.pillBox}>
+
+              <EditorButton
+                onTap={this.onChangeAlignLeft}
+                dark
+              >
+                <div>{"left"}</div>
+              </EditorButton>
+              <EditorButton
+                onTap={this.onChangeAlignCenter}
+                dark
+              >
+                <div>{"center"}</div>
+              </EditorButton>
+              <EditorButton
+                onTap={this.onChangeAlignRight}
+                dark
+              >
+                <div>{"right"}</div>
+              </EditorButton>
+            </div>
           </div>
         </div>
       </div>

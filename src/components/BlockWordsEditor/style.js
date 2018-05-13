@@ -13,4 +13,31 @@ export default {
     transition: "all 300ms ease",
     transform: "translateY(0)",
   },
+  pillBox: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  pill: {
+    borderRadius: 10,
+    backgroundColor: "blue",
+    color: "#fff",
+    border: "1px solid #FFF",
+    margin: 2,
+    padding: 2,
+  },
+
+  toolWrap: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  toolLabelWrap: {
+    display: 'flex',
+    flex: 1
+  },
+  toolLabel: {
+    padding: 5
+  },
+  toolSliderWrap: {
+    flex: 5
+  }
 }

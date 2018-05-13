@@ -193,6 +193,14 @@ class BlockWords extends PureComponent {
     return this.props.block.get('content') || legacyContent
   }
 
+  getColor() {
+    let colorHsl = +this.props.block.get('color_hsl') || -100
+    if (colorHsl < 1) { // handle grayscale as represented by -100 - 0
+      return `hsl(0, 0%, ${(Math.abs(colorHsl))}%)`
+    }
+
+    return `hsl(${colorHsl}, 100%, 50%)`
+  }
   render() {
     const content = this.getContent()
     const transforms = this.getTransforms()
@@ -218,8 +226,7 @@ class BlockWords extends PureComponent {
               ref={this.getRefText}
               style={[
                 style.text,
-                this.props.block.get('style'),
-                this.props.block.get('color') && {color: this.props.block.get('color')},
+                {color: this.getColor()},
                 this.props.block.get('align') && {textAlign: this.props.block.get('align')},
                 this.props.block.get('lifecycle') === 'edit' && style.isEditing,
               ]}

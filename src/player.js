@@ -14,7 +14,7 @@ const player = (videoId, canEdit) => {
     const subscribe = canEdit
       ? (data) => {
           // console.log("monitor SUBSCRIBE")
-          // console.log(data)
+          console.log(data)
           videosSave(videoId, data)
         }
       : () => {}

@@ -4,7 +4,6 @@ export default {
     fontSize: "28px",
     boxSizing: "border-box",
     width: "100%",
-    color: "#FFF",
     margin: "auto",
     maxWidth: 700,
     flex: 1,
