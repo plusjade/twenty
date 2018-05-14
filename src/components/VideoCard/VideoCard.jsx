@@ -3,7 +3,13 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { token, videosRemove } from 'lib/actions'
 import EditorButton from 'components/EditorButton/EditorButton'
+import Player from 'components/Player'
+import withPlay from 'containers/withPlay'
+import { videosFind } from 'lib/actions'
+import Video from 'lib/Video'
 import style from './style'
+
+const WrappedPlayer = withPlay(Player)
 
 class VideoCard extends PureComponent {
   static propTypes = {
@@ -12,8 +18,14 @@ class VideoCard extends PureComponent {
     offset: PropTypes.bool.isRequired,
   }
 
-  getRef = (node) => {
-    this.node = node
+  state = {
+    videoData: null
+  }
+
+  componentWillMount() {
+    videosFind(this.props.videoId).then((videoData) => {
+      this.setState({videoData})
+    })
   }
 
   handleCreateNew = (e) => {
@@ -45,12 +57,11 @@ class VideoCard extends PureComponent {
         ]}
       >
         <div style={style.innerWrap}>
-          <iframe
-            title={`?id=${this.props.videoId}`}
-            src={`?id=${this.props.videoId}`}
-            style={style.iframe}
-            frameBorder={"0"}
-          />
+          {this.state.videoData && (
+            <WrappedPlayer
+              video={(new Video(this.state.videoData))}
+            />
+          )}
           <div style={style.bottomRight}>
             <EditorButton
               onTap={this.handleEdit}

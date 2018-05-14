@@ -13,7 +13,8 @@ export default {
     justifyContent: "stretch",
     alignItems: "stretch",
     backgroundColor: 'Transparent',
-    // border: "2px solid #212121",
+    overflow: "hidden",
+    borderRadius: 20,
   },
   innerWrap: {
     borderRadius: 20,

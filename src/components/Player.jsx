@@ -14,13 +14,13 @@ import TextEditor from 'components/TextEditor/TextEditor'
 
 const style = {
   wrap: {
-    position: "fixed",
+    position: "absolute",
     width: "100%",
     height: "100%",
     overflow: "hidden",
   },
   edit: {
-    position: "fixed",
+    position: "absolute",
     top: 7,
     left: 0,
     zIndex: 2,
