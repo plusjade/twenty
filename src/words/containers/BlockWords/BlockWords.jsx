@@ -46,6 +46,12 @@ class BlockWords extends PureComponent {
         } else if (lifecycle === 'replay') {
           this.player.replay()
         }
+
+        if (lifecycle === 'edit') {
+          this.draggable.enable()
+        } else {
+          this.draggable.disable()
+        }
       }
     )
   }
@@ -55,17 +61,12 @@ class BlockWords extends PureComponent {
     this.player.on('end', this.onEnd)
     this.player.on('tick', this.onTick)
     this.player.on('replay', this.resetState)
-    window.Draggable.create(this.node, {
+    this.draggable = window.Draggable.create(this.node, {
       // type: "rotation",
       onDragEnd: this.onDragEnd,
       onDragEndParams: [this.syncTransforms],
-    })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.isEditing && this.props.isEditing) {
-      this.setState({edit: false})
-    }
+    })[0]
+    this.draggable.disable()
   }
 
   onDragEnd(syncTransforms) {
@@ -201,6 +202,7 @@ class BlockWords extends PureComponent {
 
     return `hsl(${colorHsl}, 100%, 50%)`
   }
+
   render() {
     const content = this.getContent()
     const transforms = this.getTransforms()
