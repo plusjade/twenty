@@ -89,34 +89,6 @@ class BlockWordsEditor extends PureComponent {
     block.set('scale', value)
   }
 
-  getStagedAlign = () => {
-    const defaultValue = 'left'
-    const block = this.props.getStagedBlock()
-    if (!block) { return defaultValue }
-    const value = block.get('align') || defaultValue
-    if (!value) { return defaultValue }
-
-    return value
-  }
-
-  onChangeAlignLeft = () => {
-    const block = this.props.getStagedBlock()
-    if (!block) { return }
-    block.set('align', 'left')
-  }
-
-  onChangeAlignCenter = () => {
-    const block = this.props.getStagedBlock()
-    if (!block) { return }
-    block.set('align', 'center')
-  }
-
-  onChangeAlignRight = () => {
-    const block = this.props.getStagedBlock()
-    if (!block) { return }
-    block.set('align', 'right')
-  }
-
   render() {
     return (
       <div
@@ -179,37 +151,6 @@ class BlockWordsEditor extends PureComponent {
               value={this.getStagedRotation()}
               onChange={this.onChangeRotation}
             />
-          </div>
-        </div>
-        <div style={style.toolWrap}>
-          <div style={style.toolLabelWrap}>
-            <div style={style.toolLabel}>
-              align
-            </div>
-          </div>
-          <div style={style.toolSliderWrap}>
-
-            <div style={style.pillBox}>
-
-              <EditorButton
-                onTap={this.onChangeAlignLeft}
-                dark
-              >
-                <div>{"left"}</div>
-              </EditorButton>
-              <EditorButton
-                onTap={this.onChangeAlignCenter}
-                dark
-              >
-                <div>{"center"}</div>
-              </EditorButton>
-              <EditorButton
-                onTap={this.onChangeAlignRight}
-                dark
-              >
-                <div>{"right"}</div>
-              </EditorButton>
-            </div>
           </div>
         </div>
       </div>
