@@ -41,12 +41,13 @@ class Slider extends PureComponent {
         >
           <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
             <MSlider
+              axis={'y-reverse'}
               min={this.props.min}
               step={this.props.step}
               max={this.props.max}
               value={this.props.value}
               onChange={this.handleChange}
-              style={{width: "100%"}}
+              style={{width: "100%", height: "100%"}}
               sliderStyle={{margin: 0}}
             />
           </MuiThemeProvider>

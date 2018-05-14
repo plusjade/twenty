@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import EditorButton from 'components/EditorButton/EditorButton'
-import EnterText from 'components/EnterText/EnterText'
 import Slider from 'components/Slider/Slider'
 
 import style from './style'
@@ -16,30 +15,6 @@ class BlockWordsEditor extends PureComponent {
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
     getStagedBlock: PropTypes.func.isRequired,
-  }
-
-  onEnterText = (value) => {
-    if (value) {
-      this.props.editBlock(this.props.stagedBlockId, {content: value})
-    } else {
-      this.props.removeBlock(this.props.stagedBlockId)
-    }
-  }
-
-  getStagedText = () => {
-    const block = this.props.getStagedBlock()
-
-    if (!block) { return '' }
-
-    return (
-      block.get('content') || (block.get('data') && block.get('data').content)
-    )
-  }
-
-  onChangeText = (value) => {
-    if (value) {
-      this.props.video.editBlock(this.props.stagedBlockId, {content: value})
-    }
   }
 
   getStagedRotation = () => {
@@ -97,61 +72,84 @@ class BlockWordsEditor extends PureComponent {
           this.props.isActive && style.isActive,
         ]}
       >
-        <EnterText
-          value={this.getStagedText()}
-          onSubmit={this.onEnterText}
-          onChange={this.onChangeText}
-          isActive
-        />
+        <div style={style.barWrap}>
+          <div style={style.toolWrap}>
+            <div style={style.toolLabelWrap}>
+              <div style={style.toolLabel}>
+                <EditorButton
+                  onTap={this.props.toggleEditText}
+                >
+                  <div>{"✍️"}</div>
+                </EditorButton>
+                <EditorButton
+                  onTap={this.handleTapLeft}
+                >
+                  <div>{"Aa"}</div>
+                </EditorButton>
+                <EditorButton
+                  onTap={this.handleTapLeft}
+                >
+                  <div>{"⌛"}</div>
+                </EditorButton>
+                <EditorButton
+                  onTap={this.handleTapLeft}
+                >
+                  <div>{"⤾"}</div>
+                </EditorButton>
 
-        <div style={[style.toolWrap, {marginTop: 10}]}>
-          <div style={style.toolLabelWrap}>
-            <div style={style.toolLabel}>
-              color
+                <EditorButton
+                  onTap={this.handleTapLeft}
+                >
+                  <div>{"🎨"}</div>
+                </EditorButton>
+              </div>
+            </div>
+            <div style={style.toolSliderWrap}>
+              <Slider
+                min={-100}
+                max={360}
+                value={this.getStagedColor()}
+                onChange={this.onChangeColor}
+                dataType={'color'}
+              />
             </div>
           </div>
-          <div style={style.toolSliderWrap}>
-            <Slider
-              min={-100}
-              max={360}
-              value={this.getStagedColor()}
-              onChange={this.onChangeColor}
-              dataType={'color'}
-            />
-          </div>
-        </div>
 
-        <div style={style.toolWrap}>
-          <div style={style.toolLabelWrap}>
-            <div style={style.toolLabel}>
-              size
+          {false && (
+            <div style={style.toolWrap}>
+              <div style={style.toolLabelWrap}>
+                <div style={style.toolLabel}>
+                  {"Aa"}
+                </div>
+              </div>
+              <div style={style.toolSliderWrap}>
+                <Slider
+                  min={0.1}
+                  max={5}
+                  step={0.1}
+                  value={this.getStagedScale()}
+                  onChange={this.onChangeScale}
+                />
+              </div>
             </div>
-          </div>
-          <div style={style.toolSliderWrap}>
-            <Slider
-              min={0.1}
-              max={5}
-              step={0.1}
-              value={this.getStagedScale()}
-              onChange={this.onChangeScale}
-            />
-          </div>
-        </div>
-
-        <div style={style.toolWrap}>
-          <div style={style.toolLabelWrap}>
-            <div style={style.toolLabel}>
-              rotate
+          )}
+          {false && (
+            <div style={style.toolWrap}>
+              <div style={style.toolLabelWrap}>
+                <div style={style.toolLabel}>
+                  {"⤾"}
+                </div>
+              </div>
+              <div style={style.toolSliderWrap}>
+                <Slider
+                  min={-180}
+                  max={180}
+                  value={this.getStagedRotation()}
+                  onChange={this.onChangeRotation}
+                />
+              </div>
             </div>
-          </div>
-          <div style={style.toolSliderWrap}>
-            <Slider
-              min={-180}
-              max={180}
-              value={this.getStagedRotation()}
-              onChange={this.onChangeRotation}
-            />
-          </div>
+          )}
         </div>
       </div>
     )

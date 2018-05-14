@@ -112,10 +112,9 @@ const withPlay = (WrappedComponent) => {
 
     editBlock = (blockId, attributes) => {
       const block = this.props.video.getBlock(blockId)
-      console.log('editBlock', block, attributes)
       this.props.video.editBlock(blockId, attributes)
-      block.set('lifecycle', 'replay')
-      this.unStageBlock()
+      // block.set('lifecycle', 'replay')
+      // this.unStageBlock()
     }
 
     stageBlock = (blockId) => {
@@ -164,6 +163,12 @@ const withPlay = (WrappedComponent) => {
       }, this.play)
     }
 
+    toggleEditText = () => {
+      this.setState({
+        isEditingText: !this.state.isEditingText,
+      })
+    }
+
     render() {
       return (
         <WrappedComponent
@@ -179,6 +184,7 @@ const withPlay = (WrappedComponent) => {
           editBlock={this.editBlock}
           removeBlock={this.removeBlock}
           stageBlock={this.stageBlock}
+          toggleEditText={this.toggleEditText}
         />
       )
     }

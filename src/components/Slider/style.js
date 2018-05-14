@@ -1,4 +1,4 @@
-const height = '5vh'
+const height = '300px'
 const grayscale = value => `hsla(0, 0%, ${value * 10}%, 1)`
 const colorscale = value => `hsla(${value * 10}, 100%, 50%, 1)`
 
@@ -27,8 +27,9 @@ export default {
     color: "#FFF",
   },
   color: {
-    background: `-webkit-linear-gradient(left, ${backgroundGradients})`,
+    background: `-webkit-linear-gradient(${backgroundGradients})`,
     borderRadius: 30,
     border: "1px solid #FFF",
+    padding: "10px 0",
   }
 }

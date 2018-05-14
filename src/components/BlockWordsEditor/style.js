@@ -1,8 +1,11 @@
 export default {
+  barWrap: {
+    display: 'inline-flex',
+    justifyContent: 'flex-end',
+  },
   wrap: {
     position: "fixed",
     top: 0,
-    left: 0,
     right: 0,
     zIndex: 3,
     transition: "all 300ms ease",
@@ -25,19 +28,17 @@ export default {
     margin: 2,
     padding: 2,
   },
-
   toolWrap: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   toolLabelWrap: {
     display: 'flex',
-    flex: 1
   },
   toolLabel: {
     padding: 5
   },
   toolSliderWrap: {
-    flex: 5
   }
 }

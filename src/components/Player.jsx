@@ -11,6 +11,7 @@ import BlockList from 'components/BlockList/BlockList'
 import SceneEditor from 'components/SceneEditor/SceneEditor'
 import EditorButton from 'components/EditorButton/EditorButton'
 import BlockWordsEditor from 'components/BlockWordsEditor/BlockWordsEditor'
+import TextEditor from 'components/TextEditor/TextEditor'
 
 const style = {
   wrap: {
@@ -101,6 +102,17 @@ class Player extends PureComponent {
           removeBlock={this.props.removeBlock}
           getStagedBlock={this.getStagedBlock}
           stagedBlockId={this.props.stagedBlockId}
+          toggleEditText={this.props.toggleEditText}
+        />
+
+        <TextEditor
+          isActive={this.props.isEditingText}
+          video={this.props.video}
+          editBlock={this.props.editBlock}
+          removeBlock={this.props.removeBlock}
+          getStagedBlock={this.getStagedBlock}
+          stagedBlockId={this.props.stagedBlockId}
+          toggleEditText={this.props.toggleEditText}
         />
 
         <BlockList
