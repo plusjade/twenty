@@ -1,19 +1,19 @@
 export default {
   default: {
-    position: "fixed",
-    bottom: 0,
+    position: "absolute",
+    bottom: 115,
     right: 0,
-    zIndex: 2,
+    zIndex: 999999,
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
     justifyContent: "center",
     transition: "all 200ms ease-in-out",
-    transform: "translateY(85px) scale(0)",
+    transform: "translateX(50px) scale(0)",
     transformOrigin: "bottom right",
   },
   active: {
-    transform: "translateY(0) scale(1)",
+    transform: "translateX(0) scale(1)",
   },
   tools: {
     display: "flex",

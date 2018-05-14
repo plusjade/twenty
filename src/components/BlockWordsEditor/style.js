@@ -7,7 +7,7 @@ export default {
     position: "fixed",
     top: 0,
     right: 0,
-    zIndex: 3,
+    zIndex: 999999,
     transition: "all 300ms ease",
     borderRadius: "15px 15px 0 0",
     transform: "translateY(-110%)",

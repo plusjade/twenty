@@ -13,6 +13,7 @@ import {
 
 import style from './style'
 
+window.Draggable.zIndex = 1
 class BlockWords extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
@@ -218,7 +219,8 @@ class BlockWords extends PureComponent {
         ref={this.getRef}
         style={[
           style.default,
-          transforms.length > 0 && {transform: transforms.join(' ')}
+          transforms.length > 0 && {transform: transforms.join(' ')},
+          this.props.block.get('lifecycle') !== 'edit' && {zIndex: 1},
         ]}
       >
         <Hammer onTap={this.handleTap}>
