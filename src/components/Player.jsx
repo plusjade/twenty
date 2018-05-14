@@ -22,9 +22,9 @@ const style = {
   },
   edit: {
     position: "fixed",
-    bottom: 0,
+    top: 7,
     left: 0,
-    zIndex: 3,
+    zIndex: 2,
     display: "flex",
     flexDirection: "column",
   },
