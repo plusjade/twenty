@@ -18,6 +18,7 @@ class BlockWords extends PureComponent {
     block: PropTypes.object.isRequired,
     stageBlock: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    sceneTransition: PropTypes.func.isRequired,
   }
 
   static initialState() {
@@ -149,8 +150,12 @@ class BlockWords extends PureComponent {
     this.setState(BlockWords.initialState())
   }
 
-  handleTapEdit = () => {
-    this.props.stageBlock(this.props.block.get('id'))
+  handleTap = () => {
+    if (this.props.isEditing) {
+      this.props.stageBlock(this.props.block.get('id'))
+    } else {
+      this.props.sceneTransition()
+    }
   }
 
   getTransforms() {
@@ -216,9 +221,7 @@ class BlockWords extends PureComponent {
           transforms.length > 0 && {transform: transforms.join(' ')}
         ]}
       >
-        <Hammer
-          onTap={this.handleTapEdit}
-        >
+        <Hammer onTap={this.handleTap}>
           <div
             style={[
               innerTransforms.length > 0 && {transform: innerTransforms.join(' ')}

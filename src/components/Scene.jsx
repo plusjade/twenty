@@ -36,9 +36,15 @@ class Scene extends PureComponent {
     blocks: PropTypes.array.isRequired,
   }
 
+  handleTap = () => {
+    if (this.props.isEditing) { return }
+    this.props.sceneTransition()
+  }
+
   render() {
     return (
       <Layer
+        onTap={this.handleTap}
         style={[
           {
             backgroundColor: this.props.scene.get('bg'),

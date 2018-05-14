@@ -3,7 +3,6 @@ import { observer } from "mobx-react"
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Hammer from 'react-hammerjs'
 
 import Layer from 'components/Layer/Layer'
 import Scene from 'components/Scene'
@@ -23,6 +22,14 @@ const style = {
   edit: {
     position: "fixed",
     top: 7,
+    left: 0,
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "column",
+  },
+  back: {
+    position: "absolute",
+    bottom: 0,
     left: 0,
     zIndex: 2,
     display: "flex",
@@ -81,20 +88,6 @@ class Player extends PureComponent {
           />
         ))}
 
-        <Hammer onTap={this.handleTapLeft}>
-          <Layer
-            isHidden={this.props.isInteractive}
-            style={{right: "80%"}}
-          />
-        </Hammer>
-
-        <Hammer onTap={this.handleTapRight}>
-          <Layer
-            isHidden={this.props.isInteractive}
-            style={{left: "20%"}}
-          />
-        </Hammer>
-
         <BlockWordsEditor
           isActive={!!this.props.stagedBlockId}
           video={this.props.video}
@@ -128,6 +121,20 @@ class Player extends PureComponent {
             <div>{"🏠"}</div>
           </EditorButton>
         </div>
+
+        {!this.props.isEditing && (
+          <div style={style.back}>
+            <EditorButton
+              onTap={this.handleTapLeft}
+              disabled={this.props.video.getScenePosition(this.props.activeSceneId) <= 1}
+              bigger
+            >
+              <div style={{transform: "rotate(180deg)"}}>
+                {"➜"}
+              </div>
+            </EditorButton>
+          </div>
+        )}
 
         <SceneEditor
           isEditing={this.props.isEditing}

@@ -1,21 +1,29 @@
 import Radium from 'radium'
-import React from 'react'
-
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import Hammer from 'react-hammerjs'
 import style from './Style'
 
-const Layer = (props) => {
-  return (
-    <div
-      style={[
-        style.default,
-        props.style,
-        props.isHidden && style.hidden
-      ]}
-      onClick={props.onClick}
-    >
-      {props.children}
-    </div>
-  )
+class Layer extends PureComponent {
+  static propTypes = {
+    onTap: PropTypes.func,
+  }
+
+  render() {
+    return (
+      <Hammer onTap={this.props.onTap}>
+        <div
+          style={[
+            style.default,
+            this.props.style,
+            this.props.isHidden && style.hidden
+          ]}
+        >
+          {this.props.children}
+        </div>
+      </Hammer>
+    )
+  }
 }
 
 export default Radium(Layer)
