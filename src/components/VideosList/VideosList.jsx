@@ -15,6 +15,7 @@ class VideosList extends PureComponent {
     return (
       <div style={style.wrap}>
         <VideosAdd />
+        <br />
         {videos.map((v, i) => (
           <VideoCard
             key={v.videoId}

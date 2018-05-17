@@ -2,8 +2,8 @@ export default {
   outer: {
     position: 'relative',
     margin: 'auto',
-    width: '50vw',
-    height: '50vw',
+    width: '35vw',
+    height: '35vw',
     borderRadius: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -22,10 +22,10 @@ export default {
   },
   pointer: {
     position: 'absolute',
-    top: '-3vh',
+    top: '-2.5vh',
     border: '2px solid #FFF',
-    height: '12vw',
-    width: '12vw',
+    height: '7vw',
+    width: '7vw',
     borderRadius: '100%',
     zIndex: 3,
     backgroundColor: 'rgba(255,255,255,0.5)'
