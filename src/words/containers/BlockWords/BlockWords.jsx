@@ -189,10 +189,7 @@ class BlockWords extends PureComponent {
   getInnerTransforms() {
     const innerTransforms = []
     const rotation = this.props.block.get('rotation') || 0
-    const scale = this.props.block.get('scale') || 0
-    if (scale) {
-      innerTransforms.push(`scale(${scale})`)
-    }
+
     if (rotation) {
       innerTransforms.push(`rotate(${rotation})`)
     }
@@ -212,6 +209,11 @@ class BlockWords extends PureComponent {
     }
 
     return `hsl(${colorHsl}, 100%, 50%)`
+  }
+
+  getSize() {
+    const size = +this.props.block.get('size') || 24
+    return `${size}px`
   }
 
   render() {
@@ -239,6 +241,7 @@ class BlockWords extends PureComponent {
               style={[
                 style.text,
                 {color: this.getColor()},
+                {fontSize: this.getSize()},
                 this.props.block.get('align') && {textAlign: this.props.block.get('align')},
                 this.props.block.get('lifecycle') === 'edit' && style.isEditing,
               ]}
