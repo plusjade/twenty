@@ -137,7 +137,7 @@ class Player extends PureComponent {
   render() {
     const scenes = this.props.video.getScenes()
     return (
-      <div className="app-wrapper" style={style.wrap}>
+      <div className="app-wrapper" style={[style.wrap, this.props.isEditing && {position: 'fixed'}]}>
         {scenes.map(scene => (
           <Scene
             key={`scenes-${scene.get('id')}`}

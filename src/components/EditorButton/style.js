@@ -1,3 +1,4 @@
+const dimension = '6vh'
 export default {
   default: {
     display: "flex",
@@ -11,9 +12,9 @@ export default {
   },
   inner: {
     backgroundColor: "rgba(255,255,255,1)",
-    height: 34,
-    width: 34,
-    lineHeight: "34px",
+    height: dimension,
+    width: dimension,
+    lineHeight: dimension,
     borderRadius: "100%",
     color: "#212121",
     textShadow: "-1px 1px 0 #FFF, 1px 1px 0 #FFF, 1px -1px 0 #FFF, -1px -1px 0 #FFF",

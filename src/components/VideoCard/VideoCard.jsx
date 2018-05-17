@@ -62,30 +62,28 @@ class VideoCard extends PureComponent {
               video={(new Video(this.state.videoData))}
             />
           )}
-          <div style={style.bottomRight}>
-            <EditorButton
-              onTap={this.handleEdit}
-              dark
-            >
-              <div>{"✍"}</div>
-            </EditorButton>
+        </div>
+        <div style={style.tools}>
+          <EditorButton
+            onTap={this.handleRemove}
+            dark
+          >
+            <div>{"X"}</div>
+          </EditorButton>
 
-            <EditorButton
-              onTap={this.handleShow}
-              dark
-            >
-              <div>{"GO"}</div>
-            </EditorButton>
-          </div>
+          <EditorButton
+            onTap={this.handleEdit}
+            dark
+          >
+            <div>{"✍"}</div>
+          </EditorButton>
 
-          <div style={style.topRight}>
-            <EditorButton
-              onTap={this.handleRemove}
-              dark
-            >
-              <div>{"X"}</div>
-            </EditorButton>
-          </div>
+          <EditorButton
+            onTap={this.handleShow}
+            dark
+          >
+            <div>{"GO"}</div>
+          </EditorButton>
         </div>
       </div>
     )

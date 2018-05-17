@@ -5,16 +5,16 @@ export default {
   },
   wrap: {
     position: "fixed",
-    top: 0,
+    bottom: 0,
     right: 0,
     zIndex: 999999,
     transition: "all 300ms ease",
     borderRadius: "15px 15px 0 0",
-    transform: "translateY(-110%)",
+    transform: "translateX(110%)",
   },
   isActive: {
     transition: "all 300ms ease",
-    transform: "translateY(0)",
+    transform: "translateX(0)",
   },
   pillBox: {
     display: 'flex',
@@ -40,5 +40,14 @@ export default {
     padding: 5
   },
   toolSliderWrap: {
-  }
+    marginBottom: 5,
+    display: 'none',
+    pointerEvents: 'none',
+  },
+  isOpen: {
+    display: 'block',
+  },
+  isVisible: {
+    pointerEvents: 'auto',
+  },
 }

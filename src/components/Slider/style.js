@@ -1,4 +1,4 @@
-const height = '300px'
+const height = '30vh'
 const grayscale = value => `hsla(0, 0%, ${value * 10}%, 1)`
 const colorscale = value => `hsla(${value * 10}, 100%, 50%, 1)`
 

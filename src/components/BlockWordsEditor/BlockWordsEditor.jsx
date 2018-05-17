@@ -17,6 +17,10 @@ class BlockWordsEditor extends PureComponent {
     getStagedBlock: PropTypes.func.isRequired,
   }
 
+  state = {
+    whatsOpen: null
+  }
+
   getStagedRotation = () => {
     const block = this.props.getStagedBlock()
     if (!block) { return 0 }
@@ -32,36 +36,38 @@ class BlockWordsEditor extends PureComponent {
     block.set('rotation', `${+value}deg`)
   }
 
-  getStagedColor = () => {
-    const defaultColor = -100
+  getStagedSize = () => {
+    const defaultValue = 24
     const block = this.props.getStagedBlock()
-    if (!block) { return defaultColor }
-    const color = block.get('color_hsl') || defaultColor
-    if (!color) { return defaultColor }
+    if (!block) { return defaultValue }
+    const value = block.get('size') || defaultValue
+    if (!value) { return defaultValue }
 
-    return color
+    return value
   }
 
-  onChangeColor = (value) => {
+  onChangeSize = (value) => {
     const block = this.props.getStagedBlock()
     if (!block) { return }
-    block.set('color_hsl', value)
+    block.set('size', value)
   }
 
-  getStagedScale = () => {
-    const defaultScale = 1
-    const block = this.props.getStagedBlock()
-    if (!block) { return defaultScale }
-    const scale = block.get('scale') || defaultScale
-    if (!scale) { return defaultScale }
-
-    return scale
+  onTapSize = () => {
+    this.setState({whatsOpen: 'size', isVisible: false}, this.setVisible)
   }
 
-  onChangeScale = (value) => {
-    const block = this.props.getStagedBlock()
-    if (!block) { return }
-    block.set('scale', value)
+  onTapRotate = () => {
+    this.setState({whatsOpen: 'rotate', isVisible: false}, this.setVisible)
+  }
+
+  onTapColor = () => {
+    this.props.toggleBottomPanel()
+  }
+
+  setVisible = () => {
+    setTimeout(() => {
+      this.setState({isVisible: true})
+    }, 100)
   }
 
   render() {
@@ -74,82 +80,48 @@ class BlockWordsEditor extends PureComponent {
       >
         <div style={style.barWrap}>
           <div style={style.toolWrap}>
-            <div style={style.toolLabelWrap}>
-              <div style={style.toolLabel}>
-                <EditorButton
-                  onTap={this.props.toggleEditText}
-                >
-                  <div>{"✍️"}</div>
-                </EditorButton>
-                <EditorButton
-                  onTap={this.handleTapLeft}
-                >
-                  <div>{"Aa"}</div>
-                </EditorButton>
-                <EditorButton
-                  onTap={this.handleTapLeft}
-                >
-                  <div>{"⌛"}</div>
-                </EditorButton>
-                <EditorButton
-                  onTap={this.handleTapLeft}
-                >
-                  <div>{"⤾"}</div>
-                </EditorButton>
 
-                <EditorButton
-                  onTap={this.handleTapLeft}
-                >
-                  <div>{"🎨"}</div>
-                </EditorButton>
-              </div>
-            </div>
-            <div style={style.toolSliderWrap}>
+            <div style={[
+              style.toolSliderWrap,
+              this.state.whatsOpen === 'size' && style.isOpen,
+              this.state.isVisible && style.isVisible,
+            ]}>
               <Slider
-                min={-100}
-                max={360}
-                value={this.getStagedColor()}
-                onChange={this.onChangeColor}
-                dataType={'color'}
+                min={10}
+                max={100}
+                step={1}
+                value={this.getStagedSize()}
+                onChange={this.onChangeSize}
               />
             </div>
-          </div>
+            <EditorButton onTap={this.onTapSize}>
+              <div>{"Aa"}</div>
+            </EditorButton>
 
-          {false && (
-            <div style={style.toolWrap}>
-              <div style={style.toolLabelWrap}>
-                <div style={style.toolLabel}>
-                  {"Aa"}
-                </div>
-              </div>
-              <div style={style.toolSliderWrap}>
-                <Slider
-                  min={0.1}
-                  max={5}
-                  step={0.1}
-                  value={this.getStagedScale()}
-                  onChange={this.onChangeScale}
-                />
-              </div>
+            <div style={[
+              style.toolSliderWrap,
+              this.state.whatsOpen === 'rotate' && style.isOpen,
+              this.state.isVisible && style.isVisible,
+            ]}>
+              <Slider
+                min={-180}
+                max={180}
+                value={this.getStagedRotation()}
+                onChange={this.onChangeRotation}
+              />
             </div>
-          )}
-          {false && (
-            <div style={style.toolWrap}>
-              <div style={style.toolLabelWrap}>
-                <div style={style.toolLabel}>
-                  {"⤾"}
-                </div>
-              </div>
-              <div style={style.toolSliderWrap}>
-                <Slider
-                  min={-180}
-                  max={180}
-                  value={this.getStagedRotation()}
-                  onChange={this.onChangeRotation}
-                />
-              </div>
-            </div>
-          )}
+            <EditorButton onTap={this.onTapRotate}>
+              <div>{"⤾"}</div>
+            </EditorButton>
+
+            <EditorButton onTap={this.onTapColor}>
+              <div>{"🎨"}</div>
+            </EditorButton>
+
+            <EditorButton onTap={this.props.toggleEditText}>
+              <div>{"✍️"}</div>
+            </EditorButton>
+          </div>
         </div>
       </div>
     )
