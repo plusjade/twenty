@@ -3871,10 +3871,6 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.4.2, hosted-git-info@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.6.0.tgz#23235b29ab230c576aab0d4f13fc046b0b038222"
 
-howler@^2.0.4:
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/howler/-/howler-2.0.9.tgz#74f08191f857e26dc8a5dc6cba195bd1cdd97e5d"
-
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/hpack.js/-/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -7325,10 +7321,6 @@ recompose@0.24.0:
     fbjs "^0.8.1"
     hoist-non-react-statics "^1.0.0"
     symbol-observable "^1.0.4"
-
-recordrtc@^5.4.2:
-  version "5.4.6"
-  resolved "https://registry.yarnpkg.com/recordrtc/-/recordrtc-5.4.6.tgz#be1c570550708363b23fba530326854be0683210"
 
 recursive-readdir@2.2.1:
   version "2.2.1"
