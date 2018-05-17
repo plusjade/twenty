@@ -52,6 +52,6 @@ const data = {
   },
 }
 
-export const getSubstitutions = (name) => (
-    data[name] || data.reina
-)
+const getSubstitutions = name => data[name] || data.reina
+
+export default getSubstitutions
