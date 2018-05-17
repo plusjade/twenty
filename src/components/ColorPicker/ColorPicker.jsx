@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import Radium from 'radium'
 import PropTypes from 'prop-types'
+import Draggable from 'gsap/Draggable'
 import style from './style'
 
 class ColorPicker extends PureComponent {
@@ -20,12 +21,12 @@ class ColorPicker extends PureComponent {
 
   componentDidMount() {
     const rotation = this.props.initialValue ? 360 - this.props.initialValue : 0
-    window.TweenLite.set(this.refNode, {transformOrigin: "center"})
+    window.TweenMax.set(this.refNode, {transformOrigin: "center"})
     this.dialPos = window.TweenMax.set(
       this.refNode, {x:'+=0', rotation: rotation}
     )
 
-    window.Draggable.create(this.refNode, {
+    Draggable.create(this.refNode, {
       type: "rotation",
       onDrag: this.calculate,
     })

@@ -3,6 +3,7 @@ import { reaction } from 'mobx'
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Draggable from 'gsap/Draggable'
 import Hammer from 'react-hammerjs'
 import BlockPlayer from 'lib/BlockPlayer'
 import {
@@ -13,7 +14,7 @@ import {
 
 import style from './style'
 
-window.Draggable.zIndex = 1
+Draggable.zIndex = 1
 class BlockWords extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
@@ -156,7 +157,7 @@ class BlockWords extends PureComponent {
 
   makeDraggable = () => {
     if (this.draggable) { return }
-    this.draggable = window.Draggable.create(this.node, {
+    this.draggable = Draggable.create(this.node, {
       // type: "rotation",
       // bounds: this.props.getBoundary(),
       onDragEnd: this.onDragEnd,
