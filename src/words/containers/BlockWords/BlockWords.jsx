@@ -50,9 +50,9 @@ class BlockWords extends PureComponent {
         }
 
         if (lifecycle === 'edit') {
-          this.draggable.enable()
+          this.draggable && this.draggable.enable()
         } else {
-          this.draggable.disable()
+          this.draggable && this.draggable.disable()
         }
       }
     )
@@ -63,12 +63,6 @@ class BlockWords extends PureComponent {
     this.player.on('end', this.onEnd)
     this.player.on('tick', this.onTick)
     this.player.on('replay', this.resetState)
-    this.draggable = window.Draggable.create(this.node, {
-      // type: "rotation",
-      onDragEnd: this.onDragEnd,
-      onDragEndParams: [this.syncTransforms],
-    })[0]
-    this.draggable.disable()
   }
 
   onDragEnd(syncTransforms) {
@@ -154,9 +148,20 @@ class BlockWords extends PureComponent {
   handleTap = () => {
     if (this.props.isEditing) {
       this.props.stageBlock(this.props.block.get('id'))
+      this.makeDraggable()
     } else {
       this.props.sceneTransition()
     }
+  }
+
+  makeDraggable = () => {
+    if (this.draggable) { return }
+    this.draggable = window.Draggable.create(this.node, {
+      // type: "rotation",
+      // bounds: this.props.getBoundary(),
+      onDragEnd: this.onDragEnd,
+      onDragEndParams: [this.syncTransforms],
+    })[0]
   }
 
   getTransforms() {

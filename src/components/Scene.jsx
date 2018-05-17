@@ -20,6 +20,13 @@ const style = {
     height: "100%",
     overflow: "hidden",
   },
+  square: {
+    position: 'relative',
+    width: '100vw',
+    height: '100vw',
+    borderTop:'1px solid #FFF',
+    borderBottom:'1px solid #FFF'
+  },
   visible: {
     opacity: 1,
   },
@@ -56,6 +63,16 @@ class Scene extends PureComponent {
     return `hsl(${colorHsl}, 100%, 50%)`
   }
 
+  getBoundary = () => {
+    return this.boundaryNode
+  }
+
+  getBoundaryRef = (node) => {
+    if (node) {
+      this.boundaryNode = node
+    }
+  }
+
   render() {
     return (
       <Layer
@@ -69,7 +86,7 @@ class Scene extends PureComponent {
           !this.props.isActive && style.hidden,
         ]}
       >
-        <div style={style.square}>
+        <div style={style.square} ref={this.getBoundaryRef}>
           {this.props.blocks.map((block) => {
             const Block = blocksMap[block.get('type')]
             if (!Block) {
@@ -85,6 +102,7 @@ class Scene extends PureComponent {
                 editBlock={this.props.editBlock}
                 removeBlock={this.props.removeBlock}
                 stageBlock={this.props.stageBlock}
+                getBoundary={this.getBoundary}
               />
             )
           })}
