@@ -1,12 +1,12 @@
 import { observer } from "mobx-react"
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import EnterText from 'components/EnterText/EnterText'
 
 import style from './style'
 
-class TextEditor extends PureComponent {
+class TextEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     stagedBlockId: PropTypes.string.isRequired,
@@ -60,4 +60,4 @@ class TextEditor extends PureComponent {
   }
 }
 
-export default Radium(observer(TextEditor))
+export default observer(Radium(TextEditor))

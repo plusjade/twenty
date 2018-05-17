@@ -1,6 +1,6 @@
 import { observer } from "mobx-react"
 import Radium                   from 'radium'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes                from 'prop-types'
 
 import Layer                from 'components/Layer/Layer'
@@ -36,7 +36,7 @@ const style = {
   }
 }
 
-class Scene extends PureComponent {
+class Scene extends Component {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
@@ -112,4 +112,4 @@ class Scene extends PureComponent {
   }
 }
 
-export default Radium(observer(Scene))
+export default observer(Radium(Scene))

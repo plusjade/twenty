@@ -1,5 +1,5 @@
 import { observer } from "mobx-react"
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import EditorButton from 'components/EditorButton/EditorButton'
@@ -7,7 +7,7 @@ import Slider from 'components/Slider/Slider'
 
 import style from './style'
 
-class BlockWordsEditor extends PureComponent {
+class BlockWordsEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     stagedBlockId: PropTypes.string.isRequired,
@@ -128,4 +128,4 @@ class BlockWordsEditor extends PureComponent {
   }
 }
 
-export default Radium(observer(BlockWordsEditor))
+export default observer(Radium(BlockWordsEditor))

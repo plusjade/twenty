@@ -1,7 +1,7 @@
 // import DevTools from 'mobx-react-devtools'
 import { observer } from "mobx-react"
 import Radium from 'radium'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import Layer from 'components/Layer/Layer'
@@ -39,7 +39,7 @@ const style = {
   },
 }
 
-class Player extends PureComponent {
+class Player extends Component {
   static propTypes = {
     activeSceneId: PropTypes.string.isRequired,
     stagedBlockId: PropTypes.string,
@@ -229,4 +229,4 @@ class Player extends PureComponent {
   }
 }
 
-export default Radium(observer(Player))
+export default observer(Radium(Player))

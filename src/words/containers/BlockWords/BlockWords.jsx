@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react'
 import { reaction } from 'mobx'
 import Radium from 'radium'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'gsap/Draggable'
 import Hammer from 'react-hammerjs'
@@ -15,7 +15,7 @@ import {
 import style from './style'
 
 Draggable.zIndex = 1
-class BlockWords extends PureComponent {
+class BlockWords extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
     stageBlock: PropTypes.func.isRequired,
@@ -256,4 +256,4 @@ class BlockWords extends PureComponent {
   }
 }
 
-export default Radium(observer(BlockWords))
+export default observer(Radium(BlockWords))
