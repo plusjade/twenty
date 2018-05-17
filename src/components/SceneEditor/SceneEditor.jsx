@@ -8,13 +8,17 @@ class SceneEditor extends PureComponent {
   static propTypes = {
     isEditing: PropTypes.bool.isRequired,
     addScene: PropTypes.func.isRequired,
+    unStageBlock: PropTypes.func.isRequired,
     sceneTransition: PropTypes.func.isRequired,
+    toggleBottomPanel: PropTypes.func.isRequired,
     scenePosition: PropTypes.number.isRequired,
     totalScenes: PropTypes.number.isRequired,
+    activeSceneId: PropTypes.number.isRequired,
+    video: PropTypes.object.isRequired,
   }
 
   state = {
-    isExpanded: false
+    isExpanded: true
   }
 
   handleTapRight = () => {
@@ -34,7 +38,13 @@ class SceneEditor extends PureComponent {
   }
 
   handleTapToggle = () => {
-    this.setState({isExpanded: !this.state.isExpanded})
+    this.setState({isExpanded: !this.state.isExpanded}, () => {
+      if (this.state.isExpanded) {
+        this.props.unStageBlock()
+      } else {
+        this.props.toggleBottomPanel(false)
+      }
+    })
   }
 
   render() {
@@ -53,6 +63,10 @@ class SceneEditor extends PureComponent {
         >
           <EditorButton onTap={this.handleTapScene}>
             <div>{"🎬"}</div>
+          </EditorButton>
+
+          <EditorButton onTap={this.props.toggleBottomPanel}>
+            <div>{"🎨"}</div>
           </EditorButton>
 
           <EditorButton

@@ -184,6 +184,7 @@ const withPlay = (WrappedComponent) => {
           editBlock={this.editBlock}
           removeBlock={this.removeBlock}
           stageBlock={this.stageBlock}
+          unStageBlock={this.unStageBlock}
           toggleEditText={this.toggleEditText}
         />
       )

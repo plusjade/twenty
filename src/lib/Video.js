@@ -110,7 +110,7 @@ class Video {
       scene = new Map()
       scene.set('blocksIndex', [])
       scene.set('id', sceneId)
-      scene.set('bg', `hsl(${getRandomInt(0, 359)}, 100%, 45%)`)
+      scene.set('color_hsl', getRandomInt(-100, 360))
     }
 
     Object.keys(meta).forEach((key) => {
