@@ -121,16 +121,19 @@ class Editor extends Component {
       <BottomPanel
         key='BottomPanel'
         isActive={this.props.isBottomPanelActive}
+        toggleBottomPanel={this.props.toggleBottomPanel}
       >
-        <ColorPicker
-          key={
-            this.getStagedBlock()
-              ? this.getStagedBlock().get('id')
-              : this.props.activeSceneId
-          }
-          onChange={this.onChangeColor}
-          initialValue={this.getColor()}
-        />
+        <div style={{flex: 1, marginBottom: 5}}>
+          <ColorPicker
+            key={
+              this.getStagedBlock()
+                ? this.getStagedBlock().get('id')
+                : this.props.activeSceneId
+            }
+            onChange={this.onChangeColor}
+            initialValue={this.getColor()}
+          />
+        </div>
       </BottomPanel>
     ])
   }

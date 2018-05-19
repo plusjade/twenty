@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import Radium from 'radium'
 import PropTypes from 'prop-types'
+import Overlay from 'components/Overlay/Overlay'
 import style from './style'
 
 class BottomPanel extends PureComponent {
@@ -10,9 +11,12 @@ class BottomPanel extends PureComponent {
 
   render() {
     return(
-      <div style={[style.wrap, this.props.isActive && style.isActive]}>
+      <Overlay
+        isActive={this.props.isActive}
+        onTap={this.props.toggleBottomPanel}
+      >
         {this.props.children}
-      </div>
+      </Overlay>
     )
   }
 }
