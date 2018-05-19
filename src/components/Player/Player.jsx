@@ -28,12 +28,6 @@ class Player extends Component {
     isBottomPanelActive: false
   }
 
-  getStagedBlock = () => (
-    this.props.stagedBlockId
-    ? this.props.video.getBlock(this.props.stagedBlockId)
-    : undefined
-  )
-
   handleTapRight = () => {
     this.props.sceneTransition()
   }
@@ -44,58 +38,6 @@ class Player extends Component {
 
   handleTapHome = () => {
     window.location = '/'
-  }
-
-  getColor = () => {
-    const block = this.getStagedBlock()
-
-    if (block) {
-      return this.getStagedColorBlock()
-    } else {
-      return this.getColorScene()
-    }
-  }
-
-  onChangeColor = (value) => {
-    const block = this.getStagedBlock()
-
-    if (block) {
-      this.onChangeColorBlock(value)
-    } else {
-      this.onChangeColorScene(value)
-    }
-  }
-
-  getColorScene = () => {
-    const defaultColor = -100
-    const scene = this.props.video.getScene(this.props.activeSceneId)
-    if (!scene) { return defaultColor }
-    const color = scene.get('color_hsl') || defaultColor
-    if (!color) { return defaultColor }
-
-    return color
-  }
-
-  onChangeColorScene = (value) => {
-    const scene = this.props.video.getScene(this.props.activeSceneId)
-    if (!scene) { return }
-    scene.set('color_hsl', value)
-  }
-
-  getStagedColorBlock = () => {
-    const defaultColor = -100
-    const block = this.getStagedBlock()
-    if (!block) { return defaultColor }
-    const color = block.get('color_hsl') || defaultColor
-    if (!color) { return defaultColor }
-
-    return color
-  }
-
-  onChangeColorBlock = (value) => {
-    const block = this.getStagedBlock()
-    if (!block) { return }
-    block.set('color_hsl', value)
   }
 
   toggleBottomPanel = (open) => {
@@ -148,10 +90,7 @@ class Player extends Component {
           <Editor
             {...this.props}
             toggleBottomPanel={this.toggleBottomPanel}
-            getStagedBlock={this.getStagedBlock}
             isBottomPanelActive={this.state.isBottomPanelActive}
-            getColor={this.getColor}
-            onChangeColor={this.onChangeColor}
           />
         )}
       </div>

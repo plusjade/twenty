@@ -16,7 +16,64 @@ class Editor extends Component {
     video: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
-    getStagedBlock: PropTypes.func.isRequired,
+  }
+
+  getStagedBlock = () => (
+    this.props.stagedBlockId
+    ? this.props.video.getBlock(this.props.stagedBlockId)
+    : undefined
+  )
+
+  getColor = () => {
+    const block = this.getStagedBlock()
+
+    if (block) {
+      return this.getStagedColorBlock()
+    } else {
+      return this.getColorScene()
+    }
+  }
+
+  onChangeColor = (value) => {
+    const block = this.getStagedBlock()
+
+    if (block) {
+      this.onChangeColorBlock(value)
+    } else {
+      this.onChangeColorScene(value)
+    }
+  }
+
+  getColorScene = () => {
+    const defaultColor = -100
+    const scene = this.props.video.getScene(this.props.activeSceneId)
+    if (!scene) { return defaultColor }
+    const color = scene.get('color_hsl') || defaultColor
+    if (!color) { return defaultColor }
+
+    return color
+  }
+
+  onChangeColorScene = (value) => {
+    const scene = this.props.video.getScene(this.props.activeSceneId)
+    if (!scene) { return }
+    scene.set('color_hsl', value)
+  }
+
+  getStagedColorBlock = () => {
+    const defaultColor = -100
+    const block = this.getStagedBlock()
+    if (!block) { return defaultColor }
+    const color = block.get('color_hsl') || defaultColor
+    if (!color) { return defaultColor }
+
+    return color
+  }
+
+  onChangeColorBlock = (value) => {
+    const block = this.getStagedBlock()
+    if (!block) { return }
+    block.set('color_hsl', value)
   }
 
   render() {
@@ -29,7 +86,7 @@ class Editor extends Component {
         video={this.props.video}
         editBlock={this.props.editBlock}
         removeBlock={this.props.removeBlock}
-        getStagedBlock={this.props.getStagedBlock}
+        getStagedBlock={this.getStagedBlock}
         stagedBlockId={this.props.stagedBlockId}
         toggleEditText={this.props.toggleEditText}
         toggleBottomPanel={this.props.toggleBottomPanel}
@@ -40,7 +97,7 @@ class Editor extends Component {
         video={this.props.video}
         editBlock={this.props.editBlock}
         removeBlock={this.props.removeBlock}
-        getStagedBlock={this.props.getStagedBlock}
+        getStagedBlock={this.getStagedBlock}
         stagedBlockId={this.props.stagedBlockId}
         toggleEditText={this.props.toggleEditText}
       />,
@@ -67,12 +124,12 @@ class Editor extends Component {
       >
         <ColorPicker
           key={
-            this.props.getStagedBlock()
-              ? this.props.getStagedBlock().get('id')
+            this.getStagedBlock()
+              ? this.getStagedBlock().get('id')
               : this.props.activeSceneId
           }
-          onChange={this.props.onChangeColor}
-          initialValue={this.props.getColor()}
+          onChange={this.onChangeColor}
+          initialValue={this.getColor()}
         />
       </BottomPanel>
     ])
