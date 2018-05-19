@@ -6,6 +6,7 @@ const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       video: PropTypes.object.isRequired,
+      canEdit: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -15,14 +16,10 @@ const withPlay = (WrappedComponent) => {
 
     UNSAFE_componentWillMount() {
       this.setVideoData()
-      if (this.props.canEdit) {
-        this.setState({isEditing: true})
-      }
     }
 
     initialState = () => ({
       activeSceneId: null,
-      isEditing: false,
     })
 
     resetState = () => {
@@ -44,7 +41,7 @@ const withPlay = (WrappedComponent) => {
       let nextScene
 
       if (option) {
-        let candidateScene = sceneTransitions[option]
+        const candidateScene = sceneTransitions[option]
         if (this.props.video.getScene(candidateScene)) {
           nextScene = candidateScene
         } else if (option === 'prev' && this.state.activeSceneId === this.state.initialSceneId) {
@@ -81,29 +78,6 @@ const withPlay = (WrappedComponent) => {
         })
     }
 
-    toggleEditMode = () => {
-      this.setState({isEditing: !this.state.isEditing}, () => {
-        if (!this.state.isEditing) {
-          const blocks = this.props.video.getBlocksInScene(this.state.activeSceneId)
-          blocks.forEach((block) => {
-            block.set('lifecycle', 'replay')
-          })
-          this.unStageBlock()
-        }
-      })
-    }
-
-    // some blocks are interactive so the tap overlays shouldnt render
-    isInteractive() {
-      if (this.state.isEditing) { return true }
-      if (!this.state.activeSceneId) { return false }
-      return !!(
-        this.props.video
-          .getBlocksInScene(this.state.activeSceneId)
-          .find(block => block.isInteractive)
-      )
-    }
-
     removeBlock = (blockId) => {
       this.unStageBlock({replay: false})
       const block = this.props.video.getBlock(blockId)
@@ -118,10 +92,12 @@ const withPlay = (WrappedComponent) => {
       if (blockId === this.state.stagedBlockId) {
         this.unStageBlock()
       } else {
-        this.unStageBlock({callback: () => {
-          this.setState({stagedBlockId: blockId})
-          this.props.video.getBlock(blockId).set('lifecycle', 'edit')
-        }})
+        this.unStageBlock({
+          callback: () => {
+            this.setState({stagedBlockId: blockId})
+            this.props.video.getBlock(blockId).set('lifecycle', 'edit')
+          }
+        })
       }
     }
 
@@ -142,13 +118,11 @@ const withPlay = (WrappedComponent) => {
     }
 
     addBlock = () => {
-      const block = this.props.video.addBlock(
-        {
-          type: "words",
-          content: randomEmoji(),
-          sceneId: this.state.activeSceneId,
-        },
-      )
+      const block = this.props.video.addBlock({
+        type: "words",
+        content: randomEmoji(),
+        sceneId: this.state.activeSceneId,
+      })
       block.set('lifecycle', 'play')
       this.stageBlock(block.get('id'))
     }
@@ -171,11 +145,9 @@ const withPlay = (WrappedComponent) => {
         <WrappedComponent
           {...this.state}
           canEdit={this.props.canEdit}
+          isEditing={this.props.canEdit}
           video={this.props.video}
-          isInteractive={this.isInteractive()}
           sceneTransition={this.sceneTransition}
-          toggleEditMode={this.toggleEditMode}
-
           addScene={this.addScene}
           addBlock={this.addBlock}
           editBlock={this.editBlock}

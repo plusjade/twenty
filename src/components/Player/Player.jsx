@@ -15,7 +15,6 @@ class Player extends Component {
     stagedBlockId: PropTypes.string,
     video: PropTypes.object.isRequired,
     isEditing: PropTypes.bool.isRequired,
-    isInteractive: PropTypes.bool.isRequired,
     sceneTransition: PropTypes.func.isRequired,
     addScene: PropTypes.func.isRequired,
     addBlock: PropTypes.func.isRequired,
