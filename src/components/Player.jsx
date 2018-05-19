@@ -6,13 +6,8 @@ import PropTypes from 'prop-types'
 
 import Layer from 'components/Layer/Layer'
 import Scene from 'components/Scene'
-import BlockList from 'components/BlockList/BlockList'
-import SceneEditor from 'components/SceneEditor/SceneEditor'
 import EditorButton from 'components/EditorButton/EditorButton'
-import BlockWordsEditor from 'components/BlockWordsEditor/BlockWordsEditor'
-import TextEditor from 'components/TextEditor/TextEditor'
-import BottomPanel from 'components/BottomPanel/BottomPanel'
-import ColorPicker from 'components/ColorPicker/ColorPicker'
+import Editor from 'components/Editor'
 
 const style = {
   wrap: {
@@ -52,7 +47,6 @@ class Player extends Component {
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
     stageBlock: PropTypes.func.isRequired,
-    isBottomPanelActive: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -152,32 +146,6 @@ class Player extends Component {
           />
         ))}
 
-        <BlockWordsEditor
-          isActive={!!this.props.stagedBlockId}
-          video={this.props.video}
-          editBlock={this.props.editBlock}
-          removeBlock={this.props.removeBlock}
-          getStagedBlock={this.getStagedBlock}
-          stagedBlockId={this.props.stagedBlockId}
-          toggleEditText={this.props.toggleEditText}
-          toggleBottomPanel={this.toggleBottomPanel}
-        />
-
-        <TextEditor
-          isActive={this.props.isEditingText}
-          video={this.props.video}
-          editBlock={this.props.editBlock}
-          removeBlock={this.props.removeBlock}
-          getStagedBlock={this.getStagedBlock}
-          stagedBlockId={this.props.stagedBlockId}
-          toggleEditText={this.props.toggleEditText}
-        />
-
-        <BlockList
-          isEditing={this.props.isEditing}
-          addBlock={this.props.addBlock}
-        />
-
         <div style={style.edit}>
           <EditorButton
             onTap={this.handleTapHome}
@@ -201,29 +169,16 @@ class Player extends Component {
           </div>
         )}
 
-        <SceneEditor
-          activeSceneId={this.props.activeSceneId}
-          video={this.props.video}
-          isEditing={this.props.isEditing}
-          addScene={this.props.addScene}
-          unStageBlock={this.props.unStageBlock}
-          sceneTransition={this.props.sceneTransition}
-          totalScenes={scenes.length}
-          scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
-          toggleBottomPanel={this.toggleBottomPanel}
-        />
-
-        <BottomPanel isActive={this.state.isBottomPanelActive}>
-          <ColorPicker
-            key={
-              this.getStagedBlock()
-                ? this.getStagedBlock().get('id')
-                : this.props.activeSceneId
-            }
-            onChange={this.onChangeColor}
-            initialValue={this.getColor()}
+        {this.props.isEditing && (
+          <Editor
+            {...this.props}
+            toggleBottomPanel={this.toggleBottomPanel}
+            getStagedBlock={this.getStagedBlock}
+            isBottomPanelActive={this.state.isBottomPanelActive}
+            getColor={this.getColor}
+            onChangeColor={this.onChangeColor}
           />
-        </BottomPanel>
+        )}
       </div>
     )
   }

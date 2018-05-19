@@ -16,7 +16,7 @@ class Slider extends PureComponent {
     max: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
-    dataType: PropTypes.string.isRequired,
+    dataType: PropTypes.string,
   }
 
   static defaultProps = {

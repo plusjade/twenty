@@ -10,7 +10,7 @@ import style from './style'
 class BlockWordsEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    stagedBlockId: PropTypes.string.isRequired,
+    stagedBlockId: PropTypes.string,
     video: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,

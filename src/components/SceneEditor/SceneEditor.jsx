@@ -13,7 +13,7 @@ class SceneEditor extends PureComponent {
     toggleBottomPanel: PropTypes.func.isRequired,
     scenePosition: PropTypes.number.isRequired,
     totalScenes: PropTypes.number.isRequired,
-    activeSceneId: PropTypes.number.isRequired,
+    activeSceneId: PropTypes.string.isRequired,
     video: PropTypes.object.isRequired,
   }
 
