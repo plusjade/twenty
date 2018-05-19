@@ -5,8 +5,10 @@
     jest: true
   parser: babel-eslint
   extends:
+    - react-app
     - airbnb
   rules:
+    prefer-destructuring: 0
     arrow-body-style: 1
     array-callback-return: 1
     arrow-spacing: 1
@@ -28,8 +30,8 @@
     import/no-named-as-default: 1
     import/no-named-as-default-member: 1
     indent: 0
-    jsx-a11y/anchor-has-content: 1
-    jsx-a11y/href-no-hash: 1
+    jsx-a11y/anchor-has-content: 0
+    jsx-a11y/href-no-hash: [0]
     jsx-a11y/img-has-alt: 1
     jsx-a11y/label-has-for: 1
     jsx-a11y/no-static-element-interactions: 1
@@ -99,14 +101,11 @@
     react/no-string-refs: 1
     react/no-unescaped-entities: 1
     react/no-unused-prop-types: 1
-    # Until mobile web is dead (which shares some code with the store), we
-    # want to avoid using es6 classes for React components since its on an
-    # older version of React and risks breakage.
-    react/prefer-es6-class: 0
+    react/prefer-es6-class: 1
     react/prefer-stateless-function: 0
     react/prop-types: 1
     react/self-closing-comp: 1
-    react/sort-comp: 1
+    react/sort-comp: 0
     semi: 0
     semi-spacing: 1
     space-before-blocks: 1

@@ -4,7 +4,6 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Layer from 'components/Layer/Layer'
 import Scene from 'components/Scene'
 import EditorButton from 'components/EditorButton/EditorButton'
 import Editor from 'components/Editor'

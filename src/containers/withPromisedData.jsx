@@ -12,7 +12,7 @@ const withPromisedData = (WrappedComponent, dataKey="data", dataValue=[]) => {
       this.state = dataPayload
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       if (typeof this.props.async === "function") {
         this.resolve(this.props.async())
       }

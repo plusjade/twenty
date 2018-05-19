@@ -27,15 +27,12 @@ class BlockWords extends Component {
     return ({
       isActivated: false,
       content: '',
-      effect: null,
-      positionX: 0,
-      positionY: 0,
     })
   }
 
   state = BlockWords.initialState()
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.player = new BlockPlayer({offset: this.props.block.get('offset')})
     reaction(
       () => this.props.block.get('lifecycle'),

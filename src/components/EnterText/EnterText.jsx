@@ -25,7 +25,7 @@ class EnterText extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.value && nextProps.value !== this.props.value) {
       this.setState({value: nextProps.value}, this.focus)
     }

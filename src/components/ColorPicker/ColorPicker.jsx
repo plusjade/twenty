@@ -13,7 +13,7 @@ class ColorPicker extends PureComponent {
     value: 0
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.initialValue) {
       this.setState({value: this.props.initialValue})
     }

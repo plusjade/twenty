@@ -3,7 +3,6 @@ import React, { PureComponent }   from 'react'
 import { token, videosSave } from 'lib/actions'
 import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
-import debounce from 'lodash.debounce'
 import style from './style'
 
 class VideosAdd extends PureComponent {

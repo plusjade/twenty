@@ -13,7 +13,7 @@ const withPlay = (WrappedComponent) => {
       this.state = this.initialState()
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.setVideoData()
       if (this.props.canEdit) {
         this.setState({isEditing: true})
@@ -111,10 +111,7 @@ const withPlay = (WrappedComponent) => {
     }
 
     editBlock = (blockId, attributes) => {
-      const block = this.props.video.getBlock(blockId)
       this.props.video.editBlock(blockId, attributes)
-      // block.set('lifecycle', 'replay')
-      // this.unStageBlock()
     }
 
     stageBlock = (blockId) => {
