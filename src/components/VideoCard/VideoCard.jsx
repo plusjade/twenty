@@ -22,7 +22,7 @@ class VideoCard extends PureComponent {
     videoData: null
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     videosFind(this.props.videoId).then((videoData) => {
       this.setState({videoData})
     })

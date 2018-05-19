@@ -19,7 +19,7 @@ class BlockWords extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
     stageBlock: PropTypes.func.isRequired,
-    isEditing: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool,
     sceneTransition: PropTypes.func.isRequired,
   }
 
@@ -30,12 +30,12 @@ class BlockWords extends Component {
     })
   }
 
-  state = BlockWords.initialState()
-
-  UNSAFE_componentWillMount() {
-    this.player = new BlockPlayer({offset: this.props.block.get('offset')})
+  constructor(props) {
+    super(props)
+    this.state = BlockWords.initialState()
+    this.player = new BlockPlayer({offset: props.block.get('offset')})
     reaction(
-      () => this.props.block.get('lifecycle'),
+      () => props.block.get('lifecycle'),
       (lifecycle) => {
         if (lifecycle === 'play') {
           if (this.state.hasStarted) {

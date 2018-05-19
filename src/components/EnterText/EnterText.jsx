@@ -15,6 +15,12 @@ class EnterText extends PureComponent {
     value: PropTypes.string,
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.value && nextProps.value !== prevState.value) {
+      return ({value: nextProps.value})
+    }
+  }
+
   state = {
     value: "",
   }
@@ -25,12 +31,10 @@ class EnterText extends PureComponent {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.value && nextProps.value !== this.props.value) {
-      this.setState({value: nextProps.value}, this.focus)
-    }
-
-    if(nextProps.isActive && !this.props.isActive) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.value && this.state.value !== prevState.value) {
+      this.focus()
+    } else if(this.props.isActive && !prevProps.isActive) {
       this.focus()
     }
   }

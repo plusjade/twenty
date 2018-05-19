@@ -6,33 +6,21 @@ const withPlay = (WrappedComponent) => {
   class withPlay extends Component {
     static propTypes = {
       video: PropTypes.object.isRequired,
-      canEdit: PropTypes.bool.isRequired,
+      canEdit: PropTypes.bool,
     }
 
     constructor(props) {
+      const activeSceneId = props.video.getInitialSceneId()
       super(props)
-      this.state = this.initialState()
-    }
 
-    UNSAFE_componentWillMount() {
-      this.setVideoData()
-    }
-
-    initialState = () => ({
-      activeSceneId: null,
-    })
-
-    resetState = () => {
-      this.setState(this.initialState())
-    }
-
-    setVideoData = () => {
-      this.resetState() // todo
-      const activeSceneId = this.props.video.getInitialSceneId()
-      this.setState({
+      this.state = {
         activeSceneId,
         initialSceneId: activeSceneId,
-      }, this.play)
+      }
+    }
+
+    componentDidMount() {
+      this.play()
     }
 
     sceneTransition = (data = {}) => {

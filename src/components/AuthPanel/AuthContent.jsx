@@ -20,7 +20,7 @@ class AuthContent extends PureComponent {
     isLoaded: false
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const access_token = getCookie('access_token')
     if (access_token) {
       // verify the stored server token is good

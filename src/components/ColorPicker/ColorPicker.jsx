@@ -7,15 +7,19 @@ import style from './style'
 class ColorPicker extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
+    initialValue: PropTypes.number,
   }
 
-  state = {
-    value: 0
+  static defaultProps = {
+    initialValue: 0
   }
 
-  UNSAFE_componentWillMount() {
-    if (this.props.initialValue) {
-      this.setState({value: this.props.initialValue})
+  constructor(props) {
+    super(props)
+    if (props.initialValue) {
+      this.state = {
+        value: this.props.initialValue
+      }
     }
   }
 

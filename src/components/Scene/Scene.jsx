@@ -13,7 +13,7 @@ const blocksMap = {
 
 class Scene extends Component {
   static propTypes = {
-    isEditing: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool,
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
