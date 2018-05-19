@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import style from './style'
 
-class QuizBlock extends PureComponent {
+class BlockQuiz extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
     sceneTransition: PropTypes.func.isRequired,
@@ -16,10 +16,10 @@ class QuizBlock extends PureComponent {
     })
   }
 
-  state = QuizBlock.initialState()
+  state = BlockQuiz.initialState()
 
   resetState = () => {
-    this.setState(QuizBlock.initialState())
+    this.setState(BlockQuiz.initialState())
   }
 
   componentDidMount() {
@@ -57,4 +57,4 @@ class QuizBlock extends PureComponent {
   }
 }
 
-export default Radium(QuizBlock)
+export default Radium(BlockQuiz)

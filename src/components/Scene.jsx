@@ -1,15 +1,12 @@
 import { observer } from "mobx-react"
-import Radium                   from 'radium'
+import Radium from 'radium'
 import React, { Component } from 'react'
-import PropTypes                from 'prop-types'
+import PropTypes from 'prop-types'
 
-import Layer                from 'components/Layer/Layer'
-
-import BlockWords           from 'words/containers/BlockWords/BlockWords'
-import QuizBlock            from 'quiz/containers/QuizBlock/QuizBlock'
+import Layer from 'components/Layer/Layer'
+import BlockWords from 'blocks/BlockWords/BlockWords'
 
 const blocksMap = {
-  quiz: QuizBlock,
   words: BlockWords,
 }
 
@@ -38,9 +35,14 @@ const style = {
 
 class Scene extends Component {
   static propTypes = {
+    isEditing: PropTypes.bool.isRequired,
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
+    editBlock: PropTypes.func.isRequired,
+    removeBlock: PropTypes.func.isRequired,
+    stageBlock: PropTypes.func.isRequired,
+    sceneTransition: PropTypes.func.isRequired,
   }
 
   handleTap = () => {
