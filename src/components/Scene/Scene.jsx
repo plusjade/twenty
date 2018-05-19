@@ -5,32 +5,10 @@ import PropTypes from 'prop-types'
 
 import Layer from 'components/Layer/Layer'
 import BlockWords from 'blocks/BlockWords/BlockWords'
+import style from './style'
 
 const blocksMap = {
   words: BlockWords,
-}
-
-const style = {
-  wrap: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-  },
-  square: {
-    position: 'relative',
-    width: '100vw',
-    height: '100vw',
-    borderTop:'1px solid #FFF',
-    borderBottom:'1px solid #FFF'
-  },
-  visible: {
-    opacity: 1,
-  },
-  hidden: {
-    opacity: 0,
-    pointerEvents: 'none',
-  }
 }
 
 class Scene extends Component {
@@ -49,7 +27,6 @@ class Scene extends Component {
     if (this.props.isEditing) { return }
     this.props.sceneTransition()
   }
-
 
   getColor() {
     if (!this.props.scene.get('color_hsl')) {

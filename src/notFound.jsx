@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Player from 'components/Player'
+import Player from 'components/Player/Player'
 import withPlay from 'containers/withPlay'
 import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
