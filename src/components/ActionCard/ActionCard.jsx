@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import style from './style'
 
-class AddBlockButton extends PureComponent {
+class ActionCard extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func,
   }
@@ -29,4 +29,4 @@ class AddBlockButton extends PureComponent {
   }
 }
 
-export default Radium(AddBlockButton)
+export default Radium(ActionCard)
