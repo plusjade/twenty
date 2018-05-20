@@ -2,7 +2,7 @@ import { observer } from "mobx-react"
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
-import BlockList from 'components/BlockList/BlockList'
+import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
 import SceneEditor from 'components/SceneEditor/SceneEditor'
 import BlockWordsEditor from 'components/BlockWordsEditor/BlockWordsEditor'
 import TextEditor from 'components/TextEditor/TextEditor'
@@ -107,8 +107,8 @@ class Editor extends Component {
         stagedBlockId={this.props.stagedBlockId}
         toggleEditText={this.props.toggleEditText}
       />,
-      <BlockList
-        key='BlockList'
+      <BlocksMenu
+        key='BlocksMenu'
         isEditing={this.props.isEditing}
         addBlock={this.props.addBlock}
         toggleBottomPanel={this.props.toggleBottomPanel}

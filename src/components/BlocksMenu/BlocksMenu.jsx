@@ -5,7 +5,7 @@ import Overlay from 'components/Overlay/Overlay'
 import ActionCard from 'components/ActionCard/ActionCard'
 import style from './style'
 
-class BlockList extends PureComponent {
+class BlocksMenu extends PureComponent {
   static propTypes = {
     addBlock: PropTypes.func.isRequired,
     isActive: PropTypes.bool.isRequired,
@@ -47,4 +47,4 @@ class BlockList extends PureComponent {
   }
 }
 
-export default Radium(BlockList)
+export default Radium(BlocksMenu)
