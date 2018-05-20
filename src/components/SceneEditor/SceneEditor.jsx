@@ -51,6 +51,14 @@ class SceneEditor extends PureComponent {
           this.props.isEditing && style.active
         ]}
       >
+        <EditorButton
+          onTap={this.handleTapToggle}
+          dark={this.state.isExpanded}
+        >
+          <span>
+            {`${this.props.scenePosition}/${this.props.totalScenes}`}
+          </span>
+        </EditorButton>
         <div
           style={[
             style.tools,
@@ -73,15 +81,6 @@ class SceneEditor extends PureComponent {
             <div>{"➜"}</div>
           </EditorButton>
         </div>
-
-        <EditorButton
-          onTap={this.handleTapToggle}
-          dark={this.state.isExpanded}
-        >
-          <span>
-            {`${this.props.scenePosition}/${this.props.totalScenes}`}
-          </span>
-        </EditorButton>
       </div>
     )
   }

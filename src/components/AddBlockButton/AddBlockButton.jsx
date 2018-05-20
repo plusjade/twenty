@@ -1,7 +1,6 @@
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Hammer from 'react-hammerjs'
 import style from './style'
 
 class AddBlockButton extends PureComponent {
@@ -11,22 +10,21 @@ class AddBlockButton extends PureComponent {
 
   render() {
     return (
-      <Hammer onTap={this.props.onTap}>
+      <div
+        onClick={this.props.onTap}
+        style={[
+          style.default
+        ]}
+      >
         <div
           style={[
-            style.default
+            style.inner,
+            this.props.disabled && style.disabled,
           ]}
         >
-          <div
-            style={[
-              style.inner,
-              this.props.disabled && style.disabled,
-            ]}
-          >
-            {this.props.children}
-          </div>
+          {this.props.children}
         </div>
-      </Hammer>
+      </div>
     )
   }
 }

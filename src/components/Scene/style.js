@@ -8,8 +8,8 @@ export default {
   square: {
     position: 'relative',
     width: '100vw',
-    height: '100vw',
-    borderTop:'1px solid #FFF',
+    height: '133vw',
+    // borderTop:'1px solid #FFF',
     borderBottom:'1px solid #FFF'
   },
   visible: {

@@ -61,6 +61,7 @@ class Scene extends Component {
           {
             backgroundColor: this.getColor(),
             display: "flex",
+            alignItems: "flex-start",
           },
           this.props.isActive && style.visible,
           !this.props.isActive && style.hidden,
@@ -70,7 +71,10 @@ class Scene extends Component {
           {this.props.blocks.map((block) => {
             const Block = blocksMap[block.get('type')]
             if (!Block) {
-              throw new TypeError(`No supported block for type: '${block.get('type')}'`)
+              const message = `No supported block for type: '${block.get('type')}'`
+              console.error(message)
+              // throw new TypeError(message)
+              return null
             }
 
             return (

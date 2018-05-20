@@ -14,7 +14,7 @@ import {
 
 import style from './style'
 
-Draggable.zIndex = 1
+// Draggable.zIndex = 1
 class BlockWords extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,

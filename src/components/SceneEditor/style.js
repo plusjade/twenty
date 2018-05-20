@@ -1,9 +1,9 @@
 export default {
   default: {
     position: "absolute",
-    top: 7,
-    right: 0,
-    zIndex: 999999,
+    bottom: 0,
+    left: 0,
+    zIndex: 999,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -21,7 +21,7 @@ export default {
     alignItems: "center",
     justifyContent: "flex-end",
     transition: "all 200ms ease-in-out",
-    transform: "translateX(40px) scale(0)",
-    transformOrigin: "right center",
+    transform: "translateX(-40px) scale(0)",
+    transformOrigin: "left center",
   },
 }

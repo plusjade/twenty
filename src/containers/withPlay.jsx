@@ -99,7 +99,10 @@ const withPlay = (WrappedComponent) => {
         if (replay) {
           this.props.video.getBlock(blockId).set('lifecycle', 'replay')
         } else {
-          this.props.video.getBlock(blockId).delete('lifecycle')
+          const block = this.props.video.getBlock(blockId)
+          if (block) {
+            block.delete('lifecycle')
+          }
         }
         if (callback) { callback() }
       })
@@ -108,11 +111,13 @@ const withPlay = (WrappedComponent) => {
     addBlock = (type = 'words') => {
       const block = this.props.video.addBlock({
         type,
-        content: randomEmoji(),
+        content: `${randomEmoji()} CAPTION`,
         sceneId: this.state.activeSceneId,
       })
-      block.set('lifecycle', 'play')
       this.stageBlock(block.get('id'))
+      setTimeout(() => {
+        block.set('lifecycle', 'play')
+      }, 100) // TODO FIXME
     }
 
     addScene = () => {

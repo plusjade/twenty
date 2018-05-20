@@ -56,32 +56,37 @@ class BlockWordsEditor extends Component {
     // this.props.unStageBlock
   }
 
+  onTapDelete = () => {
+    if (window.confirm('Delete this block forever?')) {
+      this.props.removeBlock(this.props.stagedBlockId)
+    }
+  }
+
   render() {
     return (
       <Overlay
         isActive={this.props.isActive}
-        onTap={this.onTap}
       >
-        <div
-          style={[
-            style.wrap,
-            style.isActive,
-          ]}
-        >
-          <AddBlockButton onTap={this.props.toggleEditText}>
-            <div>
-              <span role="img" aria-label="edit">✍️</span>
-              <span> Edit Content</span>
-            </div>
-          </AddBlockButton>
+        <AddBlockButton onTap={this.props.toggleEditText}>
+          <div>
+            <span role="img" aria-label="edit">✍️</span>
+            <span> Text</span>
+          </div>
+        </AddBlockButton>
 
-          <AddBlockButton onTap={this.onTapColor}>
-            <div>
-              <span role="img" aria-label="color">🎨</span>
-              <span> Edit Color</span>
-            </div>
-          </AddBlockButton>
-        </div>
+        <AddBlockButton onTap={this.onTapColor}>
+          <div>
+            <span role="img" aria-label="color">🎨</span>
+            <span> Color</span>
+          </div>
+        </AddBlockButton>
+
+        <AddBlockButton onTap={this.onTapDelete}>
+          <div>
+            <span role="img" aria-label="color">😵</span>
+            <span> DELETE</span>
+          </div>
+        </AddBlockButton>
       </Overlay>
     )
   }

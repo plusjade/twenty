@@ -46,9 +46,7 @@ class BlockPlayer {
       this.timeKeeper.start((nextTimePosition) => {
         if (this.offset && nextTimePosition < this.offset) { return }
 
-        // console.log(nextTimePosition)
         if (nextTimePosition >= this.timeDuration()) {
-          console.log("TIMER DONE")
           this.timeKeeper.pause()
           if (this.callbacks.end) {
             this.callbacks.end.forEach((cb) => {

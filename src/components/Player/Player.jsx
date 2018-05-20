@@ -69,7 +69,7 @@ class Player extends Component {
           />
         ))}
 
-        <div style={style.edit}>
+        <div style={style.home}>
           <EditorButton
             onTap={this.handleTapHome}
             dark

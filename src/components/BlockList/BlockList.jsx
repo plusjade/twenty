@@ -7,21 +7,23 @@ import style from './style'
 
 class BlockList extends PureComponent {
   static propTypes = {
-    isEditing: PropTypes.bool.isRequired,
     addBlock: PropTypes.func.isRequired,
     isActive: PropTypes.bool.isRequired,
   }
 
   handleTapWords = () => {
     this.props.addBlock('words')
+    this.props.toggleAddBlock()
   }
 
   handleTapText = () => {
     this.props.addBlock('text')
+    this.props.toggleAddBlock()
   }
 
   handleTapScene = () => {
     this.props.addScene()
+    this.props.toggleAddBlock()
   }
 
   render() {
@@ -29,25 +31,17 @@ class BlockList extends PureComponent {
       <Overlay
         isActive={this.props.isActive}
         onTap={this.props.toggleAddBlock}
-        full
       >
-        <div
-          style={[
-            style.wrap.default,
-            style.wrap.active
-          ]}
-        >
-          <AddBlockButton onTap={this.handleTapWords}>
-            <div>Add Caption</div>
-          </AddBlockButton>
+        <AddBlockButton onTap={this.handleTapWords}>
+          <div>Add Caption</div>
+        </AddBlockButton>
 
-          <AddBlockButton onTap={this.handleTapScene}>
-            <div>
-              <span role="img" aria-label="scene">🎬</span>
-              <span> Add Scene </span>
-            </div>
-          </AddBlockButton>
-        </div>
+        <AddBlockButton onTap={this.handleTapScene}>
+          <div>
+            <span role="img" aria-label="scene">🎬</span>
+            <span> Add Scene </span>
+          </div>
+        </AddBlockButton>
       </Overlay>
     )
   }

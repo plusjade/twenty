@@ -5,7 +5,7 @@ export default {
     height: "100%",
     overflow: "hidden",
   },
-  edit: {
+  home: {
     position: "absolute",
     top: 7,
     left: 0,
