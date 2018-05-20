@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
-import SceneEditor from 'components/SceneEditor/SceneEditor'
+import SceneActionsMenu from 'components/SceneActionsMenu/SceneActionsMenu'
 import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
 import TextEditor from 'components/TextEditor/TextEditor'
 import Overlay from 'components/Overlay/Overlay'
@@ -103,8 +103,8 @@ class Editor extends Component {
         stagedBlockId={this.props.stagedBlockId}
         toggleEditText={this.props.toggleEditText}
       />,
-      <SceneEditor
-        key='SceneEditor'
+      <SceneActionsMenu
+        key='SceneActionsMenu'
         activeSceneId={this.props.activeSceneId}
         video={this.props.video}
         isEditing={this.props.isEditing}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ActionTap from 'components/ActionTap/ActionTap'
 import style from './style'
 
-class SceneEditor extends PureComponent {
+class SceneActionsMenu extends PureComponent {
   static propTypes = {
     isEditing: PropTypes.bool.isRequired,
     addScene: PropTypes.func.isRequired,
@@ -86,4 +86,4 @@ class SceneEditor extends PureComponent {
   }
 }
 
-export default Radium(SceneEditor)
+export default Radium(SceneActionsMenu)
