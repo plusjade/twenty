@@ -6,7 +6,7 @@ import Overlay from 'components/Overlay/Overlay'
 import ActionCard from 'components/ActionCard/ActionCard'
 import style from './style'
 
-class BlockWordsEditor extends Component {
+class BlockActionsMenu extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     stagedBlockId: PropTypes.string,
@@ -91,4 +91,4 @@ class BlockWordsEditor extends Component {
   }
 }
 
-export default observer(Radium(BlockWordsEditor))
+export default observer(Radium(BlockActionsMenu))

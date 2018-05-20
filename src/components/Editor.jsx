@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Radium from 'radium'
 import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
 import SceneEditor from 'components/SceneEditor/SceneEditor'
-import BlockWordsEditor from 'components/BlockWordsEditor/BlockWordsEditor'
+import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
 import TextEditor from 'components/TextEditor/TextEditor'
 import BottomPanel from 'components/BottomPanel/BottomPanel'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
@@ -85,8 +85,8 @@ class Editor extends Component {
     const scenes = this.props.video.getScenes()
 
     return ([
-      <BlockWordsEditor
-        key='BlockWordsEditor'
+      <BlockActionsMenu
+        key='BlockActionsMenu'
         isActive={!!this.props.stagedBlockId}
         video={this.props.video}
         editBlock={this.props.editBlock}

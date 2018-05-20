@@ -34,7 +34,7 @@ class Overlay extends PureComponent {
         )}
         <div
           style={[
-            style.listWrap.default,
+            style.actionCardsMenu.default,
           ]}
         >
           {this.props.children}
