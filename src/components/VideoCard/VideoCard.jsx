@@ -2,7 +2,7 @@ import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { token, videosRemove } from 'lib/actions'
-import EditorButton from 'components/EditorButton/EditorButton'
+import ActionTap from 'components/ActionTap/ActionTap'
 import Player from 'components/Player/Player'
 import withPlay from 'containers/withPlay'
 import { videosFind } from 'lib/actions'
@@ -64,26 +64,26 @@ class VideoCard extends PureComponent {
           )}
         </div>
         <div style={style.tools}>
-          <EditorButton
+          <ActionTap
             onTap={this.handleRemove}
             dark
           >
             <div>{"X"}</div>
-          </EditorButton>
+          </ActionTap>
 
-          <EditorButton
+          <ActionTap
             onTap={this.handleEdit}
             dark
           >
             <div>{"✍"}</div>
-          </EditorButton>
+          </ActionTap>
 
-          <EditorButton
+          <ActionTap
             onTap={this.handleShow}
             dark
           >
             <div>{"GO"}</div>
-          </EditorButton>
+          </ActionTap>
         </div>
       </div>
     )

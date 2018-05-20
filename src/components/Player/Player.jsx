@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import Scene from 'components/Scene/Scene'
-import EditorButton from 'components/EditorButton/EditorButton'
+import ActionTap from 'components/ActionTap/ActionTap'
 import Editor from 'components/Editor'
 import style from './style'
 
@@ -70,17 +70,17 @@ class Player extends Component {
         ))}
 
         <div style={style.home}>
-          <EditorButton
+          <ActionTap
             onTap={this.handleTapHome}
             dark
           >
             <div>{"🏠"}</div>
-          </EditorButton>
+          </ActionTap>
         </div>
 
         {!this.props.isEditing && (
           <div style={style.back}>
-            <EditorButton
+            <ActionTap
               onTap={this.handleTapLeft}
               disabled={this.props.video.getScenePosition(this.props.activeSceneId) <= 1}
               bigger
@@ -88,7 +88,7 @@ class Player extends Component {
               <div style={{transform: "rotate(180deg)"}}>
                 {"➜"}
               </div>
-            </EditorButton>
+            </ActionTap>
           </div>
         )}
 

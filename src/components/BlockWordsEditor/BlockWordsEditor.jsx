@@ -2,7 +2,6 @@ import { observer } from "mobx-react"
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
-import EditorButton from 'components/EditorButton/EditorButton'
 import Overlay from 'components/Overlay/Overlay'
 import AddBlockButton from 'components/AddBlockButton/AddBlockButton'
 import style from './style'

@@ -1,7 +1,7 @@
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import EditorButton from 'components/EditorButton/EditorButton'
+import ActionTap from 'components/ActionTap/ActionTap'
 import style from './style'
 
 class SceneEditor extends PureComponent {
@@ -51,35 +51,35 @@ class SceneEditor extends PureComponent {
           this.props.isEditing && style.active
         ]}
       >
-        <EditorButton
+        <ActionTap
           onTap={this.handleTapToggle}
           dark={this.state.isExpanded}
         >
           <span>
             {`${this.props.scenePosition}/${this.props.totalScenes}`}
           </span>
-        </EditorButton>
+        </ActionTap>
         <div
           style={[
             style.tools,
             this.state.isExpanded && style.active
           ]}
         >
-          <EditorButton
+          <ActionTap
             onTap={this.handleTapLeft}
             disabled={this.props.scenePosition <= 1}
           >
             <div style={{transform: "rotate(180deg)"}}>
               {"➜"}
             </div>
-          </EditorButton>
+          </ActionTap>
 
-          <EditorButton
+          <ActionTap
             onTap={this.handleTapRight}
             disabled={this.props.scenePosition >= this.props.totalScenes}
           >
             <div>{"➜"}</div>
-          </EditorButton>
+          </ActionTap>
         </div>
       </div>
     )

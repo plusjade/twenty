@@ -8,7 +8,7 @@ import BlockWordsEditor from 'components/BlockWordsEditor/BlockWordsEditor'
 import TextEditor from 'components/TextEditor/TextEditor'
 import BottomPanel from 'components/BottomPanel/BottomPanel'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
-import EditorButton from 'components/EditorButton/EditorButton'
+import ActionTap from 'components/ActionTap/ActionTap'
 
 class Editor extends Component {
   static propTypes = {
@@ -154,9 +154,9 @@ class Editor extends Component {
           zIndex: 9999,
         }}
       >
-        <EditorButton onTap={this.handleAddBlock}>
+        <ActionTap onTap={this.handleAddBlock}>
           <div>+</div>
-        </EditorButton>
+        </ActionTap>
       </div>
     ])
   }

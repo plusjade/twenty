@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Hammer from 'react-hammerjs'
 import style from './style'
 
-class EditorButton extends PureComponent {
+class ActionTap extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func,
   }
@@ -33,4 +33,4 @@ class EditorButton extends PureComponent {
   }
 }
 
-export default Radium(EditorButton)
+export default Radium(ActionTap)
