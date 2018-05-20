@@ -60,10 +60,6 @@ class BlockWordsEditor extends Component {
     this.setState({whatsOpen: 'rotate', isVisible: false}, this.setVisible)
   }
 
-  onTapColor = () => {
-    this.props.toggleBottomPanel()
-  }
-
   setVisible = () => {
     setTimeout(() => {
       this.setState({isVisible: true})
@@ -80,44 +76,6 @@ class BlockWordsEditor extends Component {
       >
         <div style={style.barWrap}>
           <div style={style.toolWrap}>
-
-            <div style={[
-              style.toolSliderWrap,
-              this.state.whatsOpen === 'size' && style.isOpen,
-              this.state.isVisible && style.isVisible,
-            ]}>
-              <Slider
-                min={10}
-                max={100}
-                step={1}
-                value={this.getStagedSize()}
-                onChange={this.onChangeSize}
-              />
-            </div>
-            <EditorButton onTap={this.onTapSize}>
-              <div>{"Aa"}</div>
-            </EditorButton>
-
-            <div style={[
-              style.toolSliderWrap,
-              this.state.whatsOpen === 'rotate' && style.isOpen,
-              this.state.isVisible && style.isVisible,
-            ]}>
-              <Slider
-                min={-180}
-                max={180}
-                value={this.getStagedRotation()}
-                onChange={this.onChangeRotation}
-              />
-            </div>
-            <EditorButton onTap={this.onTapRotate}>
-              <div>{"⤾"}</div>
-            </EditorButton>
-
-            <EditorButton onTap={this.onTapColor}>
-              <div>{"🎨"}</div>
-            </EditorButton>
-
             <EditorButton onTap={this.props.toggleEditText}>
               <div>{"✍️"}</div>
             </EditorButton>
