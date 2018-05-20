@@ -8,6 +8,7 @@ import BlockWordsEditor from 'components/BlockWordsEditor/BlockWordsEditor'
 import TextEditor from 'components/TextEditor/TextEditor'
 import BottomPanel from 'components/BottomPanel/BottomPanel'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
+import EditorButton from 'components/EditorButton/EditorButton'
 
 class Editor extends Component {
   static propTypes = {
@@ -76,6 +77,10 @@ class Editor extends Component {
     block.set('color_hsl', value)
   }
 
+  handleAddBlock = () => {
+    this.props.toggleAddBlock()
+  }
+
   render() {
     const scenes = this.props.video.getScenes()
 
@@ -89,6 +94,7 @@ class Editor extends Component {
         getStagedBlock={this.getStagedBlock}
         stagedBlockId={this.props.stagedBlockId}
         toggleEditText={this.props.toggleEditText}
+        unStageBlock={this.props.unStageBlock}
         toggleBottomPanel={this.props.toggleBottomPanel}
       />,
       <TextEditor
@@ -105,6 +111,10 @@ class Editor extends Component {
         key='BlockList'
         isEditing={this.props.isEditing}
         addBlock={this.props.addBlock}
+        toggleBottomPanel={this.props.toggleBottomPanel}
+        toggleAddBlock={this.props.toggleAddBlock}
+        isActive={this.props.isAddBlockActive}
+        addScene={this.props.addScene}
       />,
       <SceneEditor
         key='SceneEditor'
@@ -134,7 +144,20 @@ class Editor extends Component {
             initialValue={this.getColor()}
           />
         </div>
-      </BottomPanel>
+      </BottomPanel>,
+      <div
+        key='AddBlock'
+        style={{
+          position: "fixed",
+          bottom: 0,
+          right: 0,
+          zIndex: 9999,
+        }}
+      >
+        <EditorButton onTap={this.handleAddBlock}>
+          <div>+</div>
+        </EditorButton>
+      </div>
     ])
   }
 }

@@ -19,6 +19,8 @@ class EnterText extends PureComponent {
     if (nextProps.value && nextProps.value !== prevState.value) {
       return ({value: nextProps.value})
     }
+
+    return null
   }
 
   state = {

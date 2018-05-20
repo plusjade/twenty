@@ -24,7 +24,8 @@ class Player extends Component {
   }
 
   state = {
-    isBottomPanelActive: false
+    isBottomPanelActive: false,
+    isAddBlockActive: false,
   }
 
   handleTapRight = () => {
@@ -44,6 +45,11 @@ class Player extends Component {
     this.setState({isBottomPanelActive: value})
   }
 
+  toggleAddBlock = (open) => {
+    const value = open === false ? false : !this.state.isAddBlockActive
+    this.setState({isAddBlockActive: value})
+  }
+
   render() {
     const scenes = this.props.video.getScenes()
     return (
@@ -59,6 +65,7 @@ class Player extends Component {
             editBlock={this.props.editBlock}
             removeBlock={this.props.removeBlock}
             stageBlock={this.props.stageBlock}
+            unStageBlock={this.props.unStageBlock}
           />
         ))}
 
@@ -88,8 +95,9 @@ class Player extends Component {
         {this.props.isEditing && (
           <Editor
             {...this.props}
+            {...this.state}
             toggleBottomPanel={this.toggleBottomPanel}
-            isBottomPanelActive={this.state.isBottomPanelActive}
+            toggleAddBlock={this.toggleAddBlock}
           />
         )}
       </div>

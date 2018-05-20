@@ -55,6 +55,7 @@ class Scene extends Component {
   render() {
     return (
       <Layer
+        id={this.props.scene.get('id')}
         onTap={this.handleTap}
         style={[
           {

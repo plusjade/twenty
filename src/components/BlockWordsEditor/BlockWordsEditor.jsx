@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import EditorButton from 'components/EditorButton/EditorButton'
-import Slider from 'components/Slider/Slider'
-
+import Overlay from 'components/Overlay/Overlay'
+import AddBlockButton from 'components/AddBlockButton/AddBlockButton'
 import style from './style'
 
 class BlockWordsEditor extends Component {
@@ -15,10 +15,6 @@ class BlockWordsEditor extends Component {
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
     getStagedBlock: PropTypes.func.isRequired,
-  }
-
-  state = {
-    whatsOpen: null
   }
 
   getStagedRotation = () => {
@@ -52,36 +48,41 @@ class BlockWordsEditor extends Component {
     block.set('size', value)
   }
 
-  onTapSize = () => {
-    this.setState({whatsOpen: 'size', isVisible: false}, this.setVisible)
+  onTapColor = () => {
+    this.props.toggleBottomPanel()
   }
 
-  onTapRotate = () => {
-    this.setState({whatsOpen: 'rotate', isVisible: false}, this.setVisible)
-  }
-
-  setVisible = () => {
-    setTimeout(() => {
-      this.setState({isVisible: true})
-    }, 100)
+  onTap = () => {
+    // this.props.unStageBlock
   }
 
   render() {
     return (
-      <div
-        style={[
-          style.wrap,
-          this.props.isActive && style.isActive,
-        ]}
+      <Overlay
+        isActive={this.props.isActive}
+        onTap={this.onTap}
       >
-        <div style={style.barWrap}>
-          <div style={style.toolWrap}>
-            <EditorButton onTap={this.props.toggleEditText}>
-              <div>{"✍️"}</div>
-            </EditorButton>
-          </div>
+        <div
+          style={[
+            style.wrap,
+            style.isActive,
+          ]}
+        >
+          <AddBlockButton onTap={this.props.toggleEditText}>
+            <div>
+              <span role="img" aria-label="edit">✍️</span>
+              <span> Edit Content</span>
+            </div>
+          </AddBlockButton>
+
+          <AddBlockButton onTap={this.onTapColor}>
+            <div>
+              <span role="img" aria-label="color">🎨</span>
+              <span> Edit Color</span>
+            </div>
+          </AddBlockButton>
         </div>
-      </div>
+      </Overlay>
     )
   }
 }

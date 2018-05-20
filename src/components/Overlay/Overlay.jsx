@@ -7,6 +7,18 @@ import style from './style'
 class Overlay extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func,
+    align: PropTypes.string,
+    style: PropTypes.object,
+    isActive: PropTypes.bool,
+    full: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    isActive: false,
+    align: 'bottom',
+    onTap: null,
+    style: {},
+    full: false,
   }
 
   render() {
@@ -17,6 +29,9 @@ class Overlay extends PureComponent {
             style.default,
             this.props.style,
             this.props.isActive && style.isActive,
+            this.props.full && style.full,
+            this.props.align === 'bottom' && style.alignBottom,
+            this.props.align === 'top' && style.alignTop,
           ]}
         >
           {this.props.children}

@@ -29,10 +29,6 @@ class SceneEditor extends PureComponent {
     this.props.sceneTransition({option: 'prev'})
   }
 
-  handleTapScene = () => {
-    this.props.addScene()
-  }
-
   handleTapRemoveScene = () => {
     // noop
   }
@@ -61,14 +57,6 @@ class SceneEditor extends PureComponent {
             this.state.isExpanded && style.active
           ]}
         >
-          <EditorButton onTap={this.handleTapScene}>
-            <div>{"🎬"}</div>
-          </EditorButton>
-
-          <EditorButton onTap={this.props.toggleBottomPanel}>
-            <div>{"🎨"}</div>
-          </EditorButton>
-
           <EditorButton
             onTap={this.handleTapLeft}
             disabled={this.props.scenePosition <= 1}

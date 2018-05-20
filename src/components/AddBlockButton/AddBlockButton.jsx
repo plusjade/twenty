@@ -2,9 +2,9 @@ import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Hammer from 'react-hammerjs'
-import style from './Style'
+import style from './style'
 
-class Layer extends PureComponent {
+class AddBlockButton extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func,
   }
@@ -13,18 +13,22 @@ class Layer extends PureComponent {
     return (
       <Hammer onTap={this.props.onTap}>
         <div
-          id={this.props.id ? this.props.id : null}
           style={[
-            style.default,
-            this.props.style,
-            this.props.isHidden && style.hidden
+            style.default
           ]}
         >
-          {this.props.children}
+          <div
+            style={[
+              style.inner,
+              this.props.disabled && style.disabled,
+            ]}
+          >
+            {this.props.children}
+          </div>
         </div>
       </Hammer>
     )
   }
 }
 
-export default Radium(Layer)
+export default Radium(AddBlockButton)
