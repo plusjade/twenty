@@ -6,9 +6,9 @@ import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
 import SceneEditor from 'components/SceneEditor/SceneEditor'
 import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
 import TextEditor from 'components/TextEditor/TextEditor'
-import BottomPanel from 'components/BottomPanel/BottomPanel'
+import Overlay from 'components/Overlay/Overlay'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
-import ActionTap from 'components/ActionTap/ActionTap'
+import BlocksMenuOpen from 'components/BlocksMenuOpen/BlocksMenuOpen'
 
 class Editor extends Component {
   static propTypes = {
@@ -77,10 +77,6 @@ class Editor extends Component {
     block.set('color_hsl', value)
   }
 
-  handleAddBlock = () => {
-    this.props.toggleAddBlock()
-  }
-
   render() {
     const scenes = this.props.video.getScenes()
 
@@ -107,15 +103,6 @@ class Editor extends Component {
         stagedBlockId={this.props.stagedBlockId}
         toggleEditText={this.props.toggleEditText}
       />,
-      <BlocksMenu
-        key='BlocksMenu'
-        isEditing={this.props.isEditing}
-        addBlock={this.props.addBlock}
-        toggleBottomPanel={this.props.toggleBottomPanel}
-        toggleAddBlock={this.props.toggleAddBlock}
-        isActive={this.props.isAddBlockActive}
-        addScene={this.props.addScene}
-      />,
       <SceneEditor
         key='SceneEditor'
         activeSceneId={this.props.activeSceneId}
@@ -128,10 +115,10 @@ class Editor extends Component {
         scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
         toggleBottomPanel={this.props.toggleBottomPanel}
       />,
-      <BottomPanel
-        key='BottomPanel'
+      <Overlay
+        key='OverlayColorPicker'
         isActive={this.props.isBottomPanelActive}
-        toggleBottomPanel={this.props.toggleBottomPanel}
+        onTap={this.props.toggleBottomPanel}
       >
         <div style={{flex: 1, marginBottom: 5}}>
           <ColorPicker
@@ -144,20 +131,20 @@ class Editor extends Component {
             initialValue={this.getColor()}
           />
         </div>
-      </BottomPanel>,
-      <div
-        key='AddBlock'
-        style={{
-          position: "fixed",
-          bottom: 0,
-          right: 0,
-          zIndex: 9999,
-        }}
-      >
-        <ActionTap onTap={this.handleAddBlock}>
-          <div>+</div>
-        </ActionTap>
-      </div>
+      </Overlay>,
+      <BlocksMenu
+        key='BlocksMenu'
+        isEditing={this.props.isEditing}
+        addBlock={this.props.addBlock}
+        toggleBottomPanel={this.props.toggleBottomPanel}
+        blocksMenuToggle={this.props.blocksMenuToggle}
+        isActive={this.props.isAddBlockActive}
+        addScene={this.props.addScene}
+      />,
+      <BlocksMenuOpen
+        key='BlocksMenuOpen'
+        blocksMenuToggle={this.props.blocksMenuToggle}
+      />
     ])
   }
 }

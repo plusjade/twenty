@@ -45,7 +45,7 @@ class Player extends Component {
     this.setState({isBottomPanelActive: value})
   }
 
-  toggleAddBlock = (open) => {
+  blocksMenuToggle = (open) => {
     const value = open === false ? false : !this.state.isAddBlockActive
     this.setState({isAddBlockActive: value})
   }
@@ -97,7 +97,7 @@ class Player extends Component {
             {...this.props}
             {...this.state}
             toggleBottomPanel={this.toggleBottomPanel}
-            toggleAddBlock={this.toggleAddBlock}
+            blocksMenuToggle={this.blocksMenuToggle}
           />
         )}
       </div>
