@@ -32,13 +32,8 @@ class Overlay extends PureComponent {
             <div style={style.clickOut} />
           </Hammer>
         )}
-        <div
-          style={[
-            style.actionCardsMenu.default,
-          ]}
-        >
-          {this.props.children}
-        </div>
+
+        {this.props.children}
       </div>
     )
   }

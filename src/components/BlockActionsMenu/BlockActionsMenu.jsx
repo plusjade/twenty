@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Overlay from 'components/Overlay/Overlay'
+import ActionCardsMenu from 'components/ActionCardsMenu/ActionCardsMenu'
 import ActionCard from 'components/ActionCard/ActionCard'
 import style from './style'
 
@@ -66,26 +67,28 @@ class BlockActionsMenu extends Component {
       <Overlay
         isActive={this.props.isActive}
       >
-        <ActionCard onTap={this.props.toggleEditText}>
-          <div>
-            <span role="img" aria-label="edit">✍️</span>
-            <span> Text</span>
-          </div>
-        </ActionCard>
+        <ActionCardsMenu>
+          <ActionCard onTap={this.props.toggleEditText}>
+            <div>
+              <span role="img" aria-label="edit">✍️</span>
+              <span> Text</span>
+            </div>
+          </ActionCard>
 
-        <ActionCard onTap={this.onTapColor}>
-          <div>
-            <span role="img" aria-label="color">🎨</span>
-            <span> Color</span>
-          </div>
-        </ActionCard>
+          <ActionCard onTap={this.onTapColor}>
+            <div>
+              <span role="img" aria-label="color">🎨</span>
+              <span> Color</span>
+            </div>
+          </ActionCard>
 
-        <ActionCard onTap={this.onTapDelete}>
-          <div>
-            <span role="img" aria-label="color">😵</span>
-            <span> DELETE</span>
-          </div>
-        </ActionCard>
+          <ActionCard onTap={this.onTapDelete}>
+            <div>
+              <span role="img" aria-label="color">😵</span>
+              <span> DELETE</span>
+            </div>
+          </ActionCard>
+        </ActionCardsMenu>
       </Overlay>
     )
   }
