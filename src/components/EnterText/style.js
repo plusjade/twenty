@@ -22,6 +22,7 @@ export default {
     margin: "0 0 -5px 0",
     resize: "none",
     outline: "none",
+    border: 0,
   },
   button: {
     padding: "7px 21px",
@@ -40,7 +41,7 @@ export default {
   },
   inputButton: {
     position: "absolute",
-    top: 14,
+    bottom: 14,
     right: 10,
     height: 34,
     padding: '0 10px',

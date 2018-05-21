@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import EnterText from 'components/EnterText/EnterText'
-
+import Overlay from 'components/Overlay/Overlay'
 import style from './style'
 
 class TextEditor extends Component {
@@ -43,19 +43,19 @@ class TextEditor extends Component {
 
   render() {
     return (
-      <div
-        style={[
-          style.wrap,
-          this.props.isActive && style.isActive,
-        ]}
+      <Overlay
+        isActive={this.props.isActive}
+        onTap={this.props.toggleEditText}
       >
-        <EnterText
-          value={this.getStagedText()}
-          onSubmit={this.onEnterText}
-          onChange={this.onChangeText}
-          isActive
-        />
-      </div>
+        <div style={style.default}>
+          <EnterText
+            value={this.getStagedText()}
+            onSubmit={this.onEnterText}
+            onChange={this.onChangeText}
+            isActive
+          />
+        </div>
+      </Overlay>
     )
   }
 }
