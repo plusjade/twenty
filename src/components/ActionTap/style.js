@@ -1,4 +1,5 @@
 const dimension = '6vh'
+const dimensionBigger = '8vh'
 export default {
   default: {
     display: "flex",
@@ -24,10 +25,11 @@ export default {
     border: "1px solid rgba(255,255,255,0.8)",
   },
   bigger: {
-    backgroundColor: "Transparent",
-    color: "#FFF",
-    textShadow: "-1px 1px 0 #212121, 1px 1px 0 #212121, 1px -1px 0 #212121, -1px -1px 0 #212121",
-    border: 0,
+    height: dimensionBigger,
+    width: dimensionBigger,
+    lineHeight: dimensionBigger,
+    fontSize: "2.5vh",
+    border: "2px solid rgba(0, 0, 0, 0.8)",
   },
   disabled: {
     opacity: 0.4,

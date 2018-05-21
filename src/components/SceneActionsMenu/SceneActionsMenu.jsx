@@ -1,12 +1,13 @@
 import Radium from 'radium'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import ActionTap from 'components/ActionTap/ActionTap'
+import Overlay from 'components/Overlay/Overlay'
+import ActionCardsMenu from 'components/ActionCardsMenu/ActionCardsMenu'
+import ActionCard from 'components/ActionCard/ActionCard'
 import style from './style'
 
 class SceneActionsMenu extends PureComponent {
   static propTypes = {
-    isEditing: PropTypes.bool.isRequired,
     addScene: PropTypes.func.isRequired,
     unStageBlock: PropTypes.func.isRequired,
     sceneTransition: PropTypes.func.isRequired,
@@ -17,10 +18,6 @@ class SceneActionsMenu extends PureComponent {
     video: PropTypes.object.isRequired,
   }
 
-  state = {
-    isExpanded: true
-  }
-
   handleTapRight = () => {
     this.props.sceneTransition()
   }
@@ -29,59 +26,71 @@ class SceneActionsMenu extends PureComponent {
     this.props.sceneTransition({option: 'prev'})
   }
 
-  handleTapRemoveScene = () => {
+  onTapDelete = () => {
     // noop
   }
 
-  handleTapToggle = () => {
-    this.setState({isExpanded: !this.state.isExpanded}, () => {
-      if (this.state.isExpanded) {
-        this.props.unStageBlock()
-      } else {
-        this.props.toggleBottomPanel(false)
-      }
-    })
+  onTapColor = () => {
+    this.props.toggleBottomPanel()
+  }
+
+  handleTapScene = () => {
+    this.props.addScene()
+    // this.props.blocksMenuToggle()
   }
 
   render() {
     return (
-      <div
-        style={[
-          style.default,
-          this.props.isEditing && style.active
-        ]}
+      <Overlay
+        isActive={this.props.isActive}
+        onTap={this.props.scenesMenuToggle}
       >
-        <ActionTap
-          onTap={this.handleTapToggle}
-          dark={this.state.isExpanded}
-        >
-          <span>
-            {`${this.props.scenePosition}/${this.props.totalScenes}`}
-          </span>
-        </ActionTap>
-        <div
-          style={[
-            style.tools,
-            this.state.isExpanded && style.active
-          ]}
-        >
-          <ActionTap
+        <ActionCardsMenu>
+          <ActionCard onTap={this.onTapColor}>
+            <div style={style.inner}>
+              <div style={style.emoji}>
+                <span role="img" aria-label="color">🎨</span>
+              </div>
+              <div style={style.text}>Color</div>
+            </div>
+          </ActionCard>
+
+          <ActionCard
             onTap={this.handleTapLeft}
             disabled={this.props.scenePosition <= 1}
           >
-            <div style={{transform: "rotate(180deg)"}}>
-              {"➜"}
+            <div style={style.inner}>
+              <div style={[style.emoji, {transform: "rotate(180deg)"}]}>
+                <span>
+                  ➜
+                </span>
+              </div>
+              <div style={style.text}>Prev Scene</div>
             </div>
-          </ActionTap>
+          </ActionCard>
 
-          <ActionTap
+          <ActionCard
             onTap={this.handleTapRight}
             disabled={this.props.scenePosition >= this.props.totalScenes}
           >
-            <div>{"➜"}</div>
-          </ActionTap>
-        </div>
-      </div>
+            <div style={style.inner}>
+              <div style={style.emoji}>
+                ➜
+              </div>
+              <div style={style.text}>Next Scene</div>
+            </div>
+          </ActionCard>
+
+          <ActionCard onTap={this.handleTapScene}>
+            <div style={style.inner}>
+              <div style={style.emoji}>
+                <span role="img" aria-label="color">🎬</span>
+              </div>
+              <div style={style.text}>Add Scene</div>
+            </div>
+          </ActionCard>
+        </ActionCardsMenu>
+      </Overlay>
     )
   }
 }

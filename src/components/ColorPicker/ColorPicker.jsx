@@ -77,7 +77,12 @@ class ColorPicker extends PureComponent {
             {this.state.value}
           </div>
         </div>
-        <div style={[style.pointer, {backgroundColor: this.getColor()}]} />
+        <div
+          style={[
+            style.pointer,
+            {backgroundColor: this.getColor()}
+          ]}
+        />
       </div>
     )
   }

@@ -2,13 +2,13 @@ import { observer } from "mobx-react"
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
+import LaunchMenu from 'components/LaunchMenu/LaunchMenu'
 import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
 import SceneActionsMenu from 'components/SceneActionsMenu/SceneActionsMenu'
 import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
 import TextEditor from 'components/TextEditor/TextEditor'
 import Overlay from 'components/Overlay/Overlay'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
-import BlocksMenuOpen from 'components/BlocksMenuOpen/BlocksMenuOpen'
 
 class Editor extends Component {
   static propTypes = {
@@ -103,22 +103,11 @@ class Editor extends Component {
         stagedBlockId={this.props.stagedBlockId}
         toggleEditText={this.props.toggleEditText}
       />,
-      <SceneActionsMenu
-        key='SceneActionsMenu'
-        activeSceneId={this.props.activeSceneId}
-        video={this.props.video}
-        isEditing={this.props.isEditing}
-        addScene={this.props.addScene}
-        unStageBlock={this.props.unStageBlock}
-        sceneTransition={this.props.sceneTransition}
-        totalScenes={scenes.length}
-        scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
-        toggleBottomPanel={this.props.toggleBottomPanel}
-      />,
       <Overlay
         key='OverlayColorPicker'
         isActive={this.props.isBottomPanelActive}
         onTap={this.props.toggleBottomPanel}
+        style={{zIndex: 300}}
       >
         <div style={{flex: '0 0 18vh'}}>
           <ColorPicker
@@ -141,10 +130,26 @@ class Editor extends Component {
         isActive={this.props.isAddBlockActive}
         addScene={this.props.addScene}
       />,
-      <BlocksMenuOpen
-        key='BlocksMenuOpen'
-        blocksMenuToggle={this.props.blocksMenuToggle}
-      />
+      <SceneActionsMenu
+        key='SceneActionsMenu'
+        isActive={this.props.isScenesMenuActive}
+        activeSceneId={this.props.activeSceneId}
+        video={this.props.video}
+        addScene={this.props.addScene}
+        unStageBlock={this.props.unStageBlock}
+        sceneTransition={this.props.sceneTransition}
+        totalScenes={scenes.length}
+        scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
+        toggleBottomPanel={this.props.toggleBottomPanel}
+        scenesMenuToggle={this.props.scenesMenuToggle}
+      />,
+      <LaunchMenu
+        key='LaunchMenu'
+        onTap={this.props.blocksMenuToggle}
+        scenesMenuToggle={this.props.scenesMenuToggle}
+        totalScenes={scenes.length}
+        scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
+      />,
     ])
   }
 }

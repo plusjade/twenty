@@ -1,7 +1,7 @@
 export default {
   default: {
     display: "flex",
-    flex: "0 0 40vw",
+    flex: "0 0 27vw",
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
@@ -11,15 +11,15 @@ export default {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    fontSize: "2.2vh",
-    fontWeight: 600,
+    fontSize: "1.8vh",
     backgroundColor: "#FFF",
     color: "#212121",
     textAlign: "center",
-    height: "80%",
-    margin: "0 5%",
-    borderRadius: 10,
-    border: "1px solid rgba(0,0,0,0.8)"
+    height: "64%",
+    margin: "0 8%",
+    borderRadius: 20,
+    border: "1px solid rgba(0,0,0,0.8)",
+    boxShadow: "rgba(0, 0, 0, 0.3) 1px 1px 5px",
   },
   disabled: {
     opacity: 0.4,

@@ -9,7 +9,7 @@ export default {
     justifyContent: "center",
     alignItems: "flex-end",
     overflow: "auto",
-    zIndex: 99999,
+    zIndex: 200,
     paddingTop: 10,
     transition: "transform 180ms ease-in-out",
     transform: 'translateY(100%)',

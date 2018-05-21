@@ -4,6 +4,7 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import Layer from 'components/Layer/Layer'
 import Scene from 'components/Scene/Scene'
 import ActionTap from 'components/ActionTap/ActionTap'
 import Editor from 'components/Editor'
@@ -26,6 +27,7 @@ class Player extends Component {
   state = {
     isBottomPanelActive: false,
     isAddBlockActive: false,
+    isScenesMenuActive: false,
   }
 
   handleTapRight = () => {
@@ -36,10 +38,6 @@ class Player extends Component {
     this.props.sceneTransition({option: 'prev'})
   }
 
-  handleTapHome = () => {
-    window.location = '/'
-  }
-
   toggleBottomPanel = (open) => {
     const value = open === false ? false : !this.state.isBottomPanelActive
     this.setState({isBottomPanelActive: value})
@@ -48,6 +46,16 @@ class Player extends Component {
   blocksMenuToggle = (open) => {
     const value = open === false ? false : !this.state.isAddBlockActive
     this.setState({isAddBlockActive: value})
+  }
+
+  scenesMenuToggle = () => {
+    this.setState({isScenesMenuActive: !this.state.isScenesMenuActive}, () => {
+      if (this.state.isScenesMenuActive) {
+        this.props.unStageBlock()
+      } else {
+        this.toggleBottomPanel(false)
+      }
+    })
   }
 
   render() {
@@ -69,27 +77,11 @@ class Player extends Component {
           />
         ))}
 
-        <div style={style.home}>
-          <ActionTap
-            onTap={this.handleTapHome}
-            dark
-          >
-            <div>{"🏠"}</div>
-          </ActionTap>
-        </div>
-
         {!this.props.isEditing && (
-          <div style={style.back}>
-            <ActionTap
-              onTap={this.handleTapLeft}
-              disabled={this.props.video.getScenePosition(this.props.activeSceneId) <= 1}
-              bigger
-            >
-              <div style={{transform: "rotate(180deg)"}}>
-                {"➜"}
-              </div>
-            </ActionTap>
-          </div>
+          <Layer
+            style={{right: "80%"}}
+            onTap={this.handleTapLeft}
+          />
         )}
 
         {this.props.isEditing && (
@@ -98,6 +90,7 @@ class Player extends Component {
             {...this.state}
             toggleBottomPanel={this.toggleBottomPanel}
             blocksMenuToggle={this.blocksMenuToggle}
+            scenesMenuToggle={this.scenesMenuToggle}
           />
         )}
       </div>

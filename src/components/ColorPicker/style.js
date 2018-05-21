@@ -27,7 +27,7 @@ export default {
     height: '7vw',
     width: '7vw',
     borderRadius: '100%',
-    zIndex: 3,
+    zIndex: 9999999, // has to be bigger than the 1k Draggable position
     backgroundColor: 'rgba(255,255,255,0.5)'
   },
   inner: {

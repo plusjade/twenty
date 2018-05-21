@@ -6,7 +6,7 @@ export default {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    boxShadow: "1px 1px 10px rgba(0,0,0,0.7)",
-    backgroundColor: "#304FFE",
+    boxShadow: "inset rgba(0, 0, 0, 0.1) 0px 3px 7px",
+    backgroundColor: "#FFF",
   },
 }

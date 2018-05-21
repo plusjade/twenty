@@ -53,7 +53,7 @@ class BlockActionsMenu extends Component {
   }
 
   onTap = () => {
-    // this.props.unStageBlock
+    this.props.unStageBlock()
   }
 
   onTapDelete = () => {
@@ -66,26 +66,33 @@ class BlockActionsMenu extends Component {
     return (
       <Overlay
         isActive={this.props.isActive}
+        onTap={this.onTap}
       >
         <ActionCardsMenu>
           <ActionCard onTap={this.props.toggleEditText}>
-            <div>
-              <span role="img" aria-label="edit">✍️</span>
-              <span> Text</span>
+            <div style={style.inner}>
+              <div style={style.text}>Text</div>
+              <div style={style.emoji}>
+                <span role="img" aria-label="edit">✍️</span>
+              </div>
             </div>
           </ActionCard>
 
           <ActionCard onTap={this.onTapColor}>
-            <div>
-              <span role="img" aria-label="color">🎨</span>
-              <span> Color</span>
+            <div style={style.inner}>
+              <div style={style.text}>Color</div>
+              <div style={style.emoji}>
+                <span role="img" aria-label="color">🎨</span>
+              </div>
             </div>
           </ActionCard>
 
           <ActionCard onTap={this.onTapDelete}>
-            <div>
-              <span role="img" aria-label="color">😵</span>
-              <span> DELETE</span>
+            <div style={style.inner}>
+              <div style={style.text}>DELETE</div>
+              <div style={style.emoji}>
+                <span role="img" aria-label="color">😵</span>
+              </div>
             </div>
           </ActionCard>
         </ActionCardsMenu>
