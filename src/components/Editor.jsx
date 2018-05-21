@@ -120,7 +120,7 @@ class Editor extends Component {
         isActive={this.props.isBottomPanelActive}
         onTap={this.props.toggleBottomPanel}
       >
-        <div style={{flex: 1, marginBottom: 5}}>
+        <div style={{flex: '0 0 18vh'}}>
           <ColorPicker
             key={
               this.getStagedBlock()
