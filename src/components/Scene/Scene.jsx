@@ -23,6 +23,23 @@ class Scene extends Component {
     sceneTransition: PropTypes.func.isRequired,
   }
 
+  state = {
+    isLandscape: false
+  }
+
+  // TODO
+  componentDidMount() {
+    this.setLandscape()
+    window.addEventListener('resize', this.setLandscape)
+  }
+
+  setLandscape = () => {
+    const clientRect = document.body.getBoundingClientRect()
+    if (clientRect.width > clientRect.height) {
+      this.setState({isLandscape: true})
+    }
+  }
+
   handleTap = () => {
     if (this.props.isEditing) { return }
     this.props.sceneTransition()
@@ -67,7 +84,13 @@ class Scene extends Component {
           !this.props.isActive && style.hidden,
         ]}
       >
-        <div style={style.square} ref={this.getBoundaryRef}>
+        <div
+          style={[
+            style.square,
+            this.state.isLandscape && style.landscape,
+          ]}
+          ref={this.getBoundaryRef}
+        >
           {this.props.blocks.map((block) => {
             const Block = blocksMap[block.get('type')]
             if (!Block) {
