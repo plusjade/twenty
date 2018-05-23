@@ -67,6 +67,7 @@ class BlockWords extends Component {
     if (this.rotation) {
       syncTransforms({rotation: this.rotation})
     } else {
+
       syncTransforms({
         positionX: this.endX,
         positionY: this.endY,
@@ -75,13 +76,16 @@ class BlockWords extends Component {
   }
 
   syncTransforms = (params) => {
-    this.setState(params)
+    const {height, width} = this.props.getBoundary().getBoundingClientRect()
+
     if (Object.prototype.hasOwnProperty.call(params, 'positionX')) {
-      this.props.block.set('positionX', `${params.positionX.toFixed(2)}px`)
+      const relative = +(params.positionX / width).toFixed(4)
+      this.props.block.set('xRel', relative)
     }
 
     if (Object.prototype.hasOwnProperty.call(params, 'positionY')) {
-      this.props.block.set('positionY', `${params.positionY.toFixed(2)}px`)
+      const relative = +(params.positionY / height).toFixed(4)
+      this.props.block.set('yRel', relative)
     }
 
     if (Object.prototype.hasOwnProperty.call(params, 'rotation')) {
@@ -156,7 +160,7 @@ class BlockWords extends Component {
     if (this.draggable) { return }
     this.draggable = Draggable.create(this.node, {
       // type: "rotation",
-      // bounds: this.props.getBoundary(),
+      bounds: this.props.getBoundary(),
       onDragEnd: this.onDragEnd,
       onDragEndParams: [this.syncTransforms],
     })[0]
@@ -164,8 +168,19 @@ class BlockWords extends Component {
 
   getTransforms() {
     const transforms = []
+    const node = this.props.getBoundary() || document.body
+    const {height, width} = node.getBoundingClientRect()
 
-    if (this.props.block.has('positionX') || this.props.block.has('positionY')) {
+    if (this.props.block.has('xRel') || this.props.block.has('yRel')) {
+      const xRel = this.props.block.get('xRel') || 0
+      const yRel = this.props.block.get('yRel') || 0
+
+      if (xRel || yRel) {
+        const x = (xRel * width).toFixed(2)
+        const y = (yRel * height).toFixed(2)
+        transforms.push(`translate3d(${x}px, ${y}px, 0)`)
+      }
+    }  else if (this.props.block.has('positionX') || this.props.block.has('positionY')) {
       const positionX = this.props.block.get('positionX') || 0
       const positionY = this.props.block.get('positionY') || 0
 
