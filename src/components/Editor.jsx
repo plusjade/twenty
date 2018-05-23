@@ -123,11 +123,12 @@ class Editor extends Component {
       </Overlay>,
       <BlocksMenu
         key='BlocksMenu'
+        isActive={this.props.isAddBlockActive}
         isEditing={this.props.isEditing}
         addBlock={this.props.addBlock}
         toggleBottomPanel={this.props.toggleBottomPanel}
         blocksMenuToggle={this.props.blocksMenuToggle}
-        isActive={this.props.isAddBlockActive}
+
         addScene={this.props.addScene}
       />,
       <SceneActionsMenu
@@ -145,6 +146,7 @@ class Editor extends Component {
       />,
       <LaunchMenu
         key='LaunchMenu'
+        isActive={!this.props.stagedBlockId && !this.props.isBottomPanelActive && !this.props.isAddBlockActive && !this.props.isScenesMenuActive}
         onTap={this.props.blocksMenuToggle}
         scenesMenuToggle={this.props.scenesMenuToggle}
         totalScenes={scenes.length}

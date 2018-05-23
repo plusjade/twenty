@@ -15,7 +15,10 @@ class LaunchMenu extends PureComponent {
 
   render() {
     return (
-      <div style={style.default}>
+      <div style={[
+        style.default,
+        this.props.isActive && style.isActive,
+      ]}>
         <ActionTap
           onTap={this.handleTapHome}
           dark

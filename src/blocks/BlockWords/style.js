@@ -13,5 +13,6 @@ export default {
   },
   isEditing: {
     backgroundColor: "rgba(0,0,0,0.1)",
+    border: "1px solid #FFF",
   }
 }

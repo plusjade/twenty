@@ -9,5 +9,10 @@ export default {
     left: 0,
     right: 0,
     zIndex: 100,
-  }
+    transition: "transform 180ms ease-in-out",
+    transform: 'translateY(100%)',
+  },
+  isActive: {
+    transform: 'translateY(0)',
+  },
 }
