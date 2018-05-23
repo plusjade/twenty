@@ -1,6 +1,6 @@
 export default {
   default: {
-    position: "fixed",
+    position: "absolute",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",

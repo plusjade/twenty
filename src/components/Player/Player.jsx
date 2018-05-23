@@ -61,7 +61,7 @@ class Player extends Component {
   render() {
     const scenes = this.props.video.getScenes()
     return (
-      <div className="app-wrapper" style={[style.wrap, this.props.isEditing && {position: 'fixed'}]}>
+      <div className="app-wrapper" style={style.wrap}>
         {scenes.map(scene => (
           <Scene
             key={`scenes-${scene.get('id')}`}
