@@ -25,11 +25,7 @@ class ColorPicker extends PureComponent {
 
   componentDidMount() {
     const rotation = this.props.initialValue ? 360 - this.props.initialValue : 0
-    window.TweenMax.set(this.refNode, {transformOrigin: "center"})
-    this.dialPos = window.TweenMax.set(
-      this.refNode, {x:'+=0', rotation: rotation}
-    )
-
+    this.dialPos = window.TweenMax.set(this.refNode, {x:'+=0', rotation: rotation})
     Draggable.create(this.refNode, {
       type: "rotation",
       onDrag: this.calculate,
