@@ -3,10 +3,9 @@ export default {
     position: 'relative',
     width: '100vw',
     height: '133vw',
-    // border:'1px solid #FFF',
   },
   landscape: {
-    width: '133vh',
+    width: '75vh',
     height: '100vh',
   },
   visible: {
