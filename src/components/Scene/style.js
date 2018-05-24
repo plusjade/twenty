@@ -3,7 +3,7 @@ export default {
     position: 'relative',
     width: '100vw',
     height: '133vw',
-    border:'1px solid #FFF',
+    // border:'1px solid #FFF',
   },
   landscape: {
     width: '133vh',

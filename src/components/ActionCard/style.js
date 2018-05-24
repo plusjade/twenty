@@ -1,7 +1,7 @@
 export default {
   default: {
     display: "flex",
-    flex: "0 0 27vw",
+    flex: "0 0 28vw",
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
@@ -15,9 +15,9 @@ export default {
     backgroundColor: "#FFF",
     color: "#212121",
     textAlign: "center",
-    height: "64%",
+    height: "12vh",
     margin: "0 8%",
-    borderRadius: 20,
+    borderRadius: "100%",
     border: "1px solid rgba(0,0,0,0.8)",
     boxShadow: "rgba(0, 0, 0, 0.3) 1px 1px 5px",
   },
