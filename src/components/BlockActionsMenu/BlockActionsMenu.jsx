@@ -49,7 +49,15 @@ class BlockActionsMenu extends Component {
   }
 
   onTapColor = () => {
-    this.props.toggleBottomPanel()
+    this.props.toggleBottomPanel({type: 'color'})
+  }
+
+  onTapAlign = () => {
+    this.props.toggleBottomPanel({type: 'align'})
+  }
+
+  onTapSize = () => {
+    this.props.toggleBottomPanel({type: 'size'})
   }
 
   onTap = () => {
@@ -83,6 +91,27 @@ class BlockActionsMenu extends Component {
               <div style={style.text}>Color</div>
               <div style={style.emoji}>
                 <span role="img" aria-label="color">🎨</span>
+              </div>
+            </div>
+          </ActionCard>
+
+          <ActionCard onTap={this.onTapAlign}>
+            <div style={style.inner}>
+              <div style={style.text}>Align</div>
+              <div style={style.emoji}>
+                <span role="img" aria-label="Align">⇆</span>
+              </div>
+            </div>
+          </ActionCard>
+
+          <ActionCard onTap={this.onTapSize}>
+            <div style={style.inner}>
+              <div style={style.text}>Size</div>
+              <div style={style.emoji}>
+                <span role="img" aria-label="Align">
+                  <span style={{verticalAlign: "sub", fontSize: 6}}>A</span>
+                  A
+                </span>
               </div>
             </div>
           </ActionCard>

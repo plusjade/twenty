@@ -9,6 +9,8 @@ import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
 import TextEditor from 'components/TextEditor/TextEditor'
 import Overlay from 'components/Overlay/Overlay'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
+import PickerAlign from 'components/PickerAlign/PickerAlign'
+import PickerSize from 'components/PickerSize/PickerSize'
 
 class Editor extends Component {
   static propTypes = {
@@ -77,6 +79,71 @@ class Editor extends Component {
     block.set('color_hsl', value)
   }
 
+  onChangeAlign = (value) => {
+    const block = this.getStagedBlock()
+    if (!block) { return }
+    block.set('align', value)
+    block.set('lifecycle', 'replay')
+  }
+
+  onChangeSize = (value) => {
+    const block = this.getStagedBlock()
+    if (!block) { return }
+    block.set('size', value)
+  }
+
+  getStagedBlockSize = () => {
+    const defaultValue = 80
+    const block = this.getStagedBlock()
+    if (!block) { return defaultValue }
+    const value = block.get('size') || defaultValue
+    if (!value) { return defaultValue }
+
+    return value
+  }
+
+  computeKey = scope => (
+    scope + (
+      this.getStagedBlock()
+        ? this.getStagedBlock().get('id')
+        : this.props.activeSceneId
+    )
+  )
+
+  getBottomPanelContent() {
+    switch(this.props.isBottomPanelActive) {
+      case 'color': {
+        return (
+          <ColorPicker
+            key={this.computeKey('color')}
+            onChange={this.onChangeColor}
+            initialValue={this.getColor()}
+          />
+        )
+      }
+      case 'align': {
+        return (
+          <PickerAlign
+            key={this.computeKey('align')}
+            onChange={this.onChangeAlign}
+          />
+        )
+      }
+      case 'size': {
+        return (
+          <PickerSize
+            key={this.computeKey('size')}
+            onChange={this.onChangeSize}
+            initialValue={this.getStagedBlockSize()}
+          />
+        )
+      }
+      default: {
+        return null
+      }
+    }
+  }
+
   render() {
     const scenes = this.props.video.getScenes()
 
@@ -110,15 +177,7 @@ class Editor extends Component {
         style={{zIndex: 300}}
       >
         <div style={{flex: '0 0 18vh'}}>
-          <ColorPicker
-            key={
-              this.getStagedBlock()
-                ? this.getStagedBlock().get('id')
-                : this.props.activeSceneId
-            }
-            onChange={this.onChangeColor}
-            initialValue={this.getColor()}
-          />
+          {this.getBottomPanelContent()}
         </div>
       </Overlay>,
       <BlocksMenu

@@ -59,12 +59,18 @@ export const getRotationTransforms = (block) => {
 }
 
 export const getFontSize = (block) => {
-  const size = +block.get('size') || 24
-  return `${size}px`
+  const size = +block.get('size') || 80
+  let asPixels = parseInt((size / 10) * 3, 10) // default size maps to 24px
+
+  if (asPixels < 4) {
+    asPixels = 4
+  }
+
+  return `${asPixels}px`
 }
 
 export const getTextAlign = (block) => {
-  return block.get('align') || "right"
+  return block.get('align') || 'left'
 }
 
 export const syncTransforms = ({params, block, height, width}) => {

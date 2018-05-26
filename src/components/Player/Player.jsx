@@ -38,9 +38,13 @@ class Player extends Component {
     this.props.sceneTransition({option: 'prev'})
   }
 
-  toggleBottomPanel = (open) => {
-    const value = open === false ? false : !this.state.isBottomPanelActive
-    this.setState({isBottomPanelActive: value})
+  toggleBottomPanel = ({toggle, type} = {}) => {
+    const value = toggle === 'close' ? false : !this.state.isBottomPanelActive
+    if (value) {
+      this.setState({isBottomPanelActive: type})
+    } else {
+      this.setState({isBottomPanelActive: false})
+    }
   }
 
   blocksMenuToggle = (open) => {
@@ -53,7 +57,7 @@ class Player extends Component {
       if (this.state.isScenesMenuActive) {
         this.props.unStageBlock()
       } else {
-        this.toggleBottomPanel(false)
+        this.toggleBottomPanel({toggle: 'close'})
       }
     })
   }

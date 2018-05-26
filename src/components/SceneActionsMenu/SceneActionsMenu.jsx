@@ -23,7 +23,7 @@ class SceneActionsMenu extends PureComponent {
   }
 
   onTapColor = () => {
-    this.props.toggleBottomPanel()
+    this.props.toggleBottomPanel({type: 'color'})
   }
 
   render() {
