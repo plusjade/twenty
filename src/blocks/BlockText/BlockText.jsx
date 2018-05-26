@@ -99,7 +99,7 @@ class BlockText extends Component {
   }
 
   isActive() {
-    return ['playing', 'end'].includes(this.props.block.get('lifecycle'))
+    return ['playing', 'end', 'edit'].includes(this.props.block.get('lifecycle'))
   }
 
   handleTap = () => {

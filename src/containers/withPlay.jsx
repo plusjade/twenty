@@ -111,7 +111,7 @@ const withPlay = (WrappedComponent) => {
         } else {
           const block = this.props.video.getBlock(blockId)
           if (block) {
-            block.delete('lifecycle')
+            block.set('lifecycle', 'end')
           }
         }
         if (callback) { callback() }
