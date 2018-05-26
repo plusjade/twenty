@@ -12,4 +12,11 @@ export default {
   isEditing: {
     backgroundColor: "rgba(0,0,0,0.1)",
   },
+  textWrap: {
+    opacity: 0,
+    transition: "opacity 400ms ease-in",
+  },
+  isActive: {
+    opacity: 1,
+  },
 }

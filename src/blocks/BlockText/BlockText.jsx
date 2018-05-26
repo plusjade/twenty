@@ -153,7 +153,12 @@ class BlockText extends Component {
         ]}
       >
         <Hammer onTap={this.handleTap}>
-          <div>
+          <div
+            style={[
+              style.textWrap,
+              this.state.hasStarted && style.isActive
+            ]}
+          >
             {content.map((string, i) => (
               <p key={i}>
                 {string}
