@@ -151,6 +151,7 @@ class Editor extends Component {
         scenesMenuToggle={this.props.scenesMenuToggle}
         totalScenes={scenes.length}
         scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
+        sceneTransition={this.props.sceneTransition}
       />,
     ])
   }

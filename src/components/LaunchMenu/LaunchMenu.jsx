@@ -7,10 +7,22 @@ import style from './style'
 class LaunchMenu extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func.isRequired,
+    isActive: PropTypes.bool.isRequired,
+    sceneTransition: PropTypes.func.isRequired,
+    scenePosition: PropTypes.number.isRequired,
+    totalScenes: PropTypes.number.isRequired,
   }
 
   handleTapHome = () => {
     window.location = '/'
+  }
+
+  handleTapLeft = (e) => {
+    this.props.sceneTransition({option: 'prev'})
+  }
+
+  handleTapRight = () => {
+    this.props.sceneTransition()
   }
 
   render() {
@@ -19,23 +31,39 @@ class LaunchMenu extends PureComponent {
         style.default,
         this.props.isActive && style.isActive,
       ]}>
-        <ActionTap
-          onTap={this.handleTapHome}
-          dark
-        >
-          <div>{"🏠"}</div>
-        </ActionTap>
 
         <ActionTap
-          onTap={this.props.onTap}
-          bigger
+          onTap={this.handleTapLeft}
+          disabled={this.props.scenePosition <= 1}
         >
-          <div>+</div>
+          <div style={[{transform: "rotate(180deg)"}]}>
+            <span>
+              ➜
+            </span>
+          </div>
         </ActionTap>
 
-        <ActionTap onTap={this.props.scenesMenuToggle}>
+        <div style={style.verticalWrap}>
+          <ActionTap
+            onTap={this.props.onTap}
+            bigger
+          >
+            <div>+</div>
+          </ActionTap>
+
+          <ActionTap onTap={this.props.scenesMenuToggle}>
+            <div>
+              {`${this.props.scenePosition}/${this.props.totalScenes}`}
+            </div>
+          </ActionTap>
+        </div>
+
+        <ActionTap
+          onTap={this.handleTapRight}
+          disabled={this.props.scenePosition >= this.props.totalScenes}
+        >
           <div>
-            {`${this.props.scenePosition}/${this.props.totalScenes}`}
+            ➜
           </div>
         </ActionTap>
       </div>

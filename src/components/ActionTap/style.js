@@ -1,5 +1,7 @@
-const dimension = '6vh'
-const dimensionBigger = '8vh'
+const dimensionSmaller = '5vh'
+const dimension = '5.5vh'
+const dimensionBigger = '7vh'
+
 export default {
   default: {
     display: "flex",
@@ -10,6 +12,7 @@ export default {
     fontSize: "2.2vh",
     fontWeight: 600,
     borderRadius: 50,
+    boxShadow: "rgba(0, 0, 0, 0.3) 1px 1px 5px",
   },
   inner: {
     backgroundColor: "rgba(255,255,255,1)",
@@ -30,6 +33,12 @@ export default {
     lineHeight: dimensionBigger,
     fontSize: "2.5vh",
     border: "2px solid rgba(0, 0, 0, 0.8)",
+  },
+  smaller: {
+    height: dimensionSmaller,
+    width: dimensionSmaller,
+    lineHeight: dimensionSmaller,
+    fontSize: "2.1vh",
   },
   disabled: {
     opacity: 0.4,

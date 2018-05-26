@@ -18,25 +18,12 @@ class SceneActionsMenu extends PureComponent {
     video: PropTypes.object.isRequired,
   }
 
-  handleTapRight = () => {
-    this.props.sceneTransition()
-  }
-
-  handleTapLeft = (e) => {
-    this.props.sceneTransition({option: 'prev'})
-  }
-
   onTapDelete = () => {
     // noop
   }
 
   onTapColor = () => {
     this.props.toggleBottomPanel()
-  }
-
-  handleTapScene = () => {
-    this.props.addScene()
-    // this.props.blocksMenuToggle()
   }
 
   render() {
@@ -52,41 +39,6 @@ class SceneActionsMenu extends PureComponent {
                 <span role="img" aria-label="color">🎨</span>
               </div>
               <div style={style.text}>Color</div>
-            </div>
-          </ActionCard>
-
-          <ActionCard
-            onTap={this.handleTapLeft}
-            disabled={this.props.scenePosition <= 1}
-          >
-            <div style={style.inner}>
-              <div style={[style.emoji, {transform: "rotate(180deg)"}]}>
-                <span>
-                  ➜
-                </span>
-              </div>
-              <div style={style.text}>Prev Scene</div>
-            </div>
-          </ActionCard>
-
-          <ActionCard
-            onTap={this.handleTapRight}
-            disabled={this.props.scenePosition >= this.props.totalScenes}
-          >
-            <div style={style.inner}>
-              <div style={style.emoji}>
-                ➜
-              </div>
-              <div style={style.text}>Next Scene</div>
-            </div>
-          </ActionCard>
-
-          <ActionCard onTap={this.handleTapScene}>
-            <div style={style.inner}>
-              <div style={style.emoji}>
-                <span role="img" aria-label="color">🎬</span>
-              </div>
-              <div style={style.text}>Add Scene</div>
             </div>
           </ActionCard>
         </ActionCardsMenu>

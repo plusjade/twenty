@@ -34,6 +34,10 @@ class BlocksMenu extends PureComponent {
         onTap={this.props.blocksMenuToggle}
       >
         <ActionCardsMenu>
+          <ActionCard onTap={this.handleTapScene}>
+            <div>Add Scene</div>
+          </ActionCard>
+
           <ActionCard onTap={this.handleTapWords}>
             <div>Caption</div>
           </ActionCard>
