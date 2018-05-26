@@ -60,7 +60,9 @@ const withPlay = (WrappedComponent) => {
     }
 
     play = () => {
-      this.unStageBlock()
+      if (this.props.canEdit) {
+        this.unStageBlock()
+      }
       this.props.video
         .getBlocksInScene(this.state.activeSceneId)
         .forEach((block) => {

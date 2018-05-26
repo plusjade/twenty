@@ -102,7 +102,8 @@ class BlockText extends Component {
     return ['playing', 'end', 'edit'].includes(this.props.block.get('lifecycle'))
   }
 
-  handleTap = () => {
+  handleTap = (e) => {
+    e.preventDefault()
     if (this.props.isEditing) {
       this.props.stageBlock(this.props.block.get('id'))
       this.makeDraggable()
@@ -129,20 +130,19 @@ class BlockText extends Component {
           transforms.length > 0 && {transform: transforms.join(' ')},
         ]}
       >
-        <Hammer onTap={this.handleTap}>
-          <div
-            style={[
-              style.textWrap,
-              this.isActive() && style.isActive
-            ]}
-          >
-            {content.map((string, i) => (
-              <p key={i}>
-                {string}
-              </p>
-            ))}
-          </div>
-        </Hammer>
+        <div
+          onClick={this.handleTap}
+          style={[
+            style.textWrap,
+            this.isActive() && style.isActive
+          ]}
+        >
+          {content.map((string, i) => (
+            <p key={i}>
+              {string}
+            </p>
+          ))}
+        </div>
       </div>
     )
   }

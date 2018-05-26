@@ -86,6 +86,12 @@ class Player extends Component {
             onTap={this.handleTapLeft}
           />
         )}
+        {!this.props.isEditing && (
+          <Layer
+            style={{left: "20%"}}
+            onTap={this.handleTapRight}
+          />
+        )}
 
         {this.props.isEditing && (
           <Editor
