@@ -41,6 +41,10 @@ class BlocksMenu extends PureComponent {
           <ActionCard onTap={this.handleTapWords}>
             <div>Caption</div>
           </ActionCard>
+
+          <ActionCard onTap={this.handleTapText}>
+            <div>Text</div>
+          </ActionCard>
         </ActionCardsMenu>
       </Overlay>
     )

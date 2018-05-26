@@ -4,8 +4,8 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'gsap/Draggable'
-import Hammer from 'react-hammerjs'
 import BlockPlayer from 'lib/BlockPlayer'
+import Hammer from 'react-hammerjs'
 import {
   getColor,
   getTextContent,
@@ -15,16 +15,11 @@ import {
   getRotationTransforms,
   syncTransforms,
 } from 'lib/transforms'
-import { getTextEffect } from './effects'
-
 import style from './style'
 
-// Draggable.zIndex = 1
-class BlockWords extends Component {
+class BlockText extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
-    stageBlock: PropTypes.func.isRequired,
-    isEditing: PropTypes.bool,
     sceneTransition: PropTypes.func.isRequired,
   }
 
@@ -37,7 +32,7 @@ class BlockWords extends Component {
 
   constructor(props) {
     super(props)
-    this.state = BlockWords.initialState()
+    this.state = BlockText.initialState()
     this.player = new BlockPlayer({offset: props.block.get('offset')})
     reaction(
       () => props.block.get('lifecycle'),
@@ -69,15 +64,10 @@ class BlockWords extends Component {
   }
 
   onDragEnd(syncTransforms) {
-    if (this.rotation) {
-      syncTransforms({rotation: this.rotation})
-    } else {
-
-      syncTransforms({
-        positionX: this.endX,
-        positionY: this.endY,
-      })
-    }
+    syncTransforms({
+      positionX: this.endX,
+      positionY: this.endY,
+    })
   }
 
   syncTransforms = (params) => {
@@ -97,7 +87,7 @@ class BlockWords extends Component {
   onStart = () => {
     this.setState({
       hasStarted: true,
-    }, this.initializeTimeline)
+    })
   }
 
   // TODO: better implementation
@@ -112,25 +102,12 @@ class BlockWords extends Component {
     this.player.replay()
   }
 
-  initializeTimeline = () => {
-    this.timeline = (
-      getTextEffect({
-        block: this.props.block,
-        node: this.nodeText
-      })
-    )
-  }
-
   getRef = (node) => {
     this.node = node
   }
 
-  getRefText = (node) => {
-    this.nodeText = node
-  }
-
   resetState = () => {
-    this.setState(BlockWords.initialState())
+    this.setState(BlockText.initialState())
   }
 
   handleTap = () => {
@@ -145,7 +122,6 @@ class BlockWords extends Component {
   makeDraggable = () => {
     if (this.draggable) { return }
     this.draggable = Draggable.create(this.node, {
-      // type: "rotation",
       bounds: this.props.getBoundary(),
       onDragEnd: this.onDragEnd,
       onDragEndParams: [this.syncTransforms],
@@ -161,43 +137,28 @@ class BlockWords extends Component {
   render() {
     const content = getTextContent(this.props.block)
     const transforms = this.getTransforms()
-    const rotationTransforms = getRotationTransforms(this.props.block)
 
     return (
       <div
         ref={this.getRef}
         style={[
           style.default,
+          {
+            color: getColor(this.props.block),
+            // fontSize: getFontSize(this.props.block),
+            textAlign: getTextAlign(this.props.block),
+          },
+          this.props.block.get('lifecycle') === 'edit' && style.isEditing,
           transforms.length > 0 && {transform: transforms.join(' ')},
-          this.props.block.get('lifecycle') !== 'edit' && {zIndex: 1},
         ]}
       >
         <Hammer onTap={this.handleTap}>
-          <div
-            style={[
-              rotationTransforms.length > 0 && {transform: rotationTransforms.join(' ')}
-            ]}
-          >
-            <h1
-              ref={this.getRefText}
-              style={[
-                style.text,
-                {
-                  color: getColor(this.props.block),
-                  fontSize: getFontSize(this.props.block),
-                  textAlign: getTextAlign(this.props.block),
-                },
-                this.props.block.get('lifecycle') === 'edit' && style.isEditing,
-              ]}
-            >
-              {this.state.hasStarted && (
-                content.map((string, i) => (
-                  <span key={i} style={{display: 'block'}}>
-                    {string}
-                  </span>
-                ))
-              )}
-            </h1>
+          <div>
+            {content.map((string, i) => (
+              <p key={i}>
+                {string}
+              </p>
+            ))}
           </div>
         </Hammer>
       </div>
@@ -205,4 +166,4 @@ class BlockWords extends Component {
   }
 }
 
-export default observer(Radium(BlockWords))
+export default observer(Radium(BlockText))

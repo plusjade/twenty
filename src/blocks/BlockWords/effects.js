@@ -1,5 +1,22 @@
 import SplitText from 'vendor/SplitText'
 
+export const getTextEffect = ({block, node}) => {
+  switch (block.get('effect')) {
+    case 'fadeIn': {
+      return fadeIn(node)
+    }
+    case 'typing': {
+      return typing(node)
+    }
+    case 'enterLeft': {
+      return enterLeft(node)
+    }
+    default: {
+      return fadeIn(node)
+    }
+  }
+}
+
 // This works on timing. 0.2 is the duration of the effect
 // so we're basically just coordinating the duraction of the effect to
 // how long we've given the scene to last. fixme?

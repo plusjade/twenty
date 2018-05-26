@@ -5,10 +5,14 @@ import PropTypes from 'prop-types'
 
 import Layer from 'components/Layer/Layer'
 import BlockWords from 'blocks/BlockWords/BlockWords'
+import BlockText from 'blocks/BlockText/BlockText'
+import { getColor } from 'lib/transforms'
+
 import style from './style'
 
 const blocksMap = {
   words: BlockWords,
+  text: BlockText,
 }
 
 class Scene extends Component {
@@ -45,20 +49,6 @@ class Scene extends Component {
     this.props.sceneTransition()
   }
 
-  getColor() {
-    if (!this.props.scene.get('color_hsl')) {
-      const legacyColor = this.props.scene.get('bg')
-      if (legacyColor) { return legacyColor }
-    }
-
-    const colorHsl = +this.props.scene.get('color_hsl') || -100
-    if (colorHsl < 1) { // handle grayscale as represented by -100 - 0
-      return `hsl(0, 0%, ${(Math.abs(colorHsl))}%)`
-    }
-
-    return `hsl(${colorHsl}, 100%, 50%)`
-  }
-
   getBoundary = () => {
     return this.boundaryNode
   }
@@ -76,7 +66,7 @@ class Scene extends Component {
         onTap={this.handleTap}
         style={[
           {
-            backgroundColor: this.getColor(),
+            backgroundColor: getColor(this.props.scene),
             display: "flex",
             alignItems: "flex-start",
           },
