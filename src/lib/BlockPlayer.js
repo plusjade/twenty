@@ -28,10 +28,14 @@ class BlockPlayer {
     // TODO: this is here so the callbacks have time to execute,
     // but there's no guarantee it's enough time
     setTimeout(() => {
-      this.hasStarted = false
-      this.timeKeeper.reset()
+      this.reset()
       this.play()
     }, 200)
+  }
+
+  reset = () => {
+    this.hasStarted = false
+    this.timeKeeper.reset()
   }
 
   play = (newPosition) => {

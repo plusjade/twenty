@@ -28,28 +28,18 @@ class BlockWords extends Component {
     sceneTransition: PropTypes.func.isRequired,
   }
 
-  static initialState() {
-    return ({
-      isActivated: false,
-      content: '',
-    })
-  }
-
   constructor(props) {
     super(props)
-    this.state = BlockWords.initialState()
     this.player = new BlockPlayer({offset: props.block.get('offset')})
     reaction(
       () => props.block.get('lifecycle'),
       (lifecycle) => {
         if (lifecycle === 'play') {
-          if (this.state.hasStarted) {
-            this.player.replay()
-          } else {
-            this.player.play()
-          }
+          this.player.play()
         } else if (lifecycle === 'replay') {
           this.player.replay()
+        } else if (lifecycle === 'playing') {
+          this.timeline && this.timeline.play()
         }
 
         if (lifecycle === 'edit') {
@@ -64,52 +54,16 @@ class BlockWords extends Component {
   componentDidMount() {
     this.player.on('start', this.onStart)
     this.player.on('end', this.onEnd)
-    this.player.on('tick', this.onTick)
-    this.player.on('replay', this.resetState)
-  }
-
-  onDragEnd(syncTransforms) {
-    if (this.rotation) {
-      syncTransforms({rotation: this.rotation})
-    } else {
-
-      syncTransforms({
-        positionX: this.endX,
-        positionY: this.endY,
-      })
-    }
-  }
-
-  syncTransforms = (params) => {
-    const {height, width} = this.props.getBoundary().getBoundingClientRect()
-    syncTransforms({
-      block: this.props.block,
-      params,
-      height,
-      width,
-    })
-  }
-
-  onEnd = () => {
-    this.props.block.set('lifecycle', 'end')
   }
 
   onStart = () => {
-    this.setState({
-      hasStarted: true,
-    }, this.initializeTimeline)
+    this.initializeTimeline()
+    this.props.block.set('lifecycle', 'playing')
   }
 
-  // TODO: better implementation
-  onTick = () => {
-    if (this.state.isActivated) { return }
-    this.timeline && this.timeline.play()
-    this.setState({isActivated: true})
-  }
-
-  replay = () => {
-    this.resetState()
-    this.player.replay()
+  onEnd = () => {
+    this.player.reset()
+    this.props.block.set('lifecycle', 'end')
   }
 
   initializeTimeline = () => {
@@ -129,19 +83,6 @@ class BlockWords extends Component {
     this.nodeText = node
   }
 
-  resetState = () => {
-    this.setState(BlockWords.initialState())
-  }
-
-  handleTap = () => {
-    if (this.props.isEditing) {
-      this.props.stageBlock(this.props.block.get('id'))
-      this.makeDraggable()
-    } else {
-      this.props.sceneTransition()
-    }
-  }
-
   makeDraggable = () => {
     if (this.draggable) { return }
     this.draggable = Draggable.create(this.node, {
@@ -152,10 +93,40 @@ class BlockWords extends Component {
     })[0]
   }
 
+  onDragEnd(syncTransforms) {
+    if (this.rotation) {
+      syncTransforms({rotation: this.rotation})
+    } else {
+      syncTransforms({
+        positionX: this.endX,
+        positionY: this.endY,
+      })
+    }
+  }
+
+  syncTransforms = (params) => {
+    const {height, width} = this.props.getBoundary().getBoundingClientRect()
+    syncTransforms({
+      block: this.props.block,
+      params,
+      height,
+      width,
+    })
+  }
+
   getTransforms() {
     const node = this.props.getBoundary() || document.body
     const {height, width} = node.getBoundingClientRect()
     return getTransforms({block: this.props.block, width, height})
+  }
+
+  handleTap = () => {
+    if (this.props.isEditing) {
+      this.props.stageBlock(this.props.block.get('id'))
+      this.makeDraggable()
+    } else {
+      this.props.sceneTransition()
+    }
   }
 
   render() {
@@ -190,13 +161,11 @@ class BlockWords extends Component {
                 this.props.block.get('lifecycle') === 'edit' && style.isEditing,
               ]}
             >
-              {this.state.hasStarted && (
-                content.map((string, i) => (
-                  <span key={i} style={{display: 'block'}}>
-                    {string}
-                  </span>
-                ))
-              )}
+              {content.map((string, i) => (
+                <span key={i} style={{display: 'block'}}>
+                  {string}
+                </span>
+              ))}
             </h1>
           </div>
         </Hammer>

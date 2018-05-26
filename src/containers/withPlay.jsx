@@ -16,6 +16,7 @@ const withPlay = (WrappedComponent) => {
       this.state = {
         activeSceneId,
         initialSceneId: activeSceneId,
+        lastSceneId: undefined,
       }
     }
 
@@ -45,6 +46,7 @@ const withPlay = (WrappedComponent) => {
         this.setState({
           activeSceneId: nextScene,
           nextScenePayload: props,
+          lastSceneId: this.state.activeSceneId,
         }, this.play)
       } else {
         // throw new Error('nowhere to go')
@@ -64,6 +66,14 @@ const withPlay = (WrappedComponent) => {
         .forEach((block) => {
           block.set('lifecycle', 'play')
         })
+
+      if (this.state.lastSceneId) {
+        this.props.video
+          .getBlocksInScene(this.state.lastSceneId)
+          .forEach((block) => {
+            block.set('lifecycle', 'sleep')
+          })
+      }
     }
 
     removeBlock = (blockId) => {

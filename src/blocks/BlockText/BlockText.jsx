@@ -23,26 +23,14 @@ class BlockText extends Component {
     sceneTransition: PropTypes.func.isRequired,
   }
 
-  static initialState() {
-    return ({
-      isActivated: false,
-      content: '',
-    })
-  }
-
   constructor(props) {
     super(props)
-    this.state = BlockText.initialState()
     this.player = new BlockPlayer({offset: props.block.get('offset')})
     reaction(
       () => props.block.get('lifecycle'),
       (lifecycle) => {
         if (lifecycle === 'play') {
-          if (this.state.hasStarted) {
-            this.player.replay()
-          } else {
-            this.player.play()
-          }
+          this.player.play()
         } else if (lifecycle === 'replay') {
           this.player.replay()
         }
@@ -59,8 +47,32 @@ class BlockText extends Component {
   componentDidMount() {
     this.player.on('start', this.onStart)
     this.player.on('end', this.onEnd)
-    this.player.on('tick', this.onTick)
-    this.player.on('replay', this.resetState)
+  }
+
+  onStart = () => {
+    this.props.block.set('lifecycle', 'playing')
+  }
+
+  onEnd = () => {
+    this.player.reset()
+    this.props.block.set('lifecycle', 'end')
+  }
+
+  getRef = (node) => {
+    this.node = node
+  }
+
+  resetState = () => {
+    this.setState(BlockText.initialState())
+  }
+
+  makeDraggable = () => {
+    if (this.draggable) { return }
+    this.draggable = Draggable.create(this.node, {
+      bounds: this.props.getBoundary(),
+      onDragEnd: this.onDragEnd,
+      onDragEndParams: [this.syncTransforms],
+    })[0]
   }
 
   onDragEnd(syncTransforms) {
@@ -80,34 +92,14 @@ class BlockText extends Component {
     })
   }
 
-  onEnd = () => {
-    this.props.block.set('lifecycle', 'end')
+  getTransforms() {
+    const node = this.props.getBoundary() || document.body
+    const {height, width} = node.getBoundingClientRect()
+    return getTransforms({block: this.props.block, width, height})
   }
 
-  onStart = () => {
-    this.setState({
-      hasStarted: true,
-    })
-  }
-
-  // TODO: better implementation
-  onTick = () => {
-    if (this.state.isActivated) { return }
-    this.timeline && this.timeline.play()
-    this.setState({isActivated: true})
-  }
-
-  replay = () => {
-    this.resetState()
-    this.player.replay()
-  }
-
-  getRef = (node) => {
-    this.node = node
-  }
-
-  resetState = () => {
-    this.setState(BlockText.initialState())
+  isActive() {
+    return ['playing', 'end'].includes(this.props.block.get('lifecycle'))
   }
 
   handleTap = () => {
@@ -117,21 +109,6 @@ class BlockText extends Component {
     } else {
       this.props.sceneTransition()
     }
-  }
-
-  makeDraggable = () => {
-    if (this.draggable) { return }
-    this.draggable = Draggable.create(this.node, {
-      bounds: this.props.getBoundary(),
-      onDragEnd: this.onDragEnd,
-      onDragEndParams: [this.syncTransforms],
-    })[0]
-  }
-
-  getTransforms() {
-    const node = this.props.getBoundary() || document.body
-    const {height, width} = node.getBoundingClientRect()
-    return getTransforms({block: this.props.block, width, height})
   }
 
   render() {
@@ -156,7 +133,7 @@ class BlockText extends Component {
           <div
             style={[
               style.textWrap,
-              this.state.hasStarted && style.isActive
+              this.isActive() && style.isActive
             ]}
           >
             {content.map((string, i) => (
