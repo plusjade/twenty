@@ -4,28 +4,41 @@ import Player from 'components/Player/Player'
 import withPlay from 'containers/withPlay'
 import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
+import { blogPost } from 'db/blogPost'
 
 const notFound = () => {
   const props = {}
   const video = new Video()
-  const sceneId = video.addScene()
-  video.addBlock({
-    type: "words",
-    content: "Sorry that video wasn't found",
-    color: "#FFF",
-    align: "center",
-    xRel: '0.1',
-    yRel: '0.6',
-    sceneId: sceneId,
+
+  blogPost.forEach((entry) => {
+    const sceneId = video.addScene()
+    const scene = video.getScene(sceneId)
+    scene.set('color_hsl', 56)
+    video.addBlock({
+      ...entry,
+      sceneId,
+      yRel: '0.5',
+      color_hsl: 270,
+      // align: 'right',
+    })
   })
-  video.addBlock({
-    type: "words",
-    content: `${randomEmoji(3)}`,
-    color: "#FFF",
-    xRel: '0.4',
-    yRel: '0.5',
-    sceneId: sceneId,
-  })
+  // video.addBlock({
+  //   type: "words",
+  //   content: "Sorry that video wasn't found",
+  //   color: "#FFF",
+  //   align: "center",
+  //   xRel: '0.1',
+  //   yRel: '0.6',
+  //   sceneId: sceneId,
+  // })
+  // video.addBlock({
+  //   type: "words",
+  //   content: `${randomEmoji(3)}`,
+  //   color: "#FFF",
+  //   xRel: '0.4',
+  //   yRel: '0.5',
+  //   sceneId: sceneId,
+  // })
 
   ReactDOM.render(
     React.createElement(
