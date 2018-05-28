@@ -8,7 +8,6 @@ const getRandomInt = (min, max) => (
 )
 
 class Video {
-  substitutions = {}
   scenesMeta = {}
   graph = []
 
@@ -55,14 +54,6 @@ class Video {
         })
       }
     })
-  }
-
-  addScenesMeta = (scenesMeta) => {
-    this.scenesMeta = {...this.scenesMeta, ...scenesMeta}
-  }
-
-  addSubstitutions = (substitutions) => {
-    this.substitutions = {...this.substitutions, ...substitutions}
   }
 
   addBlock = (rawBlock) => {
