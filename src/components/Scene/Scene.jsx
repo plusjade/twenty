@@ -65,11 +65,11 @@ class Scene extends Component {
         id={this.props.scene.get('id')}
         onTap={this.handleTap}
         style={[
+          style.wrap,
           {
             backgroundColor: getColor(this.props.scene),
-            display: "flex",
-            alignItems: "flex-start",
           },
+          !this.props.isEditing && style.isPresenting,
           this.props.isActive && style.visible,
           !this.props.isActive && style.hidden,
         ]}

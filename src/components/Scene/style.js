@@ -1,4 +1,11 @@
 export default {
+  wrap: {
+    display: "flex",
+    alignItems: "flex-start",
+  },
+  isPresenting: {
+    alignItems: "center",
+  },
   square: {
     position: 'relative',
     width: '100vw',
