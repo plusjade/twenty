@@ -13,13 +13,12 @@ const notFound = () => {
   blogPost.forEach((entry) => {
     const sceneId = video.addScene()
     const scene = video.getScene(sceneId)
-    scene.set('color_hsl', 56)
+    scene.set('color_hsl', -95)
     video.addBlock({
       ...entry,
       sceneId,
       yRel: '0.5',
-      color_hsl: 270,
-      // align: 'right',
+      color_hsl: -10,
     })
   })
   // video.addBlock({
