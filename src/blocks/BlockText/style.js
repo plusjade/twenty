@@ -7,7 +7,7 @@ export default {
     padding: '5vw',
     lineHeight: '1.5em',
     color: "#FFF",
-    fontSize: '3vh',
+    fontSize: '2.7vh',
   },
   isEditing: {
     backgroundColor: "rgba(0,0,0,0.1)",
