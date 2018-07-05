@@ -139,7 +139,10 @@ class BlockWords extends Component {
         ref={this.getRef}
         style={[
           style.default,
-          transforms.length > 0 && {transform: transforms.join(' ')},
+          (transforms.length > 0
+            ? {transform: transforms.join(' ')}
+            : style.isSmartCentered
+          ),
           this.props.block.get('lifecycle') !== 'edit' && {zIndex: 1},
         ]}
       >

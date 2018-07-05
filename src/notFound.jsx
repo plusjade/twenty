@@ -17,7 +17,6 @@ const notFound = () => {
     video.addBlock({
       ...entry,
       sceneId,
-      yRel: '0.5',
       color_hsl: -10,
     })
   })

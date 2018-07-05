@@ -37,8 +37,8 @@ export const getTransforms = ({block, width, height}) => {
     }
   } else {
     const position = block.get('position')
-      ? block.get('position').concat([0]).join(',')
-      : 0
+            ? block.get('position').concat([0]).join(',')
+            : 0
     if (position) {
       transforms.push(`translate3d(${position})`)
     }

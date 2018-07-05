@@ -126,8 +126,10 @@ class BlockText extends Component {
             textAlign: getTextAlign(this.props.block),
           },
           this.props.block.get('lifecycle') === 'edit' && style.isEditing,
-          transforms.length > 0 && {transform: transforms.join(' ')},
-          true && style.isSmartCentered,
+          (transforms.length > 0
+            ? {transform: transforms.join(' ')}
+            : style.isSmartCentered
+          ),
         ]}
       >
         <Hammer onTap={this.handleTap}>
