@@ -4,7 +4,7 @@ import Player from 'components/Player/Player'
 import withPlay from 'containers/withPlay'
 import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
-import { blogPost } from 'db/blogPost'
+import blogPost from 'db/pain'
 
 const notFound = () => {
   const props = {}
