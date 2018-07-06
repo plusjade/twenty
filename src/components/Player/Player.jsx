@@ -30,6 +30,12 @@ class Player extends Component {
     isScenesMenuActive: false,
   }
 
+  componentWillMount() {
+    if (this.props.isEditing) {
+      window.document.body.style.overflow = 'hidden'
+    }
+  }
+
   handleTapRight = () => {
     this.props.sceneTransition()
   }
@@ -67,12 +73,19 @@ class Player extends Component {
     return (
       <div
         className="app-wrapper"
-        style={[style.wrap, this.props.isEditing && {position: 'fixed'}]}
+        style={[
+          this.props.isEditing && style.wrap,
+          this.props.isEditing && {position: 'fixed'},
+        ]}
       >
         {scenes.map(scene => (
           <Scene
             key={`scenes-${scene.get('id')}`}
-            isActive={scene.get('id') === this.props.activeSceneId}
+            isActive={
+              this.props.isEditing
+                ? scene.get('id') === this.props.activeSceneId
+                : true // test for scrollable content
+            }
             isEditing={this.props.isEditing && scene.get('id') === this.props.activeSceneId}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}

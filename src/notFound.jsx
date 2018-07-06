@@ -10,14 +10,16 @@ const notFound = () => {
   const props = {}
   const video = new Video()
 
-  blogPost.forEach((entry) => {
+  blogPost.forEach((entry, i) => {
     const sceneId = video.addScene()
     const scene = video.getScene(sceneId)
-    scene.set('color_hsl', -95)
+    const color_hsl = i % 2 === 0 ? -95 : -100
+    scene.set('color_hsl', color_hsl)
     video.addBlock({
       ...entry,
       sceneId,
       color_hsl: -10,
+      align: entry.type === 'words' ? 'center' : 'left',
     })
   })
   // video.addBlock({

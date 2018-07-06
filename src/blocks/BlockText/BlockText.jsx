@@ -99,6 +99,7 @@ class BlockText extends Component {
   }
 
   isActive() {
+    return true
     return ['playing', 'end', 'edit'].includes(this.props.block.get('lifecycle'))
   }
 

@@ -4,7 +4,6 @@ body {
   padding: 0;
   font-family: 'Noto Sans', sans-serif;
   background: #FFF;
-  overflow: hidden;
 }
 a:hover {
   color: #777 !important;

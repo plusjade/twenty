@@ -64,6 +64,7 @@ class Scene extends Component {
       <Layer
         id={this.props.scene.get('id')}
         onTap={this.handleTap}
+        isFixedMode={this.props.isEditing}
         style={[
           style.wrap,
           {

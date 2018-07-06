@@ -13,6 +13,7 @@ export default {
     fontWeight: 600,
     borderRadius: 50,
     boxShadow: "rgba(0, 0, 0, 0.3) 1px 1px 5px",
+    zIndex: 9999999,
   },
   inner: {
     backgroundColor: "rgba(255,255,255,1)",
