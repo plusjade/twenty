@@ -136,6 +136,7 @@ class BlockWords extends Component {
 
     return (
       <div
+        id={`block_${this.props.block.get('id')}`}
         ref={this.getRef}
         style={[
           style.default,
