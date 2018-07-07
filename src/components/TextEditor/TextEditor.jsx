@@ -9,30 +9,29 @@ import style from './style'
 class TextEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    stagedBlockId: PropTypes.string,
+    stage: PropTypes.object.isRequired,
     video: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
-    getStagedBlock: PropTypes.func.isRequired,
   }
 
   onEnterText = (value) => {
     if (value) {
-      this.props.editBlock(this.props.stagedBlockId, {content: value})
+      this.props.editBlock(this.props.stage.blockId, {content: value})
     } else {
-      this.props.removeBlock(this.props.stagedBlockId)
+      this.props.removeBlock(this.props.stage.blockId)
     }
     this.props.toggleEditText()
   }
 
   onChangeText = (value) => {
     if (value) {
-      this.props.video.editBlock(this.props.stagedBlockId, {content: value})
+      this.props.video.editBlock(this.props.stage.blockId, {content: value})
     }
   }
 
   getStagedText = () => {
-    const block = this.props.getStagedBlock()
+    const block = this.props.stage.block
 
     if (!block) { return '' }
 

@@ -104,7 +104,7 @@ class BlockText extends Component {
 
   handleTap = () => {
     if (this.props.canEdit) {
-      this.props.stageBlock(this.props.block.get('id'))
+      this.props.stage.stageBlock(this.props.block.get('id'))
       this.makeDraggable()
     } else {
       this.props.sceneTransition()

@@ -10,15 +10,14 @@ import style from './style'
 class BlockActionsMenu extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    stagedBlockId: PropTypes.string,
+    stage: PropTypes.object.isRequired,
     video: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
-    getStagedBlock: PropTypes.func.isRequired,
   }
 
   getStagedRotation = () => {
-    const block = this.props.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return 0 }
     const rotation = block.get('rotation') || 0
     if (!rotation) { return 0 }
@@ -27,14 +26,14 @@ class BlockActionsMenu extends Component {
   }
 
   onChangeRotation = (value) => {
-    const block = this.props.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return }
     block.set('rotation', `${+value}deg`)
   }
 
   getStagedSize = () => {
     const defaultValue = 24
-    const block = this.props.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return defaultValue }
     const value = block.get('size') || defaultValue
     if (!value) { return defaultValue }
@@ -43,7 +42,7 @@ class BlockActionsMenu extends Component {
   }
 
   onChangeSize = (value) => {
-    const block = this.props.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return }
     block.set('size', value)
   }
@@ -61,12 +60,12 @@ class BlockActionsMenu extends Component {
   }
 
   onTap = () => {
-    this.props.unStageBlock()
+    this.props.stage.unStageBlock()
   }
 
   onTapDelete = () => {
     if (window.confirm('Delete this block forever?')) {
-      this.props.removeBlock(this.props.stagedBlockId)
+      this.props.removeBlock(this.props.stage.blockId)
     }
   }
 

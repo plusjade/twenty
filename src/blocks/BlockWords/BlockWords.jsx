@@ -23,7 +23,6 @@ import style from './style'
 class BlockWords extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
-    stageBlock: PropTypes.func.isRequired,
     isEditing: PropTypes.bool,
     sceneTransition: PropTypes.func.isRequired,
   }
@@ -122,7 +121,8 @@ class BlockWords extends Component {
 
   handleTap = () => {
     if (this.props.canEdit) {
-      this.props.stageBlock(this.props.block.get('id'))
+      this.props.stage.stageBlock(this.props.block.get('id'))
+
       this.makeDraggable()
     } else {
       this.props.sceneTransition()

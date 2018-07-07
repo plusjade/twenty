@@ -15,21 +15,15 @@ import PickerSize from 'components/PickerSize/PickerSize'
 class Editor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    stagedBlockId: PropTypes.string,
     video: PropTypes.object.isRequired,
+    stage: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
     sceneTransition: PropTypes.func.isRequired,
   }
 
-  getStagedBlock = () => (
-    this.props.stagedBlockId
-    ? this.props.video.getBlock(this.props.stagedBlockId)
-    : undefined
-  )
-
   getColor = () => {
-    const block = this.getStagedBlock()
+    const block = this.props.stage.block
 
     if (block) {
       return this.getStagedColorBlock()
@@ -39,7 +33,7 @@ class Editor extends Component {
   }
 
   onChangeColor = (value) => {
-    const block = this.getStagedBlock()
+    const block = this.props.stage.block
 
     if (block) {
       this.onChangeColorBlock(value)
@@ -66,7 +60,7 @@ class Editor extends Component {
 
   getStagedColorBlock = () => {
     const defaultColor = -100
-    const block = this.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return defaultColor }
     const color = block.get('color_hsl') || defaultColor
     if (!color) { return defaultColor }
@@ -75,27 +69,27 @@ class Editor extends Component {
   }
 
   onChangeColorBlock = (value) => {
-    const block = this.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return }
     block.set('color_hsl', value)
   }
 
   onChangeAlign = (value) => {
-    const block = this.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return }
     block.set('align', value)
     block.set('lifecycle', 'replay')
   }
 
   onChangeSize = (value) => {
-    const block = this.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return }
     block.set('size', value)
   }
 
   getStagedBlockSize = () => {
     const defaultValue = 80
-    const block = this.getStagedBlock()
+    const block = this.props.stage.block
     if (!block) { return defaultValue }
     const value = block.get('size') || defaultValue
     if (!value) { return defaultValue }
@@ -105,8 +99,8 @@ class Editor extends Component {
 
   computeKey = scope => (
     scope + (
-      this.getStagedBlock()
-        ? this.getStagedBlock().get('id')
+      this.props.stage.block
+        ? this.props.stage.block.get('id')
         : this.props.player.activeSceneId
     )
   )
@@ -145,20 +139,20 @@ class Editor extends Component {
     }
   }
 
+  hasStagedBlock = () => !!this.props.stage.block
+
   render() {
     const scenes = this.props.video.getScenes()
 
     return ([
       <BlockActionsMenu
         key='BlockActionsMenu'
-        isActive={!!this.props.stagedBlockId}
+        isActive={!!this.hasStagedBlock()}
         video={this.props.video}
         editBlock={this.props.editBlock}
         removeBlock={this.props.removeBlock}
-        getStagedBlock={this.getStagedBlock}
-        stagedBlockId={this.props.stagedBlockId}
+        stage={this.props.stage}
         toggleEditText={this.props.toggleEditText}
-        unStageBlock={this.props.unStageBlock}
         toggleBottomPanel={this.props.toggleBottomPanel}
       />,
       <TextEditor
@@ -167,8 +161,7 @@ class Editor extends Component {
         video={this.props.video}
         editBlock={this.props.editBlock}
         removeBlock={this.props.removeBlock}
-        getStagedBlock={this.getStagedBlock}
-        stagedBlockId={this.props.stagedBlockId}
+        stage={this.props.stage}
         toggleEditText={this.props.toggleEditText}
       />,
       <Overlay
@@ -200,7 +193,7 @@ class Editor extends Component {
       />,
       <LaunchMenu
         key='LaunchMenu'
-        isActive={!this.props.stagedBlockId && !this.props.isBottomPanelActive && !this.props.isAddBlockActive && !this.props.isScenesMenuActive}
+        isActive={!this.hasStagedBlock() && !this.props.isBottomPanelActive && !this.props.isAddBlockActive && !this.props.isScenesMenuActive}
         onTap={this.props.blocksMenuToggle}
         scenesMenuToggle={this.props.scenesMenuToggle}
         totalScenes={scenes.length}

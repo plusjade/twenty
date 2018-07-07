@@ -25,7 +25,6 @@ class Scene extends Component {
     blocks: PropTypes.array.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
-    stageBlock: PropTypes.func.isRequired,
     sceneTransition: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
   }
@@ -132,7 +131,9 @@ class Scene extends Component {
                 sceneTransition={this.props.sceneTransition}
                 editBlock={this.props.editBlock}
                 removeBlock={this.props.removeBlock}
-                stageBlock={this.props.stageBlock}
+
+                stage={this.props.stage}
+
                 getBoundary={this.getBoundary}
               />
             )
