@@ -1,4 +1,5 @@
 // import DevTools from 'mobx-react-devtools'
+import 'intersection-observer'
 import { observer } from "mobx-react"
 import Radium from 'radium'
 import React, { Component } from 'react'
@@ -77,11 +78,6 @@ class Player extends Component {
           <Scene
             key={`scenes-${scene.get('id')}`}
             canEdit={this.props.canEdit}
-            isActive={
-              false // this.props.isEditing
-                ? scene.get('id') === this.props.activeSceneId
-                : true // test for scrollable content
-            }
             isEditing={this.props.isEditing && scene.get('id') === this.props.activeSceneId}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
@@ -90,6 +86,7 @@ class Player extends Component {
             removeBlock={this.props.removeBlock}
             stageBlock={this.props.stageBlock}
             unStageBlock={this.props.unStageBlock}
+            setActiveSceneId={this.props.setActiveSceneId}
           />
         ))}
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { observable, reaction } from "mobx"
 import randomEmoji from 'db/randomEmoji'
 
 const withPlay = (WrappedComponent) => {
@@ -11,17 +12,23 @@ const withPlay = (WrappedComponent) => {
 
     constructor(props) {
       const activeSceneId = props.video.getInitialSceneId()
+      let lastSceneId = undefined
       super(props)
+      this.activeSceneId = observable.box(activeSceneId)
 
       this.state = {
         activeSceneId,
         initialSceneId: activeSceneId,
         lastSceneId: undefined,
       }
-    }
 
-    componentDidMount() {
-      this.play()
+      reaction(
+        () => this.activeSceneId.get(),
+        (activeSceneId) => {
+          this.play(activeSceneId, lastSceneId)
+          lastSceneId = activeSceneId
+        }
+      )
     }
 
     sceneTransition = (data = {}) => {
@@ -59,19 +66,19 @@ const withPlay = (WrappedComponent) => {
       return this.props.video.getScene(this.state.activeSceneId).get('transitions')
     }
 
-    play = () => {
+    play = (activeSceneId, lastSceneId) => {
       if (this.props.canEdit) {
         this.unStageBlock()
       }
       this.props.video
-        .getBlocksInScene(this.state.activeSceneId)
+        .getBlocksInScene(activeSceneId)
         .forEach((block) => {
           block.set('lifecycle', 'play')
         })
 
-      if (this.state.lastSceneId) {
+      if (lastSceneId) {
         this.props.video
-          .getBlocksInScene(this.state.lastSceneId)
+          .getBlocksInScene(lastSceneId)
           .forEach((block) => {
             block.set('lifecycle', 'sleep')
           })
@@ -134,14 +141,18 @@ const withPlay = (WrappedComponent) => {
 
     addScene = () => {
       const sceneId = this.props.video.addScene(this.state.activeSceneId)
-      this.setState({
-        activeSceneId: sceneId,
-      }, this.play)
+      this.setActiveSceneId(sceneId)
     }
 
     toggleEditText = () => {
       this.setState({
         isEditingText: !this.state.isEditingText,
+      })
+    }
+
+    setActiveSceneId = (activeSceneId) => {
+      this.setState({activeSceneId}, () => {
+        this.activeSceneId.set(activeSceneId)
       })
     }
 
@@ -160,6 +171,7 @@ const withPlay = (WrappedComponent) => {
           stageBlock={this.stageBlock}
           unStageBlock={this.unStageBlock}
           toggleEditText={this.toggleEditText}
+          setActiveSceneId={this.setActiveSceneId}
         />
       )
     }

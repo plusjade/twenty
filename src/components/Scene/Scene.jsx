@@ -13,6 +13,7 @@ const blocksMap = {
   words: BlockWords,
   text: BlockText,
 }
+const OBSERVER_THRESHOLDS = new Array(101).fill(1).map((_, i) => +(i * 0.01).toFixed(2))
 
 class Scene extends Component {
   static propTypes = {
@@ -20,7 +21,6 @@ class Scene extends Component {
     isHorizontal: PropTypes.bool,
     isFixed: PropTypes.bool,
     isEditing: PropTypes.bool,
-    isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
     editBlock: PropTypes.func.isRequired,
@@ -30,14 +30,35 @@ class Scene extends Component {
   }
 
   state = {
-    isLandscape: false
+    isLandscape: false,
   }
 
   // TODO
   componentDidMount() {
+    const RATIO = this.props.canEdit ? 0.75 : 0.5
     this.setLandscape()
     window.addEventListener('resize', this.setLandscape)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+            if (entry.intersectionRatio >= RATIO) {
+              this.props.scene.set('isActive', true)
+              this.props.setActiveSceneId(this.props.scene.get('id'))
+            } else if (this.isActive()) {
+              this.props.scene.delete('isActive')
+            }
+        })
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: OBSERVER_THRESHOLDS,
+      }
+    )
+    observer.observe(this.sceneNode)
   }
+
+  isActive = () => this.props.scene.get('isActive')
 
   setLandscape = () => {
     const clientRect = document.body.getBoundingClientRect()
@@ -61,10 +82,17 @@ class Scene extends Component {
     }
   }
 
+  getSceneRef = (node) => {
+    if (node) {
+      this.sceneNode = node
+    }
+  }
+
   render() {
     return (
       <div
         id={this.props.scene.get('id')}
+        ref={this.getSceneRef}
         style={[
           style.wrap,
           {
@@ -72,7 +100,7 @@ class Scene extends Component {
           },
           this.props.isHorizontal && style.isHorizontal,
           this.props.isFixed && style.isFixed,
-          (this.props.isActive
+          (this.isActive()
             ? style.isActive
             : style.isHidden),
           (this.props.canEdit
