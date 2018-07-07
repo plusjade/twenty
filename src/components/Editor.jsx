@@ -50,7 +50,7 @@ class Editor extends Component {
 
   getColorScene = () => {
     const defaultColor = -100
-    const scene = this.props.getActiveScene()
+    const scene = this.props.player.activeScene
     if (!scene) { return defaultColor }
     const color = scene.get('color_hsl') || defaultColor
     if (!color) { return defaultColor }
@@ -59,7 +59,7 @@ class Editor extends Component {
   }
 
   onChangeColorScene = (value) => {
-    const scene = this.props.getActiveScene()
+    const scene = this.props.player.activeScene
     if (!scene) { return }
     scene.set('color_hsl', value)
   }
@@ -107,7 +107,7 @@ class Editor extends Component {
     scope + (
       this.getStagedBlock()
         ? this.getStagedBlock().get('id')
-        : this.props.getActiveScene().get('id')
+        : this.props.player.activeSceneId
     )
   )
 
@@ -204,9 +204,7 @@ class Editor extends Component {
         onTap={this.props.blocksMenuToggle}
         scenesMenuToggle={this.props.scenesMenuToggle}
         totalScenes={scenes.length}
-        scenePosition={
-          this.props.video.getScenePosition(this.props.getActiveScene().get('id'))
-        }
+        scenePosition={this.props.player.activeScenePosition}
         sceneTransition={this.props.sceneTransition}
       />,
     ])

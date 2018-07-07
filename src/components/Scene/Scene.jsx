@@ -27,6 +27,7 @@ class Scene extends Component {
     removeBlock: PropTypes.func.isRequired,
     stageBlock: PropTypes.func.isRequired,
     sceneTransition: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
   }
 
   state = {
@@ -43,8 +44,7 @@ class Scene extends Component {
         entries.forEach((entry) => {
             if (entry.intersectionRatio >= RATIO) {
               this.props.scene.set('isActive', true)
-              this.props.activeSceneId.set(this.props.scene.get('id'))
-
+              this.props.player.setActiveSceneId(this.props.scene.get('id'))
             } else if (this.isActive()) {
               this.props.scene.delete('isActive')
             }

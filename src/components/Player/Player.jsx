@@ -2,7 +2,7 @@
 import 'intersection-observer'
 
 import { observer } from "mobx-react"
-import { observable, reaction } from "mobx"
+import { observable, reaction, action } from "mobx"
 import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -20,24 +20,43 @@ class Player extends Component {
     video: PropTypes.object.isRequired,
   }
 
+  state = {
+    stagedBlockId: undefined,
+
+    isBottomPanelActive: false,
+    isAddBlockActive: false,
+    isScenesMenuActive: false,
+  }
+
   constructor(props) {
     const activeSceneId = props.video.getInitialSceneId()
     let lastSceneId
     super(props)
-    this.activeSceneId = observable.box(activeSceneId)
-
-    this.state = {
+    this.player = observable({
       initialSceneId: activeSceneId,
-      lastSceneId: undefined,
-      stagedBlockId: undefined,
+      activeSceneId: activeSceneId,
+      lastSceneId: null,
 
-      isBottomPanelActive: false,
-      isAddBlockActive: false,
-      isScenesMenuActive: false,
-    }
+      setActiveSceneId(sceneId) {
+        this.activeSceneId = sceneId
+      },
 
+      get activeScene() {
+        return props.video.getScene(this.activeSceneId)
+      },
+
+      get activeBlocks() {
+        return props.video.getBlocksInScene(this.activeSceneId) || []
+      },
+
+      get activeScenePosition() {
+        return props.video.getScenePosition(this.activeSceneId)
+      },
+    }, {
+      setActiveSceneId: action
+    })
     reaction(
-      () => this.activeSceneId.get(),
+      () => this.player.activeSceneId,
       (activeSceneId) => {
         this.play(activeSceneId, lastSceneId)
         lastSceneId = activeSceneId
@@ -54,7 +73,7 @@ class Player extends Component {
       const candidateScene = sceneTransitions[option]
       if (this.props.video.getScene(candidateScene)) {
         nextScene = candidateScene
-      } else if (option === 'prev' && this.activeSceneId.get() === this.state.initialSceneId) {
+      } else if (option === 'prev' && this.player.activeSceneId === this.player.initialSceneId) {
         // do nothing
       } else if (this.props.video.getScene(sceneTransitions.next)) {
         nextScene = sceneTransitions.next
@@ -64,7 +83,7 @@ class Player extends Component {
     }
 
     if (nextScene) {
-      this.activeSceneId.set(nextScene)
+      this.player.setActiveSceneId(nextScene)
     } else {
       // throw new Error('nowhere to go')
       console.error('nowhere to go')
@@ -73,18 +92,17 @@ class Player extends Component {
 
   // Find the module in the current step that has the step_transition metadata
   derivedSceneTransitions() {
-    return this.props.video.getScene(this.activeSceneId.get()).get('transitions')
+    return this.player.activeScene.get('transitions')
   }
 
   play = (activeSceneId, lastSceneId) => {
     if (this.props.canEdit) {
       this.unStageBlock()
     }
-    this.props.video
-      .getBlocksInScene(activeSceneId)
-      .forEach((block) => {
-        block.set('lifecycle', 'play')
-      })
+
+    this.player.activeBlocks.forEach((block) => {
+      block.set('lifecycle', 'play')
+    })
 
     if (lastSceneId) {
       this.props.video
@@ -141,7 +159,7 @@ class Player extends Component {
     const block = this.props.video.addBlock({
       type,
       content: `${randomEmoji()} HEADING`,
-      sceneId: this.activeSceneId.get(),
+      sceneId: this.player.activeSceneId,
     })
     this.stageBlock(block.get('id'))
     setTimeout(() => {
@@ -150,8 +168,8 @@ class Player extends Component {
   }
 
   addScene = () => {
-    const sceneId = this.props.video.addScene(this.activeSceneId.get())
-    this.activeSceneId.set(sceneId)
+    const sceneId = this.props.video.addScene(this.player.activeSceneId)
+    this.player.setActiveSceneId(sceneId)
   }
 
   toggleEditText = () => {
@@ -192,8 +210,6 @@ class Player extends Component {
     })
   }
 
-  getActiveScene = () => this.props.video.getScene(this.activeSceneId.get())
-
   render() {
     const scenes = this.props.video.getScenes()
     return (
@@ -208,7 +224,7 @@ class Player extends Component {
           <Scene
             key={`scenes-${scene.get('id')}`}
             canEdit={this.props.canEdit}
-            isEditing={this.props.canEdit && scene.get('id') === this.activeSceneId.get()}
+            isEditing={this.props.canEdit && scene.get('id') === this.player.activeSceneId}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
 
@@ -217,7 +233,7 @@ class Player extends Component {
             removeBlock={this.removeBlock}
             stageBlock={this.stageBlock}
             unStageBlock={this.unStageBlock}
-            activeSceneId={this.activeSceneId}
+            player={this.player}
           />
         ))}
 
@@ -226,7 +242,7 @@ class Player extends Component {
             {...this.props}
             {...this.state}
 
-            getActiveScene={this.getActiveScene}
+            player={this.player}
             isEditing={this.props.canEdit}
             sceneTransition={this.sceneTransition}
             addScene={this.addScene}
