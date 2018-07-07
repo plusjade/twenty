@@ -123,7 +123,7 @@ const withPlay = (WrappedComponent) => {
     addBlock = (type = 'words') => {
       const block = this.props.video.addBlock({
         type,
-        content: `${randomEmoji()} CAPTION`,
+        content: `${randomEmoji()} HEADING`,
         sceneId: this.state.activeSceneId,
       })
       this.stageBlock(block.get('id'))

@@ -17,7 +17,6 @@ export default {
     textAlign: "center",
     height: "12vh",
     margin: "0 8%",
-    borderRadius: "100%",
     border: "1px solid rgba(0,0,0,0.8)",
     boxShadow: "rgba(0, 0, 0, 0.3) 1px 1px 5px",
   },

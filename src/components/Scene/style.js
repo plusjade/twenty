@@ -15,7 +15,7 @@ export default {
   },
   isEditing: {
     height: '133vw',
-    border: '2px solid #333',
+    borderBottom: '1px dashed #121212',
   },
   isHorizontal: {
     width: '100vw',
@@ -32,8 +32,8 @@ export default {
     opacity: 1,
   },
   isHidden: {
-    opacity: 0,
-    pointerEvents: 'none',
+    // opacity: 0,
+    // pointerEvents: 'none',
   },
   boundingSquare: {
     position: 'relative',
