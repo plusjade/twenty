@@ -27,7 +27,6 @@ class Player extends Component {
     this.activeSceneId = observable.box(activeSceneId)
 
     this.state = {
-      activeSceneId,
       initialSceneId: activeSceneId,
       lastSceneId: undefined,
       stagedBlockId: undefined,
@@ -55,7 +54,7 @@ class Player extends Component {
       const candidateScene = sceneTransitions[option]
       if (this.props.video.getScene(candidateScene)) {
         nextScene = candidateScene
-      } else if (option === 'prev' && this.state.activeSceneId === this.state.initialSceneId) {
+      } else if (option === 'prev' && this.activeSceneId.get() === this.state.initialSceneId) {
         // do nothing
       } else if (this.props.video.getScene(sceneTransitions.next)) {
         nextScene = sceneTransitions.next
@@ -65,11 +64,7 @@ class Player extends Component {
     }
 
     if (nextScene) {
-      this.setState({
-        activeSceneId: nextScene,
-        nextScenePayload: props,
-        lastSceneId: this.state.activeSceneId,
-      }, this.play)
+      this.activeSceneId.set(nextScene)
     } else {
       // throw new Error('nowhere to go')
       console.error('nowhere to go')
@@ -78,7 +73,7 @@ class Player extends Component {
 
   // Find the module in the current step that has the step_transition metadata
   derivedSceneTransitions() {
-    return this.props.video.getScene(this.state.activeSceneId).get('transitions')
+    return this.props.video.getScene(this.activeSceneId.get()).get('transitions')
   }
 
   play = (activeSceneId, lastSceneId) => {
@@ -146,7 +141,7 @@ class Player extends Component {
     const block = this.props.video.addBlock({
       type,
       content: `${randomEmoji()} HEADING`,
-      sceneId: this.state.activeSceneId,
+      sceneId: this.activeSceneId.get(),
     })
     this.stageBlock(block.get('id'))
     setTimeout(() => {
@@ -155,19 +150,13 @@ class Player extends Component {
   }
 
   addScene = () => {
-    const sceneId = this.props.video.addScene(this.state.activeSceneId)
-    this.setActiveSceneId(sceneId)
+    const sceneId = this.props.video.addScene(this.activeSceneId.get())
+    this.activeSceneId.set(sceneId)
   }
 
   toggleEditText = () => {
     this.setState({
       isEditingText: !this.state.isEditingText,
-    })
-  }
-
-  setActiveSceneId = (activeSceneId) => {
-    this.setState({activeSceneId}, () => {
-      this.activeSceneId.set(activeSceneId)
     })
   }
 
@@ -203,6 +192,8 @@ class Player extends Component {
     })
   }
 
+  getActiveScene = () => this.props.video.getScene(this.activeSceneId.get())
+
   render() {
     const scenes = this.props.video.getScenes()
     return (
@@ -217,7 +208,7 @@ class Player extends Component {
           <Scene
             key={`scenes-${scene.get('id')}`}
             canEdit={this.props.canEdit}
-            isEditing={this.props.canEdit && scene.get('id') === this.state.activeSceneId}
+            isEditing={this.props.canEdit && scene.get('id') === this.activeSceneId.get()}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
 
@@ -226,7 +217,7 @@ class Player extends Component {
             removeBlock={this.removeBlock}
             stageBlock={this.stageBlock}
             unStageBlock={this.unStageBlock}
-            setActiveSceneId={this.setActiveSceneId}
+            activeSceneId={this.activeSceneId}
           />
         ))}
 
@@ -235,6 +226,7 @@ class Player extends Component {
             {...this.props}
             {...this.state}
 
+            getActiveScene={this.getActiveScene}
             isEditing={this.props.canEdit}
             sceneTransition={this.sceneTransition}
             addScene={this.addScene}

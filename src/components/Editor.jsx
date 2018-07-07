@@ -19,6 +19,7 @@ class Editor extends Component {
     video: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
+    sceneTransition: PropTypes.func.isRequired,
   }
 
   getStagedBlock = () => (
@@ -49,7 +50,7 @@ class Editor extends Component {
 
   getColorScene = () => {
     const defaultColor = -100
-    const scene = this.props.video.getScene(this.props.activeSceneId)
+    const scene = this.props.getActiveScene()
     if (!scene) { return defaultColor }
     const color = scene.get('color_hsl') || defaultColor
     if (!color) { return defaultColor }
@@ -58,7 +59,7 @@ class Editor extends Component {
   }
 
   onChangeColorScene = (value) => {
-    const scene = this.props.video.getScene(this.props.activeSceneId)
+    const scene = this.props.getActiveScene()
     if (!scene) { return }
     scene.set('color_hsl', value)
   }
@@ -106,7 +107,7 @@ class Editor extends Component {
     scope + (
       this.getStagedBlock()
         ? this.getStagedBlock().get('id')
-        : this.props.activeSceneId
+        : this.props.getActiveScene().get('id')
     )
   )
 
@@ -193,13 +194,7 @@ class Editor extends Component {
       <SceneActionsMenu
         key='SceneActionsMenu'
         isActive={this.props.isScenesMenuActive}
-        activeSceneId={this.props.activeSceneId}
         video={this.props.video}
-        addScene={this.props.addScene}
-        unStageBlock={this.props.unStageBlock}
-        sceneTransition={this.props.sceneTransition}
-        totalScenes={scenes.length}
-        scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
         toggleBottomPanel={this.props.toggleBottomPanel}
         scenesMenuToggle={this.props.scenesMenuToggle}
       />,
@@ -209,7 +204,9 @@ class Editor extends Component {
         onTap={this.props.blocksMenuToggle}
         scenesMenuToggle={this.props.scenesMenuToggle}
         totalScenes={scenes.length}
-        scenePosition={this.props.video.getScenePosition(this.props.activeSceneId)}
+        scenePosition={
+          this.props.video.getScenePosition(this.props.getActiveScene().get('id'))
+        }
         sceneTransition={this.props.sceneTransition}
       />,
     ])

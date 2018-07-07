@@ -8,13 +8,8 @@ import style from './style'
 
 class SceneActionsMenu extends PureComponent {
   static propTypes = {
-    addScene: PropTypes.func.isRequired,
-    unStageBlock: PropTypes.func.isRequired,
-    sceneTransition: PropTypes.func.isRequired,
+    scenesMenuToggle: PropTypes.func.isRequired,
     toggleBottomPanel: PropTypes.func.isRequired,
-    scenePosition: PropTypes.number.isRequired,
-    totalScenes: PropTypes.number.isRequired,
-    activeSceneId: PropTypes.string.isRequired,
     video: PropTypes.object.isRequired,
   }
 

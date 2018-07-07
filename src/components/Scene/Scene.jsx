@@ -43,7 +43,8 @@ class Scene extends Component {
         entries.forEach((entry) => {
             if (entry.intersectionRatio >= RATIO) {
               this.props.scene.set('isActive', true)
-              this.props.setActiveSceneId(this.props.scene.get('id'))
+              this.props.activeSceneId.set(this.props.scene.get('id'))
+
             } else if (this.isActive()) {
               this.props.scene.delete('isActive')
             }
