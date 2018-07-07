@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Player from 'components/Player/Player'
-import withPlay from 'containers/withPlay'
 import { videosFind, videosSave } from 'lib/actions'
 import Video from 'lib/Video'
 import debounce from 'lodash.debounce'
@@ -22,7 +21,7 @@ const player = (videoId, canEdit) => {
     const video = new Video({...videoData, subscribe: debouncedSubscribe})
     ReactDOM.render(
       React.createElement(
-        withPlay(Player),
+        Player,
         {...props, video}
       ),
       document.getElementById('root')

@@ -4,12 +4,9 @@ import PropTypes from 'prop-types'
 import { token, videosRemove } from 'lib/actions'
 import ActionTap from 'components/ActionTap/ActionTap'
 import Player from 'components/Player/Player'
-import withPlay from 'containers/withPlay'
 import { videosFind } from 'lib/actions'
 import Video from 'lib/Video'
 import style from './style'
-
-const WrappedPlayer = withPlay(Player)
 
 class VideoCard extends PureComponent {
   static propTypes = {
@@ -58,7 +55,7 @@ class VideoCard extends PureComponent {
       >
         <div style={style.innerWrap}>
           {this.state.videoData && (
-            <WrappedPlayer
+            <Player
               video={(new Video(this.state.videoData))}
             />
           )}

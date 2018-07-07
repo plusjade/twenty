@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Player from 'components/Player/Player'
-import withPlay from 'containers/withPlay'
 import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
 import blogPost from 'db/pain'
@@ -42,7 +41,7 @@ const notFound = () => {
 
   ReactDOM.render(
     React.createElement(
-      withPlay(Player),
+      Player,
       {...props, video}
     ),
     document.getElementById('root')
