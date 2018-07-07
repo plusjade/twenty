@@ -19,7 +19,7 @@ export default {
   isActive: {
     opacity: 1,
   },
-  isSmartCentered: {
+  __isSmartCentered: {
     top: '50%',
     right: '50%',
     transform: 'translate3d(50%,-50%, 0)',
