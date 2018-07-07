@@ -27,22 +27,12 @@ class LaunchMenu extends PureComponent {
 
   render() {
     return (
-      <div style={[
-        style.default,
-        this.props.isActive && style.isActive,
-      ]}>
-
-        <ActionTap
-          onTap={this.handleTapLeft}
-          disabled={this.props.scenePosition <= 1}
-        >
-          <div style={[{transform: "rotate(180deg)"}]}>
-            <span>
-              ➜
-            </span>
-          </div>
-        </ActionTap>
-
+      <div
+        style={[
+          style.default,
+          this.props.isActive && style.isActive,
+        ]}
+      >
         <div style={style.verticalWrap}>
           <ActionTap
             onTap={this.props.onTap}
@@ -57,15 +47,6 @@ class LaunchMenu extends PureComponent {
             </div>
           </ActionTap>
         </div>
-
-        <ActionTap
-          onTap={this.handleTapRight}
-          disabled={this.props.scenePosition >= this.props.totalScenes}
-        >
-          <div>
-            ➜
-          </div>
-        </ActionTap>
       </div>
     )
   }

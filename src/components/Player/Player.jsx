@@ -13,6 +13,7 @@ import style from './style'
 class Player extends Component {
   static propTypes = {
     activeSceneId: PropTypes.string.isRequired,
+    canEdit: PropTypes.bool.isRequired,
     stagedBlockId: PropTypes.string,
     video: PropTypes.object.isRequired,
     isEditing: PropTypes.bool,
@@ -28,12 +29,6 @@ class Player extends Component {
     isBottomPanelActive: false,
     isAddBlockActive: false,
     isScenesMenuActive: false,
-  }
-
-  componentWillMount() {
-    if (this.props.isEditing) {
-      window.document.body.style.overflow = 'hidden'
-    }
   }
 
   handleTapRight = () => {
@@ -74,15 +69,16 @@ class Player extends Component {
       <div
         className="app-wrapper"
         style={[
-          this.props.isEditing && style.wrap,
-          this.props.isEditing && {position: 'fixed'},
+          this.props.isHorizontal && style.horizontalScroll,
+          this.props.isHorizontal && {width: `${(scenes.length * 100)}vw`},
         ]}
       >
         {scenes.map(scene => (
           <Scene
             key={`scenes-${scene.get('id')}`}
+            canEdit={this.props.canEdit}
             isActive={
-              this.props.isEditing
+              false // this.props.isEditing
                 ? scene.get('id') === this.props.activeSceneId
                 : true // test for scrollable content
             }
@@ -96,19 +92,6 @@ class Player extends Component {
             unStageBlock={this.props.unStageBlock}
           />
         ))}
-
-        {!this.props.isEditing && (
-          <Layer
-            style={{right: "80%"}}
-            onTap={this.handleTapLeft}
-          />
-        )}
-        {!this.props.isEditing && (
-          <Layer
-            style={{left: "20%"}}
-            onTap={this.handleTapRight}
-          />
-        )}
 
         {this.props.isEditing && (
           <Editor

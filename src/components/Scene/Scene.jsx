@@ -3,7 +3,6 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Layer from 'components/Layer/Layer'
 import BlockWords from 'blocks/BlockWords/BlockWords'
 import BlockText from 'blocks/BlockText/BlockText'
 import { getColor } from 'lib/transforms'
@@ -17,6 +16,9 @@ const blocksMap = {
 
 class Scene extends Component {
   static propTypes = {
+    canEdit: PropTypes.bool.isRequired,
+    isHorizontal: PropTypes.bool,
+    isFixed: PropTypes.bool,
     isEditing: PropTypes.bool,
     isActive: PropTypes.bool.isRequired,
     scene: PropTypes.object.isRequired,
@@ -45,7 +47,7 @@ class Scene extends Component {
   }
 
   handleTap = () => {
-    if (this.props.isEditing) { return }
+    if (this.props.canEdit) { return }
     this.props.sceneTransition()
   }
 
@@ -61,24 +63,27 @@ class Scene extends Component {
 
   render() {
     return (
-      <Layer
+      <div
         id={this.props.scene.get('id')}
-        onTap={this.handleTap}
-        isFixedMode={this.props.isEditing}
         style={[
           style.wrap,
           {
             backgroundColor: getColor(this.props.scene),
           },
-          !this.props.isEditing && style.isPresenting,
-          this.props.isActive && style.visible,
-          !this.props.isActive && style.hidden,
+          this.props.isHorizontal && style.isHorizontal,
+          this.props.isFixed && style.isFixed,
+          (this.props.isActive
+            ? style.isActive
+            : style.isHidden),
+          (this.props.canEdit
+            ? style.isEditing
+            : style.isPresenting),
         ]}
       >
         <div
           style={[
-            style.square,
-            this.state.isLandscape && style.landscape,
+            style.boundingSquare,
+            this.state.isLandscape && style.boundingLandscape,
           ]}
           ref={this.getBoundaryRef}
         >
@@ -86,15 +91,14 @@ class Scene extends Component {
             const Block = blocksMap[block.get('type')]
             if (!Block) {
               const message = `No supported block for type: '${block.get('type')}'`
-              console.error(message)
-              // throw new TypeError(message)
-              return null
+              throw new TypeError(message)
             }
 
             return (
               <Block
                 key={block.get('id')}
                 block={block}
+                canEdit={this.props.canEdit}
                 isEditing={this.props.isEditing}
                 sceneTransition={this.props.sceneTransition}
                 editBlock={this.props.editBlock}
@@ -105,7 +109,7 @@ class Scene extends Component {
             )
           })}
         </div>
-      </Layer>
+      </div>
     )
   }
 }

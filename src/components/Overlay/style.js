@@ -1,6 +1,6 @@
 export default {
   default: {
-    position: "absolute",
+    position: 'fixed',
     bottom: 0,
     left: 0,
     minWidth: "100vw",

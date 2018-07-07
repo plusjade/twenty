@@ -7,15 +7,7 @@ export default {
     marginTop: 0,
     overflow: "hidden",
     maxHeight: 2000,
-    height: '100vh',
-  },
-  fixedMode: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 'auto',
+    // height: '100vh',
   },
   hidden: {
     maxHeight: 0,

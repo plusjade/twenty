@@ -7,7 +7,6 @@ import style from './Style'
 class Layer extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func,
-    isFixedMode: PropTypes.bool,
   }
 
   render() {
@@ -19,7 +18,6 @@ class Layer extends PureComponent {
             style.default,
             this.props.style,
             this.props.isHidden && style.hidden,
-            this.props.isFixedMode && style.fixedMode,
           ]}
         >
           {this.props.children}
