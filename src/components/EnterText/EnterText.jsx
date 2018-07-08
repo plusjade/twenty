@@ -78,11 +78,11 @@ class EnterText extends PureComponent {
     e.target.value = ''
     e.target.value = temp_value
 
-    setTimeout(() => {
-      const height = document.body.scrollHeight
-      console.log('height', height)
-      window.scroll(0, height - 270)
-    }, 250)
+    // TODO: The layout is not scrollable
+    // setTimeout(() => {
+    //   const height = document.body.scrollHeight
+    //   window.scroll(0, height - 270)
+    // }, 250)
   }
 
   render() {

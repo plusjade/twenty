@@ -265,6 +265,7 @@ class Player extends Component {
 
             stage={this.stage}
 
+            toggleEditText={this.toggleEditText}
             toggleBottomPanel={this.toggleBottomPanel}
             blocksMenuToggle={this.blocksMenuToggle}
             scenesMenuToggle={this.scenesMenuToggle}
