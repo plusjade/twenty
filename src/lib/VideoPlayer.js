@@ -124,6 +124,104 @@ const VideoPlayer = (video, activeSceneId) => ({
     }
     if (callback) { callback() }
   },
+
+  color(value) {
+    return (
+      this.block
+        ? this.colorBlock(value)
+        : this.colorScene(value)
+    )
+  },
+
+  colorBlock(value) {
+    return (
+      value
+        ? this.changeColorBlock(value)
+        : this.getColorBlock()
+    )
+  },
+
+  colorScene(value) {
+    return (
+      value
+        ? this.changeColorScene(value)
+        : this.getColorScene()
+    )
+  },
+
+  getColorBlock() {
+    const defaultColor = -100
+    if (!this.block) { return defaultColor }
+    const color = this.block.get('color_hsl') || defaultColor
+    if (!color) { return defaultColor }
+
+    return color
+  },
+
+  getColorScene() {
+    const defaultColor = -100
+    if (!this.activeScene) { return defaultColor }
+    const color = this.activeScene.get('color_hsl') || defaultColor
+    if (!color) { return defaultColor }
+
+    return color
+  },
+
+  changeColorBlock(value) {
+    if (!this.block) { return }
+    this.block.set('color_hsl', value)
+  },
+
+  changeColorScene(value) {
+    if (!this.activeScene) { return }
+    this.activeScene.set('color_hsl', value)
+  },
+
+  align(value) {
+    if (value) {
+      return this.changeAlign(value)
+    } else {
+      return null // TODO
+    }
+  },
+
+  changeAlign(value) {
+    if (!this.block) { return }
+    this.block.set('align', value)
+    this.block.set('lifecycle', 'replay')
+  },
+
+  size(value) {
+    if (value) {
+      return this.changeSize(value)
+    } else {
+      return this.sizeBlock()
+    }
+  },
+
+  changeSize(value) {
+    if (!this.block) { return }
+    this.block.set('size', value)
+  },
+
+  sizeBlock() {
+    const defaultValue = 80
+    if (!this.block) { return defaultValue }
+    const value = this.block.get('size') || defaultValue
+    if (!value) { return defaultValue }
+
+    return value
+  },
+
+  computeKey(scope) {
+    return (
+      scope + (
+        this.block
+          ? this.block.get('id')
+          : this.activeSceneId
+      )
+    )
+  },
 })
 
 export default VideoPlayer

@@ -40,10 +40,6 @@ class Player extends Component {
     reaction(
       () => this.videoPlayer.activeSceneId,
       (activeSceneId) => {
-        if (props.canEdit) {
-          this.videoPlayer.unStageBlock()
-        }
-
         this.videoPlayer.activeBlocks.forEach((block) => {
           block.set('lifecycle', 'play')
         })
@@ -52,6 +48,10 @@ class Player extends Component {
           props.video.getBlocksInScene(lastSceneId).forEach((block) => {
             block.set('lifecycle', 'sleep')
           })
+        }
+
+        if (props.canEdit) {
+          this.videoPlayer.unStageBlock()
         }
 
         lastSceneId = activeSceneId

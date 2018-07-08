@@ -14,109 +14,45 @@ import PickerSize from 'components/PickerSize/PickerSize'
 
 class Editor extends Component {
   static propTypes = {
-    isActive: PropTypes.bool,
+    isEditingText: PropTypes.bool.isRequired,
+    isBottomPanelActive: PropTypes.bool.isRequired,
+    isAddBlockActive: PropTypes.bool.isRequired,
+    isScenesMenuActive: PropTypes.bool.isRequired,
+    toggleEditText: PropTypes.func.isRequired,
+    toggleBottomPanel: PropTypes.func.isRequired,
+    blocksMenuToggle: PropTypes.func.isRequired,
+    scenesMenuToggle: PropTypes.func.isRequired,
     video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.func.isRequired,
   }
 
-  getColor = () => {
-    const block = this.props.videoPlayer.block
-
-    if (block) {
-      return this.getStagedColorBlock()
-    } else {
-      return this.getColorScene()
-    }
-  }
-
   onChangeColor = (value) => {
-    const block = this.props.videoPlayer.block
-
-    if (block) {
-      this.onChangeColorBlock(value)
-    } else {
-      this.onChangeColorScene(value)
-    }
-  }
-
-  getColorScene = () => {
-    const defaultColor = -100
-    const scene = this.props.videoPlayer.activeScene
-    if (!scene) { return defaultColor }
-    const color = scene.get('color_hsl') || defaultColor
-    if (!color) { return defaultColor }
-
-    return color
-  }
-
-  onChangeColorScene = (value) => {
-    const scene = this.props.videoPlayer.activeScene
-    if (!scene) { return }
-    scene.set('color_hsl', value)
-  }
-
-  getStagedColorBlock = () => {
-    const defaultColor = -100
-    const block = this.props.videoPlayer.block
-    if (!block) { return defaultColor }
-    const color = block.get('color_hsl') || defaultColor
-    if (!color) { return defaultColor }
-
-    return color
-  }
-
-  onChangeColorBlock = (value) => {
-    const block = this.props.videoPlayer.block
-    if (!block) { return }
-    block.set('color_hsl', value)
+    this.props.videoPlayer.color(value)
   }
 
   onChangeAlign = (value) => {
-    const block = this.props.videoPlayer.block
-    if (!block) { return }
-    block.set('align', value)
-    block.set('lifecycle', 'replay')
+    this.props.videoPlayer.align(value)
   }
 
   onChangeSize = (value) => {
-    const block = this.props.videoPlayer.block
-    if (!block) { return }
-    block.set('size', value)
+    this.props.videoPlayer.size(value)
   }
-
-  getStagedBlockSize = () => {
-    const defaultValue = 80
-    const block = this.props.videoPlayer.block
-    if (!block) { return defaultValue }
-    const value = block.get('size') || defaultValue
-    if (!value) { return defaultValue }
-
-    return value
-  }
-
-  computeKey = scope => (
-    scope + (
-      this.props.videoPlayer.block
-        ? this.props.videoPlayer.block.get('id')
-        : this.props.videoPlayer.activeSceneId
-    )
-  )
 
   getBottomPanelContent() {
     switch(this.props.isBottomPanelActive) {
       case 'color': {
         return (
           <ColorPicker
-            key={this.computeKey('color')}
+            key={this.props.videoPlayer.computeKey('color')}
             onChange={this.onChangeColor}
-            initialValue={this.getColor()}
+            initialValue={this.props.videoPlayer.color()}
           />
         )
       }
       case 'align': {
         return (
           <PickerAlign
-            key={this.computeKey('align')}
+            key={this.props.videoPlayer.computeKey('align')}
             onChange={this.onChangeAlign}
           />
         )
@@ -124,9 +60,9 @@ class Editor extends Component {
       case 'size': {
         return (
           <PickerSize
-            key={this.computeKey('size')}
+            key={this.props.videoPlayer.computeKey('size')}
             onChange={this.onChangeSize}
-            initialValue={this.getStagedBlockSize()}
+            initialValue={this.props.videoPlayer.size()}
           />
         )
       }
@@ -136,15 +72,13 @@ class Editor extends Component {
     }
   }
 
-  hasStagedBlock = () => !!this.props.videoPlayer.block
-
   render() {
     const scenes = this.props.video.getScenes()
 
     return ([
       <BlockActionsMenu
         key='BlockActionsMenu'
-        isActive={!!this.hasStagedBlock()}
+        isActive={!!this.props.videoPlayer.block}
         video={this.props.video}
         videoPlayer={this.props.videoPlayer}
 
@@ -184,7 +118,12 @@ class Editor extends Component {
       />,
       <LaunchMenu
         key='LaunchMenu'
-        isActive={!this.hasStagedBlock() && !this.props.isBottomPanelActive && !this.props.isAddBlockActive && !this.props.isScenesMenuActive}
+        isActive={
+          !this.props.isBottomPanelActive
+            && !this.props.isAddBlockActive
+            && !this.props.isScenesMenuActive
+            && !this.props.videoPlayer.block
+        }
         onTap={this.props.blocksMenuToggle}
         scenesMenuToggle={this.props.scenesMenuToggle}
         totalScenes={scenes.length}
