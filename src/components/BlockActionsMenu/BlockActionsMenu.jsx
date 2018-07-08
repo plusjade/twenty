@@ -11,8 +11,7 @@ class BlockActionsMenu extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     video: PropTypes.object.isRequired,
-    editBlock: PropTypes.func.isRequired,
-    removeBlock: PropTypes.func.isRequired,
+    videoPlayer: PropTypes.object.isRequired,
   }
 
   getStagedRotation = () => {
@@ -64,7 +63,7 @@ class BlockActionsMenu extends Component {
 
   onTapDelete = () => {
     if (window.confirm('Delete this block forever?')) {
-      this.props.removeBlock(this.props.videoPlayer.blockId)
+      this.props.videoPlayer.removeBlockActive()
     }
   }
 

@@ -8,22 +8,22 @@ import style from './style'
 
 class BlocksMenu extends PureComponent {
   static propTypes = {
-    addBlock: PropTypes.func.isRequired,
     isActive: PropTypes.bool.isRequired,
+    videoPlayer: PropTypes.object.isRequired,
   }
 
   handleTapWords = () => {
-    this.props.addBlock('words')
+    this.props.videoPlayer.addBlock('words')
     this.props.blocksMenuToggle()
   }
 
   handleTapText = () => {
-    this.props.addBlock('text')
+    this.props.videoPlayer.addBlock('text')
     this.props.blocksMenuToggle()
   }
 
   handleTapScene = () => {
-    this.props.addScene()
+    this.props.videoPlayer.addScene()
     this.props.blocksMenuToggle()
   }
 

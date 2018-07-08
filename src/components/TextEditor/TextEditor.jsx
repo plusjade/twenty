@@ -10,22 +10,21 @@ class TextEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     video: PropTypes.object.isRequired,
-    editBlock: PropTypes.func.isRequired,
-    removeBlock: PropTypes.func.isRequired,
+    videoPlayer: PropTypes.object.isRequired,
   }
 
   onEnterText = (value) => {
     if (value) {
-      this.props.editBlock(this.props.videoPlayer.blockId, {content: value})
+      this.props.videoPlayer.editBlockActive({content: value})
     } else {
-      this.props.removeBlock(this.props.videoPlayer.blockId)
+      this.props.videoPlayer.removeBlockActive()
     }
     this.props.toggleEditText()
   }
 
   onChangeText = (value) => {
     if (value) {
-      this.props.video.editBlock(this.props.videoPlayer.blockId, {content: value})
+      this.props.videoPlayer.editBlockActive({content: value})
     }
   }
 

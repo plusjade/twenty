@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import VideoPlayer from 'lib/VideoPlayer'
 import Scene from 'components/Scene/Scene'
 import Editor from 'components/Editor'
-import randomEmoji from 'db/randomEmoji'
 import style from './style'
 
 class Player extends Component {
@@ -58,33 +57,6 @@ class Player extends Component {
         lastSceneId = activeSceneId
       }
     )
-  }
-
-  removeBlock = (blockId) => {
-    this.videoPlayer.unStageBlock({replay: false})
-    const block = this.props.video.getBlock(blockId)
-    this.props.video.removeBlock(block)
-  }
-
-  editBlock = (blockId, attributes) => {
-    this.props.video.editBlock(blockId, attributes)
-  }
-
-  addBlock = (type = 'words') => {
-    const block = this.props.video.addBlock({
-      type,
-      content: `${randomEmoji()} HEADING`,
-      sceneId: this.videoPlayer.activeSceneId,
-    })
-    this.videoPlayer.stageBlock(block.get('id'))
-    setTimeout(() => {
-      block.set('lifecycle', 'play')
-    }, 100) // TODO FIXME
-  }
-
-  addScene = () => {
-    const sceneId = this.props.video.addScene(this.videoPlayer.activeSceneId)
-    this.videoPlayer.setActiveSceneId(sceneId)
   }
 
   toggleEditText = () => {
@@ -144,8 +116,6 @@ class Player extends Component {
 
             canEdit={this.props.canEdit}
             isEditing={this.props.canEdit && scene.get('id') === this.videoPlayer.activeSceneId}
-            editBlock={this.editBlock}
-            removeBlock={this.removeBlock}
           />
         ))}
 
@@ -156,11 +126,6 @@ class Player extends Component {
 
             videoPlayer={this.videoPlayer}
             isEditing={this.props.canEdit}
-
-            addScene={this.addScene}
-            addBlock={this.addBlock}
-            editBlock={this.editBlock}
-            removeBlock={this.removeBlock}
 
             toggleEditText={this.toggleEditText}
             toggleBottomPanel={this.toggleBottomPanel}

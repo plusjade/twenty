@@ -23,8 +23,6 @@ class Scene extends Component {
     isEditing: PropTypes.bool,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
-    editBlock: PropTypes.func.isRequired,
-    removeBlock: PropTypes.func.isRequired,
     videoPlayer: PropTypes.object.isRequired,
   }
 
@@ -128,8 +126,6 @@ class Scene extends Component {
                 canEdit={this.props.canEdit}
                 isEditing={this.props.isEditing}
                 videoPlayer={this.props.videoPlayer}
-                editBlock={this.props.editBlock}
-                removeBlock={this.props.removeBlock}
                 getBoundary={this.getBoundary}
               />
             )

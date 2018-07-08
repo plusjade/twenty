@@ -1,3 +1,5 @@
+import randomEmoji from 'db/randomEmoji'
+
 const VideoPlayer = (video, activeSceneId) => ({
   initialSceneId: activeSceneId,
   activeSceneId: activeSceneId,
@@ -51,6 +53,38 @@ const VideoPlayer = (video, activeSceneId) => ({
   // Find the module in the current step that has the step_transition metadata
   derivedSceneTransitions() {
     return this.activeScene.get('transitions')
+  },
+
+  addScene() {
+    const sceneId = video.addScene(this.activeSceneId)
+    this.setActiveSceneId(sceneId)
+  },
+
+  addBlock(type = 'words') {
+    const block = video.addBlock({
+      type,
+      content: `${randomEmoji()} HEADING`,
+      sceneId: this.activeSceneId,
+    })
+    this.stageBlock(block.get('id'))
+    setTimeout(() => {
+      block.set('lifecycle', 'play')
+    }, 100) // TODO FIXME
+  },
+
+  editBlockActive(attributes) {
+    video.editBlock(this.blockId, attributes)
+  },
+
+  removeBlockActive() {
+    if (!this.blockId) { return }
+    this.removeBlock(this.blockId)
+  },
+
+  removeBlock(blockId) {
+    this.unStageBlock({replay: false})
+    const block = video.getBlock(blockId)
+    video.removeBlock(block)
   },
 
   blockId: null,

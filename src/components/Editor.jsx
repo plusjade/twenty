@@ -16,8 +16,6 @@ class Editor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     video: PropTypes.object.isRequired,
-    editBlock: PropTypes.func.isRequired,
-    removeBlock: PropTypes.func.isRequired,
     videoPlayer: PropTypes.func.isRequired,
   }
 
@@ -149,8 +147,6 @@ class Editor extends Component {
         isActive={!!this.hasStagedBlock()}
         video={this.props.video}
         videoPlayer={this.props.videoPlayer}
-        editBlock={this.props.editBlock}
-        removeBlock={this.props.removeBlock}
 
         toggleEditText={this.props.toggleEditText}
         toggleBottomPanel={this.props.toggleBottomPanel}
@@ -160,8 +156,6 @@ class Editor extends Component {
         isActive={this.props.isEditingText}
         video={this.props.video}
         videoPlayer={this.props.videoPlayer}
-        editBlock={this.props.editBlock}
-        removeBlock={this.props.removeBlock}
         toggleEditText={this.props.toggleEditText}
       />,
       <Overlay
@@ -178,11 +172,9 @@ class Editor extends Component {
         key='BlocksMenu'
         isActive={this.props.isAddBlockActive}
         isEditing={this.props.isEditing}
-        addBlock={this.props.addBlock}
         toggleBottomPanel={this.props.toggleBottomPanel}
         blocksMenuToggle={this.props.blocksMenuToggle}
-
-        addScene={this.props.addScene}
+        videoPlayer={this.props.videoPlayer}
       />,
       <SceneActionsMenu
         key='SceneActionsMenu'
