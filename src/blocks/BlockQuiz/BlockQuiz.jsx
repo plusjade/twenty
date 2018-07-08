@@ -7,7 +7,6 @@ import style from './style'
 class BlockQuiz extends PureComponent {
   static propTypes = {
     block: PropTypes.object.isRequired,
-    sceneTransition: PropTypes.func.isRequired,
   }
 
   static initialState() {
@@ -28,7 +27,7 @@ class BlockQuiz extends PureComponent {
 
   onSelect = (answer) => {
     this.setState({answer: answer})
-    this.props.sceneTransition({option: answer.value})
+    this.props.videoPlayer.sceneTransition({option: answer.value})
   }
 
   onStart = () => {

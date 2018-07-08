@@ -25,8 +25,7 @@ class Scene extends Component {
     blocks: PropTypes.array.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
-    sceneTransition: PropTypes.func.isRequired,
-    player: PropTypes.object.isRequired,
+    videoPlayer: PropTypes.object.isRequired,
   }
 
   state = {
@@ -43,7 +42,7 @@ class Scene extends Component {
         entries.forEach((entry) => {
             if (entry.intersectionRatio >= RATIO) {
               this.props.scene.set('isActive', true)
-              this.props.player.setActiveSceneId(this.props.scene.get('id'))
+              this.props.videoPlayer.setActiveSceneId(this.props.scene.get('id'))
             } else if (this.isActive()) {
               this.props.scene.delete('isActive')
             }
@@ -69,7 +68,7 @@ class Scene extends Component {
 
   handleTap = () => {
     if (this.props.canEdit) { return }
-    this.props.sceneTransition()
+    this.props.videoPlayer.sceneTransition()
   }
 
   getBoundary = () => {
@@ -128,12 +127,9 @@ class Scene extends Component {
                 block={block}
                 canEdit={this.props.canEdit}
                 isEditing={this.props.isEditing}
-                sceneTransition={this.props.sceneTransition}
+                videoPlayer={this.props.videoPlayer}
                 editBlock={this.props.editBlock}
                 removeBlock={this.props.removeBlock}
-
-                stage={this.props.stage}
-
                 getBoundary={this.getBoundary}
               />
             )

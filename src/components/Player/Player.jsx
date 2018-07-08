@@ -7,9 +7,8 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Layer from 'components/Layer/Layer'
+import VideoPlayer from 'lib/VideoPlayer'
 import Scene from 'components/Scene/Scene'
-import ActionTap from 'components/ActionTap/ActionTap'
 import Editor from 'components/Editor'
 import randomEmoji from 'db/randomEmoji'
 import style from './style'
@@ -21,144 +20,48 @@ class Player extends Component {
   }
 
   state = {
-    stagedBlockId: undefined,
-
     isBottomPanelActive: false,
     isAddBlockActive: false,
     isScenesMenuActive: false,
   }
 
   constructor(props) {
-    const activeSceneId = props.video.getInitialSceneId()
     let lastSceneId
     super(props)
-    this.stage = observable({
-      blockId: null,
 
-      get block() {
-        return this.blockId ? props.video.getBlock(this.blockId) : null
-      },
+    this.videoPlayer = observable(
+      VideoPlayer(props.video, props.video.getInitialSceneId()),
+      {
+        setActiveSceneId: action,
+        stageBlock: action,
+        unStageBlock: action,
+      }
+    )
 
-      stageBlock(blockId) {
-        if (blockId === this.blockId) {
-          this.unStageBlock()
-        } else {
-          this.unStageBlock({
-            callback: () => {
-              this.blockId = blockId
-              props.video.getBlock(blockId).set('lifecycle', 'edit')
-            }
+    reaction(
+      () => this.videoPlayer.activeSceneId,
+      (activeSceneId) => {
+        if (props.canEdit) {
+          this.videoPlayer.unStageBlock()
+        }
+
+        this.videoPlayer.activeBlocks.forEach((block) => {
+          block.set('lifecycle', 'play')
+        })
+
+        if (lastSceneId) {
+          props.video.getBlocksInScene(lastSceneId).forEach((block) => {
+            block.set('lifecycle', 'sleep')
           })
         }
-      },
 
-      unStageBlock({callback, replay} = {}) {
-        if (!this.blockId) {
-          if (callback) { callback() }
-          return
-        }
-
-        const blockId = this.blockId
-        this.blockId = null // may have to wait for a little?
-        if (replay) {
-          props.video.getBlock(blockId).set('lifecycle', 'replay')
-        } else {
-          const block = props.video.getBlock(blockId)
-          if (block) {
-            block.set('lifecycle', 'end')
-          }
-        }
-        if (callback) { callback() }
-      },
-
-    }, {
-      stageBlock: action,
-      unStageBlock: action,
-    })
-
-    this.player = observable({
-      initialSceneId: activeSceneId,
-      activeSceneId: activeSceneId,
-      lastSceneId: null,
-
-      setActiveSceneId(sceneId) {
-        this.activeSceneId = sceneId
-      },
-
-      get activeScene() {
-        return props.video.getScene(this.activeSceneId)
-      },
-
-      get activeBlocks() {
-        return props.video.getBlocksInScene(this.activeSceneId) || []
-      },
-
-      get activeScenePosition() {
-        return props.video.getScenePosition(this.activeSceneId)
-      },
-    }, {
-      setActiveSceneId: action
-    })
-    reaction(
-      () => this.player.activeSceneId,
-      (activeSceneId) => {
-        this.play(activeSceneId, lastSceneId)
         lastSceneId = activeSceneId
       }
     )
   }
 
-  sceneTransition = (data = {}) => {
-    const {option, ...props} = data
-    const sceneTransitions = this.derivedSceneTransitions()
-    let nextScene
-
-    if (option) {
-      const candidateScene = sceneTransitions[option]
-      if (this.props.video.getScene(candidateScene)) {
-        nextScene = candidateScene
-      } else if (option === 'prev' && this.player.activeSceneId === this.player.initialSceneId) {
-        // do nothing
-      } else if (this.props.video.getScene(sceneTransitions.next)) {
-        nextScene = sceneTransitions.next
-      }
-    } else if (this.props.video.getScene(sceneTransitions.next)) {
-      nextScene = sceneTransitions.next
-    }
-
-    if (nextScene) {
-      this.player.setActiveSceneId(nextScene)
-    } else {
-      // throw new Error('nowhere to go')
-      console.error('nowhere to go')
-    }
-  }
-
-  // Find the module in the current step that has the step_transition metadata
-  derivedSceneTransitions() {
-    return this.player.activeScene.get('transitions')
-  }
-
-  play = (activeSceneId, lastSceneId) => {
-    if (this.props.canEdit) {
-      this.stage.unStageBlock()
-    }
-
-    this.player.activeBlocks.forEach((block) => {
-      block.set('lifecycle', 'play')
-    })
-
-    if (lastSceneId) {
-      this.props.video
-        .getBlocksInScene(lastSceneId)
-        .forEach((block) => {
-          block.set('lifecycle', 'sleep')
-        })
-    }
-  }
-
   removeBlock = (blockId) => {
-    this.stage.unStageBlock({replay: false})
+    this.videoPlayer.unStageBlock({replay: false})
     const block = this.props.video.getBlock(blockId)
     this.props.video.removeBlock(block)
   }
@@ -171,17 +74,17 @@ class Player extends Component {
     const block = this.props.video.addBlock({
       type,
       content: `${randomEmoji()} HEADING`,
-      sceneId: this.player.activeSceneId,
+      sceneId: this.videoPlayer.activeSceneId,
     })
-    this.stage.stageBlock(block.get('id'))
+    this.videoPlayer.stageBlock(block.get('id'))
     setTimeout(() => {
       block.set('lifecycle', 'play')
     }, 100) // TODO FIXME
   }
 
   addScene = () => {
-    const sceneId = this.props.video.addScene(this.player.activeSceneId)
-    this.player.setActiveSceneId(sceneId)
+    const sceneId = this.props.video.addScene(this.videoPlayer.activeSceneId)
+    this.videoPlayer.setActiveSceneId(sceneId)
   }
 
   toggleEditText = () => {
@@ -191,11 +94,11 @@ class Player extends Component {
   }
 
   handleTapRight = () => {
-    this.sceneTransition()
+    this.videoPlayer.sceneTransition()
   }
 
   handleTapLeft = (e) => {
-    this.sceneTransition({option: 'prev'})
+    this.videoPlayer.sceneTransition({option: 'prev'})
   }
 
   toggleBottomPanel = ({toggle, type} = {}) => {
@@ -215,7 +118,7 @@ class Player extends Component {
   scenesMenuToggle = () => {
     this.setState({isScenesMenuActive: !this.state.isScenesMenuActive}, () => {
       if (this.state.isScenesMenuActive) {
-        this.stage.unStageBlock()
+        this.videoPlayer.unStageBlock()
       } else {
         this.toggleBottomPanel({toggle: 'close'})
       }
@@ -237,15 +140,12 @@ class Player extends Component {
             key={`scenes-${scene.get('id')}`}
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
-            player={this.player}
-            sceneTransition={this.sceneTransition}
+            videoPlayer={this.videoPlayer}
 
             canEdit={this.props.canEdit}
-            isEditing={this.props.canEdit && scene.get('id') === this.player.activeSceneId}
+            isEditing={this.props.canEdit && scene.get('id') === this.videoPlayer.activeSceneId}
             editBlock={this.editBlock}
             removeBlock={this.removeBlock}
-
-            stage={this.stage}
           />
         ))}
 
@@ -254,16 +154,13 @@ class Player extends Component {
             {...this.props}
             {...this.state}
 
-            player={this.player}
+            videoPlayer={this.videoPlayer}
             isEditing={this.props.canEdit}
-            sceneTransition={this.sceneTransition}
 
             addScene={this.addScene}
             addBlock={this.addBlock}
             editBlock={this.editBlock}
             removeBlock={this.removeBlock}
-
-            stage={this.stage}
 
             toggleEditText={this.toggleEditText}
             toggleBottomPanel={this.toggleBottomPanel}

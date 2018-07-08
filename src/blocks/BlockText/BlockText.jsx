@@ -20,7 +20,7 @@ import style from './style'
 class BlockText extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
-    sceneTransition: PropTypes.func.isRequired,
+    videoPlayer: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -104,10 +104,10 @@ class BlockText extends Component {
 
   handleTap = () => {
     if (this.props.canEdit) {
-      this.props.stage.stageBlock(this.props.block.get('id'))
+      this.props.videoPlayer.stageBlock(this.props.block.get('id'))
       this.makeDraggable()
     } else {
-      this.props.sceneTransition()
+      this.props.videoPlayer.sceneTransition()
     }
   }
 

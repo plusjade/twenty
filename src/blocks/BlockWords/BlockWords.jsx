@@ -24,7 +24,7 @@ class BlockWords extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
     isEditing: PropTypes.bool,
-    sceneTransition: PropTypes.func.isRequired,
+    videoPlayer: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -121,11 +121,11 @@ class BlockWords extends Component {
 
   handleTap = () => {
     if (this.props.canEdit) {
-      this.props.stage.stageBlock(this.props.block.get('id'))
+      this.props.videoPlayer.stageBlock(this.props.block.get('id'))
 
       this.makeDraggable()
     } else {
-      this.props.sceneTransition()
+      this.props.videoPlayer.sceneTransition()
     }
   }
 

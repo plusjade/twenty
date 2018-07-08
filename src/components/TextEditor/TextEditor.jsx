@@ -9,7 +9,6 @@ import style from './style'
 class TextEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    stage: PropTypes.object.isRequired,
     video: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
@@ -17,21 +16,21 @@ class TextEditor extends Component {
 
   onEnterText = (value) => {
     if (value) {
-      this.props.editBlock(this.props.stage.blockId, {content: value})
+      this.props.editBlock(this.props.videoPlayer.blockId, {content: value})
     } else {
-      this.props.removeBlock(this.props.stage.blockId)
+      this.props.removeBlock(this.props.videoPlayer.blockId)
     }
     this.props.toggleEditText()
   }
 
   onChangeText = (value) => {
     if (value) {
-      this.props.video.editBlock(this.props.stage.blockId, {content: value})
+      this.props.video.editBlock(this.props.videoPlayer.blockId, {content: value})
     }
   }
 
   getStagedText = () => {
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
 
     if (!block) { return '' }
 

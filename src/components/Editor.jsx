@@ -16,14 +16,13 @@ class Editor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     video: PropTypes.object.isRequired,
-    stage: PropTypes.object.isRequired,
     editBlock: PropTypes.func.isRequired,
     removeBlock: PropTypes.func.isRequired,
-    sceneTransition: PropTypes.func.isRequired,
+    videoPlayer: PropTypes.func.isRequired,
   }
 
   getColor = () => {
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
 
     if (block) {
       return this.getStagedColorBlock()
@@ -33,7 +32,7 @@ class Editor extends Component {
   }
 
   onChangeColor = (value) => {
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
 
     if (block) {
       this.onChangeColorBlock(value)
@@ -44,7 +43,7 @@ class Editor extends Component {
 
   getColorScene = () => {
     const defaultColor = -100
-    const scene = this.props.player.activeScene
+    const scene = this.props.videoPlayer.activeScene
     if (!scene) { return defaultColor }
     const color = scene.get('color_hsl') || defaultColor
     if (!color) { return defaultColor }
@@ -53,14 +52,14 @@ class Editor extends Component {
   }
 
   onChangeColorScene = (value) => {
-    const scene = this.props.player.activeScene
+    const scene = this.props.videoPlayer.activeScene
     if (!scene) { return }
     scene.set('color_hsl', value)
   }
 
   getStagedColorBlock = () => {
     const defaultColor = -100
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
     if (!block) { return defaultColor }
     const color = block.get('color_hsl') || defaultColor
     if (!color) { return defaultColor }
@@ -69,27 +68,27 @@ class Editor extends Component {
   }
 
   onChangeColorBlock = (value) => {
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
     if (!block) { return }
     block.set('color_hsl', value)
   }
 
   onChangeAlign = (value) => {
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
     if (!block) { return }
     block.set('align', value)
     block.set('lifecycle', 'replay')
   }
 
   onChangeSize = (value) => {
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
     if (!block) { return }
     block.set('size', value)
   }
 
   getStagedBlockSize = () => {
     const defaultValue = 80
-    const block = this.props.stage.block
+    const block = this.props.videoPlayer.block
     if (!block) { return defaultValue }
     const value = block.get('size') || defaultValue
     if (!value) { return defaultValue }
@@ -99,9 +98,9 @@ class Editor extends Component {
 
   computeKey = scope => (
     scope + (
-      this.props.stage.block
-        ? this.props.stage.block.get('id')
-        : this.props.player.activeSceneId
+      this.props.videoPlayer.block
+        ? this.props.videoPlayer.block.get('id')
+        : this.props.videoPlayer.activeSceneId
     )
   )
 
@@ -139,7 +138,7 @@ class Editor extends Component {
     }
   }
 
-  hasStagedBlock = () => !!this.props.stage.block
+  hasStagedBlock = () => !!this.props.videoPlayer.block
 
   render() {
     const scenes = this.props.video.getScenes()
@@ -149,9 +148,10 @@ class Editor extends Component {
         key='BlockActionsMenu'
         isActive={!!this.hasStagedBlock()}
         video={this.props.video}
+        videoPlayer={this.props.videoPlayer}
         editBlock={this.props.editBlock}
         removeBlock={this.props.removeBlock}
-        stage={this.props.stage}
+
         toggleEditText={this.props.toggleEditText}
         toggleBottomPanel={this.props.toggleBottomPanel}
       />,
@@ -159,9 +159,9 @@ class Editor extends Component {
         key='TextEditor'
         isActive={this.props.isEditingText}
         video={this.props.video}
+        videoPlayer={this.props.videoPlayer}
         editBlock={this.props.editBlock}
         removeBlock={this.props.removeBlock}
-        stage={this.props.stage}
         toggleEditText={this.props.toggleEditText}
       />,
       <Overlay
@@ -197,8 +197,8 @@ class Editor extends Component {
         onTap={this.props.blocksMenuToggle}
         scenesMenuToggle={this.props.scenesMenuToggle}
         totalScenes={scenes.length}
-        scenePosition={this.props.player.activeScenePosition}
-        sceneTransition={this.props.sceneTransition}
+        scenePosition={this.props.videoPlayer.activeScenePosition}
+        videoPlayer={this.props.videoPlayer}
       />,
     ])
   }

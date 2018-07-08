@@ -8,7 +8,7 @@ class LaunchMenu extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func.isRequired,
     isActive: PropTypes.bool.isRequired,
-    sceneTransition: PropTypes.func.isRequired,
+    videoPlayer: PropTypes.object.isRequired,
     scenePosition: PropTypes.number.isRequired,
     totalScenes: PropTypes.number.isRequired,
   }
@@ -18,11 +18,11 @@ class LaunchMenu extends PureComponent {
   }
 
   handleTapLeft = (e) => {
-    this.props.sceneTransition({option: 'prev'})
+    this.props.videoPlayer.sceneTransition({option: 'prev'})
   }
 
   handleTapRight = () => {
-    this.props.sceneTransition()
+    this.props.videoPlayer.sceneTransition()
   }
 
   render() {
