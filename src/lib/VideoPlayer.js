@@ -213,6 +213,27 @@ const VideoPlayer = (video, activeSceneId) => ({
     return value
   },
 
+  rotation(value) {
+    return (
+      this.value
+        ? this.this.changeRotation(value)
+        : this.getRotation()
+    )
+  },
+
+  getRotation() {
+    if (!this.block) { return 0 }
+    const rotation = this.block.get('rotation') || 0
+    if (!rotation) { return 0 }
+
+    return rotation.replace('deg', '')
+  },
+
+  changeRotation(value) {
+    if (!this.block) { return }
+    this.block.set('rotation', `${+value}deg`)
+  },
+
   computeKey(scope) {
     return (
       scope + (

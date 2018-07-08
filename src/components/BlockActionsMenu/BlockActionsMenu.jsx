@@ -14,37 +14,6 @@ class BlockActionsMenu extends Component {
     videoPlayer: PropTypes.object.isRequired,
   }
 
-  getStagedRotation = () => {
-    const block = this.props.videoPlayer.block
-    if (!block) { return 0 }
-    const rotation = block.get('rotation') || 0
-    if (!rotation) { return 0 }
-
-    return rotation.replace('deg', '')
-  }
-
-  onChangeRotation = (value) => {
-    const block = this.props.videoPlayer.block
-    if (!block) { return }
-    block.set('rotation', `${+value}deg`)
-  }
-
-  getStagedSize = () => {
-    const defaultValue = 24
-    const block = this.props.videoPlayer.block
-    if (!block) { return defaultValue }
-    const value = block.get('size') || defaultValue
-    if (!value) { return defaultValue }
-
-    return value
-  }
-
-  onChangeSize = (value) => {
-    const block = this.props.videoPlayer.block
-    if (!block) { return }
-    block.set('size', value)
-  }
-
   onTapColor = () => {
     this.props.toggleBottomPanel({type: 'color'})
   }
