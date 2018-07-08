@@ -171,7 +171,6 @@ class Editor extends Component {
       <BlocksMenu
         key='BlocksMenu'
         isActive={this.props.isAddBlockActive}
-        isEditing={this.props.isEditing}
         toggleBottomPanel={this.props.toggleBottomPanel}
         blocksMenuToggle={this.props.blocksMenuToggle}
         videoPlayer={this.props.videoPlayer}

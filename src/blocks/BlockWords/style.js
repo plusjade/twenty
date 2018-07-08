@@ -11,7 +11,7 @@ export default {
     fontSize: "inherit",
     color: "inherit",
   },
-  isEditing: {
+  isStaged: {
     backgroundColor: "rgba(0,0,0,0.1)",
     border: "1px solid #FFF",
   },

@@ -9,7 +9,7 @@ export default {
     color: "#FFF",
     fontSize: '2.7vh',
   },
-  isEditing: {
+  isStaged: {
     backgroundColor: "rgba(0,0,0,0.1)",
   },
   textWrap: {

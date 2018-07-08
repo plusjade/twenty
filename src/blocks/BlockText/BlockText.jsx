@@ -126,7 +126,7 @@ class BlockText extends Component {
             // fontSize: getFontSize(this.props.block),
             textAlign: getTextAlign(this.props.block),
           },
-          this.props.block.get('lifecycle') === 'edit' && style.isEditing,
+          this.props.block.get('lifecycle') === 'edit' && style.isStaged,
           (transforms.length > 0
             ? {transform: transforms.join(' ')}
             : style.isSmartCentered

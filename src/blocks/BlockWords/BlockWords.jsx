@@ -23,7 +23,6 @@ import style from './style'
 class BlockWords extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
-    isEditing: PropTypes.bool,
     videoPlayer: PropTypes.object.isRequired,
   }
 
@@ -162,7 +161,7 @@ class BlockWords extends Component {
                   fontSize: getFontSize(this.props.block),
                   textAlign: getTextAlign(this.props.block),
                 },
-                this.props.block.get('lifecycle') === 'edit' && style.isEditing,
+                this.props.block.get('lifecycle') === 'edit' && style.isStaged,
               ]}
             >
               {content.map((string, i) => (

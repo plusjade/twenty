@@ -20,7 +20,6 @@ class Scene extends Component {
     canEdit: PropTypes.bool.isRequired,
     isHorizontal: PropTypes.bool,
     isFixed: PropTypes.bool,
-    isEditing: PropTypes.bool,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
     videoPlayer: PropTypes.object.isRequired,
@@ -101,7 +100,7 @@ class Scene extends Component {
             ? style.isActive
             : style.isHidden),
           (this.props.canEdit
-            ? style.isEditing
+            ? style.canEdit
             : style.isPresenting),
         ]}
       >
@@ -124,7 +123,6 @@ class Scene extends Component {
                 key={block.get('id')}
                 block={block}
                 canEdit={this.props.canEdit}
-                isEditing={this.props.isEditing}
                 videoPlayer={this.props.videoPlayer}
                 getBoundary={this.getBoundary}
               />

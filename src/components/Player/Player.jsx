@@ -65,14 +65,6 @@ class Player extends Component {
     })
   }
 
-  handleTapRight = () => {
-    this.videoPlayer.sceneTransition()
-  }
-
-  handleTapLeft = (e) => {
-    this.videoPlayer.sceneTransition({option: 'prev'})
-  }
-
   toggleBottomPanel = ({toggle, type} = {}) => {
     const value = toggle === 'close' ? false : !this.state.isBottomPanelActive
     if (value) {
@@ -115,7 +107,6 @@ class Player extends Component {
             videoPlayer={this.videoPlayer}
 
             canEdit={this.props.canEdit}
-            isEditing={this.props.canEdit && scene.get('id') === this.videoPlayer.activeSceneId}
           />
         ))}
 
@@ -125,7 +116,6 @@ class Player extends Component {
             {...this.state}
 
             videoPlayer={this.videoPlayer}
-            isEditing={this.props.canEdit}
 
             toggleEditText={this.toggleEditText}
             toggleBottomPanel={this.toggleBottomPanel}

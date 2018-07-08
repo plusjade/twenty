@@ -13,7 +13,7 @@ export default {
     height: '100vh',
     alignItems: "center",
   },
-  isEditing: {
+  canEdit: {
     height: '133vw',
     borderBottom: '1px dashed #121212',
   },
