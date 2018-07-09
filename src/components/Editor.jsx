@@ -14,6 +14,16 @@ import ColorPicker from 'components/ColorPicker/ColorPicker'
 import PickerAlign from 'components/PickerAlign/PickerAlign'
 import PickerSize from 'components/PickerSize/PickerSize'
 
+const EditorNode = window.document.getElementById('editor-root')
+const style = {
+  position: 'absolute',
+  bottom: 0,
+  height: '18vh',
+  borderBottom: '2px solid #121212',
+  overflow: 'hidden',
+  width: '100vw',
+}
+
 class Editor extends Component {
   static propTypes = {
     isEditingText: PropTypes.bool.isRequired,
@@ -26,6 +36,12 @@ class Editor extends Component {
     scenesMenuToggle: PropTypes.func.isRequired,
     video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.func.isRequired,
+  }
+
+  componentDidMount() {
+    Object.keys(style).forEach((key) => {
+      EditorNode.style[key] = style[key]
+    })
   }
 
   render() {
@@ -84,7 +100,7 @@ class Editor extends Component {
     return (
       ReactDOM.createPortal(
         components,
-        window.document.getElementById('editor-root')
+        EditorNode
       )
     )
   }
