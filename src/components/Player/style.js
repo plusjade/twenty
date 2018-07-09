@@ -5,6 +5,12 @@ export default {
     height: "100%",
     overflow: "hidden",
   },
+  canEdit: {
+    height: '133vw',
+    // overflow: 'auto',
+    overflowY: 'scroll',
+    WebkitOverflowScrolling: 'touch',
+  },
   isEditing: {
     position: 'fixed',
   },

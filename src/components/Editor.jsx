@@ -1,5 +1,6 @@
 import { observer } from "mobx-react"
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import LaunchMenu from 'components/LaunchMenu/LaunchMenu'
@@ -7,7 +8,8 @@ import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
 import SceneActionsMenu from 'components/SceneActionsMenu/SceneActionsMenu'
 import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
 import TextEditor from 'components/TextEditor/TextEditor'
-import Overlay from 'components/Overlay/Overlay'
+
+import Picker from 'components/Picker/Picker'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
 import PickerAlign from 'components/PickerAlign/PickerAlign'
 import PickerSize from 'components/PickerSize/PickerSize'
@@ -26,56 +28,9 @@ class Editor extends Component {
     videoPlayer: PropTypes.func.isRequired,
   }
 
-  onChangeColor = (value) => {
-    this.props.videoPlayer.color(value)
-  }
-
-  onChangeAlign = (value) => {
-    this.props.videoPlayer.align(value)
-  }
-
-  onChangeSize = (value) => {
-    this.props.videoPlayer.size(value)
-  }
-
-  getBottomPanelContent() {
-    switch(this.props.isBottomPanelActive) {
-      case 'color': {
-        return (
-          <ColorPicker
-            key={this.props.videoPlayer.computeKey('color')}
-            onChange={this.onChangeColor}
-            initialValue={this.props.videoPlayer.color()}
-          />
-        )
-      }
-      case 'align': {
-        return (
-          <PickerAlign
-            key={this.props.videoPlayer.computeKey('align')}
-            onChange={this.onChangeAlign}
-          />
-        )
-      }
-      case 'size': {
-        return (
-          <PickerSize
-            key={this.props.videoPlayer.computeKey('size')}
-            onChange={this.onChangeSize}
-            initialValue={this.props.videoPlayer.size()}
-          />
-        )
-      }
-      default: {
-        return null
-      }
-    }
-  }
-
   render() {
     const scenes = this.props.video.getScenes()
-
-    return ([
+    const components = [
       <BlockActionsMenu
         key='BlockActionsMenu'
         isActive={!!this.props.videoPlayer.block}
@@ -92,16 +47,10 @@ class Editor extends Component {
         videoPlayer={this.props.videoPlayer}
         toggleEditText={this.props.toggleEditText}
       />,
-      <Overlay
-        key='OverlayColorPicker'
+      <Picker
         isActive={this.props.isBottomPanelActive}
-        onTap={this.props.toggleBottomPanel}
-        style={{zIndex: 300}}
-      >
-        <div style={{flex: '0 0 18vh'}}>
-          {this.getBottomPanelContent()}
-        </div>
-      </Overlay>,
+        videoPlayer={this.props.videoPlayer}
+      />,
       <BlocksMenu
         key='BlocksMenu'
         isActive={this.props.isAddBlockActive}
@@ -130,8 +79,15 @@ class Editor extends Component {
         scenePosition={this.props.videoPlayer.activeScenePosition}
         videoPlayer={this.props.videoPlayer}
       />,
-    ])
+    ]
+
+    return (
+      ReactDOM.createPortal(
+        components,
+        window.document.getElementById('editor-root')
+      )
+    )
   }
 }
 
-export default observer(Radium(Editor))
+export default observer(Editor)

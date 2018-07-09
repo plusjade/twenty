@@ -10,6 +10,17 @@ a:hover {
 }
 h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; }
 
+#editor-root {
+  position: absolute;
+  bottom: 0;
+  height: 22vh;
+  background-color: #EEE;
+  overflow: hidden;
+  width: 100vw;
+  /*border-top: 1px solid #121212;*/
+  /*box-shadow: rgba(0, 0, 0, 0.3) 0px -1px 20px;*/
+}
+
 @media (max-width: 800px) {
   #navbar {
     font-size: 12px;

@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import VideoPlayer from 'lib/VideoPlayer'
 import Scene from 'components/Scene/Scene'
 import Editor from 'components/Editor'
+import Overlay from 'components/Overlay/Overlay'
 import style from './style'
 
 class Player extends Component {
@@ -89,6 +90,25 @@ class Player extends Component {
     })
   }
 
+  showOverlay = () => (
+    this.state.isBottomPanelActive
+      || this.state.isAddBlockActive
+      || this.state.isScenesMenuActive
+      || this.videoPlayer.block
+  )
+
+  handleOverlayTap = () => {
+    if (this.state.isAddBlockActive) {
+      this.blocksMenuToggle()
+    } else if (this.state.isScenesMenuActive) {
+      this.scenesMenuToggle()
+    } else if (this.state.isBottomPanelActive) {
+      this.toggleBottomPanel()
+    } else {
+      this.videoPlayer.unStageBlock()
+    }
+  }
+
   render() {
     const scenes = this.props.video.getScenes()
     return (
@@ -97,6 +117,7 @@ class Player extends Component {
         style={[
           this.props.isHorizontal && style.horizontalScroll,
           this.props.isHorizontal && {width: `${(scenes.length * 100)}vw`},
+          this.props.canEdit && style.canEdit
         ]}
       >
         {scenes.map(scene => (
@@ -121,6 +142,18 @@ class Player extends Component {
             toggleBottomPanel={this.toggleBottomPanel}
             blocksMenuToggle={this.blocksMenuToggle}
             scenesMenuToggle={this.scenesMenuToggle}
+          />
+        )}
+        {this.showOverlay() && (
+          <Overlay
+            key='OverlayColorPicker'
+            onTap={this.handleOverlayTap}
+            style={{
+              position: 'fixed',
+              height: '133vw',
+              width: '100vw',
+            }}
+            isActive
           />
         )}
       </div>

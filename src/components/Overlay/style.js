@@ -1,13 +1,15 @@
 export default {
   default: {
-    position: 'fixed',
+    position: 'absolute',
     bottom: 0,
     left: 0,
+    right: 0,
     minWidth: "100vw",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-end",
+    // alignItems: "flex-end",
+    alignItems: "stretch",
     overflow: "auto",
     zIndex: 200,
     paddingTop: 10,
