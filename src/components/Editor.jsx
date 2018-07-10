@@ -21,7 +21,8 @@ const style = {
   height: '18vh',
   overflow: 'hidden',
   width: '100vw',
-  background: '#FFF',
+  background: '#F5F5F5',
+  boxShadow: 'rgba(0, 0, 0, 0.3) 0px -1px 10px',
   zIndex: 2000,
 }
 

@@ -7,8 +7,8 @@ export default {
   },
   canEdit: {
     height: '82vh',
-    // overflow: 'auto',
-    // marginBottom: '18vh',
+    paddingBottom: '18vh',
+    boxSizing: 'border-box',
     overflowY: 'scroll',
     WebkitOverflowScrolling: 'touch',
   },

@@ -16,6 +16,10 @@ const VideoPlayer = (video, activeSceneId) => ({
     return video.getScenePosition(this.activeSceneId)
   },
 
+  scenePosition(sceneId) {
+    return video.getScenePosition(sceneId)
+  },
+
   get isInitialScene() {
     return this.activeSceneId === this.initialSceneId
   },

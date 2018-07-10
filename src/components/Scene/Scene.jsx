@@ -130,15 +130,10 @@ class Scene extends Component {
             )
           })}
         </div>
-        <div
-          style={[
-            style.sceneMenu,
-            this.isActive() && style.sceneMenuIsActive,
-          ]}
-        >
+        <div style={style.sceneMenu}>
           <ActionTap onTap={this.props.scenesMenuToggle}>
             <div>
-              {this.props.videoPlayer.activeScenePosition}
+              {this.props.videoPlayer.scenePosition(this.props.scene.get('id'))}
             </div>
           </ActionTap>
         </div>
