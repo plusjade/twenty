@@ -16,23 +16,22 @@ import PickerSize from 'components/PickerSize/PickerSize'
 
 const EditorNode = window.document.getElementById('editor-root')
 const style = {
-  position: 'absolute',
+  position: 'fixed',
   bottom: 0,
   height: '18vh',
-  borderBottom: '2px solid #121212',
   overflow: 'hidden',
   width: '100vw',
+  background: '#FFF',
+  zIndex: 2000,
 }
 
 class Editor extends Component {
   static propTypes = {
     isEditingText: PropTypes.bool.isRequired,
     isBottomPanelActive: PropTypes.bool.isRequired,
-    isAddBlockActive: PropTypes.bool.isRequired,
     isScenesMenuActive: PropTypes.bool.isRequired,
     toggleEditText: PropTypes.func.isRequired,
     toggleBottomPanel: PropTypes.func.isRequired,
-    blocksMenuToggle: PropTypes.func.isRequired,
     scenesMenuToggle: PropTypes.func.isRequired,
     video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.func.isRequired,
@@ -69,9 +68,12 @@ class Editor extends Component {
       />,
       <BlocksMenu
         key='BlocksMenu'
-        isActive={this.props.isAddBlockActive}
+        isActive={
+          !this.props.isBottomPanelActive
+            && !this.props.isScenesMenuActive
+            && !this.props.videoPlayer.block
+        }
         toggleBottomPanel={this.props.toggleBottomPanel}
-        blocksMenuToggle={this.props.blocksMenuToggle}
         videoPlayer={this.props.videoPlayer}
       />,
       <SceneActionsMenu
@@ -80,20 +82,6 @@ class Editor extends Component {
         video={this.props.video}
         toggleBottomPanel={this.props.toggleBottomPanel}
         scenesMenuToggle={this.props.scenesMenuToggle}
-      />,
-      <LaunchMenu
-        key='LaunchMenu'
-        isActive={
-          !this.props.isBottomPanelActive
-            && !this.props.isAddBlockActive
-            && !this.props.isScenesMenuActive
-            && !this.props.videoPlayer.block
-        }
-        onTap={this.props.blocksMenuToggle}
-        scenesMenuToggle={this.props.scenesMenuToggle}
-        totalScenes={scenes.length}
-        scenePosition={this.props.videoPlayer.activeScenePosition}
-        videoPlayer={this.props.videoPlayer}
       />,
     ]
 

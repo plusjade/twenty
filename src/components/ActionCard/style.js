@@ -19,6 +19,7 @@ export default {
     margin: "0 8%",
     border: "1px solid rgba(0,0,0,0.8)",
     boxShadow: "rgba(0, 0, 0, 0.3) 1px 1px 5px",
+    borderRadius: 10,
   },
   disabled: {
     opacity: 0.4,

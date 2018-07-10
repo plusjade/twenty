@@ -12,7 +12,6 @@ export default {
     alignItems: "stretch",
     overflow: "auto",
     zIndex: 200,
-    paddingTop: 10,
     transition: "transform 180ms ease-in-out",
     transform: 'translateY(100%)',
   },

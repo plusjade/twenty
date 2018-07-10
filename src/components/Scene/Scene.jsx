@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import BlockWords from 'blocks/BlockWords/BlockWords'
 import BlockText from 'blocks/BlockText/BlockText'
+import ActionTap from 'components/ActionTap/ActionTap'
 import { getColor } from 'lib/transforms'
 
 import style from './style'
@@ -128,6 +129,18 @@ class Scene extends Component {
               />
             )
           })}
+        </div>
+        <div
+          style={[
+            style.sceneMenu,
+            this.isActive() && style.sceneMenuIsActive,
+          ]}
+        >
+          <ActionTap onTap={this.props.scenesMenuToggle}>
+            <div>
+              {this.props.videoPlayer.activeScenePosition}
+            </div>
+          </ActionTap>
         </div>
       </div>
     )

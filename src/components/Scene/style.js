@@ -1,5 +1,6 @@
 export default {
   wrap: {
+    position: 'relative',
     display: "flex",
     alignItems: "flex-start",
 
@@ -34,6 +35,17 @@ export default {
   isHidden: {
     // opacity: 0,
     // pointerEvents: 'none',
+  },
+  sceneMenu: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    transition: 'transform 100ms ease-in',
+    transform: 'translateX(100%)',
+    zIndex: 1100,
+  },
+  sceneMenuIsActive: {
+    transform: 'translateX(0)',
   },
   boundingSquare: {
     position: 'relative',

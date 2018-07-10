@@ -6,8 +6,9 @@ export default {
     overflow: "hidden",
   },
   canEdit: {
-    height: '133vw',
+    height: '82vh',
     // overflow: 'auto',
+    // marginBottom: '18vh',
     overflowY: 'scroll',
     WebkitOverflowScrolling: 'touch',
   },

@@ -21,7 +21,6 @@ class Player extends Component {
 
   state = {
     isBottomPanelActive: false,
-    isAddBlockActive: false,
     isScenesMenuActive: false,
   }
 
@@ -75,11 +74,6 @@ class Player extends Component {
     }
   }
 
-  blocksMenuToggle = (open) => {
-    const value = open === false ? false : !this.state.isAddBlockActive
-    this.setState({isAddBlockActive: value})
-  }
-
   scenesMenuToggle = () => {
     this.setState({isScenesMenuActive: !this.state.isScenesMenuActive}, () => {
       if (this.state.isScenesMenuActive) {
@@ -92,15 +86,12 @@ class Player extends Component {
 
   showOverlay = () => (
     this.state.isBottomPanelActive
-      || this.state.isAddBlockActive
       || this.state.isScenesMenuActive
       || this.videoPlayer.block
   )
 
   handleOverlayTap = () => {
-    if (this.state.isAddBlockActive) {
-      this.blocksMenuToggle()
-    } else if (this.state.isScenesMenuActive) {
+    if (this.state.isScenesMenuActive) {
       this.scenesMenuToggle()
     } else if (this.state.isBottomPanelActive) {
       this.toggleBottomPanel()
@@ -127,6 +118,7 @@ class Player extends Component {
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
             videoPlayer={this.videoPlayer}
 
+            scenesMenuToggle={this.scenesMenuToggle}
             canEdit={this.props.canEdit}
           />
         ))}
@@ -140,7 +132,6 @@ class Player extends Component {
 
             toggleEditText={this.toggleEditText}
             toggleBottomPanel={this.toggleBottomPanel}
-            blocksMenuToggle={this.blocksMenuToggle}
             scenesMenuToggle={this.scenesMenuToggle}
           />
         )}

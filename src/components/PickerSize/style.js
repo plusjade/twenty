@@ -2,8 +2,8 @@ export default {
   outer: {
     position: 'relative',
     margin: 'auto',
-    width: '35vw',
-    height: '35vw',
+    width: '30vw',
+    height: '30vw',
     borderRadius: '100%',
     display: 'flex',
     alignItems: 'center',
