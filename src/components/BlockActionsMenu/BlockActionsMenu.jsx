@@ -10,24 +10,24 @@ import style from './style'
 class BlockActionsMenu extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.object.isRequired,
+    editor: PropTypes.object.isRequired,
   }
 
   onTapColor = () => {
-    this.props.toggleBottomPanel({type: 'color'})
+    this.props.editor.setPicker({type: 'color'})
   }
 
   onTapAlign = () => {
-    this.props.toggleBottomPanel({type: 'align'})
+    this.props.editor.setPicker({type: 'align'})
   }
 
   onTapSize = () => {
-    this.props.toggleBottomPanel({type: 'size'})
+    this.props.editor.setPicker({type: 'size'})
   }
 
-  onTap = () => {
-    this.props.videoPlayer.unStageBlock()
+  onTapEditText = () => {
+    this.props.editor.toggleTextEditor()
   }
 
   onTapDelete = () => {
@@ -38,12 +38,9 @@ class BlockActionsMenu extends Component {
 
   render() {
     return (
-      <Overlay
-        isActive={this.props.isActive}
-        onTap={this.onTap}
-      >
+      <Overlay isActive={this.props.isActive}>
         <ActionCardsMenu>
-          <ActionCard onTap={this.props.toggleEditText}>
+          <ActionCard onTap={this.onTapEditText}>
             <div style={style.inner}>
               <div style={style.text}>Text</div>
               <div style={style.emoji}>

@@ -9,8 +9,8 @@ import style from './style'
 class TextEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.object.isRequired,
+    editor: PropTypes.object.isRequired,
   }
 
   onEnterText = (value) => {
@@ -19,7 +19,7 @@ class TextEditor extends Component {
     } else {
       this.props.videoPlayer.removeBlockActive()
     }
-    this.props.toggleEditText()
+    this.props.editor.toggleTextEditor()
   }
 
   onChangeText = (value) => {
@@ -40,10 +40,7 @@ class TextEditor extends Component {
 
   render() {
     return (
-      <Overlay
-        isActive={this.props.isActive}
-        onTap={this.props.toggleEditText}
-      >
+      <Overlay isActive={this.props.isActive}>
         <div style={style.default}>
           <EnterText
             value={this.getStagedText()}

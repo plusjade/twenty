@@ -8,9 +8,8 @@ import style from './style'
 
 class SceneActionsMenu extends PureComponent {
   static propTypes = {
-    scenesMenuToggle: PropTypes.func.isRequired,
-    toggleBottomPanel: PropTypes.func.isRequired,
-    video: PropTypes.object.isRequired,
+    isActive: PropTypes.bool.isRequired,
+    editor: PropTypes.object.isRequired,
   }
 
   onTapDelete = () => {
@@ -18,15 +17,12 @@ class SceneActionsMenu extends PureComponent {
   }
 
   onTapColor = () => {
-    this.props.toggleBottomPanel({type: 'color'})
+    this.props.editor.setPicker({type: 'color'})
   }
 
   render() {
     return (
-      <Overlay
-        isActive={this.props.isActive}
-        onTap={this.props.scenesMenuToggle}
-      >
+      <Overlay isActive={this.props.isActive}>
         <ActionCardsMenu>
           <ActionCard onTap={this.onTapColor}>
             <div style={style.inner}>

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Overlay from 'components/Overlay/Overlay'
 import ActionCardsMenu from 'components/ActionCardsMenu/ActionCardsMenu'
 import ActionCard from 'components/ActionCard/ActionCard'
-import style from './style'
 
 class BlocksMenu extends PureComponent {
   static propTypes = {

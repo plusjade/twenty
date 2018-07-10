@@ -8,6 +8,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import VideoPlayer from 'lib/VideoPlayer'
+import EditorState from 'lib/EditorState'
 import Scene from 'components/Scene/Scene'
 import Editor from 'components/Editor'
 import Overlay from 'components/Overlay/Overlay'
@@ -17,11 +18,6 @@ class Player extends Component {
   static propTypes = {
     canEdit: PropTypes.bool.isRequired,
     video: PropTypes.object.isRequired,
-  }
-
-  state = {
-    isBottomPanelActive: false,
-    isScenesMenuActive: false,
   }
 
   constructor(props) {
@@ -34,6 +30,18 @@ class Player extends Component {
         setActiveSceneId: action,
         stageBlock: action,
         unStageBlock: action,
+      }
+    )
+
+    this.editor = observable(
+      EditorState(this.videoPlayer),
+      {
+        setScenesMenu: action,
+        setTextEditor: action,
+        setPicker: action,
+        scenesMenuToggle: action,
+        toggleTextEditor: action,
+        clearLast: action,
       }
     )
 
@@ -59,45 +67,8 @@ class Player extends Component {
     )
   }
 
-  toggleEditText = () => {
-    this.setState({
-      isEditingText: !this.state.isEditingText,
-    })
-  }
-
-  toggleBottomPanel = ({toggle, type} = {}) => {
-    const value = toggle === 'close' ? false : !this.state.isBottomPanelActive
-    if (value) {
-      this.setState({isBottomPanelActive: type})
-    } else {
-      this.setState({isBottomPanelActive: false})
-    }
-  }
-
-  scenesMenuToggle = () => {
-    this.setState({isScenesMenuActive: !this.state.isScenesMenuActive}, () => {
-      if (this.state.isScenesMenuActive) {
-        this.videoPlayer.unStageBlock()
-      } else {
-        this.toggleBottomPanel({toggle: 'close'})
-      }
-    })
-  }
-
-  showOverlay = () => (
-    this.state.isBottomPanelActive
-      || this.state.isScenesMenuActive
-      || this.videoPlayer.block
-  )
-
   handleOverlayTap = () => {
-    if (this.state.isScenesMenuActive) {
-      this.scenesMenuToggle()
-    } else if (this.state.isBottomPanelActive) {
-      this.toggleBottomPanel()
-    } else {
-      this.videoPlayer.unStageBlock()
-    }
+    this.editor.clearLast()
   }
 
   render() {
@@ -118,24 +89,20 @@ class Player extends Component {
             blocks={this.props.video.getBlocksInScene(scene.get('id'))}
             videoPlayer={this.videoPlayer}
 
-            scenesMenuToggle={this.scenesMenuToggle}
             canEdit={this.props.canEdit}
+            editor={this.editor}
           />
         ))}
 
         {this.props.canEdit && (
           <Editor
             {...this.props}
-            {...this.state}
-
             videoPlayer={this.videoPlayer}
-
-            toggleEditText={this.toggleEditText}
-            toggleBottomPanel={this.toggleBottomPanel}
-            scenesMenuToggle={this.scenesMenuToggle}
+            editor={this.editor}
           />
         )}
-        {this.showOverlay() && (
+
+        {this.editor.shouldShowOverlay && (
           <Overlay
             key='OverlayColorPicker'
             onTap={this.handleOverlayTap}

@@ -24,6 +24,7 @@ class Scene extends Component {
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
     videoPlayer: PropTypes.object.isRequired,
+    editor: PropTypes.object.isRequired,
   }
 
   state = {
@@ -85,6 +86,10 @@ class Scene extends Component {
     }
   }
 
+  handleTapSceneMenu = () => {
+    this.props.editor.scenesMenuToggle()
+  }
+
   render() {
     return (
       <div
@@ -131,7 +136,7 @@ class Scene extends Component {
           })}
         </div>
         <div style={style.sceneMenu}>
-          <ActionTap onTap={this.props.scenesMenuToggle}>
+          <ActionTap onTap={this.handleTapSceneMenu}>
             <div>
               {this.props.videoPlayer.scenePosition(this.props.scene.get('id'))}
             </div>

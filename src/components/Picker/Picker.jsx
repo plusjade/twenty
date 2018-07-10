@@ -11,7 +11,8 @@ import PickerSize from 'components/PickerSize/PickerSize'
 class Picker extends Component {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
-    videoPlayer: PropTypes.func.isRequired,
+    activePicker: PropTypes.string,
+    videoPlayer: PropTypes.object.isRequired,
   }
 
   onChangeColor = (value) => {
@@ -27,7 +28,7 @@ class Picker extends Component {
   }
 
   getBottomPanelContent() {
-    switch(this.props.isActive) {
+    switch(this.props.activePicker) {
       case 'color': {
         return (
           <ColorPicker
@@ -74,4 +75,4 @@ class Picker extends Component {
   }
 }
 
-export default observer(Picker)
+export default observer(Radium(Picker))
