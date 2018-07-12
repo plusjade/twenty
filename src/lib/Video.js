@@ -3,10 +3,6 @@ import { observable, autorun, toJS } from "mobx"
 import { token } from 'lib/actions'
 import { computeTransitions } from 'lib/sceneWizard'
 
-const getRandomInt = (min, max) => (
-  Math.floor(Math.random() * (max - min + 1) + min)
-)
-
 class Video {
   scenesMeta = {}
   graph = []
@@ -101,7 +97,7 @@ class Video {
       scene = new Map()
       scene.set('blocksIndex', [])
       scene.set('id', sceneId)
-      scene.set('color_hsl', getRandomInt(0, 360))
+      scene.set('color_hsl', -100) // white
     }
 
     Object.keys(meta).forEach((key) => {

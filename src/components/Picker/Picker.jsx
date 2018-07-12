@@ -65,7 +65,7 @@ class Picker extends Component {
     return (
       <Overlay
         isActive={this.props.isActive}
-        style={{zIndex: 300}}
+        style={{zIndex: 300, backgroundColor: '#F5F5F5'}}
       >
         <div style={{flex: '0 0 18vh'}}>
           {this.getBottomPanelContent()}

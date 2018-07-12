@@ -1,6 +1,6 @@
 
 export const getColor = (map) => {
-    const colorHsl = +map.get('color_hsl') || -100
+    const colorHsl = +map.get('color_hsl') || -20 // dark gray
     if (colorHsl < 1) { // handle grayscale as represented by -100 - 0
       return `hsl(0, 0%, ${(Math.abs(colorHsl))}%)`
     }
