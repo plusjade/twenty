@@ -96,20 +96,22 @@ class Player extends Component {
             editor={this.editor}
           />
         ))}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: 20,
-          }}
-        >
-          <ActionTap
-            onTap={this.handleAddScene}
-            bigger
+        {this.props.canEdit && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: 20,
+            }}
           >
-            <div>+</div>
-          </ActionTap>
-        </div>
+            <ActionTap
+              onTap={this.handleAddScene}
+              bigger
+            >
+              <div>+</div>
+            </ActionTap>
+          </div>
+        )}
 
         {this.props.canEdit && (
           <Editor
