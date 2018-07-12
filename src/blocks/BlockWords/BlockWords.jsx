@@ -55,7 +55,7 @@ class BlockWords extends Component {
   }
 
   onStart = () => {
-    this.initializeTimeline()
+    // this.initializeTimeline()
     this.props.block.set('lifecycle', 'playing')
   }
 
