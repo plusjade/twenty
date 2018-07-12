@@ -135,13 +135,16 @@ class Scene extends Component {
             )
           })}
         </div>
-        <div style={style.sceneMenu}>
-          <ActionTap onTap={this.handleTapSceneMenu}>
-            <div>
-              {this.props.videoPlayer.scenePosition(this.props.scene.get('id'))}
-            </div>
-          </ActionTap>
-        </div>
+
+        {this.props.canEdit && (
+          <div style={style.sceneMenu}>
+            <ActionTap onTap={this.handleTapSceneMenu}>
+              <div>
+                {this.props.videoPlayer.scenePosition(this.props.scene.get('id'))}
+              </div>
+            </ActionTap>
+          </div>
+        )}
       </div>
     )
   }
