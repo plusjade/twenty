@@ -15,27 +15,17 @@ class TextEditor extends Component {
 
   onEnterText = (value) => {
     if (value) {
-      this.props.videoPlayer.editBlockActive({content: value})
+      this.onChangeText(value)
     } else {
       this.props.videoPlayer.removeBlockActive()
     }
+
     this.props.editor.toggleTextEditor()
   }
 
   onChangeText = (value) => {
-    if (value) {
-      this.props.videoPlayer.editBlockActive({content: value})
-    }
-  }
-
-  getStagedText = () => {
-    const block = this.props.videoPlayer.block
-
-    if (!block) { return '' }
-
-    return (
-      block.get('content') || (block.get('data') && block.get('data').content)
-    )
+    if (!value) { return }
+    this.props.videoPlayer.text(value)
   }
 
   render() {
@@ -43,7 +33,7 @@ class TextEditor extends Component {
       <Overlay isActive={this.props.isActive}>
         <div style={style.default}>
           <EnterText
-            value={this.getStagedText()}
+            value={this.props.videoPlayer.text()}
             onSubmit={this.onEnterText}
             onChange={this.onChangeText}
             isActive

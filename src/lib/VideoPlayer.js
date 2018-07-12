@@ -171,6 +171,23 @@ const VideoPlayer = (video, activeSceneId) => ({
     return color
   },
 
+  text(value) {
+    if (value) {
+      return this.editBlockActive({content: value})
+    } else {
+      return this.getText()
+    }
+  },
+
+  getText() {
+    if (!this.block) { return '' }
+
+    return (
+      this.block.get('content')
+        || (this.block.get('data') && this.block.get('data').content)
+    )
+  },
+
   changeColorBlock(value) {
     if (!this.block) { return }
     this.block.set('color_hsl', value)
