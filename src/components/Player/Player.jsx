@@ -12,6 +12,7 @@ import EditorState from 'lib/EditorState'
 import Scene from 'components/Scene/Scene'
 import Editor from 'components/Editor'
 import Overlay from 'components/Overlay/Overlay'
+import ActionTap from 'components/ActionTap/ActionTap'
 import style from './style'
 
 class Player extends Component {
@@ -71,6 +72,10 @@ class Player extends Component {
     this.editor.clearLast()
   }
 
+  handleAddScene = () => {
+    this.videoPlayer.addScene()
+  }
+
   render() {
     const scenes = this.props.video.getScenes()
     return (
@@ -93,6 +98,20 @@ class Player extends Component {
             editor={this.editor}
           />
         ))}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: 20,
+          }}
+        >
+          <ActionTap
+            onTap={this.handleAddScene}
+            bigger
+          >
+            <div>+</div>
+          </ActionTap>
+        </div>
 
         {this.props.canEdit && (
           <Editor

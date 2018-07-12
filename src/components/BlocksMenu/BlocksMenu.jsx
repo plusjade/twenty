@@ -19,20 +19,12 @@ class BlocksMenu extends PureComponent {
     this.props.videoPlayer.addBlock('text')
   }
 
-  handleTapScene = () => {
-    this.props.videoPlayer.addScene()
-  }
-
   render() {
     return (
       <Overlay
         isActive={this.props.isActive}
       >
         <ActionCardsMenu>
-          <ActionCard onTap={this.handleTapScene}>
-            <div>Add Scene</div>
-          </ActionCard>
-
           <ActionCard onTap={this.handleTapWords}>
             <div>Heading</div>
           </ActionCard>

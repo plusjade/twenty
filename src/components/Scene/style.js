@@ -16,7 +16,7 @@ export default {
   },
   canEdit: {
     height: '133vw',
-    borderBottom: '1px dashed #121212',
+    borderBottom: '1px dashed #CCC',
   },
   isHorizontal: {
     width: '100vw',
