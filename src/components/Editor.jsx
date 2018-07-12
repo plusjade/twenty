@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
 import SceneActionsMenu from 'components/SceneActionsMenu/SceneActionsMenu'
 import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
-import TextEditor from 'components/TextEditor/TextEditor'
 import Picker from 'components/Picker/Picker'
 
 const EditorNode = window.document.getElementById('editor-root')
@@ -51,11 +50,6 @@ class Editor extends Component {
         key='Picker'
         isActive={this.props.editor.shouldShowPicker}
         activePicker={this.props.editor.activePicker}
-        videoPlayer={this.props.videoPlayer}
-      />,
-      <TextEditor
-        key='TextEditor'
-        isActive={this.props.editor.shouldShowTextEditor}
         videoPlayer={this.props.videoPlayer}
         editor={this.props.editor}
       />,

@@ -1,7 +1,6 @@
 const EditorState = videoPlayer => ({
   activePicker: null,
   isScenesMenuActive: null,
-  isEditingText: null,
 
   // Show as the default menu
   get shouldShowBlocks() {
@@ -18,10 +17,6 @@ const EditorState = videoPlayer => ({
 
   get shouldShowPicker() {
     return !!this.activePicker
-  },
-
-  get shouldShowTextEditor() {
-    return !!this.isEditingText
   },
 
   get shouldShowSceneActions() {
@@ -49,10 +44,6 @@ const EditorState = videoPlayer => ({
     this.isScenesMenuActive = value
   },
 
-  setTextEditor(value) {
-    this.isEditingText = value
-  },
-
   clearLast() {
     if (this.isScenesMenuActive) {
       this.scenesMenuToggle()
@@ -71,10 +62,6 @@ const EditorState = videoPlayer => ({
     } else {
       this.setPicker({toggle: 'close'})
     }
-  },
-
-  toggleTextEditor() {
-    this.setTextEditor(!this.isEditingText)
   },
 })
 

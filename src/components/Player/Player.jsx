@@ -38,10 +38,8 @@ class Player extends Component {
       EditorState(this.videoPlayer),
       {
         setScenesMenu: action,
-        setTextEditor: action,
         setPicker: action,
         scenesMenuToggle: action,
-        toggleTextEditor: action,
         clearLast: action,
       }
     )

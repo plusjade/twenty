@@ -20,7 +20,7 @@ class TextEditor extends Component {
       this.props.videoPlayer.removeBlockActive()
     }
 
-    this.props.editor.toggleTextEditor()
+    this.props.editor.clearLast()
   }
 
   onChangeText = (value) => {

@@ -7,12 +7,14 @@ import Overlay from 'components/Overlay/Overlay'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
 import PickerAlign from 'components/PickerAlign/PickerAlign'
 import PickerSize from 'components/PickerSize/PickerSize'
+import TextEditor from 'components/TextEditor/TextEditor'
 
 class Picker extends Component {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
     activePicker: PropTypes.string,
     videoPlayer: PropTypes.object.isRequired,
+    editor: PropTypes.object.isRequired,
   }
 
   onChangeColor = (value) => {
@@ -35,6 +37,16 @@ class Picker extends Component {
             key={this.props.videoPlayer.computeKey('color')}
             onChange={this.onChangeColor}
             initialValue={this.props.videoPlayer.color()}
+          />
+        )
+      }
+      case 'text': {
+        return (
+          <TextEditor
+            key={this.props.videoPlayer.computeKey('text')}
+            isActive={true}
+            videoPlayer={this.props.videoPlayer}
+            editor={this.props.editor}
           />
         )
       }

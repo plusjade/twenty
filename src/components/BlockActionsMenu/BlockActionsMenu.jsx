@@ -26,8 +26,8 @@ class BlockActionsMenu extends Component {
     this.props.editor.setPicker({type: 'size'})
   }
 
-  onTapEditText = () => {
-    this.props.editor.toggleTextEditor()
+  onTapText = () => {
+    this.props.editor.setPicker({type: 'text'})
   }
 
   onTapDelete = () => {
@@ -40,7 +40,7 @@ class BlockActionsMenu extends Component {
     return (
       <Overlay isActive={this.props.isActive}>
         <ActionCardsMenu>
-          <ActionCard onTap={this.onTapEditText}>
+          <ActionCard onTap={this.onTapText}>
             <div style={style.inner}>
               <div style={style.text}>Text</div>
               <div style={style.emoji}>
