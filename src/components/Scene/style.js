@@ -10,12 +10,13 @@ export default {
     marginTop: 0,
     overflow: 'hidden',
   },
+  // TODO: consider diferentiating presenting vs normal scrolling/browsing
   isPresenting: {
     height: '100vh',
     alignItems: "center",
   },
   canEdit: {
-    height: '133vw',
+    height: '100vw',
     borderBottom: '1px dashed #CCC',
   },
   isHorizontal: {
@@ -45,13 +46,12 @@ export default {
   boundingSquare: {
     position: 'relative',
     width: '100vw',
-    height: '133vw',
+    height: '100vw',
+    border: '1px dashed red',
   },
   boundingLandscape: {
-    width: '75vh',
+    border: '1px dashed blue',
+    width: '100vh',
     height: '100vh',
-  },
-  boundingIsEditing: {
-    border: '1px solid red',
   },
 }

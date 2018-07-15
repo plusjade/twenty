@@ -6,7 +6,7 @@ export default {
     overflow: "hidden",
   },
   canEdit: {
-    height: '82vh',
+    height: '100vh',
     paddingBottom: '18vh',
     boxSizing: 'border-box',
     overflowY: 'scroll',
