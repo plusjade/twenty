@@ -18,7 +18,11 @@ const player = (videoId, canEdit) => {
         }
       : () => {}
     const debouncedSubscribe = subscribe ? debounce(subscribe, 500) : () => {}
-    const video = new Video({...videoData, subscribe: debouncedSubscribe})
+    const video = new Video({
+      ...videoData,
+      subscribe: debouncedSubscribe,
+      id: videoId,
+    })
     ReactDOM.render(
       React.createElement(
         Player,

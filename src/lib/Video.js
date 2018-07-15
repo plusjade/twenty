@@ -6,8 +6,10 @@ import { computeTransitions } from 'lib/sceneWizard'
 class Video {
   scenesMeta = {}
   graph = []
+  id = null
 
-  constructor({scenesObjects, blocksObjects, graph, subscribe} = {}) {
+  constructor({id, scenesObjects, blocksObjects, graph, subscribe} = {}) {
+    this.id = id
     this.scenesObjects = observable(new Map())
     if (scenesObjects) {
       Object.keys(scenesObjects).forEach((key) => {
