@@ -20,7 +20,7 @@ import { getTextEffect } from './effects'
 import style from './style'
 
 // Draggable.zIndex = 1
-class BlockWords extends Component {
+class BlockHeading extends Component {
   static propTypes = {
     block: PropTypes.object.isRequired,
     videoPlayer: PropTypes.object.isRequired,
@@ -183,4 +183,4 @@ class BlockWords extends Component {
   }
 }
 
-export default observer(Radium(BlockWords))
+export default observer(Radium(BlockHeading))

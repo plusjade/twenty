@@ -3,7 +3,7 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import BlockWords from 'blocks/BlockWords/BlockWords'
+import BlockHeading from 'blocks/BlockHeading/BlockHeading'
 import BlockText from 'blocks/BlockText/BlockText'
 import ActionTap from 'components/ActionTap/ActionTap'
 import { getColor } from 'lib/transforms'
@@ -11,7 +11,7 @@ import { getColor } from 'lib/transforms'
 import style from './style'
 
 const blocksMap = {
-  words: BlockWords,
+  words: BlockHeading,
   text: BlockText,
 }
 const OBSERVER_THRESHOLDS = new Array(101).fill(1).map((_, i) => +(i * 0.01).toFixed(2))
