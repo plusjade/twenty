@@ -5,7 +5,7 @@ export default {
     width: '100%',
     boxSizing: "border-box",
     transform: 'translate3d(0)',
-    padding: '5vw',
+    padding: '3vw',
     lineHeight: '1.5em',
     color: "#FFF",
     fontSize: '2.7vh',

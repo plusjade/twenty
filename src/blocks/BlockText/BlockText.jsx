@@ -74,6 +74,7 @@ class BlockText extends Component {
   makeDraggable = () => {
     if (this.draggable) { return }
     this.draggable = Draggable.create(this.node, {
+      type: 'y',
       bounds: this.props.getBoundary(),
       onDragEnd: this.onDragEnd,
       onDragEndParams: [this.syncTransforms],

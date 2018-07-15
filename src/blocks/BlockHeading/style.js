@@ -1,7 +1,8 @@
 export default {
   default: {
     position: "absolute",
-    display: 'inline-block',
+    display: 'block',
+    width: '100%',
     fontSize: 28,
     boxSizing: "border-box",
     transform: 'translate3d(0)',
@@ -10,6 +11,7 @@ export default {
   text: {
     fontSize: "inherit",
     color: "inherit",
+    padding: '3vw',
   },
   isStaged: {
     backgroundColor: "rgba(0,0,0,0.1)",
