@@ -65,9 +65,13 @@ const VideoPlayer = (video, activeSceneId) => ({
   },
 
   addBlock(type = 'words') {
+    const content = type === 'words'
+      ? `${randomEmoji()} HEADING`
+      : 'Paragraph...'
+
     const block = video.addBlock({
       type,
-      content: `${randomEmoji()} HEADING`,
+      content,
       sceneId: this.activeSceneId,
     })
     this.stageBlock(block.get('id'))

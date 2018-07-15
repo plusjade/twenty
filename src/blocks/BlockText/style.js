@@ -2,6 +2,7 @@ export default {
   default: {
     position: "absolute",
     display: 'block',
+    width: '100%',
     boxSizing: "border-box",
     transform: 'translate3d(0)',
     padding: '5vw',

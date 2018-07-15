@@ -36,9 +36,9 @@ class BlockText extends Component {
         }
 
         if (lifecycle === 'edit') {
-          this.draggable && this.draggable.enable()
+          // this.draggable && this.draggable.enable()
         } else {
-          this.draggable && this.draggable.disable()
+          // this.draggable && this.draggable.disable()
         }
       }
     )
@@ -47,6 +47,11 @@ class BlockText extends Component {
   componentDidMount() {
     this.player.on('start', this.onStart)
     this.player.on('end', this.onEnd)
+    if (this.props.canEdit) {
+      setTimeout(() => {
+        this.makeDraggable()
+      }, 1000)
+    }
   }
 
   onStart = () => {
@@ -106,7 +111,8 @@ class BlockText extends Component {
   handleTap = () => {
     if (this.props.canEdit) {
       this.props.videoPlayer.stageBlock(this.props.block.get('id'))
-      this.makeDraggable()
+
+      // this.makeDraggable()
     } else {
       this.props.videoPlayer.sceneTransition()
     }
