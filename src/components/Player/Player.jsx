@@ -106,6 +106,7 @@ class Player extends Component {
           >
             <ActionTap
               onTap={this.handleAddScene}
+              style={{zIndex: 100}}
               bigger
             >
               <div>+</div>

@@ -7,6 +7,7 @@ import style from './style'
 class ActionTap extends PureComponent {
   static propTypes = {
     onTap: PropTypes.func,
+    style: PropTypes.object,
   }
 
   render() {
@@ -14,7 +15,8 @@ class ActionTap extends PureComponent {
       <Hammer onTap={this.props.onTap}>
         <div
           style={[
-            style.default
+            style.default,
+            this.props.style,
           ]}
         >
           <div
