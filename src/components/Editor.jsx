@@ -38,6 +38,7 @@ class Editor extends Component {
         key='BlocksMenu'
         isActive={this.props.editor.shouldShowBlocks}
         videoPlayer={this.props.videoPlayer}
+        video={this.props.video}
         editor={this.props.editor}
       />,
       <BlockActionsMenu

@@ -19,6 +19,10 @@ class BlocksMenu extends PureComponent {
     this.props.videoPlayer.addBlock('text')
   }
 
+  handleTapPreview = () => {
+    window.location.href = `/?id=${this.props.video.id}`
+  }
+
   render() {
     return (
       <Overlay
@@ -31,6 +35,10 @@ class BlocksMenu extends PureComponent {
 
           <ActionCard onTap={this.handleTapText}>
             <div>Paragraph</div>
+          </ActionCard>
+
+          <ActionCard onTap={this.handleTapPreview}>
+            <div>[Preview]</div>
           </ActionCard>
         </ActionCardsMenu>
       </Overlay>
