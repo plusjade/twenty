@@ -1,6 +1,10 @@
 
-export const getColor = (map) => {
-    const colorHsl = +map.get('color_hsl') || -20 // dark gray
+export const getColor = (block) => {
+    const colorHsl = +block.get('color_hsl') || -20 // dark gray
+    return getColorHsl(colorHsl)
+}
+
+export const getColorHsl = (colorHsl) => {
     if (colorHsl < 1) { // handle grayscale as represented by -100 - 0
       return `hsl(0, 0%, ${(Math.abs(colorHsl))}%)`
     }

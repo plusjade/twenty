@@ -37,6 +37,7 @@ class Picker extends Component {
             key={this.props.videoPlayer.computeKey('color')}
             onChange={this.onChangeColor}
             initialValue={this.props.videoPlayer.color()}
+            isGrayscale={this.props.videoPlayer.isGrayscale}
           />
         )
       }

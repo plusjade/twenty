@@ -11,7 +11,8 @@ export default {
     fontSize: '2.7vh',
   },
   isStaged: {
-    backgroundColor: "rgba(0,0,0,0.1)",
+    borderTop: '1px dashed #FF4081',
+    borderBottom: '1px dashed #FF4081',
   },
   textWrap: {
     opacity: 0,

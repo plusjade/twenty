@@ -133,6 +133,10 @@ const VideoPlayer = (video, activeSceneId) => ({
     if (callback) { callback() }
   },
 
+  get isGrayscale() {
+    return this.color() <= 0
+  },
+
   color(value) {
     return (
       this.block

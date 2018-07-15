@@ -14,8 +14,8 @@ export default {
     padding: '3vw',
   },
   isStaged: {
-    backgroundColor: "rgba(0,0,0,0.1)",
-    border: "1px solid #FFF",
+    borderTop: '1px dashed #FF4081',
+    borderBottom: '1px dashed #FF4081',
   },
   __isSmartCentered: {
     top: '50%',
