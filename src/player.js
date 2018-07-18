@@ -7,8 +7,8 @@ import debounce from 'lodash.debounce'
 
 import notFound from './notFound'
 
-const player = ({videoId, canEdit, isEmbed}) => {
-  const props = {canEdit, isEmbed}
+const player = ({videoId, canEdit, isEmbed, isDebug}) => {
+  const props = {canEdit, isEmbed, isDebug}
   videosFind(videoId).then((videoData) => {
     const subscribe = canEdit
       ? (data) => {

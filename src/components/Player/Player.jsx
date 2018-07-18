@@ -19,12 +19,14 @@ class Player extends Component {
   static propTypes = {
     canEdit: PropTypes.bool,
     isEmbed: PropTypes.bool,
+    isDebug: PropTypes.bool,
     video: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     canEdit: false,
     isEmbed: false,
+    isDebug: false,
   }
 
   constructor(props) {
@@ -128,6 +130,7 @@ class Player extends Component {
 
             canEdit={this.props.canEdit}
             editor={this.editor}
+            isDebug={this.props.isDebug}
           />
         ))}
         {this.props.canEdit && (

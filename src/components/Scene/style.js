@@ -43,11 +43,12 @@ export default {
     position: 'relative',
     width: '100vw',
     height: '100vw',
-    border: '1px dashed red',
   },
   boundingLandscape: {
-    border: '1px dashed blue',
     width: '100vh',
     height: '100vh',
   },
+  isDebug: {
+    border: '1px dashed red',
+  }
 }

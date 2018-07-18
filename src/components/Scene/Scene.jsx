@@ -101,6 +101,7 @@ class Scene extends Component {
       >
         <div
           style={[
+            this.props.isDebug && style.isDebug,
             style.boundingSquare,
             !this.props.canEdit && ({
                 width: this.props.videoPlayer.dimensions.width,
