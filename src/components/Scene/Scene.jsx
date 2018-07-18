@@ -96,6 +96,7 @@ class Scene extends Component {
           (this.props.canEdit
             ? style.canEdit
             : style.isPresenting),
+          this.props.videoPlayer.isLandscape && style.landscape,
         ]}
       >
         <div

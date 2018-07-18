@@ -9,14 +9,22 @@ import Picker from 'components/Picker/Picker'
 
 const EditorNode = window.document.getElementById('editor-root')
 const style = {
-  position: 'fixed',
-  bottom: 0,
-  height: '18vh',
-  overflow: 'hidden',
-  width: '100vw',
-  // background: '#F5F5F5',
-  // boxShadow: 'rgba(0, 0, 0, 0.3) 0px -1px 10px',
-  zIndex: 2000,
+  default: {
+    position: 'fixed',
+    bottom: 0,
+    height: '18vh',
+    overflow: 'hidden',
+    width: '100vw',
+    // background: '#F5F5F5',
+    // boxShadow: 'rgba(0, 0, 0, 0.3) 0px -1px 10px',
+    zIndex: 2000,
+  },
+  isLandscape: {
+    left: 0,
+    height: '100vh',
+    overflow: 'hidden',
+    width: '30vw',
+  }
 }
 
 class Editor extends Component {
@@ -27,8 +35,13 @@ class Editor extends Component {
   }
 
   componentDidMount() {
-    Object.keys(style).forEach((key) => {
-      EditorNode.style[key] = style[key]
+    let scopedStyle = style.default
+    if (this.props.videoPlayer.isLandscape) { // TODO this doesn't change
+      scopedStyle = {...style.default, ...style.isLandscape}
+    }
+
+    Object.keys(scopedStyle).forEach((key) => {
+      EditorNode.style[key] = scopedStyle[key]
     })
   }
 

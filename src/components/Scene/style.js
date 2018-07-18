@@ -19,6 +19,10 @@ export default {
     height: '100vw',
     borderBottom: '1px dashed #CCC',
   },
+  landscape: {
+    height: '100vh',
+  },
+
   isHorizontal: {
     width: '100vw',
   },
