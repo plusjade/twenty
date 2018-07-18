@@ -57,6 +57,7 @@ class VideoCard extends PureComponent {
           {this.state.videoData && (
             <Player
               video={(new Video(this.state.videoData))}
+              isEmbed
             />
           )}
         </div>

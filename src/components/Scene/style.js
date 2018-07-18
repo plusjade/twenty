@@ -12,8 +12,8 @@ export default {
   },
   // TODO: consider diferentiating presenting vs normal scrolling/browsing
   isPresenting: {
-    height: '100vh',
-    alignItems: "center",
+    // height: '100vh',
+    // alignItems: "center",
   },
   canEdit: {
     height: '100vw',
@@ -21,14 +21,6 @@ export default {
   },
   isHorizontal: {
     width: '100vw',
-  },
-  isFixed: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 'auto',
   },
   isActive: {
     opacity: 1,

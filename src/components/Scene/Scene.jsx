@@ -101,6 +101,10 @@ class Scene extends Component {
         <div
           style={[
             style.boundingSquare,
+            !this.props.canEdit && ({
+                width: this.props.videoPlayer.dimensions.width,
+                height: this.props.videoPlayer.dimensions.height,
+            }),
             this.props.videoPlayer.isLandscape && style.boundingLandscape,
           ]}
           ref={this.getBoundaryRef}

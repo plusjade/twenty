@@ -10,9 +10,10 @@ injectTapEventPlugin()
 const QParams = QueryParams()
 const videoId = QParams.get("id")
 const canEdit = !!QParams.get("edit") && canEditVideo(videoId)
+const isEmbed = !!QParams.get('embed')
 
 if (videoId) {
-  renderPlayer(videoId, canEdit)
+  renderPlayer({videoId, canEdit, isEmbed})
 } else {
   renderHome()
 }

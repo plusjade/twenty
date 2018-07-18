@@ -3,8 +3,8 @@ import randomEmoji from 'db/randomEmoji'
 const VideoPlayer = (video, activeSceneId) => ({
   initialSceneId: activeSceneId,
   activeSceneId: activeSceneId,
-  dimensionsWidth: 100,
-  dimensionsHeight: 100,
+  dimensionsWidth: 111,
+  dimensionsHeight: 111,
   orientation: 'portrait',
 
   // assume this is a square

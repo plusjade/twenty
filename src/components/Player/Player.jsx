@@ -17,8 +17,14 @@ import style from './style'
 
 class Player extends Component {
   static propTypes = {
-    canEdit: PropTypes.bool.isRequired,
+    canEdit: PropTypes.bool,
+    isEmbed: PropTypes.bool,
     video: PropTypes.object.isRequired,
+  }
+
+  static defaultProps = {
+    canEdit: false,
+    isEmbed: false,
   }
 
   constructor(props) {
@@ -74,12 +80,16 @@ class Player extends Component {
 
   setDimensions = () => {
     const viewport = document.body.getBoundingClientRect()
+    const container = this.props.isEmbed
+                      ? this.node
+                      : document.body
+    const {height, width} = container.getBoundingClientRect()
     let orientation = 'portrait'
-    if (!this.node) { return }
-    if (viewport.width > viewport.height) {
+
+    if (!this.props.isEmbed && viewport.width > viewport.height) {
       orientation = 'landscape'
     }
-    const {height, width} = this.node.getBoundingClientRect()
+
     this.videoPlayer.setDimensions({orientation, width, height})
   }
 
