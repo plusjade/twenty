@@ -89,7 +89,7 @@ class BlockText extends Component {
   }
 
   syncTransforms = (params) => {
-    const {height, width} = this.props.getBoundary().getBoundingClientRect()
+    const {height, width} = this.props.videoPlayer.dimensions
     syncTransforms({
       block: this.props.block,
       params,
@@ -99,8 +99,8 @@ class BlockText extends Component {
   }
 
   getTransforms() {
-    const node = this.props.getBoundary() || document.body
-    const {height, width} = node.getBoundingClientRect()
+    const {height, width} = this.props.videoPlayer.dimensions
+
     return getTransforms({block: this.props.block, width, height})
   }
 

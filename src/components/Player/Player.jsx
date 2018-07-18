@@ -31,6 +31,7 @@ class Player extends Component {
         setActiveSceneId: action,
         stageBlock: action,
         unStageBlock: action,
+        setDimensions: action,
       }
     )
 
@@ -66,6 +67,22 @@ class Player extends Component {
     )
   }
 
+  componentDidMount() {
+    this.setDimensions()
+    window.addEventListener('resize', this.setDimensions)
+  }
+
+  setDimensions = () => {
+    const viewport = document.body.getBoundingClientRect()
+    let orientation = 'portrait'
+    if (!this.node) { return }
+    if (viewport.width > viewport.height) {
+      orientation = 'landscape'
+    }
+    const {height, width} = this.node.getBoundingClientRect()
+    this.videoPlayer.setDimensions({orientation, width, height})
+  }
+
   handleOverlayTap = () => {
     this.editor.clearLast()
   }
@@ -74,10 +91,17 @@ class Player extends Component {
     this.videoPlayer.addScene()
   }
 
+  getRefNode = (node) => {
+    if (node) {
+      this.node = node
+    }
+  }
+
   render() {
     const scenes = this.props.video.getScenes()
     return (
       <div
+        ref={this.getRefNode}
         className="app-wrapper"
         style={[
           this.props.isHorizontal && style.horizontalScroll,

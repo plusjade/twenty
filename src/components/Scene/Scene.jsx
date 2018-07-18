@@ -27,15 +27,10 @@ class Scene extends Component {
     editor: PropTypes.object.isRequired,
   }
 
-  state = {
-    isLandscape: false,
-  }
-
   // TODO
   componentDidMount() {
     const RATIO = this.props.canEdit ? 0.75 : 0.5
-    this.setLandscape()
-    window.addEventListener('resize', this.setLandscape)
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -57,13 +52,6 @@ class Scene extends Component {
   }
 
   isActive = () => this.props.scene.get('isActive')
-
-  setLandscape = () => {
-    const clientRect = document.body.getBoundingClientRect()
-    if (clientRect.width > clientRect.height) {
-      this.setState({isLandscape: true})
-    }
-  }
 
   handleTap = () => {
     if (this.props.canEdit) { return }
@@ -113,7 +101,7 @@ class Scene extends Component {
         <div
           style={[
             style.boundingSquare,
-            this.state.isLandscape && style.boundingLandscape,
+            this.props.videoPlayer.isLandscape && style.boundingLandscape,
           ]}
           ref={this.getBoundaryRef}
         >

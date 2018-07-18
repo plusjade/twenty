@@ -3,6 +3,30 @@ import randomEmoji from 'db/randomEmoji'
 const VideoPlayer = (video, activeSceneId) => ({
   initialSceneId: activeSceneId,
   activeSceneId: activeSceneId,
+  dimensionsWidth: 100,
+  dimensionsHeight: 100,
+  orientation: 'portrait',
+
+  // assume this is a square
+  // so we only care about one dimension based on orientation
+  setDimensions({orientation, width, height}) {
+    const dimensionsWidth = orientation === 'portrait' ? width : height
+    this.dimensionsWidth = dimensionsWidth
+    this.dimensionsHeight = dimensionsWidth
+    this.orientation = orientation
+  },
+
+  get dimensions() {
+    return ({
+      width: this.dimensionsWidth,
+      height: this.dimensionsHeight,
+      orientation: this.orientation,
+    })
+  },
+
+  get isLandscape() {
+    return this.orientation === 'landscape'
+  },
 
   get activeScene() {
     return video.getScene(this.activeSceneId)
