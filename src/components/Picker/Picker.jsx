@@ -14,7 +14,7 @@ class Picker extends Component {
     isActive: PropTypes.bool.isRequired,
     activePicker: PropTypes.string,
     videoPlayer: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
+    editorState: PropTypes.object.isRequired,
   }
 
   onChangeColor = (value) => {
@@ -47,7 +47,7 @@ class Picker extends Component {
             key={this.props.videoPlayer.computeKey('text')}
             isActive={true}
             videoPlayer={this.props.videoPlayer}
-            editor={this.props.editor}
+            editorState={this.props.editorState}
           />
         )
       }

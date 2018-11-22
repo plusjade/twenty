@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Overlay from 'components/Overlay/Overlay'
 import ActionCardsMenu from 'components/ActionCardsMenu/ActionCardsMenu'
-import ActionCard from 'components/ActionCard/ActionCard'
+import BlocksMenuItem from './BlocksMenuItem'
 
 class BlocksMenu extends PureComponent {
   static propTypes = {
@@ -12,18 +12,15 @@ class BlocksMenu extends PureComponent {
     blocksRegistry: PropTypes.array.isRequired,
   }
 
-  handleTap = (name) => {
-    this.props.videoPlayer.addBlock(name)
-  }
-
   render() {
     return (
       <Overlay isActive={this.props.isActive}>
         <ActionCardsMenu>
           {this.props.blocksRegistry.map(data => (
-            <ActionCard onTap={this.handleTap.bind(this, data.id)}>
-              <div>{data.name}</div>
-            </ActionCard>
+            <BlocksMenuItem
+              data={data}
+              videoPlayer={this.props.videoPlayer}
+            />
           ))}
         </ActionCardsMenu>
       </Overlay>

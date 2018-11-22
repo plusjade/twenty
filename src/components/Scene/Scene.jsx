@@ -19,7 +19,7 @@ class Scene extends Component {
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
     videoPlayer: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
+    editorState: PropTypes.object.isRequired,
   }
 
   // TODO
@@ -70,7 +70,7 @@ class Scene extends Component {
   }
 
   handleTapSceneMenu = () => {
-    this.props.editor.scenesMenuToggle()
+    this.props.editorState.scenesMenuToggle()
   }
 
   render() {

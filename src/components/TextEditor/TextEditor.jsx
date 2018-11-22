@@ -10,7 +10,7 @@ class TextEditor extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     videoPlayer: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
+    editorState: PropTypes.object.isRequired,
   }
 
   onEnterText = (value) => {
@@ -20,7 +20,7 @@ class TextEditor extends Component {
       this.props.videoPlayer.removeBlockActive()
     }
 
-    this.props.editor.clearLast()
+    this.props.editorState.clearLast()
   }
 
   onChangeText = (value) => {

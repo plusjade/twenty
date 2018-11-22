@@ -38,7 +38,7 @@ class BlockActionsMenu extends Component {
   static propTypes = {
     isActive: PropTypes.bool,
     videoPlayer: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
+    editorState: PropTypes.object.isRequired,
   }
 
   render() {
@@ -53,7 +53,7 @@ class BlockActionsMenu extends Component {
                 key={picker.type}
                 picker={picker}
                 videoPlayer={this.props.videoPlayer}
-                editor={this.props.editor}
+                editorState={this.props.editorState}
               />
             )
           })}

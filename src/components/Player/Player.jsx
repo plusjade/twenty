@@ -46,7 +46,7 @@ class Player extends Component {
       }
     )
 
-    this.editor = observable(
+    this.editorState = observable(
       EditorState(this.videoPlayer),
       {
         setScenesMenu: action,
@@ -99,7 +99,7 @@ class Player extends Component {
   }
 
   handleOverlayTap = () => {
-    this.editor.clearLast()
+    this.editorState.clearLast()
   }
 
   handleAddScene = () => {
@@ -132,7 +132,7 @@ class Player extends Component {
             videoPlayer={this.videoPlayer}
 
             canEdit={this.props.canEdit}
-            editor={this.editor}
+            editorState={this.editorState}
             isDebug={this.props.isDebug}
           />
         ))}
@@ -158,11 +158,11 @@ class Player extends Component {
           <Editor
             {...this.props}
             videoPlayer={this.videoPlayer}
-            editor={this.editor}
+            editorState={this.editorState}
           />
         )}
 
-        {this.editor.shouldShowOverlay && (
+        {this.editorState.shouldShowOverlay && (
           <Overlay
             key='OverlayColorPicker'
             onTap={this.handleOverlayTap}

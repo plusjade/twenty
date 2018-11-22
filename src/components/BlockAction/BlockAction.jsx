@@ -9,7 +9,7 @@ class BlockAction extends Component {
   static propTypes = {
     picker: PropTypes.object.isRequired,
     videoPlayer: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
+    editorState: PropTypes.object.isRequired,
   }
 
   onTap = () => {
@@ -20,7 +20,7 @@ class BlockAction extends Component {
         this.props.videoPlayer.removeBlockActive()
       }
     } else {
-      this.props.editor.setPicker({type})
+      this.props.editorState.setPicker({type})
     }
   }
 

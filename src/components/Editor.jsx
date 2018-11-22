@@ -32,7 +32,7 @@ class Editor extends Component {
   static propTypes = {
     video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
+    editorState: PropTypes.object.isRequired,
     blocksRegistry: PropTypes.array.isRequired,
   }
 
@@ -52,26 +52,26 @@ class Editor extends Component {
       <BlocksMenu
         key='BlocksMenu'
         blocksRegistry={this.props.blocksRegistry}
-        isActive={this.props.editor.shouldShowBlocks}
+        isActive={this.props.editorState.shouldShowBlocks}
         videoPlayer={this.props.videoPlayer}
       />,
       <BlockActionsMenu
         key='BlockActionsMenu'
-        isActive={this.props.editor.shouldShowBlockActions}
+        isActive={this.props.editorState.shouldShowBlockActions}
         videoPlayer={this.props.videoPlayer}
-        editor={this.props.editor}
+        editorState={this.props.editorState}
       />,
       <Picker
         key='Picker'
-        isActive={this.props.editor.shouldShowPicker}
-        activePicker={this.props.editor.activePicker}
+        isActive={this.props.editorState.shouldShowPicker}
+        activePicker={this.props.editorState.activePicker}
         videoPlayer={this.props.videoPlayer}
-        editor={this.props.editor}
+        editorState={this.props.editorState}
       />,
       <SceneActionsMenu
         key='SceneActionsMenu'
-        isActive={this.props.editor.shouldShowSceneActions}
-        editor={this.props.editor}
+        isActive={this.props.editorState.shouldShowSceneActions}
+        editorState={this.props.editorState}
       />,
     ]
 

@@ -9,7 +9,7 @@ import style from './style'
 class SceneActionsMenu extends PureComponent {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
-    editor: PropTypes.object.isRequired,
+    editorState: PropTypes.object.isRequired,
   }
 
   onTapDelete = () => {
@@ -17,7 +17,7 @@ class SceneActionsMenu extends PureComponent {
   }
 
   onTapColor = () => {
-    this.props.editor.setPicker({type: 'color'})
+    this.props.editorState.setPicker({type: 'color'})
   }
 
   render() {

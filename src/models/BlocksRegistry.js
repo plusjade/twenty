@@ -3,7 +3,7 @@ import BlockText from 'blocks/BlockText/BlockText'
 
 const blocksMap = {
   words: {
-    id: 'text',
+    id: 'words',
     name: 'Heading',
     component: BlockHeading,
     pickers: [
@@ -20,7 +20,10 @@ const blocksMap = {
     component: BlockText,
     pickers: [
       'text',
+      'color',
+      'align',
       'size',
+      'delete',
     ],
   },
 }
