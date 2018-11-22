@@ -87,6 +87,7 @@ class Scene extends Component {
           style.wrap,
           {
             backgroundColor: getColor(this.props.scene),
+            // backgroundColor: '#121212',
           },
           this.props.isHorizontal && style.isHorizontal,
           this.props.isFixed && style.isFixed,
@@ -108,6 +109,9 @@ class Scene extends Component {
                 height: this.props.videoPlayer.dimensions.height,
             }),
             this.props.videoPlayer.isLandscape && style.boundingLandscape,
+            {
+              backgroundColor: getColor(this.props.scene),
+            },
           ]}
           ref={this.getBoundaryRef}
         >

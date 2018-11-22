@@ -15,7 +15,7 @@ export default {
     backgroundColor: "#FFF",
     color: "#212121",
     textAlign: "center",
-    height: "12vh",
+    height: "9vh",
     margin: "0 8%",
     border: "1px solid rgba(0,0,0,0.8)",
     boxShadow: "rgba(0, 0, 0, 0.3) 1px 1px 5px",

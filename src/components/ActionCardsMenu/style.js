@@ -1,6 +1,6 @@
 export default {
   default: {
-    height: '16vh',
+    height: '12vh',
     minWidth: "100vw",
     overflow: "auto",
     display: "flex",

@@ -12,7 +12,7 @@ const style = {
   default: {
     position: 'fixed',
     bottom: 0,
-    height: '18vh',
+    height: '12vh',
     overflow: 'hidden',
     width: '100vw',
     // background: '#F5F5F5',
