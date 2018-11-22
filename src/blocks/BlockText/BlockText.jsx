@@ -4,7 +4,6 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'gsap/Draggable'
-import BlockPlayer from 'lib/BlockPlayer'
 import Hammer from 'react-hammerjs'
 import {
   getColor,
@@ -25,16 +24,9 @@ class BlockText extends Component {
 
   constructor(props) {
     super(props)
-    this.player = new BlockPlayer({offset: props.block.get('offset')})
     reaction(
       () => props.block.get('lifecycle'),
       (lifecycle) => {
-        if (lifecycle === 'play') {
-          this.player.play()
-        } else if (lifecycle === 'replay') {
-          this.player.replay()
-        }
-
         if (lifecycle === 'edit') {
           // this.draggable && this.draggable.enable()
         } else {
@@ -45,22 +37,11 @@ class BlockText extends Component {
   }
 
   componentDidMount() {
-    this.player.on('start', this.onStart)
-    this.player.on('end', this.onEnd)
     if (this.props.canEdit) {
       setTimeout(() => {
         this.makeDraggable()
       }, 1000)
     }
-  }
-
-  onStart = () => {
-    this.props.block.set('lifecycle', 'playing')
-  }
-
-  onEnd = () => {
-    this.player.reset()
-    this.props.block.set('lifecycle', 'end')
   }
 
   getRef = (node) => {
@@ -104,11 +85,6 @@ class BlockText extends Component {
     return getTransforms({block: this.props.block, width, height})
   }
 
-  isActive() {
-    return true
-    return ['playing', 'end', 'edit'].includes(this.props.block.get('lifecycle'))
-  }
-
   handleTap = () => {
     if (this.props.canEdit) {
       this.props.videoPlayer.stageBlock(this.props.block.get('id'))
@@ -145,7 +121,7 @@ class BlockText extends Component {
           <div
             style={[
               style.textWrap,
-              this.isActive() && style.isActive
+              style.isActive,
             ]}
           >
             {content.map((string, i) => (

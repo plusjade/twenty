@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'gsap/Draggable'
 import Hammer from 'react-hammerjs'
-import BlockPlayer from 'lib/BlockPlayer'
 import {
   getColor,
   getTextContent,
@@ -15,7 +14,6 @@ import {
   getRotationTransforms,
   syncTransforms,
 } from 'lib/transforms'
-import { getTextEffect } from './effects'
 
 import style from './style'
 
@@ -28,48 +26,15 @@ class BlockHeading extends Component {
 
   constructor(props) {
     super(props)
-    this.player = new BlockPlayer({offset: props.block.get('offset')})
     reaction(
       () => props.block.get('lifecycle'),
       (lifecycle) => {
-        if (lifecycle === 'play') {
-          this.player.play()
-        } else if (lifecycle === 'replay') {
-          this.player.replay()
-        } else if (lifecycle === 'playing') {
-          this.timeline && this.timeline.play()
-        }
-
         if (lifecycle === 'edit') {
           this.draggable && this.draggable.enable()
         } else {
           this.draggable && this.draggable.disable()
         }
       }
-    )
-  }
-
-  componentDidMount() {
-    this.player.on('start', this.onStart)
-    this.player.on('end', this.onEnd)
-  }
-
-  onStart = () => {
-    // this.initializeTimeline()
-    this.props.block.set('lifecycle', 'playing')
-  }
-
-  onEnd = () => {
-    this.player.reset()
-    this.props.block.set('lifecycle', 'end')
-  }
-
-  initializeTimeline = () => {
-    this.timeline = (
-      getTextEffect({
-        block: this.props.block,
-        node: this.nodeText
-      })
     )
   }
 
