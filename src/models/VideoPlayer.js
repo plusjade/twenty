@@ -163,44 +163,6 @@ const VideoPlayer = (video, activeSceneId) => ({
     if (callback) { callback() }
   },
 
-  get isGrayscale() {
-    return this.color() <= 0
-  },
-
-  color(value) {
-    return (
-      this.block
-        ? this.colorBlock(value)
-        : this.colorScene(value)
-    )
-  },
-
-  colorBlock(value) {
-    return (
-      value
-        ? this.changeColorBlock(value)
-        : this.getColorBlock()
-    )
-  },
-
-  colorScene(value) {
-    if (!this.activeScene) { return }
-    if (value) {
-      this.activeScene.color_hsl = value
-    }
-
-    return this.activeScene.color_hsl
-  },
-
-  getColorBlock() {
-    const defaultColor = -100
-    if (!this.block) { return defaultColor }
-    const color = this.block.get('color_hsl') || defaultColor
-    if (!color) { return defaultColor }
-
-    return color
-  },
-
   text(value) {
     if (value) {
       return this.editBlockActive({content: value})
@@ -216,11 +178,6 @@ const VideoPlayer = (video, activeSceneId) => ({
       this.block.get('content')
         || (this.block.get('data') && this.block.get('data').content)
     )
-  },
-
-  changeColorBlock(value) {
-    if (!this.block) { return }
-    this.block.set('color_hsl', value)
   },
 
   align(value) {

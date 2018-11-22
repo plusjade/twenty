@@ -18,8 +18,25 @@ class Picker extends Component {
   }
 
   onChangeColor = (value) => {
-    this.props.videoPlayer.color(value)
+    if (this.props.videoPlayer.block) {
+      this.props.videoPlayer.block.set('color_hsl', value)
+    } else if (this.props.videoPlayer.activeScene) {
+      this.props.videoPlayer.activeScene.color_hsl = value
+    }
   }
+
+  getColor = () => {
+    const defaultColor = -100
+    if (this.props.videoPlayer.block) {
+      return this.props.videoPlayer.block.get('color_hsl') || defaultColor
+    } else if (this.props.videoPlayer.activeScene) {
+      return this.props.videoPlayer.activeScene.color_hsl
+    }
+
+    return defaultColor
+  }
+
+  isGrayscale = () => this.getColor() <= 0
 
   onChangeAlign = (value) => {
     this.props.videoPlayer.align(value)
@@ -36,8 +53,8 @@ class Picker extends Component {
           <ColorPicker
             key={this.props.videoPlayer.computeKey('color')}
             onChange={this.onChangeColor}
-            initialValue={this.props.videoPlayer.color()}
-            isGrayscale={this.props.videoPlayer.isGrayscale}
+            initialValue={this.getColor()}
+            isGrayscale={this.isGrayscale()}
           />
         )
       }
