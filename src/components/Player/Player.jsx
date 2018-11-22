@@ -22,12 +22,14 @@ class Player extends Component {
     isEmbed: PropTypes.bool,
     isDebug: PropTypes.bool,
     video: PropTypes.object.isRequired,
+    blocksRegistry: PropTypes.array,
   }
 
   static defaultProps = {
     canEdit: false,
     isEmbed: false,
     isDebug: false,
+    blocksRegistry: [],
   }
 
   constructor(props) {

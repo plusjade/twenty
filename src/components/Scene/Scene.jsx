@@ -3,17 +3,12 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import BlockHeading from 'blocks/BlockHeading/BlockHeading'
-import BlockText from 'blocks/BlockText/BlockText'
+import BlocksRegistry from 'models/BlocksRegistry'
 import ActionTap from 'components/ActionTap/ActionTap'
 import { getColor } from 'lib/transforms'
 
 import style from './style'
 
-const blocksMap = {
-  words: BlockHeading,
-  text: BlockText,
-}
 const OBSERVER_THRESHOLDS = new Array(101).fill(1).map((_, i) => +(i * 0.01).toFixed(2))
 
 class Scene extends Component {
@@ -116,7 +111,7 @@ class Scene extends Component {
           ref={this.getBoundaryRef}
         >
           {this.props.blocks.map((block) => {
-            const Block = blocksMap[block.get('type')]
+            const Block = BlocksRegistry.get(block.get('type'))
             if (!Block) {
               const message = `No supported block for type: '${block.get('type')}'`
               throw new TypeError(message)

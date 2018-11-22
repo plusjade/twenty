@@ -2,6 +2,7 @@ import { observer } from "mobx-react"
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+
 import BlocksMenu from 'components/BlocksMenu/BlocksMenu'
 import SceneActionsMenu from 'components/SceneActionsMenu/SceneActionsMenu'
 import BlockActionsMenu from 'components/BlockActionsMenu/BlockActionsMenu'
@@ -32,6 +33,7 @@ class Editor extends Component {
     video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.object.isRequired,
     editor: PropTypes.object.isRequired,
+    blocksRegistry: PropTypes.array.isRequired,
   }
 
   componentDidMount() {
@@ -49,6 +51,7 @@ class Editor extends Component {
     const components = [
       <BlocksMenu
         key='BlocksMenu'
+        blocksRegistry={this.props.blocksRegistry}
         isActive={this.props.editor.shouldShowBlocks}
         videoPlayer={this.props.videoPlayer}
         video={this.props.video}

@@ -9,14 +9,11 @@ class BlocksMenu extends PureComponent {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
     videoPlayer: PropTypes.object.isRequired,
+    blocksRegistry: PropTypes.array.isRequired,
   }
 
-  handleTapWords = () => {
-    this.props.videoPlayer.addBlock('words')
-  }
-
-  handleTapText = () => {
-    this.props.videoPlayer.addBlock('text')
+  handleTap = (name) => {
+    this.props.videoPlayer.addBlock(name)
   }
 
   handleTapPreview = () => {
@@ -29,14 +26,11 @@ class BlocksMenu extends PureComponent {
         isActive={this.props.isActive}
       >
         <ActionCardsMenu>
-          <ActionCard onTap={this.handleTapWords}>
-            <div>Heading</div>
-          </ActionCard>
-
-          <ActionCard onTap={this.handleTapText}>
-            <div>Paragraph</div>
-          </ActionCard>
-
+          {this.props.blocksRegistry.map(data => (
+            <ActionCard onTap={this.handleTap.bind(this, data.id)}>
+              <div>{data.name}</div>
+            </ActionCard>
+          ))}
           <ActionCard onTap={this.handleTapPreview}>
             <div>[Preview]</div>
           </ActionCard>
