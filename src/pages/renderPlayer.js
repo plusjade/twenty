@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import debounce from 'lodash.debounce'
+import { dateStampGenerate } from 'lib/actions'
 import Player from 'components/Player/Player'
 import { videosFind, videosSave } from 'lib/actions'
 import BlocksRegistry from 'models/BlocksRegistry'
@@ -33,6 +34,11 @@ const renderPlayer = ({
       ...videoData,
       subscribe: debouncedSubscribe,
       id: videoId,
+    })
+
+    // WIP
+    video.getScenes().forEach((scene) => {
+      scene.dateStamp = dateStampGenerate()
     })
 
     ReactDOM.render(

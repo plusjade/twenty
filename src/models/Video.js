@@ -1,10 +1,10 @@
 import flatten from 'vendor/flatten'
 import { observable, autorun, toJS } from "mobx"
-import { token } from 'lib/actions'
+import { token, dateStampGenerate } from 'lib/actions'
 import { computeTransitions } from 'lib/sceneWizard'
+import Scene from 'models/Scene'
 
 class Video {
-  scenesMeta = {}
   graph = []
   id = null
 
@@ -45,8 +45,12 @@ class Video {
 
     autorun(() => {
       if (typeof subscribe === 'function') {
+        const scenesObjects = {}
+        this.scenesObjects.forEach((scene) => {
+          scenesObjects[scene.id] = scene.serialized
+        })
         subscribe({
-          scenesObjects: toJS(this.scenesObjects),
+          scenesObjects,
           blocksObjects: toJS(this.blocksObjects),
           graph: this.graph,
         })
@@ -72,9 +76,7 @@ class Video {
     const scene = this.upsertScene(block.get('sceneId'))
 
     // update the scene to include the block if new
-    if (!scene.get('blocksIndex').includes(block.get('id'))) {
-      scene.get('blocksIndex').push(block.get('id'))
-    }
+    scene.addBlockRef(block.get('id'))
 
     return this.blocksObjects.get(block.get('id'))
   }
@@ -82,29 +84,21 @@ class Video {
   removeBlock = (block) => {
     // update the scene to to remove the block
     const scene = this.getScene(block.get('sceneId'))
-    const index = scene.get('blocksIndex').indexOf(block.get('id'))
-    scene.get('blocksIndex').splice(index, 1)
+    scene.removeBlockRef(block.get('id'))
 
     // remove the blockObject
     this.blocksObjects.delete(block.get('id'))
   }
 
   upsertScene = (sceneId, attributes = {}) => {
-    const meta = {
-      ...(this.scenesMeta[sceneId] || {}),
-      ...attributes,
-    }
     let scene = this.scenesObjects.get(sceneId)
-    if (!scene) {
-      scene = new Map()
-      scene.set('blocksIndex', [])
-      scene.set('id', sceneId)
-      scene.set('color_hsl', -100) // white
+    if (scene) {
+      if (attributes.transitions) {
+        scene.setTransitions(attributes.transitions)
+      }
+    } else {
+      scene = Scene({...attributes, id: sceneId})
     }
-
-    Object.keys(meta).forEach((key) => {
-      scene.set(key, meta[key])
-    })
 
     if (!this.scenesObjects.has(sceneId)) {
       this.scenesObjects.set(sceneId, scene)
@@ -143,6 +137,7 @@ class Video {
     ))
   )
 
+  // Private
   updateGraph = (graph) => {
     this.graph = graph
     this.sceneTransitions(graph).forEach((scene) => {
@@ -150,6 +145,7 @@ class Video {
     })
   }
 
+  // Private
   sceneTransitions = (graph) => {
     const transitionsMap = computeTransitions(graph)
     return (
@@ -163,7 +159,7 @@ class Video {
   }
 
   getBlocksInScene = sceneId => (
-    this.getScene(sceneId).get('blocksIndex').map(id => this.getBlock(id))
+    this.getScene(sceneId).blocksIndex.map(id => this.getBlock(id))
   )
 
   getBlocks = () => Array.from(this.blocksObjects.keys()).map(id => this.getBlock(id))
@@ -178,11 +174,11 @@ class Video {
 
   getInitialSceneId = () => {
     const initialScene = (
-      this.getScenes().find(scene => !scene.get('transitions') || !scene.get('transitions').prev)
+      this.getScenes().find(scene => !scene.transitions || !scene.transitions.prev)
     )
 
     if (initialScene) {
-      return initialScene.get('id')
+      return initialScene.id
     }
   }
 

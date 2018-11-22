@@ -51,6 +51,17 @@ export const canEditVideo = videoId => (
   videoId && !!window.localStorage.getItem(namespace(videoId))
 )
 
+export const dateStampGenerate = (date) => {
+  const dateStamp = date || new Date()
+  const options = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }
+  return new Intl.DateTimeFormat('en-US', options).format(dateStamp)
+}
+
 const videosFindDB = videoId => (
   window.fetch(buildUrl(videoId), {
     method: 'GET',

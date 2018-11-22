@@ -50,5 +50,14 @@ export default {
   },
   isDebug: {
     border: '1px dashed red',
-  }
+  },
+  dateStamp: {
+    top: 0,
+    position: 'absolute',
+    right: 0,
+    zIndex: 100,
+    padding: 6,
+    fontSize: 10,
+    color: 'rgb(66, 66, 66)',
+  },
 }

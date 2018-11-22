@@ -30,10 +30,10 @@ class Scene extends Component {
       (entries) => {
         entries.forEach((entry) => {
             if (entry.intersectionRatio >= RATIO) {
-              this.props.scene.set('isActive', true)
-              this.props.videoPlayer.setActiveSceneId(this.props.scene.get('id'))
-            } else if (this.isActive()) {
-              this.props.scene.delete('isActive')
+              this.props.scene.isActive = true
+              this.props.videoPlayer.setActiveSceneId(this.props.scene.id)
+            } else if (this.props.scene.isActive) {
+              this.props.scene.isActive = false
             }
         })
       },
@@ -45,8 +45,6 @@ class Scene extends Component {
     )
     observer.observe(this.sceneNode)
   }
-
-  isActive = () => this.props.scene.get('isActive')
 
   handleTap = () => {
     if (this.props.canEdit) { return }
@@ -76,17 +74,16 @@ class Scene extends Component {
   render() {
     return (
       <div
-        id={this.props.scene.get('id')}
+        id={this.props.scene.id}
         ref={this.getSceneRef}
         style={[
           style.wrap,
           {
-            backgroundColor: getColor(this.props.scene),
-            // backgroundColor: '#121212',
+            backgroundColor: this.props.scene.color,
           },
           this.props.isHorizontal && style.isHorizontal,
           this.props.isFixed && style.isFixed,
-          (this.isActive()
+          (this.props.scene.isActive
             ? style.isActive
             : style.isHidden),
           (this.props.canEdit
@@ -95,6 +92,11 @@ class Scene extends Component {
           this.props.videoPlayer.isLandscape && style.landscape,
         ]}
       >
+        {this.props.scene.dateStamp && (
+          <div style={style.dateStamp}>
+            {this.props.scene.dateStamp}
+          </div>
+        )}
         <div
           style={[
             this.props.isDebug && style.isDebug,
@@ -105,7 +107,7 @@ class Scene extends Component {
             }),
             this.props.videoPlayer.isLandscape && style.boundingLandscape,
             {
-              backgroundColor: getColor(this.props.scene),
+              backgroundColor: this.props.scene.color,
             },
           ]}
           ref={this.getBoundaryRef}
@@ -133,7 +135,7 @@ class Scene extends Component {
           <div style={style.sceneMenu}>
             <ActionTap onTap={this.handleTapSceneMenu}>
               <div>
-                {this.props.videoPlayer.scenePosition(this.props.scene.get('id'))}
+                {this.props.videoPlayer.scenePosition(this.props.scene.id)}
               </div>
             </ActionTap>
           </div>

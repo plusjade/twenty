@@ -81,7 +81,7 @@ const VideoPlayer = (video, activeSceneId) => ({
 
   // Find the module in the current step that has the step_transition metadata
   derivedSceneTransitions() {
-    return this.activeScene.get('transitions')
+    return this.activeScene.transitions
   },
 
   addScene() {
@@ -184,26 +184,18 @@ const VideoPlayer = (video, activeSceneId) => ({
   },
 
   colorScene(value) {
-    return (
-      value
-        ? this.changeColorScene(value)
-        : this.getColorScene()
-    )
+    if (!this.activeScene) { return }
+    if (value) {
+      this.activeScene.color_hsl = value
+    }
+
+    return this.activeScene.color_hsl
   },
 
   getColorBlock() {
     const defaultColor = -100
     if (!this.block) { return defaultColor }
     const color = this.block.get('color_hsl') || defaultColor
-    if (!color) { return defaultColor }
-
-    return color
-  },
-
-  getColorScene() {
-    const defaultColor = -100
-    if (!this.activeScene) { return defaultColor }
-    const color = this.activeScene.get('color_hsl') || defaultColor
     if (!color) { return defaultColor }
 
     return color
@@ -229,11 +221,6 @@ const VideoPlayer = (video, activeSceneId) => ({
   changeColorBlock(value) {
     if (!this.block) { return }
     this.block.set('color_hsl', value)
-  },
-
-  changeColorScene(value) {
-    if (!this.activeScene) { return }
-    this.activeScene.set('color_hsl', value)
   },
 
   align(value) {

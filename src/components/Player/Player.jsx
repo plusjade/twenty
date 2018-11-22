@@ -126,9 +126,9 @@ class Player extends Component {
       >
         {scenes.map(scene => (
           <Scene
-            key={`scenes-${scene.get('id')}`}
+            key={`scenes-${scene.id}`}
             scene={scene}
-            blocks={this.props.video.getBlocksInScene(scene.get('id'))}
+            blocks={this.props.video.getBlocksInScene(scene.id)}
             videoPlayer={this.videoPlayer}
 
             canEdit={this.props.canEdit}

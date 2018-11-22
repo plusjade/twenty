@@ -13,7 +13,7 @@ const renderNotFound = () => {
     const sceneId = video.addScene()
     const scene = video.getScene(sceneId)
     const color_hsl = i % 2 === 0 ? -95 : -100
-    scene.set('color_hsl', color_hsl)
+    scene.color_hsl = color_hsl
     video.addBlock({
       ...entry,
       sceneId,
