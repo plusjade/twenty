@@ -5,7 +5,7 @@ import { token, videosRemove } from 'lib/actions'
 import ActionTap from 'components/ActionTap/ActionTap'
 import Player from 'components/Player/Player'
 import { videosFind } from 'lib/actions'
-import Video from 'lib/Video'
+import Video from 'models/Video'
 import style from './style'
 
 class VideoCard extends PureComponent {

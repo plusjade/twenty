@@ -7,8 +7,9 @@ import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import VideoPlayer from 'lib/VideoPlayer'
-import EditorState from 'lib/EditorState'
+import VideoPlayer from 'models/VideoPlayer'
+import EditorState from 'models/EditorState'
+
 import Scene from 'components/Scene/Scene'
 import Editor from 'components/Editor'
 import Overlay from 'components/Overlay/Overlay'

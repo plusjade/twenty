@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import debounce from 'lodash.debounce'
 import Player from 'components/Player/Player'
 import { videosFind, videosSave } from 'lib/actions'
-import Video from 'lib/Video'
+import Video from 'models/Video'
 import renderNotFound from 'pages/renderNotFound'
 
 const renderPlayer = ({

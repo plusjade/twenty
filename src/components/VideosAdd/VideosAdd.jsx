@@ -1,7 +1,7 @@
 import Radium from 'radium'
 import React, { PureComponent }   from 'react'
 import { token, videosSave } from 'lib/actions'
-import Video from 'lib/Video'
+import Video from 'models/Video'
 import randomEmoji from 'db/randomEmoji'
 import style from './style'
 

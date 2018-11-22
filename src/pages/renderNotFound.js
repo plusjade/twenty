@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Player from 'components/Player/Player'
-import Video from 'lib/Video'
+import Video from 'models/Video'
 import randomEmoji from 'db/randomEmoji'
 import blogPost from 'db/pain'
 
