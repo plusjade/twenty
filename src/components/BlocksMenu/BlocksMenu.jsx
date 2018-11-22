@@ -16,24 +16,15 @@ class BlocksMenu extends PureComponent {
     this.props.videoPlayer.addBlock(name)
   }
 
-  handleTapPreview = () => {
-    window.location.href = `/?id=${this.props.video.id}`
-  }
-
   render() {
     return (
-      <Overlay
-        isActive={this.props.isActive}
-      >
+      <Overlay isActive={this.props.isActive}>
         <ActionCardsMenu>
           {this.props.blocksRegistry.map(data => (
             <ActionCard onTap={this.handleTap.bind(this, data.id)}>
               <div>{data.name}</div>
             </ActionCard>
           ))}
-          <ActionCard onTap={this.handleTapPreview}>
-            <div>[Preview]</div>
-          </ActionCard>
         </ActionCardsMenu>
       </Overlay>
     )

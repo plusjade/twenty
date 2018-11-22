@@ -1,3 +1,4 @@
+import BlocksRegistry from 'models/BlocksRegistry'
 import randomEmoji from 'db/randomEmoji'
 
 const VideoPlayer = (video, activeSceneId) => ({
@@ -123,6 +124,11 @@ const VideoPlayer = (video, activeSceneId) => ({
 
   get block() {
     return this.blockId ? video.getBlock(this.blockId) : null
+  },
+
+  get activePickers() {
+    if (!this.block) { return ([]) }
+    return BlocksRegistry.getMeta(this.block.get('type')).pickers || []
   },
 
   stageBlock(blockId) {

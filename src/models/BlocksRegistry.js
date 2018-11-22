@@ -6,16 +6,28 @@ const blocksMap = {
     id: 'text',
     name: 'Heading',
     component: BlockHeading,
+    pickers: [
+      'text',
+      'color',
+      'align',
+      'size',
+      'delete',
+    ],
   },
   text: {
     id: 'text',
     name: 'Paragraph',
     component: BlockText,
+    pickers: [
+      'text',
+      'size',
+    ],
   },
 }
 
 class BlocksRegistry {
   get = id => blocksMap[id] && blocksMap[id].component
+  getMeta = id => blocksMap[id]
   list = () => Object.values(blocksMap)
 }
 
