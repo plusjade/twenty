@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Home from 'containers/Home'
+import Home from 'components/Home'
 
 const renderHome = () => {
   window.document.body.style.overflow = 'auto'
   ReactDOM.render(
-    <Home />,
+    React.createElement(Home),
     window.document.getElementById('root')
   )
 }

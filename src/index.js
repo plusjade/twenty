@@ -1,7 +1,7 @@
 import queryString from 'query-string'
 import { canEditVideo } from 'lib/actions'
-import renderHome from 'home'
-import renderPlayer from 'player'
+import renderHome from 'pages/renderHome'
+import renderPlayer from 'pages/renderPlayer'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import './index.css'
 

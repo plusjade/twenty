@@ -5,7 +5,7 @@ import Video from 'lib/Video'
 import randomEmoji from 'db/randomEmoji'
 import blogPost from 'db/pain'
 
-const notFound = () => {
+const renderNotFound = () => {
   const props = {}
   const video = new Video()
 
@@ -40,12 +40,9 @@ const notFound = () => {
   // })
 
   ReactDOM.render(
-    React.createElement(
-      Player,
-      {...props, video}
-    ),
+    React.createElement(Player, {...props, video}),
     document.getElementById('root')
   )
 }
 
-export default notFound
+export default renderNotFound
