@@ -1,17 +1,17 @@
-import QueryParams from 'lib/QueryParams'
+import queryString from 'query-string'
 import { canEditVideo } from 'lib/actions'
 import renderHome from 'home'
 import renderPlayer from 'player'
-
-import './index.css'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import './index.css'
+
 injectTapEventPlugin()
 
-const QParams = QueryParams()
-const videoId = QParams.get('id')
-const canEdit = !!QParams.get('edit') && canEditVideo(videoId)
-const isEmbed = !!QParams.get('embed')
-const isDebug = !!QParams.get('debug')
+const params = queryString.parse(window.location.search)
+const videoId = params.id
+const canEdit = !!params.edit && canEditVideo(videoId)
+const isEmbed = !!params.embed
+const isDebug = !!params.debug
 
 if (videoId) {
   renderPlayer({
