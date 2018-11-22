@@ -156,7 +156,7 @@ class Player extends Component {
 
         {this.props.canEdit && (
           <Editor
-            {...this.props}
+            blocksRegistry={this.props.blocksRegistry}
             videoPlayer={this.videoPlayer}
             editorState={this.editorState}
           />

@@ -186,10 +186,6 @@ class Video {
     }
   }
 
-  timeDuration = () => (
-    this.getBlocks().reduce((memo, block) => (memo + block.get('timeDuration')), 0)
-  )
-
   getScenePosition = sceneId => (
     this.findSceneIndex(sceneId) + 1
   )

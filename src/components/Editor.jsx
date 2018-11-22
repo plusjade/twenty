@@ -30,7 +30,6 @@ const style = {
 
 class Editor extends Component {
   static propTypes = {
-    video: PropTypes.object.isRequired,
     videoPlayer: PropTypes.object.isRequired,
     editorState: PropTypes.object.isRequired,
     blocksRegistry: PropTypes.array.isRequired,

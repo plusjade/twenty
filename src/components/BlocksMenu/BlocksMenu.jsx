@@ -18,6 +18,7 @@ class BlocksMenu extends PureComponent {
         <ActionCardsMenu>
           {this.props.blocksRegistry.map(data => (
             <BlocksMenuItem
+              key={data.id}
               data={data}
               videoPlayer={this.props.videoPlayer}
             />

@@ -36,7 +36,7 @@ const pickerTypes = [
 
 class BlockActionsMenu extends Component {
   static propTypes = {
-    isActive: PropTypes.bool,
+    isActive: PropTypes.bool.isRequired,
     videoPlayer: PropTypes.object.isRequired,
     editorState: PropTypes.object.isRequired,
   }
