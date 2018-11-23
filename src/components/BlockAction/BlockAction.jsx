@@ -8,7 +8,6 @@ import style from './style'
 class BlockAction extends Component {
   static propTypes = {
     picker: PropTypes.object.isRequired,
-    videoPlayer: PropTypes.object.isRequired,
     editorState: PropTypes.object.isRequired,
   }
 
@@ -17,7 +16,7 @@ class BlockAction extends Component {
 
     if (type === 'delete') {
       if (window.confirm('Delete this block forever?')) {
-        this.props.videoPlayer.removeBlockActive()
+        this.props.editorState.removeBlockActive()
       }
     } else {
       this.props.editorState.setPicker({type})

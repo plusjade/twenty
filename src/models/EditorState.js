@@ -1,3 +1,33 @@
+import BlocksRegistry from 'models/BlocksRegistry'
+
+const pickerTypes = [
+  {
+    type: 'text',
+    name: 'text',
+    emoji: '✍️',
+  },
+  {
+    type: 'color',
+    name: 'color',
+    emoji: '🎨',
+  },
+  {
+    type: 'align',
+    name: 'align',
+    emoji: '⇆',
+  },
+  {
+    type: 'size',
+    name: 'size',
+    emoji: 'A',
+  },
+  {
+    type: 'delete',
+    name: 'DELETE',
+    emoji: '😵',
+  },
+]
+
 const EditorState = videoPlayer => ({
   activePicker: null,
   isScenesMenuActive: null,
@@ -40,6 +70,13 @@ const EditorState = videoPlayer => ({
     }
   },
 
+  get activePickers() {
+    if (!videoPlayer.block) { return ([]) }
+    const pickers = BlocksRegistry.getMeta(videoPlayer.block.get('type')).pickers || []
+
+    return pickerTypes.filter(picker => pickers.includes(picker.type))
+  },
+
   setScenesMenu(value) {
     this.isScenesMenuActive = value
   },
@@ -62,6 +99,20 @@ const EditorState = videoPlayer => ({
     } else {
       this.setPicker({toggle: 'close'})
     }
+  },
+
+  removeBlockActive() {
+    videoPlayer.removeBlockActive()
+  },
+
+  computeKey(scope) {
+    return (
+      scope + (
+        videoPlayer.block
+          ? videoPlayer.block.get('id')
+          : videoPlayer.activeSceneId
+      )
+    )
   },
 })
 

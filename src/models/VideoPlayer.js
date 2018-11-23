@@ -1,4 +1,3 @@
-import BlocksRegistry from 'models/BlocksRegistry'
 import randomEmoji from 'db/randomEmoji'
 
 const VideoPlayer = (video, activeSceneId) => ({
@@ -31,10 +30,6 @@ const VideoPlayer = (video, activeSceneId) => ({
 
   get activeScene() {
     return video.getScene(this.activeSceneId)
-  },
-
-  get activeBlocks() {
-    return video.getBlocksInScene(this.activeSceneId) || []
   },
 
   get activeScenePosition() {
@@ -84,11 +79,6 @@ const VideoPlayer = (video, activeSceneId) => ({
     return this.activeScene.transitions
   },
 
-  addScene() {
-    const sceneId = video.addScene(this.activeSceneId)
-    this.setActiveSceneId(sceneId)
-  },
-
   addBlock(type = 'words') {
     const content = type === 'words'
       ? `${randomEmoji()} HEADING`
@@ -105,18 +95,10 @@ const VideoPlayer = (video, activeSceneId) => ({
     }, 100) // TODO FIXME
   },
 
-  editBlockActive(attributes) {
-    video.editBlock(this.blockId, attributes)
-  },
-
   removeBlockActive() {
-    if (!this.blockId) { return }
-    this.removeBlock(this.blockId)
-  },
-
-  removeBlock(blockId) {
+    const block = this.block
+    if (!block) { return }
     this.unStageBlock({replay: false})
-    const block = video.getBlock(blockId)
     video.removeBlock(block)
   },
 
@@ -124,11 +106,6 @@ const VideoPlayer = (video, activeSceneId) => ({
 
   get block() {
     return this.blockId ? video.getBlock(this.blockId) : null
-  },
-
-  get activePickers() {
-    if (!this.block) { return ([]) }
-    return BlocksRegistry.getMeta(this.block.get('type')).pickers || []
   },
 
   stageBlock(blockId) {
@@ -161,33 +138,6 @@ const VideoPlayer = (video, activeSceneId) => ({
       }
     }
     if (callback) { callback() }
-  },
-
-  text(value) {
-    if (value) {
-      return this.editBlockActive({content: value})
-    } else {
-      return this.getText()
-    }
-  },
-
-  getText() {
-    if (!this.block) { return '' }
-
-    return (
-      this.block.get('content')
-        || (this.block.get('data') && this.block.get('data').content)
-    )
-  },
-
-  computeKey(scope) {
-    return (
-      scope + (
-        this.block
-          ? this.block.get('id')
-          : this.activeSceneId
-      )
-    )
   },
 })
 

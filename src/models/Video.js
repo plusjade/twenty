@@ -107,12 +107,6 @@ class Video {
     return this.scenesObjects.get(sceneId)
   }
 
-  editBlock = (blockId, attributes) => {
-    Object.keys(attributes).forEach((key) => {
-      this.blocksObjects.get(blockId).set(key, attributes[key])
-    })
-  }
-
   // TODO POC
   // This is not a high integrity entry point for a scene O_o
   addScene = (afterSceneId) => {

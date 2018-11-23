@@ -57,7 +57,6 @@ class Editor extends Component {
       <BlockActionsMenu
         key='BlockActionsMenu'
         isActive={this.props.editorState.shouldShowBlockActions}
-        videoPlayer={this.props.videoPlayer}
         editorState={this.props.editorState}
       />,
       <Picker

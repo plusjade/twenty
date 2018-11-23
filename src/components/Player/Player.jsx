@@ -59,7 +59,8 @@ class Player extends Component {
     reaction(
       () => this.videoPlayer.activeSceneId,
       (activeSceneId) => {
-        this.videoPlayer.activeBlocks.forEach((block) => {
+        const blocks = props.video.getBlocksInScene(activeSceneId)
+        blocks.forEach((block) => {
           block.set('lifecycle', 'play')
         })
 
@@ -103,7 +104,8 @@ class Player extends Component {
   }
 
   handleAddScene = () => {
-    this.videoPlayer.addScene()
+    const sceneId = this.props.video.addScene(this.videoPlayer.activeSceneId)
+    this.videoPlayer.setActiveSceneId(sceneId)
   }
 
   getRefNode = (node) => {

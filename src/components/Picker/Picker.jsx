@@ -75,7 +75,7 @@ class Picker extends Component {
       case 'color': {
         return (
           <ColorPicker
-            key={this.props.videoPlayer.computeKey('color')}
+            key={this.props.editorState.computeKey('color')}
             onChange={this.onChangeColor}
             initialValue={this.getColor()}
             isGrayscale={this.isGrayscale()}
@@ -85,7 +85,7 @@ class Picker extends Component {
       case 'text': {
         return (
           <TextEditor
-            key={this.props.videoPlayer.computeKey('text')}
+            key={this.props.editorState.computeKey('text')}
             isActive={true}
             videoPlayer={this.props.videoPlayer}
             editorState={this.props.editorState}
@@ -95,7 +95,7 @@ class Picker extends Component {
       case 'align': {
         return (
           <PickerAlign
-            key={this.props.videoPlayer.computeKey('align')}
+            key={this.props.editorState.computeKey('align')}
             onChange={this.onChangeAlign}
           />
         )
@@ -103,7 +103,7 @@ class Picker extends Component {
       case 'size': {
         return (
           <PickerSize
-            key={this.props.videoPlayer.computeKey('size')}
+            key={this.props.editorState.computeKey('size')}
             onChange={this.onChangeSize}
             initialValue={this.getSize()}
           />
