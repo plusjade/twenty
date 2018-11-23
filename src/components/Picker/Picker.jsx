@@ -39,11 +39,35 @@ class Picker extends Component {
   isGrayscale = () => this.getColor() <= 0
 
   onChangeAlign = (value) => {
-    this.props.videoPlayer.align(value)
+    if (!this.props.videoPlayer.block) { return }
+    this.props.videoPlayer.block.set('align', value)
+    this.props.videoPlayer.block.set('lifecycle', 'replay')
   }
 
   onChangeSize = (value) => {
-    this.props.videoPlayer.size(value)
+    if (!this.props.videoPlayer.block) { return }
+    this.props.videoPlayer.block.set('size', value)
+  }
+
+  getSize = () => {
+    const defaultValue = 80
+    if (!this.props.videoPlayer.block) { return defaultValue }
+    const value = this.props.videoPlayer.block.get('size') || defaultValue
+
+    return value
+  }
+
+  getRotation = () => {
+    if (!this.props.videoPlayer.block) { return 0 }
+    const rotation = this.props.videoPlayer.block.get('rotation') || 0
+    if (!rotation) { return 0 }
+
+    return rotation.replace('deg', '')
+  }
+
+  changeRotation = (value) => {
+    if (!this.props.videoPlayer.block) { return }
+    this.props.videoPlayer.block.set('rotation', `${+value}deg`)
   }
 
   getBottomPanelContent() {
@@ -81,7 +105,7 @@ class Picker extends Component {
           <PickerSize
             key={this.props.videoPlayer.computeKey('size')}
             onChange={this.onChangeSize}
-            initialValue={this.props.videoPlayer.size()}
+            initialValue={this.getSize()}
           />
         )
       }

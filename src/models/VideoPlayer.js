@@ -180,63 +180,6 @@ const VideoPlayer = (video, activeSceneId) => ({
     )
   },
 
-  align(value) {
-    if (value) {
-      return this.changeAlign(value)
-    } else {
-      return null // TODO
-    }
-  },
-
-  changeAlign(value) {
-    if (!this.block) { return }
-    this.block.set('align', value)
-    this.block.set('lifecycle', 'replay')
-  },
-
-  size(value) {
-    if (value) {
-      return this.changeSize(value)
-    } else {
-      return this.sizeBlock()
-    }
-  },
-
-  changeSize(value) {
-    if (!this.block) { return }
-    this.block.set('size', value)
-  },
-
-  sizeBlock() {
-    const defaultValue = 80
-    if (!this.block) { return defaultValue }
-    const value = this.block.get('size') || defaultValue
-    if (!value) { return defaultValue }
-
-    return value
-  },
-
-  rotation(value) {
-    return (
-      this.value
-        ? this.this.changeRotation(value)
-        : this.getRotation()
-    )
-  },
-
-  getRotation() {
-    if (!this.block) { return 0 }
-    const rotation = this.block.get('rotation') || 0
-    if (!rotation) { return 0 }
-
-    return rotation.replace('deg', '')
-  },
-
-  changeRotation(value) {
-    if (!this.block) { return }
-    this.block.set('rotation', `${+value}deg`)
-  },
-
   computeKey(scope) {
     return (
       scope + (
