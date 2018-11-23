@@ -1,4 +1,4 @@
-import queryString from 'query-string'
+import qs from 'qs'
 import { canEditVideo } from 'lib/actions'
 import renderHome from 'pages/renderHome'
 import renderPlayer from 'pages/renderPlayer'
@@ -7,7 +7,7 @@ import './index.css'
 
 injectTapEventPlugin()
 
-const params = queryString.parse(window.location.search)
+const params = qs.parse(window.location.search.substring(1))
 const videoId = params.id
 const canEdit = !!params.edit && canEditVideo(videoId)
 const isEmbed = !!params.embed
