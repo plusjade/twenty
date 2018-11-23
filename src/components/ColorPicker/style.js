@@ -1,6 +1,7 @@
 export default {
   wrap: {
     display: 'flex',
+    height: '30vh',
   },
   outer: {
     position: 'relative',
@@ -45,5 +46,8 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     background: '#FFF',
+  },
+  buttons: {
+    padding: 10,
   },
 }

@@ -61,20 +61,22 @@ class PickerSize extends PureComponent {
 
   render() {
     return(
-      <div style={style.outer}>
-        <div
-          style={style.mover}
-          ref={this.getRef}
-        >
-          <div style={style.inner}>
-            {this.state.value}
+      <div style={style.wrap}>
+        <div style={style.outer}>
+          <div
+            style={style.mover}
+            ref={this.getRef}
+          >
+            <div style={style.inner}>
+              {this.state.value}
+            </div>
           </div>
+          <div
+            style={[
+              style.pointer,
+            ]}
+          />
         </div>
-        <div
-          style={[
-            style.pointer,
-          ]}
-        />
       </div>
     )
   }

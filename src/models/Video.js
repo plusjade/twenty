@@ -97,7 +97,7 @@ class Video {
         scene.setTransitions(attributes.transitions)
       }
     } else {
-      scene = Scene({...attributes, id: sceneId})
+      scene = observable(Scene({...attributes, id: sceneId}))
     }
 
     if (!this.scenesObjects.has(sceneId)) {

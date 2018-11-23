@@ -1,4 +1,11 @@
 export default {
+  wrap: {
+    position: 'relative',
+    margin: 'auto',
+    width: '100%',
+    height: '30vh',
+    display: 'flex',
+  },
   outer: {
     position: 'relative',
     margin: 'auto',

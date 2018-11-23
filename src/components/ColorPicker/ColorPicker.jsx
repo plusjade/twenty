@@ -87,7 +87,7 @@ class ColorPicker extends PureComponent {
   render() {
     return(
       <div style={style.wrap}>
-        <div>
+        <div style={style.buttons}>
           <ActionTap onTap={this.handleTapGray}>
             <div>
               Gray

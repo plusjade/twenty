@@ -40,7 +40,7 @@ class TextEditor extends Component {
 
   render() {
     return (
-      <Overlay isActive={this.props.isActive}>
+      <div style={{flex: '0 0 12vh'}}>
         <div style={style.default}>
           <EnterText
             value={this.getText()}
@@ -49,7 +49,7 @@ class TextEditor extends Component {
             isActive
           />
         </div>
-      </Overlay>
+      </div>
     )
   }
 }

@@ -170,7 +170,7 @@ class Player extends Component {
             onTap={this.handleOverlayTap}
             style={{
               position: 'fixed',
-              height: '133vw',
+              height: '90vh',
               width: '100vw',
             }}
             isActive

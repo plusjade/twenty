@@ -5,7 +5,7 @@ import Hammer from 'react-hammerjs'
 
 import style from './style'
 
-const MAX_HEIGHT = 500
+const MAX_HEIGHT = 200
 
 class EnterText extends PureComponent {
   static propTypes = {

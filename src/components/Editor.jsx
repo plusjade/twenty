@@ -1,4 +1,5 @@
 import { observer } from "mobx-react"
+import { reaction } from 'mobx'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
@@ -16,8 +17,6 @@ const style = {
     height: '12vh',
     overflow: 'hidden',
     width: '100vw',
-    // background: '#F5F5F5',
-    // boxShadow: 'rgba(0, 0, 0, 0.3) 0px -1px 10px',
     zIndex: 2000,
   },
   isLandscape: {
@@ -25,8 +24,12 @@ const style = {
     height: '100vh',
     overflow: 'hidden',
     width: '30vw',
+  },
+  isExpanded: {
+    height: '30vh',
   }
 }
+const ExpandedPickers = ['text', 'size', 'color']
 
 class Editor extends Component {
   static propTypes = {
@@ -35,10 +38,28 @@ class Editor extends Component {
     blocksRegistry: PropTypes.array.isRequired,
   }
 
+  constructor(props) {
+    super(props)
+    reaction(
+      () => this.props.editorState.activePicker,
+      (activePicker) => {
+        this.updateStyles(ExpandedPickers.includes(activePicker))
+      }
+    )
+  }
+
   componentDidMount() {
+    this.updateStyles()
+  }
+
+  updateStyles(isExpanded) {
     let scopedStyle = style.default
     if (this.props.videoPlayer.isLandscape) { // TODO this doesn't change
       scopedStyle = {...style.default, ...style.isLandscape}
+    }
+
+    if (isExpanded) {
+      scopedStyle = {...scopedStyle, ...style.isExpanded}
     }
 
     Object.keys(scopedStyle).forEach((key) => {
