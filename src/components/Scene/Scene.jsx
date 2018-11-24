@@ -2,7 +2,7 @@ import { observer } from "mobx-react"
 import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import Hammer from 'react-hammerjs'
 import BlocksRegistry from 'models/BlocksRegistry'
 import ActionTap from 'components/ActionTap/ActionTap'
 import { getColor } from 'lib/transforms'
@@ -71,6 +71,10 @@ class Scene extends Component {
     this.props.editorState.scenesMenuToggle()
   }
 
+  handleTapDate = () => {
+    this.props.videoPlayer.addScene(this.props.scene)
+  }
+
   render() {
     return (
       <div
@@ -93,9 +97,11 @@ class Scene extends Component {
         ]}
       >
         {this.props.scene.dateString && (
-          <div style={style.dateString}>
-            {this.props.scene.dateString}
-          </div>
+          <Hammer onDoubleTap={this.handleTapDate}>
+            <div style={style.dateString}>
+              {this.props.scene.dateString}
+            </div>
+          </Hammer>
         )}
         <div
           style={[

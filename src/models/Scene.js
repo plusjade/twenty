@@ -27,7 +27,7 @@ const Scene = (object = {}) => ({
   },
 
   get dateObject() {
-    return Date.parse(this.dateId)
+    return new Date(this.dateId)
   },
 
   setDate(date) {

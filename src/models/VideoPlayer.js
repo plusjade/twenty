@@ -1,3 +1,4 @@
+import { dateId } from 'lib/actions'
 import randomEmoji from 'db/randomEmoji'
 
 const VideoPlayer = (video, activeSceneId) => ({
@@ -138,6 +139,16 @@ const VideoPlayer = (video, activeSceneId) => ({
       }
     }
     if (callback) { callback() }
+  },
+
+  addScene(scene) {
+    const nextDate = new Date().setTime(scene.dateObject.getTime() + 86400000)
+    const nextDateId = dateId(nextDate)
+    const hasDate = video.getScenes().some(scene => scene.dateId === nextDateId)
+    if (!hasDate) {
+      const sceneId = video.addScene(scene.id)
+      video.getScene(sceneId).setDate(nextDate)
+    }
   },
 })
 
