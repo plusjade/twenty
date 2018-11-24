@@ -98,6 +98,7 @@ class Scene extends Component {
           ref={this.getBoundaryRef}
         >
           {this.props.blocks.map((block) => {
+            if (!block) { return }
             const Block = BlocksRegistry.get(block.get('type'))
             if (!Block) {
               const message = `No supported block for type: '${block.get('type')}'`
