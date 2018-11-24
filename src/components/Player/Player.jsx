@@ -37,7 +37,7 @@ class Player extends Component {
     super(props)
 
     this.videoPlayer = observable(
-      VideoPlayer(props.video, props.video.getInitialSceneId()),
+      VideoPlayer(props.video, props.video.getInitialSceneId(), props.canEdit),
       {
         setActiveSceneId: action,
         stageBlock: action,
@@ -86,9 +86,7 @@ class Player extends Component {
           })
         }
 
-        if (props.canEdit) {
-          this.videoPlayer.unStageBlock()
-        }
+        this.videoPlayer.unStageBlock()
 
         lastSceneId = activeSceneId
       }
@@ -143,8 +141,6 @@ class Player extends Component {
             scene={scene}
             blocks={this.props.video.getBlocksInScene(scene.id)}
             videoPlayer={this.videoPlayer}
-
-            canEdit={this.props.canEdit}
             editorState={this.editorState}
             isDebug={this.props.isDebug}
           />

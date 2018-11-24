@@ -78,7 +78,7 @@ class Editor extends Component {
       <BlocksMenu
         key='BlocksMenu'
         blocksRegistry={this.props.blocksRegistry}
-        isActive={this.props.editorState.shouldShowBlocks}
+        isActive={!!this.props.editorState.shouldShowBlocks}
         videoPlayer={this.props.videoPlayer}
       />,
       <BlockActionsMenu

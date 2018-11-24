@@ -1,7 +1,8 @@
 import { dateId } from 'lib/actions'
 import randomEmoji from 'db/randomEmoji'
 
-const VideoPlayer = (video, activeSceneId) => ({
+const VideoPlayer = (video, activeSceneId, canEdit) => ({
+  canEdit: !!canEdit,
   initialSceneId: activeSceneId,
   activeSceneId: null,
   dimensionsWidth: 111,
@@ -110,6 +111,8 @@ const VideoPlayer = (video, activeSceneId) => ({
   },
 
   stageBlock(blockId) {
+    if (!this.canEdit) { return }
+
     if (blockId === this.blockId) {
       this.unStageBlock()
     } else {
@@ -123,6 +126,7 @@ const VideoPlayer = (video, activeSceneId) => ({
   },
 
   unStageBlock({callback, replay} = {}) {
+    if (!this.canEdit) { return }
     if (!this.blockId) {
       if (callback) { callback() }
       return

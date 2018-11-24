@@ -37,7 +37,7 @@ class BlockText extends Component {
   }
 
   componentDidMount() {
-    if (this.props.canEdit) {
+    if (this.props.videoPlayer.canEdit) {
       setTimeout(() => {
         this.makeDraggable()
       }, 1000)
@@ -86,7 +86,7 @@ class BlockText extends Component {
   }
 
   handleTap = () => {
-    if (this.props.canEdit) {
+    if (this.props.videoPlayer.canEdit) {
       this.props.videoPlayer.stageBlock(this.props.block.get('id'))
 
       // this.makeDraggable()

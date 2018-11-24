@@ -11,18 +11,12 @@ import style from './style'
 
 class Scene extends Component {
   static propTypes = {
-    canEdit: PropTypes.bool.isRequired,
     isHorizontal: PropTypes.bool,
     isFixed: PropTypes.bool,
     scene: PropTypes.object.isRequired,
     blocks: PropTypes.array.isRequired,
     videoPlayer: PropTypes.object.isRequired,
     editorState: PropTypes.object.isRequired,
-  }
-
-  handleTap = () => {
-    if (this.props.canEdit) { return }
-    this.props.videoPlayer.sceneTransition()
   }
 
   getBoundary = () => {
@@ -69,7 +63,7 @@ class Scene extends Component {
           (this.props.scene.isActive
             ? style.isActive
             : style.isHidden),
-          (this.props.canEdit
+          (this.props.videoPlayer.canEdit
             ? style.canEdit
             : style.isPresenting),
           this.props.videoPlayer.isLandscape && style.landscape,
@@ -86,7 +80,7 @@ class Scene extends Component {
           style={[
             this.props.isDebug && style.isDebug,
             style.boundingSquare,
-            !this.props.canEdit && ({
+            !this.props.videoPlayer.canEdit && ({
                 width: this.props.videoPlayer.dimensions.width,
                 height: this.props.videoPlayer.dimensions.height,
             }),
@@ -109,7 +103,6 @@ class Scene extends Component {
               <Block
                 key={block.get('id')}
                 block={block}
-                canEdit={this.props.canEdit}
                 videoPlayer={this.props.videoPlayer}
                 getBoundary={this.getBoundary}
               />
@@ -117,7 +110,7 @@ class Scene extends Component {
           })}
         </div>
 
-        {this.props.canEdit && (
+        {this.props.videoPlayer.canEdit && (
           <div style={style.sceneMenu}>
             <ActionTap onTap={this.handleTapSceneMenu}>
               <div>

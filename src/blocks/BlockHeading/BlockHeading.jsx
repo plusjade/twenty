@@ -83,12 +83,9 @@ class BlockHeading extends Component {
   }
 
   handleTap = () => {
-    if (this.props.canEdit) {
+    if (this.props.videoPlayer.canEdit) {
       this.props.videoPlayer.stageBlock(this.props.block.get('id'))
-
       this.makeDraggable()
-    } else {
-      this.props.videoPlayer.sceneTransition()
     }
   }
 
