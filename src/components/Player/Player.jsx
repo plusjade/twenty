@@ -103,11 +103,6 @@ class Player extends Component {
     this.editorState.clearLast()
   }
 
-  handleAddScene = () => {
-    const sceneId = this.props.video.addScene(this.videoPlayer.activeSceneId)
-    this.videoPlayer.setActiveSceneId(sceneId)
-  }
-
   getRefNode = (node) => {
     if (node) {
       this.node = node
@@ -138,23 +133,6 @@ class Player extends Component {
             isDebug={this.props.isDebug}
           />
         ))}
-        {this.props.canEdit && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: 20,
-            }}
-          >
-            <ActionTap
-              onTap={this.handleAddScene}
-              style={{zIndex: 100}}
-              bigger
-            >
-              <div>+</div>
-            </ActionTap>
-          </div>
-        )}
 
         {this.props.canEdit && (
           <Editor
@@ -166,7 +144,6 @@ class Player extends Component {
 
         {this.editorState.shouldShowOverlay && (
           <Overlay
-            key='OverlayColorPicker'
             onTap={this.handleOverlayTap}
             style={{
               position: 'fixed',
