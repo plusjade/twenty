@@ -57,6 +57,14 @@ class Player extends Component {
     )
 
     reaction(
+      () => this.videoPlayer.blockId,
+      (blockId) => {
+        const type = blockId ? 'text' : false
+        this.editorState.setPicker({type})
+      }
+    )
+
+    reaction(
       () => this.videoPlayer.activeSceneId,
       (activeSceneId) => {
         const blocks = props.video.getBlocksInScene(activeSceneId)
@@ -147,7 +155,7 @@ class Player extends Component {
             onTap={this.handleOverlayTap}
             style={{
               position: 'fixed',
-              height: '90vh',
+              height: '60vh',
               width: '100vw',
             }}
             isActive

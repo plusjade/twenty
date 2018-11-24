@@ -18,6 +18,9 @@ const style = {
     overflow: 'hidden',
     width: '100vw',
     zIndex: 2000,
+    background: 'transparent',
+    boxShadow: 'none',
+    borderRadius: 0,
   },
   isLandscape: {
     left: 0,
@@ -26,7 +29,10 @@ const style = {
     width: '30vw',
   },
   isExpanded: {
-    height: '30vh',
+    height: '40vh',
+    background: '#F5F5F5',
+    boxShadow: 'rgba(0, 0, 0, 0.3) 1px 1px 5px',
+    borderRadius: '10px 10px',
   }
 }
 const ExpandedPickers = ['text', 'size', 'color']
@@ -43,7 +49,7 @@ class Editor extends Component {
     reaction(
       () => this.props.editorState.activePicker,
       (activePicker) => {
-        this.updateStyles(ExpandedPickers.includes(activePicker))
+        this.updateStyles(!!activePicker)
       }
     )
   }

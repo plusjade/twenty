@@ -55,19 +55,13 @@ const EditorState = videoPlayer => ({
 
   get shouldShowOverlay() {
     return (
-      this.shouldShowPicker
-        || this.shouldShowSceneActions
+      this.shouldShowSceneActions
         || this.shouldShowBlockActions
     )
   },
 
-  setPicker({toggle, type} = {}) {
-    const value = toggle === 'close' ? false : !this.activePicker
-    if (value) {
-      this.activePicker = type
-    } else {
-      this.activePicker = false
-    }
+  setPicker({type} = {}) {
+    this.activePicker = type
   },
 
   get activePickers() {
@@ -84,9 +78,8 @@ const EditorState = videoPlayer => ({
   clearLast() {
     if (this.isScenesMenuActive) {
       this.scenesMenuToggle()
-    } else if (this.activePicker) {
-      this.setPicker()
     } else {
+      this.setPicker()
       videoPlayer.unStageBlock()
     }
   },
