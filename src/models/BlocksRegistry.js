@@ -1,8 +1,37 @@
 import randomEmoji from 'db/randomEmoji'
 import BlockHeading from 'blocks/BlockHeading/BlockHeading'
 import BlockText from 'blocks/BlockText/BlockText'
+import BlockTag from 'blocks/BlockTag/BlockTag'
+import BlockList from 'blocks/BlockList/BlockList'
 
 const blocksMap = {
+  tag: {
+    id: 'tag',
+    name: 'Tag',
+    component: BlockTag,
+    pickers: [
+      'text',
+      'color',
+      'delete',
+    ],
+    defaults: () => ({
+      content: `${randomEmoji()} TAG`,
+    })
+  },
+  list: {
+    id: 'list',
+    name: 'List',
+    component: BlockList,
+    pickers: [
+      'text',
+      'color',
+      'delete',
+    ],
+    defaults: () => ({
+      content: `${randomEmoji()} One\n${randomEmoji()} Two\n${randomEmoji()} Three`,
+    })
+  },
+
   words: {
     id: 'words',
     name: 'Heading',

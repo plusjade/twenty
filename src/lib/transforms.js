@@ -63,7 +63,7 @@ export const getRotationTransforms = (block) => {
 }
 
 export const getFontSize = (block) => {
-  const size = +block.get('size') || 80
+  const size = +block.get('size') || 50
   let asPixels = parseInt((size / 10) * 3, 10) // default size maps to 24px
 
   if (asPixels < 4) {
