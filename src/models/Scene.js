@@ -1,17 +1,38 @@
-import { token, dateStampGenerate } from 'lib/actions'
-import { toJS } from "mobx"
+import { token, dateId } from 'lib/actions'
+import { toJS } from 'mobx'
 import { getColorHsl } from 'lib/transforms'
 
 const DEFAULT_COLOR_HSL = -100 // white
+const DATE_OPTONS = {
+  weekday: 'short',
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+}
 
-const Scene = (_object_ = {}) => ({
-  id: _object_.id || `scene_${token()}`,
-  _dateStamp: _object_.dateStamp || dateStampGenerate(),
-  _blocksIndex: [...(_object_.blocksIndex || [])],
-  _transitions: _object_.transitions || {},
-
+const Scene = (object = {}) => ({
+  id: object.id || `scene_${token()}`,
   isActive: false,
-  color_hsl: _object_.color_hsl || DEFAULT_COLOR_HSL,
+  color_hsl: object.color_hsl || DEFAULT_COLOR_HSL,
+  dateIdInitial: object.dateId || dateId(),
+  blocksIndexInitial: [...(object.blocksIndex || [])],
+  transitionsInitial: {...(object.transitions || {})},
+
+  get dateId() {
+    return this.dateIdInitial || dateId()
+  },
+
+  get dateString() {
+    return new Intl.DateTimeFormat('en-US', DATE_OPTONS).format(this.dateObject)
+  },
+
+  get dateObject() {
+    return Date.parse(this.dateId)
+  },
+
+  setDate(date) {
+    this.dateIdInitial = dateId(date)
+  },
 
   get color() {
     const colorHsl = +this.color_hsl || DEFAULT_COLOR_HSL
@@ -19,34 +40,26 @@ const Scene = (_object_ = {}) => ({
   },
 
   get blocksIndex() {
-    return this._blocksIndex
+    return this.blocksIndexInitial
   },
 
   get transitions() {
-    return this._transitions
-  },
-
-  get dateStamp() {
-    return this._dateStamp
-  },
-
-  set dateStamp(dateStamp) {
-    return this._dateStamp = dateStamp
+    return this.transitionsInitial
   },
 
   addBlockRef(blockId) {
     if (!this.blocksIndex.includes(blockId)) {
-      this._blocksIndex.push(blockId)
+      this.blocksIndexInitial.push(blockId)
     }
   },
 
   removeBlockRef(blockId) {
     const index = this.blocksIndex.indexOf(blockId)
-    this._blocksIndex.splice(index, 1)
+    this.blocksIndexInitial.splice(index, 1)
   },
 
-  setTransitions(transitions) {
-    this._transitions = {...transitions}
+  setTransitions(newTransitions) {
+    this.transitionsInitial = {...newTransitions}
   },
 
   get serialized() {
@@ -54,7 +67,8 @@ const Scene = (_object_ = {}) => ({
       id: this.id,
       blocksIndex: toJS(this.blocksIndex),
       transitions: toJS(this.transitions),
-      dateStamp: this.dateStamp,
+      dateId: this.dateId,
+      dateString: this.dateString,
       color_hsl: this.color_hsl,
       version: 'meep',
     })
@@ -62,4 +76,3 @@ const Scene = (_object_ = {}) => ({
 })
 
 export default Scene
-

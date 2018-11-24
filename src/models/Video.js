@@ -1,6 +1,6 @@
 import flatten from 'vendor/flatten'
 import { observable, autorun, toJS } from "mobx"
-import { token, dateStampGenerate } from 'lib/actions'
+import { token } from 'lib/actions'
 import { computeTransitions } from 'lib/sceneWizard'
 import Scene from 'models/Scene'
 

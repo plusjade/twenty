@@ -51,15 +51,14 @@ export const canEditVideo = videoId => (
   videoId && !!window.localStorage.getItem(namespace(videoId))
 )
 
-export const dateStampGenerate = (date) => {
-  const dateStamp = date || new Date()
-  const options = {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  }
-  return new Intl.DateTimeFormat('en-US', options).format(dateStamp)
+const DATE_OPTIONS = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+}
+export const dateId = (date) => {
+  const dateId = date || new Date()
+  return new Intl.DateTimeFormat('en-US', DATE_OPTIONS).format(dateId)
 }
 
 const videosFindDB = videoId => (

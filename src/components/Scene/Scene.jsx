@@ -92,9 +92,9 @@ class Scene extends Component {
           this.props.videoPlayer.isLandscape && style.landscape,
         ]}
       >
-        {this.props.scene.dateStamp && (
-          <div style={style.dateStamp}>
-            {this.props.scene.dateStamp}
+        {this.props.scene.dateString && (
+          <div style={style.dateString}>
+            {this.props.scene.dateString}
           </div>
         )}
         <div

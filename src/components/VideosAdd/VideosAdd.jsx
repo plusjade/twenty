@@ -15,10 +15,10 @@ class VideosAdd extends PureComponent {
     const video = new Video({subscribe: subscribe})
     const sceneId = video.addScene()
     video.addBlock({
-      type: "words",
+      type: 'words',
+      align: 'center',
       content: `${randomEmoji(3)}`,
-      color: "#FFF",
-      sceneId: sceneId,
+      sceneId,
     })
 
     window.location = `/?id=${videoId}&edit=1`

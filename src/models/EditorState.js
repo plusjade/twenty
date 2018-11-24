@@ -29,7 +29,7 @@ const pickerTypes = [
 ]
 
 const EditorState = videoPlayer => ({
-  activePicker: null,
+  activePicker: false,
   isScenesMenuActive: null,
 
   // Show as the default menu

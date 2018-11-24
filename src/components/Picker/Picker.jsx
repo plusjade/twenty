@@ -2,17 +2,18 @@ import { observer } from "mobx-react"
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
-
 import Overlay from 'components/Overlay/Overlay'
 import ColorPicker from 'components/ColorPicker/ColorPicker'
 import PickerAlign from 'components/PickerAlign/PickerAlign'
 import PickerSize from 'components/PickerSize/PickerSize'
 import TextEditor from 'components/TextEditor/TextEditor'
 
+const PICKER_TYPES = [false, 'text', 'color', 'align', 'size']
+
 class Picker extends Component {
   static propTypes = {
     isActive: PropTypes.bool.isRequired,
-    activePicker: PropTypes.string,
+    activePicker: PropTypes.oneOf(PICKER_TYPES).isRequired,
     videoPlayer: PropTypes.object.isRequired,
     editorState: PropTypes.object.isRequired,
   }

@@ -51,13 +51,13 @@ export default {
   isDebug: {
     border: '1px dashed red',
   },
-  dateStamp: {
+  dateString: {
     top: 0,
     position: 'absolute',
     right: 0,
     zIndex: 100,
-    padding: 6,
-    fontSize: 10,
+    padding: 10,
+    fontSize: 12,
     color: 'rgb(66, 66, 66)',
   },
 }

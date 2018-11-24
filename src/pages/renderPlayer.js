@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import debounce from 'lodash.debounce'
-import { dateStampGenerate } from 'lib/actions'
 import Player from 'components/Player/Player'
-import { videosFind, videosSave } from 'lib/actions'
+import { videosFind, videosSave, dateId } from 'lib/actions'
 import BlocksRegistry from 'models/BlocksRegistry'
 import Video from 'models/Video'
 import renderNotFound from 'pages/renderNotFound'
@@ -14,35 +13,34 @@ const renderPlayer = ({
   isEmbed,
   isDebug
 }) => {
-  const props = {
-    canEdit,
-    isEmbed,
-    isDebug,
-    blocksRegistry: BlocksRegistry.list()
-  }
   videosFind(videoId).then((videoData) => {
-    const subscribe = canEdit
-      ? (data) => {
-          console.log(data)
-          videosSave(videoId, data)
-        }
-      : () => {}
-    const debouncedSubscribe = subscribe
-      ? debounce(subscribe, 500)
-      : () => {}
+    let subscribe = () => {}
+    if (canEdit) {
+      subscribe = (data) => {
+        console.log(data)
+        videosSave(videoId, data)
+      }
+    }
     const video = new Video({
       ...videoData,
-      subscribe: debouncedSubscribe,
       id: videoId,
+      subscribe: debounce(subscribe, 500),
     })
 
-    // WIP
-    video.getScenes().forEach((scene) => {
-      scene.dateStamp = dateStampGenerate()
-    })
+    const todayId = dateId()
+    const hasTodaysScene = video.getScenes().some(scene => scene.dateId === todayId)
+    if (!hasTodaysScene) {
+      video.addScene()
+    }
 
     ReactDOM.render(
-      React.createElement(Player, {...props, video}),
+      React.createElement(Player, {
+        video,
+        canEdit,
+        isEmbed,
+        isDebug,
+        blocksRegistry: BlocksRegistry.list()
+      }),
       document.getElementById('root')
     )
   })
