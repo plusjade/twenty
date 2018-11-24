@@ -1,5 +1,5 @@
 import { dateId } from 'lib/actions'
-import randomEmoji from 'db/randomEmoji'
+import BlocksRegistry from 'models/BlocksRegistry'
 
 const VideoPlayer = (video, activeSceneId, canEdit) => ({
   canEdit: !!canEdit,
@@ -81,14 +81,11 @@ const VideoPlayer = (video, activeSceneId, canEdit) => ({
     return this.activeScene.transitions
   },
 
-  addBlock(type = 'words') {
-    const content = type === 'words'
-      ? `${randomEmoji()} HEADING`
-      : 'Paragraph...'
-
+  addBlock(type) {
+    const defaults = BlocksRegistry.defaults(type)
     const block = video.addBlock({
+      ...defaults,
       type,
-      content,
       sceneId: this.activeSceneId,
     })
     this.stageBlock(block.get('id'))
