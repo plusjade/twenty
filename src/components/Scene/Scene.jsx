@@ -70,7 +70,10 @@ class Scene extends Component {
         ]}
       >
         {this.props.scene.dateString && (
-          <Hammer onDoubleTap={this.handleTapDate}>
+          <Hammer
+            onTap={this.handleTapSceneMenu}
+            onDoubleTap={this.handleTapDate}
+          >
             <div style={style.dateString}>
               {this.props.scene.dateString}
             </div>
@@ -109,16 +112,6 @@ class Scene extends Component {
             )
           })}
         </div>
-
-        {this.props.videoPlayer.canEdit && (
-          <div style={style.sceneMenu}>
-            <ActionTap onTap={this.handleTapSceneMenu}>
-              <div>
-                {'📝'}
-              </div>
-            </ActionTap>
-          </div>
-        )}
       </div>
     )
   }

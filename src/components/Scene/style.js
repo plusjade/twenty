@@ -27,8 +27,6 @@ export default {
   },
   isActive: {
     opacity: 1,
-    borderTop: '1px solid #EC407A',
-    borderBottom: '1px solid #EC407A',
   },
   isHidden: {
     // opacity: 0,

@@ -30,7 +30,16 @@ const renderPlayer = ({
     const todayId = dateId()
     const hasTodaysScene = video.getScenes().some(scene => scene.dateId === todayId)
     if (!hasTodaysScene) {
-      video.addScene()
+      const sceneId = video.addScene()
+      const types = ['tag','list']
+      types.forEach((type) => {
+        const defaults = BlocksRegistry.defaults(type)
+        video.addBlock({
+          ...defaults,
+          type,
+          sceneId,
+        })
+      })
     }
 
     ReactDOM.render(

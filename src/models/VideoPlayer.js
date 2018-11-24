@@ -149,6 +149,16 @@ const VideoPlayer = (video, activeSceneId, canEdit) => ({
     if (!hasDate) {
       const sceneId = video.addScene(scene.id)
       video.getScene(sceneId).setDate(nextDate)
+
+      const types = ['tag','list']
+      types.forEach((type) => {
+        const defaults = BlocksRegistry.defaults(type)
+        video.addBlock({
+          ...defaults,
+          type,
+          sceneId,
+        })
+      })
     }
   },
 })
