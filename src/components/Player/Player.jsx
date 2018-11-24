@@ -67,12 +67,20 @@ class Player extends Component {
     reaction(
       () => this.videoPlayer.activeSceneId,
       (activeSceneId) => {
-        const blocks = props.video.getBlocksInScene(activeSceneId)
-        blocks.forEach((block) => {
-          block.set('lifecycle', 'play')
-        })
+        if (activeSceneId) {
+          const scene = props.video.getScene(activeSceneId)
+          scene.isActive = true
+
+          const blocks = props.video.getBlocksInScene(activeSceneId)
+          blocks.forEach((block) => {
+            block.set('lifecycle', 'play')
+          })
+        }
 
         if (lastSceneId) {
+          const scene = props.video.getScene(lastSceneId)
+          scene.isActive = false
+
           props.video.getBlocksInScene(lastSceneId).forEach((block) => {
             block.set('lifecycle', 'sleep')
           })

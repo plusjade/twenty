@@ -35,7 +35,8 @@ const EditorState = videoPlayer => ({
   // Show as the default menu
   get shouldShowBlocks() {
     return (
-      !this.shouldShowPicker
+      videoPlayer.activeSceneId
+        && !this.shouldShowPicker
         && !this.shouldShowBlockActions
         && !this.shouldShowSceneActions
     )

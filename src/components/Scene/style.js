@@ -17,7 +17,6 @@ export default {
   },
   canEdit: {
     height: '100vw',
-    borderBottom: '1px dashed #CCC',
   },
   landscape: {
     height: '100vh',
@@ -28,6 +27,8 @@ export default {
   },
   isActive: {
     opacity: 1,
+    borderTop: '1px solid #EC407A',
+    borderBottom: '1px solid #EC407A',
   },
   isHidden: {
     // opacity: 0,

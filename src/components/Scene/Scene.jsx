@@ -9,8 +9,6 @@ import { getColor } from 'lib/transforms'
 
 import style from './style'
 
-const OBSERVER_THRESHOLDS = new Array(101).fill(1).map((_, i) => +(i * 0.01).toFixed(2))
-
 class Scene extends Component {
   static propTypes = {
     canEdit: PropTypes.bool.isRequired,
@@ -20,30 +18,6 @@ class Scene extends Component {
     blocks: PropTypes.array.isRequired,
     videoPlayer: PropTypes.object.isRequired,
     editorState: PropTypes.object.isRequired,
-  }
-
-  // TODO
-  componentDidMount() {
-    const RATIO = this.props.canEdit ? 0.75 : 0.5
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-            if (entry.intersectionRatio >= RATIO) {
-              this.props.scene.isActive = true
-              this.props.videoPlayer.setActiveSceneId(this.props.scene.id)
-            } else if (this.props.scene.isActive) {
-              this.props.scene.isActive = false
-            }
-        })
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: OBSERVER_THRESHOLDS,
-      }
-    )
-    observer.observe(this.sceneNode)
   }
 
   handleTap = () => {
@@ -68,7 +42,12 @@ class Scene extends Component {
   }
 
   handleTapSceneMenu = () => {
-    this.props.editorState.scenesMenuToggle()
+    // this.props.editorState.scenesMenuToggle()
+    if (this.props.videoPlayer.activeSceneId === this.props.scene.id) {
+      this.props.videoPlayer.setActiveSceneId(null)
+    } else {
+      this.props.videoPlayer.setActiveSceneId(this.props.scene.id)
+    }
   }
 
   handleTapDate = () => {
@@ -141,7 +120,7 @@ class Scene extends Component {
           <div style={style.sceneMenu}>
             <ActionTap onTap={this.handleTapSceneMenu}>
               <div>
-                {this.props.videoPlayer.scenePosition(this.props.scene.id)}
+                {'📝'}
               </div>
             </ActionTap>
           </div>
