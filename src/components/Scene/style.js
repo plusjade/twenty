@@ -3,7 +3,7 @@ export default {
     position: 'relative',
     display: "flex",
     alignItems: "flex-start",
-
+    flexDirection: 'column',
     justifyContent: "center",
     // alignItems: "center",
     opacity: 1,
@@ -42,6 +42,8 @@ export default {
     position: 'relative',
     width: '100vw',
     height: '100vw',
+    boxSizing: 'border-box',
+    borderBottom: '6px solid #EEE',
   },
   boundingLandscape: {
     width: '100vh',
@@ -51,7 +53,7 @@ export default {
     border: '1px dashed red',
   },
   dateString: {
-    top: 0,
+    bottom: 0,
     position: 'absolute',
     right: 0,
     zIndex: 100,
