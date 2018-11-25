@@ -130,9 +130,7 @@ class Player extends Component {
         ref={this.getRefNode}
         className="app-wrapper"
         style={[
-          {scrollBehavior: 'smooth'},
-          this.props.isHorizontal && style.horizontalScroll,
-          this.props.isHorizontal && {width: `${(scenes.length * 100)}vw`},
+          style.appWrapper,
           this.props.canEdit && style.canEdit
         ]}
       >

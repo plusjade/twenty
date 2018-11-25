@@ -1,13 +1,12 @@
 export default {
   wrap: {
     position: 'relative',
-    display: "flex",
-    alignItems: "flex-start",
+    display: 'flex',
+    alignItems: 'flex-start',
     flexDirection: 'column',
-    justifyContent: "center",
-    // alignItems: "center",
-    opacity: 1,
-    marginTop: 0,
+    justifyContent: 'center',
+    flexShrink: 0,
+    flexGrow: 0,
     overflow: 'hidden',
   },
   // TODO: consider diferentiating presenting vs normal scrolling/browsing
