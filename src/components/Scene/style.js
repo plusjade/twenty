@@ -56,7 +56,7 @@ export default {
     bottom: 0,
     position: 'absolute',
     right: 0,
-    zIndex: 100,
+    zIndex: 1100,
     padding: 15,
     fontSize: 12,
     color: 'rgb(66, 66, 66)',

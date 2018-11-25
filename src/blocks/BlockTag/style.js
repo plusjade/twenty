@@ -10,7 +10,8 @@ export default {
   text: {
     fontSize: 'inherit',
     color: 'inherit',
-    padding: '3vw',
+    padding: '5vw',
+    textTransform: 'uppercase',
   },
   isStaged: {
     backgroundColor: 'rgba(0,0,0,0.1)',

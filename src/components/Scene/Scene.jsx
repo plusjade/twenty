@@ -69,16 +69,6 @@ class Scene extends Component {
           this.props.videoPlayer.isLandscape && style.landscape,
         ]}
       >
-        {this.props.scene.dateString && (
-          <Hammer
-            onTap={this.handleTapSceneMenu}
-            onDoubleTap={this.handleTapDate}
-          >
-            <div style={style.dateString}>
-              {this.props.scene.dateString}
-            </div>
-          </Hammer>
-        )}
         <div
           style={[
             this.props.isDebug && style.isDebug,
@@ -112,6 +102,16 @@ class Scene extends Component {
             )
           })}
         </div>
+        {this.props.scene.dateString && (
+          <Hammer
+            onTap={this.handleTapSceneMenu}
+            onDoubleTap={this.handleTapDate}
+          >
+            <div style={style.dateString}>
+              {this.props.scene.dateString}
+            </div>
+          </Hammer>
+        )}
       </div>
     )
   }
