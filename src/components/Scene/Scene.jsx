@@ -64,6 +64,7 @@ class Scene extends Component {
           {
             // backgroundColor: this.props.scene.color,
           },
+          this.props.scene.isToday() && style.isToday,
         ]}
       >
         <div
@@ -101,7 +102,6 @@ class Scene extends Component {
             <div
               style={[
                 style.dateString,
-                this.props.scene.isToday() && style.isToday,
               ]}
             >
               {this.props.scene.dateString}

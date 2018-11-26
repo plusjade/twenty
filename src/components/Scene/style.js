@@ -20,15 +20,15 @@ export default {
     boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 5px',
   },
   dateString: {
-    bottom: 0,
+    top: 12,
     position: 'absolute',
     right: 0,
     zIndex: 1100,
     padding: 15,
     fontSize: 12,
-    color: 'rgb(66, 66, 66)',
+    color: '#757575',
   },
   isToday: {
-    color: '#009688',
+    borderBottom: '3px solid #FFAB40',
   }
 }
