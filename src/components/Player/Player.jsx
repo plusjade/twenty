@@ -151,6 +151,7 @@ class Player extends Component {
               position: 'fixed',
               height: '60vh',
               width: '100vw',
+              background: 'rgba(0,0,0,0.5)'
             }}
             isActive
           />

@@ -14,8 +14,8 @@ const style = {
   default: {
     position: 'fixed',
     bottom: 0,
-    height: '12vh',
-    overflow: 'hidden',
+    // height: '12vh',
+    // overflow: 'hidden',
     width: '100vw',
     zIndex: 2000,
     background: 'transparent',
