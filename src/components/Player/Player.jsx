@@ -70,20 +70,11 @@ class Player extends Component {
         if (activeSceneId) {
           const scene = props.video.getScene(activeSceneId)
           scene.isActive = true
-
-          const blocks = props.video.getBlocksInScene(activeSceneId)
-          blocks.forEach((block) => {
-            block.set('lifecycle', 'play')
-          })
         }
 
         if (lastSceneId) {
           const scene = props.video.getScene(lastSceneId)
           scene.isActive = false
-
-          props.video.getBlocksInScene(lastSceneId).forEach((block) => {
-            block.set('lifecycle', 'sleep')
-          })
         }
 
         this.videoPlayer.unStageBlock()

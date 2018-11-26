@@ -42,7 +42,6 @@ class Picker extends Component {
   onChangeAlign = (value) => {
     if (!this.props.videoPlayer.block) { return }
     this.props.videoPlayer.block.set('align', value)
-    this.props.videoPlayer.block.set('lifecycle', 'replay')
   }
 
   onChangeSize = (value) => {

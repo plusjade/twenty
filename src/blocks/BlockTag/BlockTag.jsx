@@ -39,7 +39,6 @@ class BlockTag extends Component {
         id={`block_${this.props.block.get('id')}`}
         style={[
           style.default,
-          this.props.block.get('lifecycle') !== 'edit' && {zIndex: 1},
         ]}
       >
         <h1
@@ -49,7 +48,6 @@ class BlockTag extends Component {
             {
               color: getColor(this.props.block),
             },
-            this.props.block.get('lifecycle') === 'edit' && style.isStaged,
           ]}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

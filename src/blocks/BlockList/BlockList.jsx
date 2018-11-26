@@ -42,7 +42,6 @@ class BlockList extends Component {
         ref={this.getRef}
         style={[
           style.default,
-          this.props.block.get('lifecycle') !== 'edit' && {zIndex: 1},
         ]}
       >
         <ul

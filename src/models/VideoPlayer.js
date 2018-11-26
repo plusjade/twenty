@@ -89,15 +89,12 @@ const VideoPlayer = (video, activeSceneId, canEdit) => ({
       sceneId: this.activeSceneId,
     })
     this.stageBlock(block.get('id'))
-    setTimeout(() => {
-      block.set('lifecycle', 'play')
-    }, 100) // TODO FIXME
   },
 
   removeBlockActive() {
     const block = this.block
     if (!block) { return }
-    this.unStageBlock({replay: false})
+    this.unStageBlock()
     video.removeBlock(block)
   },
 
@@ -116,29 +113,19 @@ const VideoPlayer = (video, activeSceneId, canEdit) => ({
       this.unStageBlock({
         callback: () => {
           this.blockId = blockId
-          video.getBlock(blockId).set('lifecycle', 'edit')
         }
       })
     }
   },
 
-  unStageBlock({callback, replay} = {}) {
+  unStageBlock({callback} = {}) {
     if (!this.canEdit) { return }
     if (!this.blockId) {
       if (callback) { callback() }
       return
     }
 
-    const blockId = this.blockId
     this.blockId = null // may have to wait for a little?
-    if (replay) {
-      video.getBlock(blockId).set('lifecycle', 'replay')
-    } else {
-      const block = video.getBlock(blockId)
-      if (block) {
-        block.set('lifecycle', 'end')
-      }
-    }
     if (callback) { callback() }
   },
 
