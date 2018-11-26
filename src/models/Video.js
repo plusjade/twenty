@@ -162,9 +162,11 @@ class Video {
 
   getScene = id => this.scenesObjects.get(id)
 
-  getScenes = () => (
-    Array.from(this.scenesObjects.keys()).map(sceneId => this.getScene(sceneId))
-  )
+  // TODO walk graph with sceneTransition
+  getScenes = () => {
+    const newObjects = this.scenesObjects.keys() // hack to make this function observed
+    return this.graph.map(sceneId => this.getScene(sceneId))
+  }
 
   getInitialSceneId = () => {
     const initialScene = (
