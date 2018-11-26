@@ -8,6 +8,6 @@ export default {
   },
   ul: {
     margin: '15px 0 0 0',
-    fontSize: 14,
+    fontSize: 13,
   },
 }

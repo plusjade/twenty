@@ -19,6 +19,12 @@ class Scene extends Component {
     editorState: PropTypes.object.isRequired,
   }
 
+  componentDidMount() {
+    if (this.props.scene.isToday() && this.sceneNode) {
+      this.sceneNode.scrollIntoView()
+    }
+  }
+
   getBoundary = () => {
     return this.boundaryNode
   }
@@ -56,28 +62,13 @@ class Scene extends Component {
         style={[
           style.wrap,
           {
-            backgroundColor: this.props.scene.color,
+            // backgroundColor: this.props.scene.color,
           },
-          this.props.isHorizontal && style.isHorizontal,
-          this.props.isFixed && style.isFixed,
-          (this.props.scene.isActive
-            ? style.isActive
-            : style.isHidden),
-          (this.props.videoPlayer.canEdit
-            ? style.canEdit
-            : style.isPresenting),
-          this.props.videoPlayer.isLandscape && style.landscape,
         ]}
       >
         <div
           style={[
-            this.props.isDebug && style.isDebug,
             style.boundingSquare,
-            !this.props.videoPlayer.canEdit && ({
-                width: this.props.videoPlayer.dimensions.width,
-                height: this.props.videoPlayer.dimensions.height,
-            }),
-            this.props.videoPlayer.isLandscape && style.boundingLandscape,
             {
               backgroundColor: this.props.scene.color,
             },
@@ -107,7 +98,12 @@ class Scene extends Component {
             onTap={this.handleTapSceneMenu}
             onDoubleTap={this.handleTapDate}
           >
-            <div style={style.dateString}>
+            <div
+              style={[
+                style.dateString,
+                this.props.scene.isToday() && style.isToday,
+              ]}
+            >
               {this.props.scene.dateString}
             </div>
           </Hammer>

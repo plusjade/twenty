@@ -1,15 +1,12 @@
 export default {
   appWrapper: {
-    scrollBehavior: 'smooth',
-    // display: 'flex',
-    // flexDirection: 'column-reverse',
+    minHeight: 0, // for Firefox
+    display: 'flex',
+    flexDirection: 'column-reverse',
+    // flexDirection: 'column',
     // justifyContent: 'flex-end',
-  },
-  isFixed: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
+    // scrollBehavior: 'smooth',
+    backgroundColor: '#EEE',
   },
   canEdit: {
     height: '100vh',

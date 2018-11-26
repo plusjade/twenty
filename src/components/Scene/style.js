@@ -7,49 +7,17 @@ export default {
     justifyContent: 'center',
     flexShrink: 0,
     flexGrow: 0,
-    overflow: 'hidden',
-  },
-  // TODO: consider diferentiating presenting vs normal scrolling/browsing
-  isPresenting: {
-    // height: '100vh',
-    // alignItems: "center",
-  },
-  canEdit: {
-    height: '100vw',
-  },
-  landscape: {
-    height: '100vh',
-  },
-
-  isHorizontal: {
-    width: '100vw',
-  },
-  isActive: {
-    opacity: 1,
-  },
-  isHidden: {
-    // opacity: 0,
-    // pointerEvents: 'none',
-  },
-  sceneMenu: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    zIndex: 1100,
+    // overflow: 'hidden',
+    minHeight: 0, // for Firefox
+    backgroundColor: '#EEE',
   },
   boundingSquare: {
     position: 'relative',
     width: '100vw',
     height: '100vw',
     boxSizing: 'border-box',
-    borderBottom: '6px solid #EEE',
-  },
-  boundingLandscape: {
-    width: '100vh',
-    height: '100vh',
-  },
-  isDebug: {
-    border: '1px dashed red',
+    marginTop: 8,
+    boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 5px',
   },
   dateString: {
     bottom: 0,
@@ -60,4 +28,7 @@ export default {
     fontSize: 12,
     color: 'rgb(66, 66, 66)',
   },
+  isToday: {
+    color: '#009688',
+  }
 }

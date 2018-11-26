@@ -62,6 +62,10 @@ const Scene = (object = {}) => ({
     this.transitionsInitial = {...newTransitions}
   },
 
+  isToday() {
+    return this.dateId === dateId(new Date())
+  },
+
   get serialized() {
     return({
       id: this.id,
