@@ -2,6 +2,7 @@ import { dateId } from 'lib/actions'
 import BlocksRegistry from 'models/BlocksRegistry'
 
 const VideoPlayer = (video, activeSceneId, canEdit) => ({
+  video,
   canEdit: !!canEdit,
   initialSceneId: activeSceneId,
   activeSceneId: null,

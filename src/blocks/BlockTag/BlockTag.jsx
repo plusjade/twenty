@@ -27,7 +27,15 @@ class BlockTag extends Component {
   handleBlur = () => {
     if (this.node) {
       const content = this.node.innerText
-      this.props.block.set('content', content)
+      if (content) {
+        this.props.block.set('content', content)
+      } else if(window.confirm(`delete this block?`)) {
+        this.props.videoPlayer.unStageBlock()
+        this.props.videoPlayer.video.removeBlock(this.props.block)
+      } else {
+        const content = this.props.block.get('content')
+        this.props.block.set('content', `${content} `)
+      }
     }
   }
 
