@@ -20,7 +20,13 @@ class Scene extends Component {
   }
 
   componentDidMount() {
-    if (this.props.scene.isToday() && this.sceneNode) {
+    if (this.props.scene.isToday()) {
+      this.scrollIntoView()
+    }
+  }
+
+  scrollIntoView = () => {
+    if (this.sceneNode) {
       this.sceneNode.scrollIntoView()
     }
   }
