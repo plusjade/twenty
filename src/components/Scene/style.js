@@ -29,6 +29,6 @@ export default {
     color: '#757575',
   },
   isToday: {
-    borderBottom: '3px solid #FFAB40',
+    borderRight: '3px solid #FFAB40',
   }
 }

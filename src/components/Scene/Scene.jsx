@@ -64,7 +64,6 @@ class Scene extends Component {
           {
             // backgroundColor: this.props.scene.color,
           },
-          this.props.scene.isToday() && style.isToday,
         ]}
       >
         <div
@@ -73,6 +72,7 @@ class Scene extends Component {
             {
               backgroundColor: this.props.scene.color,
             },
+            this.props.scene.isToday() && style.isToday,
           ]}
           ref={this.getBoundaryRef}
         >
@@ -96,13 +96,14 @@ class Scene extends Component {
         </div>
         {this.props.scene.dateString && (
           <Hammer
-            onTap={this.handleTapSceneMenu}
-            onDoubleTap={this.handleTapDate}
+            // onDoubleTap={this.handleTapSceneMenu}
+            onTap={this.handleTapDate}
           >
             <div
               style={[
                 style.dateString,
               ]}
+              title={this.props.scene.id}
             >
               {this.props.scene.dateString}
             </div>
