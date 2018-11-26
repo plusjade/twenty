@@ -59,8 +59,8 @@ class Player extends Component {
     reaction(
       () => this.videoPlayer.blockId,
       (blockId) => {
-        const type = blockId ? 'text' : false
-        this.editorState.setPicker({type})
+        // const type = blockId ? 'color' : false
+        // this.editorState.setPicker({type})
       }
     )
 

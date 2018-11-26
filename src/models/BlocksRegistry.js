@@ -10,7 +10,6 @@ const blocksMap = {
     name: 'Tag',
     component: BlockTag,
     pickers: [
-      'text',
       'color',
       'delete',
     ],
@@ -23,7 +22,6 @@ const blocksMap = {
     name: 'List',
     component: BlockList,
     pickers: [
-      'text',
       'color',
       'delete',
     ],

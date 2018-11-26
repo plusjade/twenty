@@ -1,6 +1,7 @@
 export default {
   default: {
     display: 'block',
+    position: 'relative',
     width: '100%',
     fontSize: 28,
     boxSizing: 'border-box',
@@ -8,12 +9,9 @@ export default {
     scrollBehavior: 'smooth',
   },
   text: {
-    fontSize: 'inherit',
+    fontSize: 14,
     color: 'inherit',
     padding: '5vw',
     textTransform: 'uppercase',
-  },
-  isStaged: {
-    backgroundColor: 'rgba(0,0,0,0.1)',
   },
 }

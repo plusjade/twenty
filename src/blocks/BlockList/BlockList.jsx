@@ -3,12 +3,9 @@ import { reaction } from 'mobx'
 import Radium from 'radium'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Hammer from 'react-hammerjs'
 import {
   getColor,
   getTextContent,
-  getFontSize,
-  getTextAlign,
 } from 'lib/transforms'
 
 import style from './style'
@@ -23,15 +20,21 @@ class BlockList extends Component {
     if (node) { this.node = node}
   }
 
-  handleTap = () => {
-    this.props.videoPlayer.stageBlock(this.props.block.get('id'))
+  handleFocus = () => {
+    this.props.videoPlayer.unStageBlock()
+  }
+
+  handleBlur = () => {
     if (this.node) {
-      this.node.scrollIntoView({block: 'start', behavior: 'smooth'})
+      const content = this.node.innerText
+      this.props.block.set('content', content)
     }
   }
 
   render() {
-    const content = getTextContent(this.props.block)
+    const content = (
+      `<li>${getTextContent(this.props.block).join('</li><li style="margin-top:8px">')}</li>`
+    )
 
     return (
       <div
@@ -42,28 +45,19 @@ class BlockList extends Component {
           this.props.block.get('lifecycle') !== 'edit' && {zIndex: 1},
         ]}
       >
-        <Hammer onTap={this.handleTap}>
-          <ul
-            style={[
-              style.ul,
-              {
-                color: getColor(this.props.block),
-                fontSize: getFontSize(this.props.block),
-                textAlign: getTextAlign(this.props.block),
-              },
-              this.props.block.get('lifecycle') === 'edit' && style.isStaged,
-            ]}
-          >
-            {content.map((string, i) => (
-              <li
-                style={style.li}
-                key={i}
-              >
-                {string}
-              </li>
-            ))}
-          </ul>
-        </Hammer>
+        <ul
+          style={[
+            style.ul,
+            {
+              color: getColor(this.props.block),
+            },
+          ]}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          contentEditable
+          suppressContentEditableWarning
+          dangerouslySetInnerHTML={{__html: content}}
+        />
       </div>
     )
   }

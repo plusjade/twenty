@@ -8,14 +8,6 @@ export default {
   },
   ul: {
     margin: '15px 0 0 0',
-    fontSize: 22,
-  },
-  li: {
-    fontSize: 'inherit',
-    color: 'inherit',
-    marginTop: 8
-  },
-  isStaged: {
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    fontSize: 14,
   },
 }
