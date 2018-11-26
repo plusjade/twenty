@@ -2,8 +2,8 @@ export default {
   appWrapper: {
     minHeight: 0, // for Firefox
     display: 'flex',
-    flexDirection: 'column-reverse',
-    // flexDirection: 'column',
+    // flexDirection: 'column-reverse',
+    flexDirection: 'column',
     // justifyContent: 'flex-end',
     // scrollBehavior: 'smooth',
     backgroundColor: '#EEE',
