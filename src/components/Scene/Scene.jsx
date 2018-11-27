@@ -78,6 +78,7 @@ class Scene extends Component {
             {
               backgroundColor: this.props.scene.color,
             },
+            this.props.scene.isFuture() && style.isFuture,
           ]}
           ref={this.getBoundaryRef}
         >

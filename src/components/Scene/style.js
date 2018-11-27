@@ -26,7 +26,9 @@ export default {
     backgroundColor: '#FAFAFA',
   },
   isToday: {
-    backgroundColor: '#616161',
-    color: '#FFF',
+    backgroundColor: '#FFF59D',
+  },
+  isFuture: {
+    opacity: 0.5,
   }
 }

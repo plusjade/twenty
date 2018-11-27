@@ -23,7 +23,17 @@ const Scene = (object = {}) => ({
   },
 
   get dateString() {
-    return new Intl.DateTimeFormat('en-US', DATE_OPTONS).format(this.dateObject)
+    const string = new Intl.DateTimeFormat('en-US', DATE_OPTONS).format(this.dateObject)
+
+    if (this.isToday()) {
+      return `${string} — Today`
+    } else if (this.isTomorrow()) {
+      return `${string} — Tomorrow`
+    } else if (this.isYesterday()) {
+      return `${string} — Yesterday`
+    }
+
+    return string
   },
 
   get dateObject() {
@@ -64,6 +74,20 @@ const Scene = (object = {}) => ({
 
   isToday() {
     return this.dateId === dateId(new Date())
+  },
+
+  isTomorrow() {
+    const tomorrow = new Date().setTime(new Date().getTime() + 86400000)
+    return this.dateId === dateId(tomorrow)
+  },
+
+  isYesterday() {
+    const yesterday = new Date().setTime(new Date().getTime() - 86400000)
+    return this.dateId === dateId(yesterday)
+  },
+
+  isFuture() {
+    return this.dateObject > new Date()
   },
 
   get serialized() {
