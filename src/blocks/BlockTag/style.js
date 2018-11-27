@@ -10,8 +10,9 @@ export default {
   },
   text: {
     fontSize: 14,
+    fontWeight: 600,
     color: 'inherit',
-    padding: '5vw',
+    padding: 15,
     textTransform: 'uppercase',
   },
 }

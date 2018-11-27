@@ -49,7 +49,7 @@ class BlockTag extends Component {
           style.default,
         ]}
       >
-        <h1
+        <div
           ref={this.getRef}
           style={[
             style.text,

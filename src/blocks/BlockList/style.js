@@ -7,7 +7,7 @@ export default {
     scrollBehavior: 'smooth',
   },
   ul: {
-    margin: '15px 0 0 0',
-    fontSize: 13,
+    margin: '15px 0',
+    fontSize: 14,
   },
 }

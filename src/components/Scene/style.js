@@ -14,21 +14,19 @@ export default {
   boundingSquare: {
     position: 'relative',
     width: '100vw',
-    height: '100vw',
+    minHeight: '100vw',
     boxSizing: 'border-box',
     marginTop: 8,
     boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 5px',
   },
   dateString: {
-    top: 12,
-    position: 'absolute',
-    right: 0,
-    zIndex: 1100,
+    fontWeight: 600,
     padding: 15,
-    fontSize: 12,
-    color: '#757575',
+    fontSize: 16,
+    backgroundColor: '#FAFAFA',
   },
   isToday: {
-    borderRight: '3px solid #FFAB40',
+    backgroundColor: '#616161',
+    color: '#FFF',
   }
 }

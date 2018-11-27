@@ -48,12 +48,12 @@ class Scene extends Component {
   }
 
   handleTapSceneMenu = () => {
-    // this.props.editorState.scenesMenuToggle()
     if (this.props.videoPlayer.activeSceneId === this.props.scene.id) {
       this.props.videoPlayer.setActiveSceneId(null)
     } else {
       this.props.videoPlayer.setActiveSceneId(this.props.scene.id)
     }
+    this.props.editorState.scenesMenuToggle()
   }
 
   handleTapDate = () => {
@@ -78,10 +78,26 @@ class Scene extends Component {
             {
               backgroundColor: this.props.scene.color,
             },
-            this.props.scene.isToday() && style.isToday,
           ]}
           ref={this.getBoundaryRef}
         >
+          {this.props.scene.dateString && (
+            <Hammer
+              // onDoubleTap={this.handleTapSceneMenu}
+              onTap={this.handleTapDate}
+            >
+              <div
+                style={[
+                  style.dateString,
+                  this.props.scene.isToday() && style.isToday,
+                ]}
+                title={this.props.scene.id}
+              >
+                {this.props.scene.dateString}
+              </div>
+            </Hammer>
+          )}
+
           {this.props.blocks.map((block) => {
             if (!block) { return }
             const Block = BlocksRegistry.get(block.get('type'))
@@ -100,21 +116,6 @@ class Scene extends Component {
             )
           })}
         </div>
-        {this.props.scene.dateString && (
-          <Hammer
-            // onDoubleTap={this.handleTapSceneMenu}
-            onTap={this.handleTapDate}
-          >
-            <div
-              style={[
-                style.dateString,
-              ]}
-              title={this.props.scene.id}
-            >
-              {this.props.scene.dateString}
-            </div>
-          </Hammer>
-        )}
       </div>
     )
   }
