@@ -7,6 +7,8 @@ import BlocksRegistry from 'models/BlocksRegistry'
 import Video from 'models/Video'
 import renderNotFound from 'pages/renderNotFound'
 
+import training from 'db/training'
+
 const renderPlayer = ({
   videoId,
   canEdit,
@@ -26,6 +28,38 @@ const renderPlayer = ({
       id: videoId,
       subscribe: debounce(subscribe, 500),
     })
+
+    const scenes = video.getScenes()
+    if (isDebug && scenes.length === 0) {
+      training.forEach((d) => {
+        const hasDate = scenes.some(scene => scene.dateId === d.dateId)
+        if (!hasDate) {
+          const sceneId = video.addScene()
+          const scene = video.getScene(sceneId)
+          scene.setDate(new Date(d.dateId))
+
+          if (d.tag) {
+            const defaults = BlocksRegistry.defaults('tag')
+            video.addBlock({
+              ...defaults,
+              type: 'tag',
+              sceneId,
+              content: d.tag,
+            })
+          }
+
+          if (d.list) {
+            const defaults = BlocksRegistry.defaults('list')
+            video.addBlock({
+              ...defaults,
+              type: 'list',
+              sceneId,
+              content: d.list.join('\n')
+            })
+          }
+        }
+      })
+    }
 
     const todayId = dateId()
     const hasTodaysScene = video.getScenes().some(scene => scene.dateId === todayId)

@@ -14,7 +14,7 @@ class VideosAdd extends PureComponent {
     }
     const video = new Video({subscribe: subscribe})
 
-    window.location = `/?id=${videoId}&edit=1`
+    window.location = `/?id=${videoId}&edit=1&debug=1`
   }
 
   render() {
