@@ -1,6 +1,7 @@
 import flatten from 'vendor/flatten'
 import { observable, autorun, toJS } from "mobx"
 import { token } from 'lib/actions'
+import { DateTime } from 'luxon'
 import { computeTransitions } from 'lib/sceneWizard'
 import Scene from 'models/Scene'
 
@@ -37,10 +38,6 @@ class Video {
       ))
     } else {
       this.blocksObjects = observable(new Map())
-    }
-
-    if (graph) {
-      this.updateGraph(graph)
     }
 
     autorun(() => {
@@ -107,20 +104,9 @@ class Video {
     return this.scenesObjects.get(sceneId)
   }
 
-  // TODO POC
-  // This is not a high integrity entry point for a scene O_o
-  addScene = (afterSceneId) => {
-    const sceneId = `scene_${token()}`
-
-    if (afterSceneId) {
-      const index = this.findSceneIndex(afterSceneId)
-      this.graph.splice(index + 1, 0, sceneId)
-    } else {
-      this.graph.push(sceneId)
-    }
-
-    this.updateGraph(this.graph)
-
+  addScene = (dateId) => {
+    const sceneId = `scene_${dateId}`
+    this.upsertScene(sceneId) // {transitions: scene.transitions}
     return sceneId
   }
 
@@ -130,27 +116,6 @@ class Video {
       || ((typeof node === 'object') && Object.keys(node)[0] === sceneId)
     ))
   )
-
-  // Private
-  updateGraph = (graph) => {
-    this.graph = graph
-    this.sceneTransitions(graph).forEach((scene) => {
-      this.upsertScene(scene.id, {transitions: scene.transitions})
-    })
-  }
-
-  // Private
-  sceneTransitions = (graph) => {
-    const transitionsMap = computeTransitions(graph)
-    return (
-      flatten(
-        Object.keys(transitionsMap).map(sceneId => ({
-          id: sceneId,
-          transitions: transitionsMap[sceneId],
-        }))
-      , true)
-    )
-  }
 
   getBlocksInScene = sceneId => (
     this.getScene(sceneId).blocksIndex.map(id => this.getBlock(id))
@@ -162,20 +127,22 @@ class Video {
 
   getScene = id => this.scenesObjects.get(id)
 
-  // TODO walk graph with sceneTransition
   getScenes = () => {
     const newObjects = this.scenesObjects.keys() // hack to make this function observed
-    return this.graph.map(sceneId => this.getScene(sceneId))
+
+    const anchor = DateTime.local().minus({days: 7})
+    return (
+      new Array(14).fill(null).map((_, i) => {
+        const dateId = anchor.plus({days: i}).toLocaleString()
+        const sceneId = `scene_${dateId}`
+
+        return this.getScene(sceneId)
+      })
+    )
   }
 
   getInitialSceneId = () => {
-    const initialScene = (
-      this.getScenes().find(scene => !scene.transitions || !scene.transitions.prev)
-    )
-
-    if (initialScene) {
-      return initialScene.id
-    }
+    return null
   }
 
   getScenePosition = sceneId => (

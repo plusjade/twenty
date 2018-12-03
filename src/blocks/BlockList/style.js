@@ -5,9 +5,10 @@ export default {
     boxSizing: 'border-box',
     zIndex: 500,
     scrollBehavior: 'smooth',
+    padding: 15,
   },
   ul: {
-    margin: '15px 0',
+    margin: 0,
     fontSize: 14,
   },
 }

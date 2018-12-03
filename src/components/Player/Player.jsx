@@ -4,6 +4,7 @@ import 'intersection-observer'
 import { observer } from "mobx-react"
 import { observable, reaction, action } from "mobx"
 import Radium from 'radium'
+import { DateTime } from 'luxon'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -14,6 +15,7 @@ import Scene from 'components/Scene/Scene'
 import Editor from 'components/Editor'
 import Overlay from 'components/Overlay/Overlay'
 import ActionTap from 'components/ActionTap/ActionTap'
+import DateCard from 'components/DateCard/DateCard'
 import style from './style'
 
 class Player extends Component {
@@ -115,7 +117,6 @@ class Player extends Component {
   }
 
   render() {
-    const scenes = this.props.video.getScenes()
     return (
       <div
         ref={this.getRefNode}
@@ -125,15 +126,24 @@ class Player extends Component {
           this.props.canEdit && style.canEdit
         ]}
       >
-        {scenes.map(scene => (
-          <Scene
-            key={`scenes-${scene.id}`}
-            scene={scene}
-            blocks={this.props.video.getBlocksInScene(scene.id)}
-            videoPlayer={this.videoPlayer}
-            editorState={this.editorState}
-            isDebug={this.props.isDebug}
-          />
+        {this.videoPlayer.dates.map(date => (
+          date.scene ? (
+            <Scene
+              key={`scenes-${date.scene.id}`}
+              scene={date.scene}
+              blocks={this.props.video.getBlocksInScene(date.scene.id)}
+              videoPlayer={this.videoPlayer}
+              editorState={this.editorState}
+              isDebug={this.props.isDebug}
+            />
+          ) : (
+            <DateCard
+              key={`date-${date.dateId}`}
+              dateString={date.dateString}
+              date={date.date}
+              videoPlayer={this.videoPlayer}
+            />
+          )
         ))}
 
         {this.props.canEdit && (

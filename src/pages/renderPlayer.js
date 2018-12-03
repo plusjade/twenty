@@ -6,21 +6,22 @@ import { videosFind, videosSave, dateId } from 'lib/actions'
 import BlocksRegistry from 'models/BlocksRegistry'
 import Video from 'models/Video'
 import renderNotFound from 'pages/renderNotFound'
-
+import { DateTime } from 'luxon'
 import training from 'db/training'
 
 const renderPlayer = ({
   videoId,
   canEdit,
   isEmbed,
-  isDebug
+  isDebug,
+  isTest,
 }) => {
   videosFind(videoId).then((videoData) => {
     let subscribe = () => {}
     if (canEdit) {
       subscribe = (data) => {
         console.log(data)
-        videosSave(videoId, data)
+        // videosSave(videoId, data)
       }
     }
     const video = new Video({
@@ -29,14 +30,15 @@ const renderPlayer = ({
       subscribe: debounce(subscribe, 500),
     })
 
-    const scenes = video.getScenes()
-    if (isDebug && scenes.length === 0) {
+    if (isTest) {
+      const scenes = video.getScenes()
       training.forEach((d) => {
-        const hasDate = scenes.some(scene => scene.dateId === d.dateId)
+        const hasDate = scenes.some(scene => scene && scene.dateId === d.dateId)
         if (!hasDate) {
-          const sceneId = video.addScene()
+          const date = DateTime.fromMillis(new Date(d.dateId).getTime())
+          const sceneId = video.addScene(date.toLocaleString())
           const scene = video.getScene(sceneId)
-          scene.setDate(new Date(d.dateId))
+          scene.setDate(date.toJSDate())
 
           if (d.tag) {
             const defaults = BlocksRegistry.defaults('tag')
@@ -61,10 +63,14 @@ const renderPlayer = ({
       })
     }
 
-    const todayId = dateId()
-    const hasTodaysScene = video.getScenes().some(scene => scene.dateId === todayId)
-    if (!hasTodaysScene) {
-      const sceneId = video.addScene()
+    const anchor = DateTime.local().minus({days: 7})
+    new Array(8).fill(null).forEach((_, i) => {
+      if (i % 2 === 0) { return }
+      const date = anchor.plus({days: i})
+      const sceneId = video.addScene(date.toLocaleString())
+      const scene = video.getScene(sceneId)
+      scene.setDate(date.toJSDate())
+
       const types = ['tag','list']
       types.forEach((type) => {
         const defaults = BlocksRegistry.defaults(type)
@@ -74,7 +80,8 @@ const renderPlayer = ({
           sceneId,
         })
       })
-    }
+
+    })
 
     ReactDOM.render(
       React.createElement(Player, {
@@ -87,9 +94,9 @@ const renderPlayer = ({
       document.getElementById('root')
     )
   })
-  .catch(() => {
-    renderNotFound()
-  })
+  // .catch(() => {
+  //   renderNotFound()
+  // })
 }
 
 export default renderPlayer

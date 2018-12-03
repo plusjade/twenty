@@ -1,6 +1,7 @@
 import { token, dateId } from 'lib/actions'
 import { toJS } from 'mobx'
 import { getColorHsl } from 'lib/transforms'
+import { DateTime, Interval } from 'luxon'
 
 const DEFAULT_COLOR_HSL = -100 // white
 const DATE_OPTONS = {
@@ -23,17 +24,31 @@ const Scene = (object = {}) => ({
   },
 
   get dateString() {
-    const string = new Intl.DateTimeFormat('en-US', DATE_OPTONS).format(this.dateObject)
+    return new Intl.DateTimeFormat('en-US', DATE_OPTONS).format(this.dateObject)
+  },
 
+  get dateLabel() {
     if (this.isToday()) {
-      return `${string} — Today`
+      return 'Today'
     } else if (this.isTomorrow()) {
-      return `${string} — Tomorrow`
-    } else if (this.isYesterday()) {
-      return `${string} — Yesterday`
+      return 'Tomorrow'
     }
 
-    return string
+    const now = DateTime.local()
+    const date = DateTime.fromMillis(this.dateObject.getTime())
+    const operator = date > now ? '+' : ''
+    const interval = date > now
+      ? Interval.fromDateTimes(now, date)
+      : Interval.fromDateTimes(date, now)
+    const daysAgo = Math.floor(interval.length('days', true))
+    const unit = daysAgo && daysAgo % 7 === 0 ? 'w' : 'd'
+
+    if (unit === 'w') {
+      const ago = daysAgo / 7
+      return `${operator}${ago} ${unit}`
+    }
+
+    return `${operator}${daysAgo} ${unit}`
   },
 
   get dateObject() {

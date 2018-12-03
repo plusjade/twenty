@@ -1,5 +1,6 @@
 import { dateId } from 'lib/actions'
 import BlocksRegistry from 'models/BlocksRegistry'
+import { DateTime } from 'luxon'
 
 const VideoPlayer = (video, activeSceneId, canEdit) => ({
   video,
@@ -51,37 +52,6 @@ const VideoPlayer = (video, activeSceneId, canEdit) => ({
     this.activeSceneId = sceneId
   },
 
-  sceneTransition(data = {}) {
-    const {option, ...props} = data
-    const sceneTransitions = this.derivedSceneTransitions()
-    let nextScene
-
-    if (option) {
-      const candidateScene = sceneTransitions[option]
-      if (video.getScene(candidateScene)) {
-        nextScene = candidateScene
-      } else if (option === 'prev' && this.isInitialScene) {
-        // do nothing
-      } else if (video.getScene(sceneTransitions.next)) {
-        nextScene = sceneTransitions.next
-      }
-    } else if (video.getScene(sceneTransitions.next)) {
-      nextScene = sceneTransitions.next
-    }
-
-    if (nextScene) {
-      this.setActiveSceneId(nextScene)
-    } else {
-      // throw new Error('nowhere to go')
-      console.error('nowhere to go')
-    }
-  },
-
-  // Find the module in the current step that has the step_transition metadata
-  derivedSceneTransitions() {
-    return this.activeScene.transitions
-  },
-
   addBlock(type) {
     const defaults = BlocksRegistry.defaults(type)
     const block = video.addBlock({
@@ -130,25 +100,43 @@ const VideoPlayer = (video, activeSceneId, canEdit) => ({
     if (callback) { callback() }
   },
 
-  addScene(scene) {
-    const nextDate = new Date().setTime(scene.dateObject.getTime() + 86400000)
-    const nextDateId = dateId(nextDate)
-    const hasDate = video.getScenes().some(scene => scene.dateId === nextDateId)
-    if (!hasDate) {
-      const sceneId = video.addScene(scene.id)
-      video.getScene(sceneId).setDate(nextDate)
+  addScene(date) {
+    const sceneId = video.addScene(date.toLocaleString())
+    const scene = video.getScene(sceneId)
+    scene.setDate(date.toJSDate())
+    const types = ['tag','list']
+    types.forEach((type) => {
+      const defaults = BlocksRegistry.defaults(type)
+      video.addBlock({
+        ...defaults,
+        type,
+        sceneId,
+      })
+    })
+  },
 
-      const types = ['tag','list']
-      types.forEach((type) => {
-        const defaults = BlocksRegistry.defaults(type)
-        video.addBlock({
-          ...defaults,
-          type,
-          sceneId,
+  get dates() {
+    const anchor = DateTime.local().minus({days: 28})
+    return (
+      new Array(35).fill(null).map((_, i) => {
+        const d = anchor.plus({days: i})
+        const dateId = d.toLocaleString()
+        const sceneId = `scene_${dateId}`
+        const scene = video.getScene(sceneId)
+        return ({
+          date: d,
+          dateId,
+          scene,
+          dateString: d.toLocaleString({
+            // weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          })
         })
       })
-    }
-  },
+    )
+  }
 })
 
 export default VideoPlayer

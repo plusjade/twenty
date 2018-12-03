@@ -1,5 +1,69 @@
 export default [
   {
+    dateId: '12/1/2018',
+    tag: 'back + shoulders',
+    list: [
+      'Laying bar back raises',
+      'Medicine ball seated back stretches',
+      'Pull ups and negatives and barbell leaning pull ups',
+      'Barbell high rows',
+      'Cable standing double rows with movement',
+      'Landmine shoulder press',
+    ],
+  },
+
+  {
+    dateId: '11/30/2018',
+    tag: 'REST',
+  },
+
+  {
+    dateId: '11/29/2018',
+    tag: 'yoga + chest',
+    list: [
+      '🧘🏾‍♂️',
+      'dumbbell bench press',
+    ],
+  },
+
+  {
+    dateId: '11/28/2018',
+    tag: 'posterior',
+    list: [
+      'deadlift — 325 max',
+      'trx tree hugs',
+      'bulgarian sprinters split squat',
+      'good mornings',
+    ],
+  },
+
+  {
+    dateId: '11/27/2018',
+    tag: 'REST',
+    list: [
+      'LA'
+    ],
+  },
+
+  {
+    dateId: '11/25/2018',
+    tag: 'BACK + CHEST + SHOULDERS',
+    list: [
+      'Laying bar back raises',
+      'Medicine ball seated back stretches',
+      'Pull ups and negatives and barbell leaning pull ups',
+      'Face pulls',
+      'Barbell rows',
+      'Cable standing double rows with movement',
+      'Bench press + reverse grip bench',
+      'Landmine shoulder press',
+      'Rear delt cable W raises',
+      'Dumbbell wide delt rows',
+    ],
+  },
+
+
+  {
     dateId: '11/20/2018',
     tag: 'posterior',
     list: [

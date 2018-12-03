@@ -9,26 +9,18 @@ export default {
     flexGrow: 0,
     // overflow: 'hidden',
     minHeight: 0, // for Firefox
-    backgroundColor: '#EEE',
+    marginTop: 12,
   },
   boundingSquare: {
     position: 'relative',
-    width: '100vw',
-    minHeight: '100vw',
+    width: '100%',
+    minHeight: '98vw',
     boxSizing: 'border-box',
-    marginTop: 8,
     boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 5px',
-  },
-  dateString: {
-    fontWeight: 600,
-    padding: 15,
-    fontSize: 16,
-    backgroundColor: '#FAFAFA',
-  },
-  isToday: {
-    backgroundColor: '#FFF59D',
+    backgroundColor: '#FEFEFE',
+    borderRadius: 20,
   },
   isFuture: {
-    opacity: 0.5,
-  }
+    backgroundColor: '#F5F5F5',
+  },
 }

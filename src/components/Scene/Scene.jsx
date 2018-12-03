@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Hammer from 'react-hammerjs'
 import BlocksRegistry from 'models/BlocksRegistry'
 import ActionTap from 'components/ActionTap/ActionTap'
+import DateHeading from 'components/DateHeading/DateHeading'
 import { getColor } from 'lib/transforms'
 
 import style from './style'
@@ -47,19 +48,6 @@ class Scene extends Component {
     }
   }
 
-  handleTapSceneMenu = () => {
-    if (this.props.videoPlayer.activeSceneId === this.props.scene.id) {
-      this.props.videoPlayer.setActiveSceneId(null)
-    } else {
-      this.props.videoPlayer.setActiveSceneId(this.props.scene.id)
-    }
-    this.props.editorState.scenesMenuToggle()
-  }
-
-  handleTapDate = () => {
-    this.props.videoPlayer.addScene(this.props.scene)
-  }
-
   render() {
     return (
       <div
@@ -72,33 +60,21 @@ class Scene extends Component {
           },
         ]}
       >
+        {this.props.scene.dateString && (
+          <DateHeading
+            label={this.props.scene.dateLabel}
+            text={this.props.scene.dateString}
+            isToday={this.props.scene.isToday()}
+            hasContent
+          />
+        )}
         <div
           style={[
             style.boundingSquare,
-            {
-              backgroundColor: this.props.scene.color,
-            },
             this.props.scene.isFuture() && style.isFuture,
           ]}
           ref={this.getBoundaryRef}
         >
-          {this.props.scene.dateString && (
-            <Hammer
-              // onDoubleTap={this.handleTapSceneMenu}
-              onTap={this.handleTapDate}
-            >
-              <div
-                style={[
-                  style.dateString,
-                  this.props.scene.isToday() && style.isToday,
-                ]}
-                title={this.props.scene.id}
-              >
-                {this.props.scene.dateString}
-              </div>
-            </Hammer>
-          )}
-
           {this.props.blocks.map((block) => {
             if (!block) { return }
             const Block = BlocksRegistry.get(block.get('type'))

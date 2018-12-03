@@ -9,13 +9,15 @@ const videoId = params.id
 const canEdit = !!params.edit && canEditVideo(videoId)
 const isEmbed = !!params.embed
 const isDebug = !!params.debug
+const isTest = !!params.test
 
 if (videoId) {
   renderPlayer({
     videoId,
     canEdit,
     isEmbed,
-    isDebug
+    isDebug,
+    isTest,
   })
 } else {
   renderHome()
